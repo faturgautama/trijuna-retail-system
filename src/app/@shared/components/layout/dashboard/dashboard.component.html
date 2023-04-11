@@ -1,0 +1,20 @@
+<section id="dashboard" style="width: 100vw; height: 100vh;" class="bg-slate-100">
+    <app-navbar></app-navbar>
+
+    <div class="flex flex-col" style="padding-top: 65px; z-index: 2;">
+        <div class="flex justify-between items-center mx-5 mt-3">
+            <app-breadcrumbs [props]="BreadcrumbsProps"></app-breadcrumbs>
+
+            <app-button-navigation [props]="props.button_navigation" (onClick)="handleClickButtonNav($event)">
+            </app-button-navigation>
+        </div>
+
+        <div class="card_dashboard shadow-md bg-white overflow-y-auto">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</section>
+
+<app-loading-dialog #LoadingDialog></app-loading-dialog>
+
+<p-toast></p-toast>

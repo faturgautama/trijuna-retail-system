@@ -1,0 +1,5 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="grid grid-cols-1">
+        <app-custom-form #CustomForm [props]="FormInput"></app-custom-form>
+    </div>
+</app-dashboard>

@@ -1,0 +1,17 @@
+<p-dialog [id]="'formDialog'" [(visible)]="ShowDialog" [style]="{ width: '50vw' }" [modal]="true" [position]="'top'"
+    [draggable]="false">
+    <ng-template pTemplate="header">
+        <span class="text-xl font-bold">
+            {{ props.type | titlecase }} {{ props.title }}
+        </span>
+    </ng-template>
+
+    <app-custom-form #CustomForm [props]="FormProps"></app-custom-form>
+
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="ShowDialog = false" label="Close" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-save" (click)="handleSubmitForm()" [label]=" props.type == 'add' ? 'Save' : 'Update'"
+            styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog>

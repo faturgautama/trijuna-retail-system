@@ -1,0 +1,14 @@
+<app-dashboard [props]="DashboardProps">
+    <div class="grid grid-cols-3 gap-8 lg:px-96 md:px-40 sm:px-auto my-10 mx-auto">
+        <div *ngFor="let item of MainMenu" class="grid cursor-pointer" (click)="handleClickMainMenu(item)">
+            <div
+                class="flex p-4 shadow rounded-lg items-center justify-center bg-blue-500 mb-2 hover:bg-blue-700 w-20 mx-auto">
+                <i class="{{ item.icon }} text-white" style="font-size: 2rem !important"></i>
+            </div>
+
+            <p class="text-blue-500 text-lg text-center font-semibold">
+                {{ item.label }}
+            </p>
+        </div>
+    </div>
+</app-dashboard>

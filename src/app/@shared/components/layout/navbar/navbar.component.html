@@ -1,0 +1,21 @@
+<div class="grid w-full fixed z-10">
+    <p-menubar [model]="items" styleClass="w-full drop-shadow-md">
+        <ng-template pTemplate="start">
+            <div class="flex items-center">
+                <img src="../../../../../assets/image/coding.png" height="30" class="mr-2" />
+                <p class="text-sky-500 text-2xl font-semibold my-0">TRS</p>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="end">
+            <div class="flex items-center gap-10 mr-5">
+                <span class="text-base">
+                    <i class="pi pi-user text-sm mr-1"></i>
+                    John Doe
+                </span>
+                <span class="text-sm">
+                    <i class="pi pi-sign-out text-sm"></i>
+                </span>
+            </div>
+        </ng-template>
+    </p-menubar>
+</div>

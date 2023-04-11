@@ -1,0 +1,18 @@
+.background_authentication {
+	background: rgb(238, 174, 202);
+	background: linear-gradient(
+		135deg,
+		rgba(238, 174, 202, 1) 0%,
+		rgba(139, 170, 255, 1) 41%,
+		rgba(100, 169, 251, 1) 100%
+	);
+}
+
+.card_authentication {
+	background: rgba(255, 255, 255, 0.35);
+	box-shadow: 0 8px 32px 0 rgba(231, 231, 231, 0.1);
+	backdrop-filter: blur(11px);
+	-webkit-backdrop-filter: blur(11px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}

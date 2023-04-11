@@ -1,0 +1,5 @@
+<div class="flex gap-2">
+    <p-button *ngFor="let item of props" [icon]="item.icon" [label]="item.caption"
+        styleClass="p-button-sm p-button-info" (onClick)="handleClick(item.id)">
+    </p-button>
+</div>

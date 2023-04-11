@@ -1,0 +1,5 @@
+import * as AUTHENTICATION from './AUTHENTICATION.api';
+
+export const API = {
+    AUTHENTICATION: AUTHENTICATION
+};

@@ -1,0 +1,75 @@
+<div [id]="props.id" class="flex flex-col">
+    <form [formGroup]="CustomForms">
+        <div class="grid {{ FormsLayoutClass }} gap-4">
+            <div *ngFor="let item of props.fields"
+                class="flex {{ props.is_inline ? 'flex-row' : 'flex-col' }} items-center" [class.hidden]="item.hidden">
+                <div *ngIf="item.type != 'lookup'" class="{{ props.is_inline ? 'w-4/12' : 'w-full' }}">
+                    <label htmlFor="{{ item.id }}" class="mb-2 text-sm">
+                        <span *ngIf="item.required" class="text-red-400">*</span>
+                        {{ item.label }}
+                    </label>
+                </div>
+
+                <div class="{{ props.is_inline && item.type != 'lookup'  ? 'w-8/12' : 'w-full' }}">
+                    <!-- Input Text -->
+                    <input *ngIf="item.type == 'string'" pInputText [id]="item.id" formControlName="{{ item.id }}"
+                        style="width: 100%" class="p-inputtext-sm" />
+
+                    <!-- Datepicker -->
+                    <p-calendar *ngIf="item.type == 'date'" [id]="item.id" formControlName="{{ item.id }}"
+                        [touchUI]="true" styleClass="w-full p-inputtext-sm" [showButtonBar]="true">
+                    </p-calendar>
+
+                    <!-- Password -->
+                    <p-password *ngIf="item.type == 'password'" [id]="item.id" formControlName="{{ item.id }}"
+                        [toggleMask]="true" styleClass="w-full p-inputtext-sm ">
+                    </p-password>
+
+                    <!-- Dropdown -->
+                    <p-dropdown *ngIf="item.type == 'select'" appendTo="body" [id]="item.id"
+                        formControlName="{{ item.id }}" [options]="item.select_props!" optionValue="value"
+                        optionLabel="name" styleClass="w-full p-inputtext-sm" [autoDisplayFirst]="false">
+                    </p-dropdown>
+
+                    <!-- Numeric -->
+                    <p-inputNumber *ngIf="item.type == 'numeric'" formControlName="{{ item.id }}"
+                        styleClass="w-full p-inputtext-sm">
+                    </p-inputNumber>
+
+                    <!-- Checkbox -->
+                    <div *ngIf="item.type == 'checkbox'" class="flex items-center flex-row gap-3">
+                        <div *ngFor="let check of item.checkbox_props" class="flex align-items-center gap-1">
+                            <p-checkbox [name]="item.id" [value]="check.value" formControlName="{{ item.id }}"
+                                inputId="{{ check.id }}_check">
+                            </p-checkbox>
+
+                            <label for="{{ check.id }}_check" class="text-sm">
+                                {{ check.name }}
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Radio -->
+                    <div *ngIf="item.type == 'radio'" class="flex items-center flex-row gap-3">
+                        <div *ngFor="let radio of item.radio_props" class="flex align-items-center gap-1">
+                            <p-radioButton [inputId]="radio.id" [name]="item.id" [value]="radio.value"
+                                formControlName="{{ item.id }}"></p-radioButton>
+                            <label [for]="radio.id" class="ml-2 text-sm">{{ radio.name }}</label>
+                        </div>
+                    </div>
+
+                    <!-- Multi Select -->
+                    <p-multiSelect *ngIf="item.type == 'multi_select'" [options]="item.select_props!"
+                        formControlName="{{ item.id }}" optionLabel="name" styleClass="w-full p-inputtext-sm"
+                        [filter]="true">
+                    </p-multiSelect>
+
+                    <!-- Lookup -->
+                    <app-lookup *ngIf="item.type == 'lookup'" [props]="item.lookup_props!"
+                        (onSelectData)="handleSelectDataLookup(item, $event)">
+                    </app-lookup>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

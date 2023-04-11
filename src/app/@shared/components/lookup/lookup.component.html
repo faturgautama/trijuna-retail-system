@@ -1,0 +1,47 @@
+<div class="flex items-center">
+    <div class="w-4/12">
+        <label for="lookup" class="text-sm">
+            <span class="text-red-400">*</span>
+            {{ props.label }}
+        </label>
+    </div>
+    <div class="w-8/12">
+        <span class="p-input-icon-right w-full" (click)="handleToggleDialog()">
+            <i class="pi pi-search"></i>
+            <input id="lookupInputResult" type="text" pInputText class="p-inputtext-sm w-full" [disabled]="true" />
+        </span>
+    </div>
+</div>
+
+<p-dialog [id]="'lookupDialog'" [header]="props.title" [(visible)]="ShowDialog" [style]="{ width: '60vw' }"
+    [modal]="true" [position]="'top'">
+    <ng-template pTemplate="header" class="border-b border-b-gray-100">
+        <span class="text-lg font-semibold">
+            {{ props.title }}
+        </span>
+    </ng-template>
+    <div class="grid w-full" [formGroup]="FormLookup">
+        <div class="flex flex-col w-full gap-3 mb-5">
+            <label for="" class="text-base">
+                Cari Berdasarkan :
+            </label>
+
+            <div class="flex flex-wrap gap-3">
+                <div *ngFor="let item of props.filter" class="flex align-items-center">
+                    <p-radioButton name="filter" [value]="item.value" [inputId]="item.id" formControlName="filter">
+                    </p-radioButton>
+                    <label [for]="item.id" class="ml-2 text-sm">
+                        {{ item.title }}
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex w-full">
+                <input pInputText formControlName="search" class="w-full p-inputtext-sm"
+                    (keyup.enter)="handleEnterInputSearch(search.value)" />
+            </div>
+        </div>
+
+        <app-grid [props]="GridProps" (rowDoubleClicked)="handleSelectData($event)"></app-grid>
+    </div>
+</p-dialog>

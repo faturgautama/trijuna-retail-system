@@ -1,0 +1,13 @@
+<div class="flex flex-row items-center my-2">
+    <span class="text-xs text-gray-500 cursor-pointer" (click)="handleBackToHome()">
+        <i class="pi pi-home text-blue-500 mr-1"></i> /
+    </span>
+    <span *ngFor="let item of props; let i = index" class="mr-1">
+        <p *ngIf="i > 0 && i < (props.length - 1)" class="text-gray-500 text-xs ml-1">
+            {{ item | titlecase }} /
+        </p>
+    </span>
+    <p class="text-gray-800 text-sm">
+        {{ props[props.length - 1] }}
+    </p>
+</div>
