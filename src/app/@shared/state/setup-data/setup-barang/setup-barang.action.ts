@@ -92,12 +92,12 @@ export namespace SetupBarangAction {
 
     export class SaveBarangKomponen {
         static readonly type = '[SETUP BARANG KOMPONEN] Save';
-        constructor(public payload: SetupBarangModel.SaveSetupBarangRak) { }
+        constructor(public payload: SetupBarangModel.SaveSetupBarangKomponen) { }
     }
 
     export class UpdateBarangKomponen {
         static readonly type = '[SETUP BARANG KOMPONEN] Update';
-        constructor(public payload: SetupBarangModel.UpdateSetupBarangRak) { }
+        constructor(public payload: SetupBarangModel.UpdateSetupBarangKomponen) { }
     }
 
     export class DeleteBarangKomponen {
@@ -118,12 +118,12 @@ export namespace SetupBarangAction {
 
     export class SaveBarangUrai {
         static readonly type = '[SETUP BARANG URAI] Save';
-        constructor(public payload: SetupBarangModel.SaveSetupBarangRak) { }
+        constructor(public payload: SetupBarangModel.SaveSetupBarangUrai) { }
     }
 
     export class UpdateBarangUrai {
         static readonly type = '[SETUP BARANG URAI] Update';
-        constructor(public payload: SetupBarangModel.UpdateSetupBarangRak) { }
+        constructor(public payload: SetupBarangModel.UpdateSetupBarangUrai) { }
     }
 
     export class DeleteBarangUrai {

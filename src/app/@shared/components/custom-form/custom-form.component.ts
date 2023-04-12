@@ -52,7 +52,11 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
     handleSelectDataLookup(props: CustomFormModel.IFields, args: any): void {
         const selectedValue = props.lookup_props?.selectedValue as any;
 
-        this.CustomForms.get(selectedValue)?.setValue(args[selectedValue]);
+        if (props.id == props.lookup_props?.selectedValue) {
+            this.CustomForms.get(selectedValue)?.setValue(args[selectedValue]);
+        } else {
+            this.CustomForms.get(props.id)?.setValue(args[selectedValue]);
+        }
     }
 
     handleResetForm(): void {

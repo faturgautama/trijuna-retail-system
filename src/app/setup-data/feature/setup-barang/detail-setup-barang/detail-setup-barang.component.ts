@@ -1,40 +1,63 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
+import { map } from 'rxjs';
+import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
+import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangAction } from 'src/app/@shared/state/setup-data/setup-barang';
 import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
 import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
 import { SetupMerkAction } from 'src/app/@shared/state/setup-data/setup-merk';
 import { SetupSatuanAction } from 'src/app/@shared/state/setup-data/setup-satuan';
-import { environment } from 'src/environments/environment';
+import { SetupSupplierAction } from 'src/app/@shared/state/setup-data/setup-supplier';
 
 @Component({
     selector: 'app-detail-setup-barang',
     templateUrl: './detail-setup-barang.component.html',
     styleUrls: ['./detail-setup-barang.component.scss']
 })
-export class DetailSetupBarangComponent {
+export class DetailSetupBarangComponent implements OnInit {
+
     DashboardProps: DashboardModel.IDashboard;
 
     FormInput: CustomFormModel.IForm;
 
-    @ViewChild('CustomForm') CustomForm!: CustomFormComponent
+    @ViewChild('CustomForm') CustomForm!: CustomFormComponent;
+
+    PageState: 'detail' | 'barang_satuan' | 'barang_rak' | 'barang_komponen' | 'barang_urai' = 'detail';
+
+    IdBarang: number = 0;
+
+    GridBarangRakProps: GridModel.IGrid;
+
+    GridBarangKomponenProps: GridModel.IGrid;
+
+    GridBarangUraiProps: GridModel.IGrid;
 
     constructor(
         private _store: Store,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _messageService: MessageService,
+        private _utilityService: UtilityService,
     ) {
         this.FormInput = {
             id: 'input_setup_barang',
             type: 'save',
             is_inline: true,
             fields: [
+                {
+                    id: 'id_barang',
+                    label: 'Id Barang',
+                    status: 'readonly',
+                    type: 'string',
+                    required: true,
+                    hidden: true,
+                },
                 {
                     id: 'id_divisi',
                     label: 'Divisi',
@@ -121,24 +144,10 @@ export class DetailSetupBarangComponent {
                     id: 'id_supplier',
                     label: 'Supplier',
                     status: 'insert',
-                    type: 'lookup',
-                    lookup_props: {
-                        id: 'lookupSupplier',
-                        title: 'Data Supplier',
-                        columns: [
-                            { field: 'kode_supplier', width: 340, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
-                            { field: 'nama_supplier', width: 340, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
-                        ],
-                        filter: [
-                            { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
-                            { id: 'nama_supplier', title: 'Nama Supplier', type: 'contain', value: 'ms.nama_supplier' },
-                        ],
-                        label: 'Pilih Supplier',
-                        selectedField: 'nama_supplier',
-                        selectedValue: 'id_supplier',
-                        url: `${environment.endpoint}/supplier/by_param`
-                    },
+                    type: 'select',
                     required: true,
+                    validator: 'Supplier Tidak Boleh Kosong',
+                    select_props: []
                 },
                 {
                     id: 'harga_order',
@@ -273,18 +282,47 @@ export class DetailSetupBarangComponent {
                 { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
             ],
         };
+
+        this.GridBarangRakProps = {
+            column: [
+                { field: 'kode_rak', headerName: 'KODE RAK', width: 300, sortable: true, resizable: true },
+                { field: 'nama_rak', headerName: 'NAMA RAK', width: 500, sortable: true, resizable: true },
+                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'created_by', headerName: 'CREATED BY', width: 250, sortable: true, resizable: true, cellClass: 'text-center' },
+            ],
+            dataSource: [],
+            height: '300px'
+        }
+
+        this.GridBarangKomponenProps = {
+            column: [
+                { field: 'kode_barang', headerName: 'KODE BARANG', width: 200, sortable: true, resizable: true },
+                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 400, sortable: true, resizable: true },
+                { field: 'qty_komponen', headerName: 'QTY KOMPONEN', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
+                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'created_by', headerName: 'CREATED BY', width: 250, sortable: true, resizable: true, cellClass: 'text-center' },
+
+            ],
+            dataSource: [],
+            height: '300px'
+        }
+
+        this.GridBarangUraiProps = {
+            column: [
+                { field: 'kode_barang', headerName: 'KODE BARANG', width: 200, sortable: true, resizable: true },
+                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 400, sortable: true, resizable: true },
+                { field: 'qty_urai', headerName: 'QTY URAI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
+                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'created_by', headerName: 'CREATED BY', width: 250, sortable: true, resizable: true, cellClass: 'text-center' },
+            ],
+            dataSource: [],
+            height: '300px'
+        }
     }
 
     ngOnInit(): void {
-        this.getDetailByIdBarang();
-
         this.getFormAdditionalData();
-    }
-
-    getDetailByIdBarang(): void {
-        const id = this._activatedRoute.snapshot.params.id;
-
-        console.log(id);
+        this.getDetailByIdBarang();
     }
 
     getFormAdditionalData(): void {
@@ -335,10 +373,66 @@ export class DetailSetupBarangComponent {
                     });
                 }
             })
+
+        // ** Supplier
+        const indexSupplier = this.FormInput.fields.findIndex((item) => { return item.id == 'id_supplier' });
+
+        this._store.dispatch(new SetupSupplierAction.GetAll([]))
+            .subscribe((result) => {
+                if (result.setup_supplier.entities.success) {
+                    this.FormInput.fields[indexSupplier].select_props = result.setup_supplier.entities.data.map((item: any) => {
+                        return { name: item.nama_supplier, value: item.id_supplier }
+                    });
+                }
+            });
+    }
+
+    getDetailByIdBarang(): void {
+        this.IdBarang = this._activatedRoute.snapshot.params.id;
     }
 
     handleChangeTabView(args: any): void {
-        console.log(args.index);
+        switch (args.index) {
+            case 0:
+                console.log("Detail Barang");
+                this.DashboardProps.button_navigation = [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                    { id: 'delete', caption: 'Delete', icon: 'pi pi-trash text-xs' },
+                    { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
+                ];
+                this.PageState = 'detail';
+                break;
+            case 1:
+                console.log("Setup Barang Satuan");
+                this.DashboardProps.button_navigation = [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                ];
+                this.PageState = 'barang_satuan';
+                break;
+            case 2:
+                console.log("Setup Barang Rak");
+                this.DashboardProps.button_navigation = [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                ];
+                this.PageState = 'barang_rak';
+                break;
+            case 3:
+                console.log("Setup Barang Komponen");
+                this.DashboardProps.button_navigation = [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                ];
+                this.PageState = 'barang_komponen';
+                break;
+            case 4:
+                console.log("Setup Barang Urai");
+                this.DashboardProps.button_navigation = [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                ];
+                this.PageState = 'barang_urai';
+                break;
+            default:
+                break;
+        }
     }
 
     handleClickButtonNav(args: string): void {
@@ -366,12 +460,24 @@ export class DetailSetupBarangComponent {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Diupdate' });
 
-                    this.CustomForm.handleResetForm();
+                    this.getDetailByIdBarang();
                 }
             });
     }
 
     handleDeleteBarang(): void {
+        const id = this._activatedRoute.snapshot.params.id;
 
+        this._store.dispatch(new SetupBarangAction.DeleteBarang(id))
+            .subscribe((result) => {
+                if (result.setup_barang.entities.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dihapus' });
+
+                    setTimeout(() => {
+                        this._router.navigate(['setup-data/setup-inventory/setup-barang/list']);
+                    }, 1500);
+                }
+            })
     }
 }

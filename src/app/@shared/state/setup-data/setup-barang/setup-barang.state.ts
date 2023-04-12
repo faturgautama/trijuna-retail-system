@@ -194,7 +194,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.UpdateBarangSatuan)
+    @Action(SetupBarangAction.UpdateBarangRak)
     updateBarangRak(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.updateBarangRak(action.payload)
             .pipe(
@@ -209,7 +209,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.DeleteBarangSatuan)
+    @Action(SetupBarangAction.DeleteBarangRak)
     deleteBarangRak(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.deleteBarangRak(action.payload)
             .pipe(
@@ -240,7 +240,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.SaveBarangRak)
+    @Action(SetupBarangAction.SaveBarangKomponen)
     saveBarangKomponen(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.saveBarangKomponen(action.payload)
             .pipe(
@@ -255,7 +255,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.UpdateBarangSatuan)
+    @Action(SetupBarangAction.UpdateBarangKomponen)
     updateBarangKomponen(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.updateBarangKomponen(action.payload)
             .pipe(
@@ -270,7 +270,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.DeleteBarangSatuan)
+    @Action(SetupBarangAction.DeleteBarangKomponen)
     deleteBarangKomponen(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.deleteBarangKomponen(action.payload)
             .pipe(
@@ -286,7 +286,7 @@ export class SetupBarangState {
     }
 
     // ** Setup Barang Urai
-    @Action(SetupBarangAction.GetAllBarangKomponen)
+    @Action(SetupBarangAction.GetAllBarangUrai)
     getBarangUrai(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.getAllBarangUrai(action.payload)
             .pipe(
@@ -301,7 +301,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.SaveBarangRak)
+    @Action(SetupBarangAction.SaveBarangUrai)
     saveBarangUrai(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.saveBarangUrai(action.payload)
             .pipe(
@@ -316,7 +316,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.UpdateBarangSatuan)
+    @Action(SetupBarangAction.UpdateBarangUrai)
     updateBarangUrai(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.updateBarangUrai(action.payload)
             .pipe(
@@ -331,7 +331,7 @@ export class SetupBarangState {
             )
     }
 
-    @Action(SetupBarangAction.DeleteBarangSatuan)
+    @Action(SetupBarangAction.DeleteBarangUrai)
     deleteBarangUrai(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.deleteBarangUrai(action.payload)
             .pipe(

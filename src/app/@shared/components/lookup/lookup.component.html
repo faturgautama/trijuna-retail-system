@@ -13,8 +13,8 @@
     </div>
 </div>
 
-<p-dialog [id]="'lookupDialog'" [header]="props.title" [(visible)]="ShowDialog" [style]="{ width: '60vw' }"
-    [modal]="true" [position]="'top'">
+<p-dialog [id]="'lookupDialog'" appendTo="body" [header]="props.title" [(visible)]="ShowDialog"
+    [style]="{ width: '60vw' }" [modal]="true" [position]="'top'" [draggable]="false" [keepInViewport]="true">
     <ng-template pTemplate="header" class="border-b border-b-gray-100">
         <span class="text-lg font-semibold">
             {{ props.title }}

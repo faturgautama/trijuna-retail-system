@@ -1,0 +1,5 @@
+<app-grid [props]="GridBarangSatuanProps" (cellClicked)="handleCellClicked($event)"
+    (rowDoubleClicked)="handleRowDoubleClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
+</app-grid>
+
+<app-form-dialog #FormDialog [props]="FormDialogProps" (onSubmitForm)="handleSubmitForm($event)"></app-form-dialog>

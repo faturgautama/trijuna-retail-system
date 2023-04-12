@@ -1,48 +1,30 @@
 <app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
     <p-tabView (onChange)="handleChangeTabView($event)">
+        <!-- Detail Barang -->
         <p-tabPanel header="Detail">
             <div class="grid grid-cols-1">
                 <app-custom-form #CustomForm [props]="FormInput"></app-custom-form>
             </div>
         </p-tabPanel>
+
+        <!-- Setup Barang Satuan -->
         <p-tabPanel header="Setup Barang Satuan">
-            <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                explicabo. Nemo enim
-                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-                eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-            </p>
+            <app-detail-barang-satuan [id_barang]="IdBarang"></app-detail-barang-satuan>
         </p-tabPanel>
+
+        <!-- Setup Barang Rak -->
         <p-tabPanel header="Setup Barang Rak">
-            <p>
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                provident, similique sunt in culpa
-                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est
-                et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo
-                minus.
-            </p>
+            <app-detail-barang-rak [id_barang]="IdBarang"></app-detail-barang-rak>
         </p-tabPanel>
+
+        <!-- Setup Barang Komponen -->
         <p-tabPanel header="Setup Barang Komponen">
-            <p>
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                provident, similique sunt in culpa
-                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est
-                et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo
-                minus.
-            </p>
+            <app-detail-barang-komponen [id_barang]="IdBarang"></app-detail-barang-komponen>
         </p-tabPanel>
+
+        <!-- Setup Barang Urai -->
         <p-tabPanel header="Setup Barang Urai">
-            <p>
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                provident, similique sunt in culpa
-                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est
-                et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo
-                minus.
-            </p>
+            <!-- <app-detail-barang-urai [id_barang]="IdBarang"></app-detail-barang-urai> -->
         </p-tabPanel>
     </p-tabView>
 </app-dashboard>

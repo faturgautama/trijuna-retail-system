@@ -123,12 +123,14 @@ export namespace SetupBarangModel {
     export interface SaveSetupBarangSatuan {
         id_barang: number
         id_satuan: number
+        isi: number
     }
 
     export interface UpdateSetupBarangSatuan {
         id_brang_satuan: number
         id_barang: number
         id_satuan: number
+        isi: number
     }
 
     export class GetAllSetupBarangSatuan implements HttpRequestBaseModel {
@@ -242,6 +244,7 @@ export namespace SetupBarangModel {
     export interface UpdateSetupBarangKomponen {
         id_barang_komponen: number
         id_barang: number
+        komponen_barang: number
         qty_komponen: number
     }
 

@@ -15,6 +15,8 @@ export class GridComponent {
 
     @Output('rowDoubleClicked') rowDoubleClicked = new EventEmitter<any>();
 
+    @Output('toolbarClicked') toolbarClicked = new EventEmitter<GridModel.IGridToolbar>();
+
     defaultColDef: ColDef = {
         sortable: true,
         filter: true,
@@ -25,42 +27,57 @@ export class GridComponent {
 
     private gridColumnApi!: ColumnApi;
 
+    gridToolbar: GridModel.IGridToolbar[] = [];
+
     constructor() {
         this.props = {
             column: [],
             dataSource: [],
             height: '400px',
+            toolbar: [],
         };
     };
 
     onGridReady(args: GridReadyEvent): void {
-        // this.gridApi = args.api;
-        // this.gridColumnApi = args.columnApi;
+        if (this.props.toolbar?.length) {
+            this.props.toolbar.forEach((item) => {
+                let icon = "";
 
-        // if (args.columnApi.getAllColumns()!.length < 15) {
-        //     this.gridApi.sizeColumnsToFit();
+                switch (item) {
+                    case 'Add':
+                        icon = 'pi pi-plus';
+                        break;
+                    case 'Edit':
+                        icon = 'pi pi-file-edit';
+                        break;
+                    case 'Delete':
+                        icon = 'pi pi-trash';
+                        break;
+                    case 'Detail':
+                        icon = 'pi pi-info-circle';
+                        break;
+                    default:
+                        break;
+                }
 
-        //     window.addEventListener('resize', () => {
-        //         setTimeout(() => {
-        //             this.gridApi.sizeColumnsToFit();
-        //         });
-        //     })
-        // } else {
-        //     const allColumnsId: string[] = [];
-
-        //     this.gridColumnApi.getAllColumns()?.forEach((column) => {
-        //         allColumnsId.push(column.getId());
-        //     });
-
-        //     this.gridColumnApi.autoSizeColumns(allColumnsId, false);
-        // }
+                this.gridToolbar.push({
+                    id: item.toLowerCase(),
+                    title: item,
+                    icon: icon
+                });
+            });
+        }
     }
 
     onCellClicked(args: any): void {
-        this.cellClicked.emit(args);
+        this.cellClicked.emit(args.data);
     }
 
     onRowDoubleClicked(args: any): void {
         this.rowDoubleClicked.emit(args.data);
+    }
+
+    onToolbarClicked(args: GridModel.IGridToolbar): void {
+        this.toolbarClicked.emit(args);
     }
 }

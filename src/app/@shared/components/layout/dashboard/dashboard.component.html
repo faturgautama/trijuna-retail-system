@@ -17,4 +17,4 @@
 
 <app-loading-dialog #LoadingDialog></app-loading-dialog>
 
-<p-toast></p-toast>
+<p-toast (onClose)="handleCloseToast($event)"></p-toast>

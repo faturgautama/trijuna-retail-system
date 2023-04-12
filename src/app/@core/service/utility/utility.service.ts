@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { Message, MessageService } from 'primeng/api';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UtilityService {
 
-    constructor() { }
+    constructor(
+        private _messageService: MessageService,
+    ) { }
 
     FormatDate(date: Date, format?: string): any {
         if (date) {

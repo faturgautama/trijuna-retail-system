@@ -19,6 +19,7 @@ p {
 
 .p-inputtext-sm .p-inputtext {
     width: 100% !important;
+    font-size: 13px !important;
 }
 
 .p-inputtext-sm .p-inputnumber {
@@ -27,6 +28,15 @@ p {
 
 p-inputnumber, .p-inputnumber {
     width: 100% !important;
+}
+
+.p-dropdown-item {
+    font-size: 13px !important;
+}
+
+.p-dropdown-filter {
+    padding: 10px !important;
+    font-size: 13px !important;
 }
 
 .spinner {
@@ -94,16 +104,25 @@ p-inputnumber, .p-inputnumber {
     box-shadow: none !important;
 }
 
-.p-tabview-title, 
-.p-menuitem-text {
-    font-size: 15px !important;
+.p-tabview-title {
+    font-size: 14px !important;
     font-weight: 500 !important;
     font-family: 'Poppins', sans-serif !important;
 }
 
-.ag-root-wrapper {
+.ag-theme-alpine.no_toolbar .ag-root-wrapper {
 	border: 1px solid #e2e8f0 !important;
 	border-radius: 5px !important;
+    z-index: 0 !important;
+}
+
+.ag-theme-alpine.with_toolbar .ag-root-wrapper {
+    border-right: 1px solid #e2e8f0 !important;
+    border-left: 1px solid #e2e8f0 !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    border-bottom-right-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
     z-index: 0 !important;
 }
 
@@ -113,4 +132,5 @@ p-inputnumber, .p-inputnumber {
 
 label {
     font-family: 'Poppins', sans-serif !important;
+    font-size: 13px !important;
 }

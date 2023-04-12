@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
     templateUrl: './input-setup-barang.component.html',
     styleUrls: ['./input-setup-barang.component.scss']
 })
-export class InputSetupBarangComponent implements OnInit {
+export class InputSetupBarangComponent implements OnInit, OnDestroy {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -353,5 +353,8 @@ export class InputSetupBarangComponent implements OnInit {
                     this.CustomForm.handleResetForm();
                 }
             });
+    }
+
+    ngOnDestroy(): void {
     }
 }

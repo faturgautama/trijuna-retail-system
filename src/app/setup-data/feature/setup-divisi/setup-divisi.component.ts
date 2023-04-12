@@ -121,8 +121,6 @@ export class SetupDivisiComponent implements OnInit {
     }
 
     handleSubmitForm(data: any): void {
-        console.log(data);
-
         if (this.FormDialogProps.type == 'add') {
             const payload: SetupDivisiModel.SaveSetupDivisi = {
                 divisi: data.divisi,

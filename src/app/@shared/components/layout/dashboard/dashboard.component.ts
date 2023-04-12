@@ -59,7 +59,15 @@ export class DashboardComponent implements AfterViewInit {
         }, 1);
     }
 
+    handleCloseToast(args: any): void {
+        if (args.message.summary == 'Oops' && args.message.severity == 'error') {
+            this._httpRequestService.ErrorToast.next({ show: false, message: "" });
+            this._messageService.clear();
+        }
+    }
+
     handleClickButtonNav(id: string): void {
+
         this.onClickButtonNav.emit(id);
     }
 }

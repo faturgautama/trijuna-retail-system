@@ -20,6 +20,10 @@ import { SetupWarehouseComponent } from './feature/setup-warehouse/setup-warehou
 import { DetailSetupBarangComponent } from './feature/setup-barang/detail-setup-barang/detail-setup-barang.component';
 import { ListSetupBarangComponent } from './feature/setup-barang/list-setup-barang/list-setup-barang.component';
 import { InputSetupBarangComponent } from './feature/setup-barang/input-setup-barang/input-setup-barang.component';
+import { DetailBarangSatuanComponent } from './feature/setup-barang/detail-setup-barang/detail-barang-satuan/detail-barang-satuan.component';
+import { DetailBarangRakComponent } from './feature/setup-barang/detail-setup-barang/detail-barang-rak/detail-barang-rak.component';
+import { DetailBarangKomponenComponent } from './feature/setup-barang/detail-setup-barang/detail-barang-komponen/detail-barang-komponen.component';
+import { DetailBarangUraiComponent } from './feature/setup-barang/detail-setup-barang/detail-barang-urai/detail-barang-urai.component';
 
 @NgModule({
     declarations: [
@@ -37,6 +41,10 @@ import { InputSetupBarangComponent } from './feature/setup-barang/input-setup-ba
         DetailSetupBarangComponent,
         ListSetupBarangComponent,
         InputSetupBarangComponent,
+        DetailBarangSatuanComponent,
+        DetailBarangRakComponent,
+        DetailBarangKomponenComponent,
+        DetailBarangUraiComponent,
     ],
     imports: [
         CommonModule,
