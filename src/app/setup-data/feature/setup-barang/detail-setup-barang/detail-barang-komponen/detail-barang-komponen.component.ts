@@ -71,20 +71,20 @@ export class DetailBarangKomponenComponent implements OnInit {
                     {
                         id: 'komponen_barang',
                         label: 'Komponen Barang',
-                        status: 'insert',
+                        status: 'readonly',
                         type: 'lookup',
                         lookup_props: {
-                            id: 'lookupSupplier',
-                            title: 'Data Supplier',
+                            id: 'lookupBarang',
+                            title: 'Data Barang',
                             columns: [
-                                { field: 'kode_barang', width: 400, headerName: 'KODE BARANG', sortable: true, resizable: true },
-                                { field: 'nama_barang', width: 400, headerName: 'NAMA BARANG', sortable: true, resizable: true },
+                                { field: 'kode_barang', width: 340, headerName: 'KODE BARANG', sortable: true, resizable: true },
+                                { field: 'nama_barang', width: 340, headerName: 'NAMA BARANG', sortable: true, resizable: true },
                             ],
                             filter: [
                                 { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
                                 { id: 'nama_barang', title: 'Nama Barang', type: 'contain', value: 'mb.nama_barang' },
                             ],
-                            label: 'komponen Barang',
+                            label: 'Komponen Barang',
                             selectedField: 'nama_barang',
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/barang/by_param`
@@ -127,6 +127,8 @@ export class DetailBarangKomponenComponent implements OnInit {
     }
 
     handleRowDoubleClicked(args: any): void {
+        console.log(args);
+
         this.FormDialogProps.form_props.default_value = {
             id_barang_komponen: args.id_barang_komponen,
             id_barang: args.id_barang,
@@ -166,6 +168,8 @@ export class DetailBarangKomponenComponent implements OnInit {
     }
 
     handleSubmitForm(args: any): void {
+        console.log(args);
+
         if (this.FormDialogProps.type == 'add') {
             const payload: SetupBarangModel.SaveSetupBarangKomponen = {
                 id_barang: this.id_barang,
@@ -188,7 +192,6 @@ export class DetailBarangKomponenComponent implements OnInit {
             const payload: SetupBarangModel.UpdateSetupBarangKomponen = {
                 id_barang_komponen: args.id_barang_komponen,
                 id_barang: this.id_barang,
-                komponen_barang: args.komponen_barang,
                 qty_komponen: args.qty_komponen,
             };
 

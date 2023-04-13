@@ -8,6 +8,7 @@ import { SetupRakState } from './setup-rak';
 import { SetupSatuanState } from './setup-satuan';
 import { SetupWarehouseState } from './setup-warehouse';
 import { SetupGroupState } from './setup-group';
+import { SettingHargaState } from './setting-harga';
 
 export const SETUP_DATA_STATE = [
     SetupMemberState,
@@ -21,4 +22,5 @@ export const SETUP_DATA_STATE = [
     SetupWarehouseState,
     SetupDivisiState,
     SetupGroupState,
+    SettingHargaState,
 ];

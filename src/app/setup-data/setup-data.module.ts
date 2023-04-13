@@ -24,6 +24,9 @@ import { DetailBarangSatuanComponent } from './feature/setup-barang/detail-setup
 import { DetailBarangRakComponent } from './feature/setup-barang/detail-setup-barang/detail-barang-rak/detail-barang-rak.component';
 import { DetailBarangKomponenComponent } from './feature/setup-barang/detail-setup-barang/detail-barang-komponen/detail-barang-komponen.component';
 import { DetailBarangUraiComponent } from './feature/setup-barang/detail-setup-barang/detail-barang-urai/detail-barang-urai.component';
+import { InputSettingHargaComponent } from './feature/setting-harga/input-setting-harga/input-setting-harga.component';
+import { ListSettingHargaComponent } from './feature/setting-harga/list-setting-harga/list-setting-harga.component';
+import { DetailSettingHargaComponent } from './feature/setting-harga/detail-setting-harga/detail-setting-harga.component';
 
 @NgModule({
     declarations: [
@@ -45,6 +48,9 @@ import { DetailBarangUraiComponent } from './feature/setup-barang/detail-setup-b
         DetailBarangRakComponent,
         DetailBarangKomponenComponent,
         DetailBarangUraiComponent,
+        InputSettingHargaComponent,
+        ListSettingHargaComponent,
+        DetailSettingHargaComponent,
     ],
     imports: [
         CommonModule,

@@ -244,7 +244,6 @@ export namespace SetupBarangModel {
     export interface UpdateSetupBarangKomponen {
         id_barang_komponen: number
         id_barang: number
-        komponen_barang: number
         qty_komponen: number
     }
 

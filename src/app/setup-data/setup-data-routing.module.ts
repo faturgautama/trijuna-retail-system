@@ -14,6 +14,9 @@ import { SetupWarehouseComponent } from "./feature/setup-warehouse/setup-warehou
 import { ListSetupBarangComponent } from "./feature/setup-barang/list-setup-barang/list-setup-barang.component";
 import { InputSetupBarangComponent } from "./feature/setup-barang/input-setup-barang/input-setup-barang.component";
 import { DetailSetupBarangComponent } from "./feature/setup-barang/detail-setup-barang/detail-setup-barang.component";
+import { ListSettingHargaComponent } from "./feature/setting-harga/list-setting-harga/list-setting-harga.component";
+import { InputSettingHargaComponent } from "./feature/setting-harga/input-setting-harga/input-setting-harga.component";
+import { DetailSettingHargaComponent } from "./feature/setting-harga/detail-setting-harga/detail-setting-harga.component";
 
 const routes: Routes = [
     {
@@ -59,6 +62,13 @@ const routes: Routes = [
                 ],
             },
         ]
+    },
+    {
+        path: 'setting-harga', children: [
+            { path: 'list', component: ListSettingHargaComponent },
+            { path: 'input', component: InputSettingHargaComponent },
+            { path: 'detail/:id', component: DetailSettingHargaComponent },
+        ],
     }
 ];
 

@@ -56,7 +56,13 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
             this.CustomForms.get(selectedValue)?.setValue(args[selectedValue]);
         } else {
             this.CustomForms.get(props.id)?.setValue(args[selectedValue]);
-        }
+        };
+
+        if (props.lookup_set_value_field?.length) {
+            props.lookup_set_value_field?.forEach((item) => {
+                this.CustomForms.get(item)?.setValue(args[item]);
+            });
+        };
     }
 
     handleResetForm(): void {

@@ -389,6 +389,21 @@ export class DetailSetupBarangComponent implements OnInit {
 
     getDetailByIdBarang(): void {
         this.IdBarang = this._activatedRoute.snapshot.params.id;
+
+        this._store.dispatch(new SetupBarangAction.GetByIdBarang(this.IdBarang))
+            .pipe(
+                map((result) => {
+                    if (result.setup_barang.entities.success) {
+                        return result.setup_barang.entities.data;
+                    } else {
+                        return result;
+                    }
+                })
+            )
+            .subscribe((result) => {
+                this.FormInput.default_value = result;
+                this.CustomForm.handleSetFormDefaultValue();
+            })
     }
 
     handleChangeTabView(args: any): void {

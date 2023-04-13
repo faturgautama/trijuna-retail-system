@@ -3,8 +3,8 @@ import { HttpRequestService } from '../http-request/http-request.service';
 import { LoginModel } from '../../models/authentication/authentication.model';
 import { Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
-import { API } from '../../api';
 import { CookiesUtils } from '../../utils/cookies.utils';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +18,7 @@ export class AuthenticationService {
     ) { }
 
     login(payload: LoginModel.ILogin): Observable<LoginModel.Login> {
-        return this._httpRequestService.postRequest(API.AUTHENTICATION.LOGIN, payload)
+        return this._httpRequestService.postRequest(`${environment.endpoint}/login`, payload)
             .pipe(
                 map((result) => {
                     if (result.success) {

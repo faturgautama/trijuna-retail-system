@@ -1,0 +1,12 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-8/12 mb-5">
+        <div class="grid w-full">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div class="grid">
+        <app-grid [props]="GridProps">
+        </app-grid>
+    </div>
+</app-dashboard>

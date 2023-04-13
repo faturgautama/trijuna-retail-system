@@ -13,7 +13,6 @@ export class FormDialogComponent implements OnInit {
     FormDialogProps!: DialogModel.IFormDialog;
 
     @Input('props') set props(value: DialogModel.IFormDialog) {
-        console.log(value);
         this.FormDialogProps = value;
     };
 

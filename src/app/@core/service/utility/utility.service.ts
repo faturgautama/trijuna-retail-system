@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { Message, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
     providedIn: 'root'
@@ -33,5 +33,17 @@ export class UtilityService {
         } else {
             return `<i class="pi pi-times"></i>`;
         }
+    }
+
+    GetSomeValueFromArray(arr: any[], valueKey: any): string {
+        console.log(arr);
+
+        let result = "";
+
+        arr.forEach((item) => {
+            result += `${item[valueKey]}, `;
+        });
+
+        return result;
     }
 }

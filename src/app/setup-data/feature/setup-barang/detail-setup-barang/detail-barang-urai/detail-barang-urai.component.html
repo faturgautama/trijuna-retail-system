@@ -1,1 +1,5 @@
-<p>detail-barang-urai works!</p>
+<app-grid [props]="GridBarangUraiProps" (cellClicked)="handleCellClicked($event)"
+    (rowDoubleClicked)="handleRowDoubleClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
+</app-grid>
+
+<app-form-dialog #FormDialog [props]="FormDialogProps" (onSubmitForm)="handleSubmitForm($event)"></app-form-dialog>

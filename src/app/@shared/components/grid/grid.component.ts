@@ -9,7 +9,15 @@ import { ColDef, ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
 })
 export class GridComponent {
 
-    @Input('props') props: GridModel.IGrid;
+    GridProps!: GridModel.IGrid;
+
+    @Input('props') set props(value: GridModel.IGrid) {
+        this.GridProps = value;
+    };
+
+    get props() {
+        return this.GridProps;
+    }
 
     @Output('cellClicked') cellClicked = new EventEmitter<any>();
 
