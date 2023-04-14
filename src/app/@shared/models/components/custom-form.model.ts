@@ -38,6 +38,8 @@ export namespace CustomFormModel {
         lookup_props?: LookupModel.ILookup;
         lookup_set_value_field?: any[]; // id_field yg lain yg mau di set value nya
         hidden?: boolean;
-        split_in_index?: number;
+        is_form_grouped?: boolean;
+        form_grouped_props?: IFields;
+        value?: any;
     }
 }

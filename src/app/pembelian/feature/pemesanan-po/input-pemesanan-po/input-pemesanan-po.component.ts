@@ -1,0 +1,613 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { MessageService } from 'primeng/api';
+import { map } from 'rxjs';
+import { UtilityService } from 'src/app/@core/service/utility/utility.service';
+import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
+import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
+import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
+import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
+import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
+import { GridModel } from 'src/app/@shared/models/components/grid.model';
+import { PemesananPoModel } from 'src/app/@shared/models/pembelian/pemesanan-po.model';
+import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
+import { SetupSatuanModel } from 'src/app/@shared/models/setup-data/setup-satuan.model';
+import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
+import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
+import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
+import { SetupSatuanAction } from 'src/app/@shared/state/setup-data/setup-satuan';
+import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
+import { environment } from 'src/environments/environment';
+
+@Component({
+    selector: 'app-input-pemesanan-po',
+    templateUrl: './input-pemesanan-po.component.html',
+    styleUrls: ['./input-pemesanan-po.component.scss']
+})
+export class InputPemesananPoComponent implements OnInit {
+    DashboardProps: DashboardModel.IDashboard;
+
+    FormInputHeader: CustomFormModel.IForm;
+    @ViewChild('CustomForm') CustomForm!: CustomFormComponent
+
+    FormInputDetail: DialogModel.IFormDialog;
+    @ViewChild('FormDialog') FormDialog!: FormDialogComponent;
+
+    GridProps: GridModel.IGrid;
+    GridSelectedData: PemesananPoModel.IPemesananPoDetail = {} as any;
+
+    // ** For Modal Dialog Detail
+    Qty: number = 0;
+    HargaOrder: number = 0;
+    Diskon1Persen: number = 0;
+    Diskon1Rupiah: number = 0;
+    TotalAfterDiskon1: number = 0;
+    Diskon2Persen: number = 0;
+    Diskon2Rupiah: number = 0;
+    TotalAfterDiskon2: number = 0;
+    Diskon3Persen: number = 0;
+    Diskon3Rupiah: number = 0;
+    TotalAfterDiskon3: number = 0;
+    Subtotal: number = 0;
+
+    // ** Footer
+    @ViewChild('Keterangan') Keterangan!: ElementRef;
+
+    DiskonFooter: number = 0;
+
+    FormInputFooter: CustomFormModel.IForm;
+    @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent
+
+    constructor(
+        private _store: Store,
+        private _router: Router,
+        private _messageService: MessageService,
+        private _utilityService: UtilityService,
+    ) {
+        this.DashboardProps = {
+            title: 'Input Pemesanan PO',
+            button_navigation: [
+                { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                { id: 'save', caption: 'Save', icon: 'pi pi-save text-xs' },
+            ],
+        };
+
+        this.FormInputHeader = {
+            id: 'form_pemesanan_po_header',
+            type: 'save',
+            is_inline: true,
+            fields: [
+                {
+                    id: 'tanggal_pemesanan',
+                    label: 'Tgl. Pemesanan',
+                    status: 'insert',
+                    type: 'date',
+                    required: true,
+                },
+                {
+                    id: 'tangal_expired_pemesanan',
+                    label: 'Tgl. Expired',
+                    status: 'insert',
+                    type: 'date',
+                    required: true,
+                },
+                {
+                    id: 'id_lokasi',
+                    label: 'Lokasi',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: true,
+                },
+                {
+                    id: 'id_warehouse',
+                    label: 'Warehouse',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: true,
+                },
+                {
+                    id: 'id_supplier',
+                    label: 'Supplier',
+                    status: 'insert',
+                    type: 'lookup',
+                    lookup_props: {
+                        id: 'lookupSupplier',
+                        title: 'Data Supplier',
+                        columns: [
+                            { field: 'kode_supplier', width: 200, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
+                            { field: 'nama_supplier', width: 275, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
+                            { field: 'alamat', width: 290, headerName: 'ALAMAT SUPPLIER', sortable: true, resizable: true },
+                        ],
+                        filter: [
+                            { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
+                            { id: 'nama_supplier', title: 'Nama Supplier', type: 'contain', value: 'ms.nama_supplier' },
+                        ],
+                        label: 'Supplier',
+                        selectedField: 'nama_supplier',
+                        selectedValue: 'id_supplier',
+                        url: `${environment.endpoint}/supplier/by_param`
+                    },
+                    required: true,
+                },
+                {
+                    id: 'tanggal_kirim',
+                    label: 'Tgl. Kirim',
+                    status: 'insert',
+                    type: 'date',
+                    required: true,
+                },
+            ],
+            custom_class: 'grid-rows-2 grid-cols-3',
+        }
+
+        this.FormInputDetail = {
+            title: 'Item',
+            type: 'add',
+            form_props: {
+                id: 'form_pemesanan_po_detail',
+                type: 'save',
+                is_inline: true,
+                fields: [
+                    {
+                        id: 'id_barang',
+                        label: 'Id Barang',
+                        status: 'insert',
+                        type: 'lookup',
+                        lookup_props: {
+                            id: 'lookupBarang',
+                            title: 'Data Barang',
+                            columns: [
+                                { field: 'kode_barang', width: 250, headerName: 'KODE BARANG', sortable: true, resizable: true },
+                                { field: 'nama_barang', width: 250, headerName: 'NAMA BARANG', sortable: true, resizable: true },
+                                { field: 'barcode', width: 250, headerName: 'BARCODE', sortable: true, resizable: true },
+                            ],
+                            filter: [
+                                { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
+                                { id: 'nama_barang', title: 'Nama Barang', type: 'contain', value: 'mb.nama_barang' },
+                            ],
+                            label: 'Barang',
+                            selectedField: 'nama_barang',
+                            selectedValue: 'id_barang',
+                            url: `${environment.endpoint}/barang/by_param`
+                        },
+                        lookup_set_value_field: ['barcode', 'nama_barang'],
+                        required: true,
+                    },
+                    {
+                        id: 'barcode',
+                        label: 'Barcode',
+                        status: 'insert',
+                        type: 'string',
+                        hidden: true,
+                        required: true,
+                    },
+                    {
+                        id: 'nama_barang',
+                        label: 'Nama Barang',
+                        status: 'insert',
+                        type: 'string',
+                        hidden: true,
+                        required: true,
+                    },
+                    {
+                        id: 'banyak',
+                        label: 'Banyak',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                    },
+                    {
+                        id: 'kode_satuan',
+                        label: 'Satuan',
+                        status: 'insert',
+                        type: 'select',
+                        select_props: [],
+                        required: true,
+                    },
+                    {
+                        id: 'isi',
+                        label: 'Isi',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                    },
+                    {
+                        id: 'qty',
+                        label: 'Qty',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeQty(data);
+                        }
+                    },
+                    {
+                        id: 'harga_order',
+                        label: 'Harga Order',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeHargaOrder(data);
+                        }
+                    },
+                    {
+                        id: 'diskon_persen_1',
+                        label: 'Diskon 1',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                        is_form_grouped: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeDiskon1Persen(data);
+                        },
+                        form_grouped_props: {
+                            id: 'diskon_nominal_1',
+                            label: 'Diskon 1 (Rp. )',
+                            status: 'readonly',
+                            type: 'numeric',
+                            required: true,
+                        }
+                    },
+                    {
+                        id: 'diskon_persen_2',
+                        label: 'Diskon 2',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                        is_form_grouped: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeDiskon2Persen(data);
+                        },
+                        form_grouped_props: {
+                            id: 'diskon_nominal_2',
+                            label: 'Diskon 1 (Rp. )',
+                            status: 'readonly',
+                            type: 'numeric',
+                            required: true,
+                        }
+                    },
+                    {
+                        id: 'diskon_persen_3',
+                        label: 'Diskon 3',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                        is_form_grouped: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeDiskon3Persen(data);
+                        },
+                        form_grouped_props: {
+                            id: 'diskon_nominal_3',
+                            label: 'Diskon 3 (Rp. )',
+                            status: 'readonly',
+                            type: 'numeric',
+                            required: true,
+                        }
+                    },
+                    {
+                        id: 'sub_total',
+                        label: 'Subtotal',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                    },
+                    {
+                        id: 'qty_bonus',
+                        label: 'Qty Bonus',
+                        status: 'insert',
+                        type: 'numeric',
+                        required: true,
+                    },
+                    {
+                        id: 'nama_bonus',
+                        label: 'Nama Bonus',
+                        status: 'insert',
+                        type: 'string',
+                        required: true,
+                    },
+                ],
+                custom_class: 'grid-rows-6 grid-cols-2'
+            },
+            width: '65vw'
+        };
+
+        this.FormInputFooter = {
+            id: 'form_pemesanan_po_footer',
+            type: 'save',
+            is_inline: true,
+            fields: [
+                {
+                    id: 'qty',
+                    label: 'Jumlah Item',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true,
+                },
+                {
+                    id: 'sub_total1',
+                    label: 'Subtotal 1',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true,
+                },
+                {
+                    id: 'diskon_persen',
+                    label: 'Diskon',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                    is_form_grouped: true,
+                    numeric_callback: (data) => {
+                        this.handleChangeDiskonFooter(data);
+                    },
+                    form_grouped_props: {
+                        id: 'diskon_nominal',
+                        label: 'Diskon',
+                        status: 'readonly',
+                        type: 'numeric',
+                        required: true,
+                    }
+                },
+                {
+                    id: 'sub_total2',
+                    label: 'Subtotal 2',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true,
+                },
+                {
+                    id: 'ppn_nominal',
+                    label: 'PPn',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true,
+                },
+                {
+                    id: 'total_transaksi',
+                    label: 'Grand Total',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true,
+                },
+            ],
+            custom_class: 'grid-rows-6 grid-cols-1',
+        }
+
+        this.GridProps = {
+            column: [
+                { field: 'urut', headerName: 'URUT', width: 120, sortable: true, resizable: true },
+                { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
+                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
+                { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
+                { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
+                { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'harga_order', headerName: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                { field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                { field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'diskon_nominal_2', headerName: 'DISKON 2 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                { field: 'diskon_persen_3', headerName: 'DISKON 3 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                { field: 'qty_bonus', headerName: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true }
+            ],
+            dataSource: [],
+            height: "250px",
+            toolbar: ['Add', 'Delete'],
+            showPaging: false,
+        };
+    }
+
+    ngOnInit(): void {
+        this.onGetLokasi();
+        this.onGetWarehouse();
+        this.onGetSatuan();
+    }
+
+    handleClickButtonNav(args: string): void {
+        switch (args) {
+            case 'back':
+                this._router.navigate(['pembelian/pemesanan-po/history']);
+                break;
+            case 'save':
+                this.handleSubmitForm();
+                break;
+            default:
+                break;
+        }
+    }
+
+    onGetLokasi(): void {
+        this._store.dispatch(new SetupLokasiAction.GetAll())
+            .pipe(
+                map((result) => {
+                    if (result.setup_lokasi.entities.success) {
+                        return result.setup_lokasi.entities.data;
+                    } else {
+                        return result;
+                    }
+                })
+            )
+            .subscribe((result: SetupLokasiModel.ISetupLokasi[]) => {
+                const index = this.CustomForm.props.fields.findIndex((item) => {
+                    return item.id == 'id_lokasi'
+                });
+
+                this.CustomForm.props.fields[index].select_props = result.map((item) => {
+                    return {
+                        name: item.nama_lokasi,
+                        value: item.id_lokasi
+                    }
+                });
+            })
+    }
+
+    onGetWarehouse(): void {
+        this._store.dispatch(new SetupWarehouseAction.GetAll())
+            .pipe(
+                map((result) => {
+                    if (result.setup_warehouse.entities.success) {
+                        return result.setup_warehouse.entities.data;
+                    } else {
+                        return result;
+                    }
+                })
+            )
+            .subscribe((result: SetupWarehouseModel.ISetupWarehouse[]) => {
+                const index = this.CustomForm.props.fields.findIndex((item) => {
+                    return item.id == 'id_warehouse'
+                });
+
+                this.CustomForm.props.fields[index].select_props = result.map((item) => {
+                    return {
+                        name: item.warehouse,
+                        value: item.id_warehouse
+                    }
+                });
+            })
+    }
+
+    onCellClicked(args: any): void {
+        this.GridSelectedData = args;
+    }
+
+    onToolbarClicked(args: any): void {
+        switch (args.id) {
+            case 'add':
+                this.FormInputDetail.type = 'add';
+                this.FormDialog.onOpenFormDialog();
+                this
+                break;
+            case 'delete':
+                const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
+                this.GridProps.dataSource.splice(selectedIndex, 1);
+                break;
+            default:
+                break;
+        }
+    }
+
+    onGetSatuan(): void {
+        this._store.dispatch(new SetupSatuanAction.GetAll())
+            .pipe(
+                map((result) => {
+                    if (result.setup_satuan.entities.success) {
+                        return result.setup_satuan.entities.data;
+                    } else {
+                        return result;
+                    }
+                })
+            )
+            .subscribe((result: SetupSatuanModel.ISetupSatuan[]) => {
+                const index = this.FormDialog.CustomForm.props.fields.findIndex((item) => {
+                    return item.id == 'kode_satuan'
+                });
+
+                this.FormDialog.CustomForm.props.fields[index].select_props = result.map((item) => {
+                    return {
+                        name: item.nama_satuan,
+                        value: item.kode_satuan
+                    }
+                });
+            })
+    }
+
+    handleChangeQty(value: number): void {
+        this.Qty = value;
+    }
+
+    handleChangeHargaOrder(value: number): void {
+        this.HargaOrder = value;
+        console.log(this.Qty * this.HargaOrder);
+        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaOrder));
+    }
+
+    handleChangeDiskon1Persen(value: number): void {
+        this.Diskon1Persen = value;
+        this.Diskon1Rupiah = (this.HargaOrder * this.Qty) * (this.Diskon1Persen / 100);
+        this.FormDialog.CustomForm.handleSetFieldValue('diskon_nominal_1', this.Diskon1Rupiah);
+
+        this.TotalAfterDiskon1 = (this.HargaOrder * this.Qty) - this.Diskon1Rupiah;
+        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', this.TotalAfterDiskon1);
+    }
+
+    handleChangeDiskon2Persen(value: number): void {
+        this.Diskon2Persen = value;
+        this.Diskon2Rupiah = (this.TotalAfterDiskon1) * (this.Diskon2Persen / 100);
+        this.FormDialog.CustomForm.handleSetFieldValue('diskon_nominal_2', this.Diskon2Rupiah);
+
+        this.TotalAfterDiskon2 = this.TotalAfterDiskon1 - this.Diskon2Rupiah;
+        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', this.TotalAfterDiskon2);
+    }
+
+    handleChangeDiskon3Persen(value: number): void {
+        this.Diskon3Persen = value;
+        this.Diskon3Rupiah = (this.TotalAfterDiskon2) * (this.Diskon3Persen / 100);
+        this.FormDialog.CustomForm.handleSetFieldValue('diskon_nominal_3', this.Diskon3Rupiah);
+
+        this.TotalAfterDiskon3 = this.TotalAfterDiskon2 - this.Diskon3Rupiah;
+        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', this.TotalAfterDiskon3);
+    }
+
+    handleSubmitFormDetail(data: any): void {
+        data.urut = this.GridProps.dataSource.length + 1;
+        this.GridProps.dataSource = [...this.GridProps.dataSource, data];
+        this.FormDialog.onCloseFormDialog();
+
+        this.onCountFormFooter();
+    }
+
+    handleChangeDiskonFooter(value: number): void {
+        const diskonNominalFooter = this.CustomFormFooter.handleGetFieldValue('sub_total1') * (value / 100);
+        this.CustomFormFooter.handleSetFieldValue('diskon_nominal', diskonNominalFooter);
+        this.onCountFormFooter();
+    }
+
+    onCountFormFooter(): void {
+        let qty = 0;
+        let subtotal1 = 0;
+
+        this.GridProps.dataSource.forEach((item) => {
+            qty += item.qty;
+            subtotal1 += item.sub_total;
+
+            this.CustomFormFooter.handleSetFieldValue('qty', qty);
+            this.CustomFormFooter.handleSetFieldValue('sub_total1', subtotal1);
+        });
+
+        this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
+
+        this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
+
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal'))
+    }
+
+    handleSubmitForm(): void {
+        const header = this.CustomForm.handleSubmitForm();
+        header.detail = this.GridProps.dataSource;
+
+        const footer = this.CustomFormFooter.handleSubmitForm();
+
+        const payload = this._utilityService.JoinTwoObject(header, footer);
+
+        this._store.dispatch(new PemesananPoAction.Save(payload))
+            .subscribe((result) => {
+                if (result.pemesanan_po.entities.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
+
+                    this.CustomForm.handleResetForm();
+
+                    setTimeout(() => {
+                        this._router.navigate(['pembelian/pemesanan-po/history']);
+                    }, 1500);
+                }
+            });
+    }
+}

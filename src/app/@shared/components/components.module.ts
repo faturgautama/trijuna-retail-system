@@ -23,6 +23,7 @@ import { ChipModule } from 'primeng/chip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TabViewModule } from 'primeng/tabview';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 import { ButtonCustomComponent } from './button/button-custom/button-custom.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
@@ -77,7 +78,8 @@ import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component'
         ChipModule,
         CheckboxModule,
         RadioButtonModule,
-        TabViewModule
+        TabViewModule,
+        InputTextareaModule
     ],
     exports: [
         ButtonNavigationComponent,

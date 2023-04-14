@@ -11,6 +11,7 @@ export namespace GridModel {
         column: ColDef[];
         dataSource: any[];
         height: string;
+        showPaging: boolean;
         /**
          * Isi dengan value Add / Delete / Edit / Detail 
         */

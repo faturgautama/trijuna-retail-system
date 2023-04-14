@@ -42,6 +42,7 @@ export class DetailBarangRakComponent implements OnInit {
             dataSource: [],
             height: '345px',
             toolbar: ['Add', 'Delete'],
+            showPaging: true,
         };
 
         this.FormDialogProps = {

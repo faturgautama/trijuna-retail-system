@@ -79,6 +79,7 @@ export class DetailSettingHargaComponent implements OnInit {
             ],
             dataSource: [],
             height: "calc(100vh - 15rem)",
+            showPaging: true,
         };
     }
 

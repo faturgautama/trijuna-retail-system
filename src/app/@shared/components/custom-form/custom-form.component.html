@@ -1,6 +1,6 @@
 <div [id]="props.id" class="flex flex-col">
     <form [formGroup]="CustomForms">
-        <div class="grid {{ FormsLayoutClass }} gap-4">
+        <div class="grid {{ FormsLayoutClass }} gap-3">
             <div *ngFor="let item of props.fields"
                 class="flex {{ props.is_inline ? 'flex-row' : 'flex-col' }} items-center" [class.hidden]="item.hidden">
                 <div *ngIf="item.type != 'lookup'" class="{{ props.is_inline ? 'w-4/12' : 'w-full' }}">
@@ -13,12 +13,12 @@
                 <div class="{{ props.is_inline && item.type != 'lookup'  ? 'w-8/12' : 'w-full' }}">
                     <!-- Input Text -->
                     <input *ngIf="item.type == 'string'" pInputText [id]="item.id" formControlName="{{ item.id }}"
-                        style="width: 100%" class="p-inputtext-sm" />
+                        style="width: 100%" class="p-inputtext-sm" [readonly]="item.status == 'readonly'" />
 
                     <!-- Datepicker -->
                     <p-calendar *ngIf="item.type == 'date'" [id]="item.id" formControlName="{{ item.id }}"
                         [touchUI]="true" styleClass="w-full p-inputtext-sm" [showButtonBar]="true"
-                        [dateFormat]="'dd/MM/yy'">
+                        [dateFormat]="'dd/MM/yy'" [disabled]="item.status == 'readonly'">
                     </p-calendar>
 
                     <!-- Password -->
@@ -29,14 +29,27 @@
                     <!-- Dropdown -->
                     <p-dropdown *ngIf="item.type == 'select'" appendTo="body" [id]="item.id"
                         formControlName="{{ item.id }}" [options]="item.select_props!" optionValue="value"
-                        optionLabel="name" styleClass="w-full p-inputtext-sm" [autoDisplayFirst]="false"
-                        [filter]="true">
+                        optionLabel="name" styleClass="w-full p-inputtext-sm" [autoDisplayFirst]="false" [filter]="true"
+                        [disabled]="item.status == 'readonly'">
                     </p-dropdown>
 
                     <!-- Numeric -->
-                    <p-inputNumber *ngIf="item.type == 'numeric'" formControlName="{{ item.id }}"
-                        styleClass="w-full p-inputtext-sm">
+                    <p-inputNumber *ngIf="item.type == 'numeric' && !item.is_form_grouped"
+                        formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm"
+                        (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'">
                     </p-inputNumber>
+
+                    <!-- Numeric Grouped -->
+                    <div *ngIf="item.type == 'numeric' && item.is_form_grouped"
+                        class="grid grid-rows-1 grid-cols-2 gap-2">
+                        <p-inputNumber formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm"
+                            (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'">
+                        </p-inputNumber>
+
+                        <p-inputNumber formControlName="{{ item.form_grouped_props?.id }}"
+                            styleClass="w-full p-inputtext-sm" [readonly]="true" [disabled]="item.status == 'readonly'">
+                        </p-inputNumber>
+                    </div>
 
                     <!-- Checkbox -->
                     <div *ngIf="item.type == 'checkbox'" class="flex items-center flex-row gap-3">

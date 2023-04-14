@@ -184,7 +184,8 @@ export class InputSettingHargaComponent implements OnInit {
             ],
             dataSource: [],
             height: "calc(100vh - 18rem)",
-            toolbar: ['Add', 'Delete']
+            toolbar: ['Add', 'Delete'],
+            showPaging: true,
         };
     }
 

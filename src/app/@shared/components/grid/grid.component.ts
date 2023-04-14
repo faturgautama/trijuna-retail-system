@@ -43,6 +43,7 @@ export class GridComponent {
             dataSource: [],
             height: '400px',
             toolbar: [],
+            showPaging: false,
         };
     };
 

@@ -65,7 +65,8 @@ export class ListSettingHargaComponent implements OnInit {
                 { field: 'updated_at', headerName: 'WAKTU UPDATE', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "calc(100vh - 11rem)"
+            height: "calc(100vh - 11rem)",
+            showPaging: true,
         };
     }
 

@@ -84,7 +84,8 @@ export class ListSetupMemberComponent implements OnInit {
                 { field: 'created_at', headerName: 'CREATED AT', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "400px"
+            height: "400px",
+            showPaging: true,
         };
     }
 

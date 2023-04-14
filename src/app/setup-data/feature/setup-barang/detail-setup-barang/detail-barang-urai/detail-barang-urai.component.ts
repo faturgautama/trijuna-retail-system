@@ -43,6 +43,7 @@ export class DetailBarangUraiComponent implements OnInit {
             dataSource: [],
             height: '345px',
             toolbar: ['Add', 'Delete'],
+            showPaging: true,
         };
 
         this.FormDialogProps = {

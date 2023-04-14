@@ -42,7 +42,8 @@ export class SetupMerkComponent implements OnInit {
                 { field: 'is_active', headerName: 'IS ACTIVE', width: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
             ],
             dataSource: [],
-            height: "calc(100vh - 11rem)"
+            height: "calc(100vh - 11rem)",
+            showPaging: true,
         };
 
         this.FormDialogProps = {

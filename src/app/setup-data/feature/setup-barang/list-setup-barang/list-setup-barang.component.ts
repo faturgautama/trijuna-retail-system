@@ -104,7 +104,8 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'updated_at', headerName: 'WAKTU UPDATE', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "400px"
+            height: "400px",
+            showPaging: true,
         };
     }
 

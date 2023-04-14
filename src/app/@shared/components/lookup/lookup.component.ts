@@ -35,10 +35,12 @@ export class LookupComponent implements OnInit {
             column: [],
             dataSource: [],
             height: '300px',
+            showPaging: true,
         };
     }
 
     ngOnInit(): void {
+        console.log(this.props);
         this.GridProps.column = this.props.columns;
     }
 
@@ -71,9 +73,8 @@ export class LookupComponent implements OnInit {
 
         this.ShowDialog = false;
 
-        const lookupInputResult = document.getElementById('lookupInputResult') as HTMLInputElement;
+        const lookupInputResult = document.getElementById(this.props.id + 'InputResult') as HTMLInputElement;
         lookupInputResult.value = args[this.props.selectedField];
-
     }
 
     get filter(): AbstractControl { return this.FormLookup.get('filter') as AbstractControl }

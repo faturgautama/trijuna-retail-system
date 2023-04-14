@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: async () => (await import('./setup-data/setup-data.module')).SetupDataModule
     },
     {
+        path: 'pembelian',
+        loadChildren: async () => (await import('./pembelian/pembelian.module')).PembelianModule
+    },
+    {
         path: "**", component: PageNotFoundComponent
     }
 ];

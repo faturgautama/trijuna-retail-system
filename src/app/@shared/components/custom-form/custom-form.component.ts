@@ -36,7 +36,21 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
         }
 
         this.props.fields.forEach((item) => {
-            this.CustomForms.addControl(item.id, new FormControl('', [Validators.required]));
+            if (item.type == 'numeric') {
+                this.CustomForms.addControl(item.id, new FormControl(0, [Validators.required]));
+            };
+
+            if (item.type == 'date') {
+                this.CustomForms.addControl(item.id, new FormControl(new Date, [Validators.required]));
+            };
+
+            if (item.type != 'numeric' && item.type != 'date') {
+                this.CustomForms.addControl(item.id, new FormControl("", [Validators.required]));
+            };
+
+            if (item.is_form_grouped) {
+                this.CustomForms.addControl(item.form_grouped_props?.id!, new FormControl(0, []))
+            };
         });
     }
 
@@ -53,6 +67,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
         const selectedValue = props.lookup_props?.selectedValue as any;
 
         if (props.id == props.lookup_props?.selectedValue) {
+            console.log("here");
             this.CustomForms.get(selectedValue)?.setValue(args[selectedValue]);
         } else {
             this.CustomForms.get(props.id)?.setValue(args[selectedValue]);
@@ -63,6 +78,19 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
                 this.CustomForms.get(item)?.setValue(args[item]);
             });
         };
+    }
+
+    handleChangeNumeric(props: CustomFormModel.IFields, args: any): void {
+        const parser = `${args.target.value}`.replace(/\$\s?|(,*)/g, '');
+        props.numeric_callback?.(parseInt(parser));
+    }
+
+    handleSetFieldValue(id: string, value: any): void {
+        this.CustomForms.get(id)?.setValue(value);
+    }
+
+    handleGetFieldValue(id: string): any {
+        return this.CustomForms.get(id)?.value;
     }
 
     handleResetForm(): void {

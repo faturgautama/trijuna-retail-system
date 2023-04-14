@@ -46,4 +46,8 @@ export class UtilityService {
 
         return result;
     }
+
+    JoinTwoObject(obj1: any, obj2: any): any {
+        return { ...obj1, ...obj2 };
+    }
 }

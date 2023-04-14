@@ -89,13 +89,13 @@ export const menu: MenuItem[] = [
                         id: 'input-pemesanan-po',
                         label: 'Input Pemesanan PO',
                         icon: "",
-                        routerLink: '/pembelian/pemesanan-po/add'
+                        routerLink: '/pembelian/pemesanan-po/input'
                     },
                     {
                         id: 'history-pemesanan-po',
                         label: 'History Pemesanan PO',
                         icon: "",
-                        routerLink: '/pembelian/pemesanan-po'
+                        routerLink: '/pembelian/pemesanan-po/history'
                     },
                 ]
             },
@@ -108,14 +108,14 @@ export const menu: MenuItem[] = [
                         id: 'input-pembelian-dengan-po',
                         label: 'Input Pembelian Dengan PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-dengan-po/add'
+                        routerLink: '/pembelian/pembelian-dengan-po/input'
 
                     },
                     {
                         id: 'history-pembelian-dengan-po',
                         label: 'History Pembelian Dengan PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-dengan-po'
+                        routerLink: '/pembelian/pembelian-dengan-po/history'
                     },
                 ]
             },
@@ -128,13 +128,13 @@ export const menu: MenuItem[] = [
                         id: 'input-pembelian-tanpa-po',
                         label: 'Input Pembelian Tanpa PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-tanpa-po/add'
+                        routerLink: '/pembelian/pembelian-tanpa-po/input'
                     },
                     {
                         id: 'history-pembelian-tanpa-po',
                         label: 'History Pembelian Tanpa PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-tanpa-po'
+                        routerLink: '/pembelian/pembelian-tanpa-po/history'
                     },
                 ]
             },
@@ -147,13 +147,13 @@ export const menu: MenuItem[] = [
                         id: 'input-konsinyasi',
                         label: 'Input Konsinyasi',
                         icon: "",
-                        routerLink: '/pembelian/konsinyasi/add'
+                        routerLink: '/pembelian/konsinyasi/input'
                     },
                     {
                         id: 'history-konsinyasi',
                         label: 'History Konsinyasi',
                         icon: "",
-                        routerLink: '/pembelian/konsinyasi'
+                        routerLink: '/pembelian/konsinyasi/history'
                     },
                 ]
             },

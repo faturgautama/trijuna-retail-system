@@ -32,18 +32,11 @@ export class DetailSetupBarangComponent implements OnInit {
 
     IdBarang: number = 0;
 
-    GridBarangRakProps: GridModel.IGrid;
-
-    GridBarangKomponenProps: GridModel.IGrid;
-
-    GridBarangUraiProps: GridModel.IGrid;
-
     constructor(
         private _store: Store,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _messageService: MessageService,
-        private _utilityService: UtilityService,
     ) {
         this.FormInput = {
             id: 'input_setup_barang',
@@ -282,42 +275,6 @@ export class DetailSetupBarangComponent implements OnInit {
                 { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
             ],
         };
-
-        this.GridBarangRakProps = {
-            column: [
-                { field: 'kode_rak', headerName: 'KODE RAK', width: 300, sortable: true, resizable: true },
-                { field: 'nama_rak', headerName: 'NAMA RAK', width: 500, sortable: true, resizable: true },
-                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'created_by', headerName: 'CREATED BY', width: 250, sortable: true, resizable: true, cellClass: 'text-center' },
-            ],
-            dataSource: [],
-            height: '300px'
-        }
-
-        this.GridBarangKomponenProps = {
-            column: [
-                { field: 'kode_barang', headerName: 'KODE BARANG', width: 200, sortable: true, resizable: true },
-                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 400, sortable: true, resizable: true },
-                { field: 'qty_komponen', headerName: 'QTY KOMPONEN', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
-                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'created_by', headerName: 'CREATED BY', width: 250, sortable: true, resizable: true, cellClass: 'text-center' },
-
-            ],
-            dataSource: [],
-            height: '300px'
-        }
-
-        this.GridBarangUraiProps = {
-            column: [
-                { field: 'kode_barang', headerName: 'KODE BARANG', width: 200, sortable: true, resizable: true },
-                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 400, sortable: true, resizable: true },
-                { field: 'qty_urai', headerName: 'QTY URAI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
-                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'created_by', headerName: 'CREATED BY', width: 250, sortable: true, resizable: true, cellClass: 'text-center' },
-            ],
-            dataSource: [],
-            height: '300px'
-        }
     }
 
     ngOnInit(): void {

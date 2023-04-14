@@ -1,6 +1,6 @@
 <div class="flex items-center">
     <div class="w-4/12">
-        <label for="lookup" class="text-sm">
+        <label for="{{ props.id }}InputResult" class="text-sm">
             <span class="text-red-400">*</span>
             {{ props.label }}
         </label>
@@ -8,13 +8,14 @@
     <div class="w-8/12">
         <span class="p-input-icon-right w-full" (click)="handleToggleDialog()">
             <i class="pi pi-search"></i>
-            <input id="lookupInputResult" type="text" pInputText class="p-inputtext-sm w-full" [disabled]="true" />
+            <input id="{{ props.id }}InputResult" type="text" pInputText class="p-inputtext-sm w-full"
+                [disabled]="true" />
         </span>
     </div>
 </div>
 
-<p-dialog [id]="'lookupDialog'" appendTo="body" [header]="props.title" [(visible)]="ShowDialog"
-    [style]="{ width: '60vw' }" [modal]="true" [position]="'top'" [draggable]="false" [keepInViewport]="true">
+<p-dialog [id]="props.id" appendTo="body" [header]="props.title" [(visible)]="ShowDialog" [style]="{ width: '60vw' }"
+    [modal]="true" [position]="'top'" [draggable]="false" [keepInViewport]="true">
     <ng-template pTemplate="header" class="border-b border-b-gray-100">
         <span class="text-lg font-semibold">
             {{ props.title }}

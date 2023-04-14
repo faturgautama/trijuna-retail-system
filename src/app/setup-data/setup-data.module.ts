@@ -56,7 +56,6 @@ import { DetailSettingHargaComponent } from './feature/setting-harga/detail-sett
         CommonModule,
         SetupDataRoutingModule,
         ComponentsModule,
-        StateModule,
     ],
     providers: [
         MessageService,
