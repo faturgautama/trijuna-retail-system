@@ -100,41 +100,41 @@ export const menu: MenuItem[] = [
                 ]
             },
             {
-                id: 'pembelian-dengan-po',
+                id: 'penerimaan-dengan-po',
                 label: 'Pembelian Dengan PO',
                 icon: "",
                 items: [
                     {
-                        id: 'input-pembelian-dengan-po',
+                        id: 'input-penerimaan-dengan-po',
                         label: 'Input Pembelian Dengan PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-dengan-po/input'
+                        routerLink: '/pembelian/penerimaan-dengan-po/input'
 
                     },
                     {
-                        id: 'history-pembelian-dengan-po',
+                        id: 'history-penerimaan-dengan-po',
                         label: 'History Pembelian Dengan PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-dengan-po/history'
+                        routerLink: '/pembelian/penerimaan-dengan-po/history'
                     },
                 ]
             },
             {
-                id: 'pembelian-tanpa-po',
+                id: 'penerimaan-tanpa-po',
                 label: 'Pembelian Tanpa PO',
                 icon: "",
                 items: [
                     {
-                        id: 'input-pembelian-tanpa-po',
+                        id: 'input-penerimaan-tanpa-po',
                         label: 'Input Pembelian Tanpa PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-tanpa-po/input'
+                        routerLink: '/pembelian/penerimaan-tanpa-po/input'
                     },
                     {
-                        id: 'history-pembelian-tanpa-po',
+                        id: 'history-penerimaan-tanpa-po',
                         label: 'History Pembelian Tanpa PO',
                         icon: "",
-                        routerLink: '/pembelian/pembelian-tanpa-po/history'
+                        routerLink: '/pembelian/penerimaan-tanpa-po/history'
                     },
                 ]
             },

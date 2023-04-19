@@ -78,6 +78,8 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
                 this.CustomForms.get(item)?.setValue(args[item]);
             });
         };
+
+        props.lookup_props?.callback?.(args);
     }
 
     handleChangeNumeric(props: CustomFormModel.IFields, args: any): void {

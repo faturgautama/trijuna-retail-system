@@ -12,6 +12,15 @@ export class GridComponent {
     GridProps!: GridModel.IGrid;
 
     @Input('props') set props(value: GridModel.IGrid) {
+        const data = value.column.map((item) => {
+            return {
+                field: item.field,
+                header: item.headerName,
+            }
+        });
+
+        console.log(data);
+
         this.GridProps = value;
     };
 

@@ -11,5 +11,6 @@ export namespace LookupModel {
         filter: FilterModel.IOffcanvasFilterDatasource[];
         selectedField: string;
         selectedValue?: string;
+        callback?: (data: any) => void;
     }
 }

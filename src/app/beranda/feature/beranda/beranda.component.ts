@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { MenuItem } from 'primeng/api';
+import { LoginModel } from 'src/app/@shared/models/authentication/authentication.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
+import { AuthenticationService } from 'src/app/@shared/services/authentication/authentication.service';
 import { MenuAction } from 'src/app/@shared/state/menu';
 
 @Component({
@@ -11,13 +13,18 @@ import { MenuAction } from 'src/app/@shared/state/menu';
 })
 export class BerandaComponent implements OnInit {
 
+    UserData: LoginModel.ILoginResponse;
+
     DashboardProps: DashboardModel.IDashboard;
 
     MainMenu: MenuItem[] = [];
 
     constructor(
-        private _store: Store
+        private _store: Store,
+        private _authenticationService: AuthenticationService,
     ) {
+        this.UserData = this._authenticationService.userData;
+
         this.DashboardProps = {
             title: 'Beranda',
             button_navigation: [],

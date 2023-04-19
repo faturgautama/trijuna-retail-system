@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { ButtonNavigationComponent } from './button/button-navigation/button-navigation.component';
 import { ButtonModule } from "primeng/button";
 import { MenubarModule } from 'primeng/menubar';
+import { MenuModule } from 'primeng/menu';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -24,6 +25,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TabViewModule } from 'primeng/tabview';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TableModule } from 'primeng/table';
 
 import { ButtonCustomComponent } from './button/button-custom/button-custom.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
@@ -37,6 +39,7 @@ import { OffcanvasFilterComponent } from './filter/offcanvas-filter/offcanvas-fi
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { LookupComponent } from './lookup/lookup.component';
 import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component';
+import { PrimeGridComponent } from './prime-grid/prime-grid.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +56,7 @@ import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component'
         BreadcrumbsComponent,
         LookupComponent,
         FormDialogComponent,
+        PrimeGridComponent,
     ],
     imports: [
         CommonModule,
@@ -79,7 +83,9 @@ import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component'
         CheckboxModule,
         RadioButtonModule,
         TabViewModule,
-        InputTextareaModule
+        InputTextareaModule,
+        MenuModule,
+        TableModule
     ],
     exports: [
         ButtonNavigationComponent,
@@ -93,7 +99,8 @@ import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component'
         OffcanvasFilterComponent,
         LookupComponent,
         FormDialogComponent,
-        TabViewModule
+        TabViewModule,
+        PrimeGridComponent,
     ],
     providers: []
 })

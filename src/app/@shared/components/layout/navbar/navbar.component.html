@@ -7,15 +7,16 @@
             </div>
         </ng-template>
         <ng-template pTemplate="end">
-            <div class="flex items-center gap-10 mr-5">
-                <span class="text-sm">
-                    <i class="pi pi-user text-sm mr-1"></i>
-                    John Doe
+            <div class="flex items-center gap-10 mr-">
+                <span (click)="MenuUser.toggle($event)" class="text-sm">
+                    <i class="pi pi-user mr-1" style="font-size:13px"></i>
+                    {{ UserData.nama | titlecase }}
+                    <i class="pi pi-angle-down mr-1" style="font-size:13px"></i>
                 </span>
-                <span class="text-sm">
-                    <i class="pi pi-sign-out text-sm"></i>
-                </span>
+
+                <p-menu #MenuUser [model]="userMenu" [popup]="true"></p-menu>
             </div>
+
         </ng-template>
     </p-menubar>
 </div>
