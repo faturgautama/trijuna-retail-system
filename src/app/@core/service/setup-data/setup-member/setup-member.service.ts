@@ -3,7 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Observable, map } from 'rxjs';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { SetupMemberModel } from 'src/app/@shared/models/setup-data/setup-member.model';
-import { HttpRequestService } from 'src/app/@shared/services/http-request/http-request.service';
+import { HttpRequestService } from '../../http-request/http-request.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

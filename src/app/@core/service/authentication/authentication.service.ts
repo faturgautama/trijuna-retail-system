@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestService } from '../http-request/http-request.service';
-import { LoginModel } from '../../models/authentication/authentication.model';
+import { LoginModel } from '../../../@shared/models/authentication/authentication.model';
 import { Observable, map, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { CookiesUtils } from '../../utils/cookies.utils';
+import { CookiesUtils } from '../../../@shared/utils/cookies.utils';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

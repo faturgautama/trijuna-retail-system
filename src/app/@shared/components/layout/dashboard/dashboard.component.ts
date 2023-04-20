@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
-import { HttpRequestService } from 'src/app/@shared/services/http-request/http-request.service';
 import { LoadingDialogComponent } from '../../dialog/loading-dialog/loading-dialog.component';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { HttpRequestService } from 'src/app/@core/service/http-request/http-request.service';
 
 @Component({
     selector: 'app-dashboard',

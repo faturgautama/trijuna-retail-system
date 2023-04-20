@@ -43,6 +43,6 @@
             </div>
         </div>
 
-        <app-grid [props]="GridProps" (rowDoubleClicked)="handleSelectData($event)"></app-grid>
+        <app-grid #Grid [props]="GridProps" (rowDoubleClicked)="handleSelectData($event)"></app-grid>
     </div>
 </p-dialog>

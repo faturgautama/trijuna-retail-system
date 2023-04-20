@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 import { MenuItem } from 'primeng/api';
 import { LoginModel } from 'src/app/@shared/models/authentication/authentication.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
-import { AuthenticationService } from 'src/app/@shared/services/authentication/authentication.service';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { MenuAction } from 'src/app/@shared/state/menu';
 
 @Component({

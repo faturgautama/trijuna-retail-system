@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GridModel } from '../../models/components/grid.model';
 import { ColDef, ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { GridService } from 'src/app/@core/service/components/grid/grid.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-grid',
@@ -9,24 +11,7 @@ import { ColDef, ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
 })
 export class GridComponent {
 
-    GridProps!: GridModel.IGrid;
-
-    @Input('props') set props(value: GridModel.IGrid) {
-        const data = value.column.map((item) => {
-            return {
-                field: item.field,
-                header: item.headerName,
-            }
-        });
-
-        console.log(data);
-
-        this.GridProps = value;
-    };
-
-    get props() {
-        return this.GridProps;
-    }
+    @Input('props') props!: GridModel.IGrid;
 
     @Output('cellClicked') cellClicked = new EventEmitter<any>();
 
@@ -42,21 +27,28 @@ export class GridComponent {
 
     gridApi!: GridApi;
 
-    private gridColumnApi!: ColumnApi;
+    gridColumnApi!: ColumnApi;
 
     gridToolbar: GridModel.IGridToolbar[] = [];
 
-    constructor() {
-        this.props = {
-            column: [],
-            dataSource: [],
-            height: '400px',
-            toolbar: [],
-            showPaging: false,
-        };
-    };
+    constructor(
+        private gridService: GridService,
+    ) { };
 
     onGridReady(args: GridReadyEvent): void {
+        this.gridApi = args.api;
+
+        this.gridColumnApi = args.columnApi;
+
+        const column = this.props.column.map((item) => {
+            return {
+                id: item.field,
+                ...item
+            }
+        });
+
+        this.props.column = column;
+
         if (this.props.toolbar?.length) {
             this.props.toolbar.forEach((item) => {
                 let icon = "";
@@ -84,7 +76,7 @@ export class GridComponent {
                     icon: icon
                 });
             });
-        }
+        };
     }
 
     onCellClicked(args: any): void {
@@ -97,5 +89,20 @@ export class GridComponent {
 
     onToolbarClicked(args: GridModel.IGridToolbar): void {
         this.toolbarClicked.emit(args);
+    }
+
+    onCellFinishEditing(args: any): void {
+        const index = args.node.rowIndex;
+
+        const data = JSON.parse(JSON.stringify(args.data));
+        const field = args.colDef.id;
+
+        data[field] = args.newValue ? args.newValue : args.oldValue;
+
+        const dataSources = JSON.parse(JSON.stringify(this.props.dataSource));
+        dataSources[index] = data;
+
+        this.props.dataSource = dataSources;
+        this.gridApi.setRowData(dataSources);
     }
 }

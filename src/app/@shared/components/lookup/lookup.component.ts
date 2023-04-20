@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { LookupModel } from '../../models/components/lookup.model';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { HttpRequestService } from '../../services/http-request/http-request.service';
 import { FilterModel } from '../../models/components/filter.model';
 import { GridModel } from '../../models/components/grid.model';
+import { GridComponent } from '../grid/grid.component';
+import { GridService } from 'src/app/@core/service/components/grid/grid.service';
+import { HttpRequestService } from 'src/app/@core/service/http-request/http-request.service';
 
 @Component({
     selector: 'app-lookup',
@@ -18,12 +20,15 @@ export class LookupComponent implements OnInit {
 
     FormLookup: FormGroup;
 
+    @ViewChild('Grid') Grid!: GridComponent;
+
     GridProps: GridModel.IGrid;
 
     @Output('onSelectData') onSelectData = new EventEmitter<any>();
 
     constructor(
         private _formBuilder: FormBuilder,
+        private _gridService: GridService,
         private _httpRequestService: HttpRequestService,
     ) {
         this.FormLookup = this._formBuilder.group({
@@ -40,7 +45,6 @@ export class LookupComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.props);
         this.GridProps.column = this.props.columns;
     }
 

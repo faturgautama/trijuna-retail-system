@@ -6,7 +6,7 @@ import { CustomFormComponent } from 'src/app/@shared/components/custom-form/cust
 import { LoadingDialogComponent } from 'src/app/@shared/components/dialog/loading-dialog/loading-dialog.component';
 import { ButtonModel } from 'src/app/@shared/models/components/button.model';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
-import { AuthenticationService } from 'src/app/@shared/services/authentication/authentication.service';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 
 @Component({
     selector: 'app-login',
@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._authenticationService.checkOffline();
     }
 
     handleClickButtonLogin(args: string): void {

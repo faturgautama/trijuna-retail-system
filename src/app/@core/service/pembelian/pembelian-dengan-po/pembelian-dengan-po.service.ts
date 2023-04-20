@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { PembelianDenganPoModel } from 'src/app/@shared/models/pembelian/pembelian-dengan-po.model';
-import { HttpRequestService } from 'src/app/@shared/services/http-request/http-request.service';
 import { environment } from 'src/environments/environment';
+import { HttpRequestService } from '../../http-request/http-request.service';
 
 @Injectable({
     providedIn: 'root'

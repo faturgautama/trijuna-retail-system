@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MenuItem, MessageService } from 'primeng/api';
 import { LoginModel } from 'src/app/@shared/models/authentication/authentication.model';
-import { AuthenticationService } from 'src/app/@shared/services/authentication/authentication.service';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { MenuAction } from 'src/app/@shared/state/menu';
 import { CookiesUtils } from 'src/app/@shared/utils/cookies.utils';
 

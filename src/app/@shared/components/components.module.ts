@@ -39,7 +39,6 @@ import { OffcanvasFilterComponent } from './filter/offcanvas-filter/offcanvas-fi
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { LookupComponent } from './lookup/lookup.component';
 import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component';
-import { PrimeGridComponent } from './prime-grid/prime-grid.component';
 
 @NgModule({
     declarations: [
@@ -56,7 +55,6 @@ import { PrimeGridComponent } from './prime-grid/prime-grid.component';
         BreadcrumbsComponent,
         LookupComponent,
         FormDialogComponent,
-        PrimeGridComponent,
     ],
     imports: [
         CommonModule,
@@ -100,7 +98,6 @@ import { PrimeGridComponent } from './prime-grid/prime-grid.component';
         LookupComponent,
         FormDialogComponent,
         TabViewModule,
-        PrimeGridComponent,
     ],
     providers: []
 })

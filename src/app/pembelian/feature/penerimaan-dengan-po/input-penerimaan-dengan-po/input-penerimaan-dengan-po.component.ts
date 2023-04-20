@@ -33,6 +33,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
 
     GridProps: GridModel.IGrid = {} as any;
     GridSelectedData: PembelianDenganPoModel.IPembelianDenganPoDetail = {} as any;
+    GridDatasource: any[] = [];
 
     PrimeGridProps: GridModel.IPrimeGrid = {} as any;
 
@@ -217,7 +218,9 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
                     valueGetter: params => { return params.data.isi },
                     valueSetter: params => {
-                        params.data.isi = params.newValue;
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.isi = params.newValue;
+                        params.data = data;
                         return true;
                     }
                 },
@@ -250,18 +253,18 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                 { field: 'kode_satuan', header: 'SATUAN', width: 150, sortable: true, resizable: true },
                 {
                     field: 'isi', header: 'ISI', width: 200, sortable: true, resizable: true, editable: true,
-                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) },
                 },
-                { field: 'qty', header: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'harga_order', header: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'diskon_persen_1', header: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_1', header: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'diskon_persen_2', header: 'DISKON 2 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_2', header: 'DISKON 2 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'diskon_persen_3', header: 'DISKON 3 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_3', header: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'sub_total', header: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'qty_bonus', header: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'qty', header: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) } },
+                { field: 'harga_order', header: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
+                { field: 'diskon_persen_1', header: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
+                { field: 'diskon_nominal_1', header: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
+                { field: 'diskon_persen_2', header: 'DISKON 2 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) } },
+                { field: 'diskon_nominal_2', header: 'DISKON 2 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
+                { field: 'diskon_persen_3', header: 'DISKON 3 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e) : e } },
+                { field: 'diskon_nominal_3', header: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
+                { field: 'sub_total', header: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
+                { field: 'qty_bonus', header: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) } },
                 { field: 'nama_bonus', header: 'NAMA BONUS', width: 200, sortable: true, resizable: true }
             ],
             dataSource: [],
@@ -350,8 +353,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                 })
             )
             .subscribe((result) => {
-                this.PrimeGridProps.dataSource = result;
-
+                this.GridProps.dataSource = result;
                 this.onCountFormFooter();
             })
     }
