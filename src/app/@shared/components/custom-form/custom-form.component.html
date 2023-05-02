@@ -30,7 +30,7 @@
                     <p-dropdown *ngIf="item.type == 'select'" appendTo="body" [id]="item.id"
                         formControlName="{{ item.id }}" [options]="item.select_props!" optionValue="value"
                         optionLabel="name" styleClass="w-full p-inputtext-sm" [autoDisplayFirst]="false" [filter]="true"
-                        [disabled]="item.status == 'readonly'">
+                        [disabled]="item.status == 'readonly'" (onChange)="handleChangeDropdown(item, $event)">
                     </p-dropdown>
 
                     <!-- Numeric -->

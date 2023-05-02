@@ -112,6 +112,7 @@ export namespace SetupBarangModel {
         id_brang_satuan: number
         id_barang: number
         id_satuan: number
+        isi?: number
         kode_satuan: string
         nama_satuan: string
         created_by: string

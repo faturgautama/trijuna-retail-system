@@ -2,11 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
+import { Dropdown, DropdownItem } from 'primeng/dropdown';
 import { map } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
+import { CustomDropdownComponent } from 'src/app/@shared/components/custom-dropdown/custom-dropdown.component';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
+import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
+import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { PembelianDenganPoModel } from 'src/app/@shared/models/pembelian/pembelian-dengan-po.model';
 import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
@@ -33,9 +37,11 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
 
     GridProps: GridModel.IGrid = {} as any;
     GridSelectedData: PembelianDenganPoModel.IPembelianDenganPoDetail = {} as any;
+    GridSelectedIndex: number = 0;
     GridDatasource: any[] = [];
 
-    PrimeGridProps: GridModel.IPrimeGrid = {} as any;
+    @ViewChild('FormDialogSatuan') FormDialogSatuan!: FormDialogComponent;
+    FormDialogSatuanProps: DialogModel.IFormDialog;
 
     constructor(
         private _store: Store,
@@ -212,19 +218,36 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
-                { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
                 {
-                    field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, editable: true,
+                    field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true,
+                    onCellClicked: (args: any) => {
+                        this.GridSelectedIndex = args.rowIndex;
+
+                        this.FormDialogSatuan.onOpenFormDialog();
+
+                        const select_props = args.data.satuan.map((item: any) => {
+                            return {
+                                name: item.kode_satuan,
+                                value: item.kode_satuan,
+                                isi: item.isi,
+                            }
+                        });
+
+                        this.FormDialogSatuan.CustomForm.props.fields[0].select_props = select_props;
+                    }
+                },
+                { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, },
+                {
+                    field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, editable: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
-                    valueGetter: params => { return params.data.isi },
+                    valueGetter: params => { return params.data.qty },
                     valueSetter: params => {
                         const data = JSON.parse(JSON.stringify(params.data));
-                        data.isi = params.newValue;
+                        data.qty = params.newValue;
                         params.data = data;
                         return true;
                     }
                 },
-                { field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 { field: 'harga_order', headerName: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
@@ -234,43 +257,53 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                 { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'qty_bonus', headerName: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true }
+                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true },
+                {
+                    field: 'biaya_barcode', headerName: 'BIAYA BARCODE', width: 200, sortable: true, resizable: true, editable: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.biaya_barcode },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.biaya_barcode = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
             ],
             dataSource: [],
             height: "250px",
             showPaging: false,
         };
 
-        this.PrimeGridProps = {
-            column: [
-                { field: 'urut', header: 'URUT', width: 120, sortable: true, resizable: true },
-                { field: 'id_pemesanan', header: 'ID PEMESANAN', width: 350, sortable: true, resizable: true, hide: true, },
-                { field: 'id_pemesanan_detail', header: 'ID PEMESANAN DETAIL', width: 350, sortable: true, resizable: true, hide: true, },
-                { field: 'id_barang', header: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
-                { field: 'nama_barang', header: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
-                { field: 'barcode', header: 'BARCODE', width: 150, sortable: true, resizable: true },
-                { field: 'banyak', header: 'BANYAK', width: 150, sortable: true, resizable: true },
-                { field: 'kode_satuan', header: 'SATUAN', width: 150, sortable: true, resizable: true },
-                {
-                    field: 'isi', header: 'ISI', width: 200, sortable: true, resizable: true, editable: true,
-                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) },
-                },
-                { field: 'qty', header: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) } },
-                { field: 'harga_order', header: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
-                { field: 'diskon_persen_1', header: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
-                { field: 'diskon_nominal_1', header: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
-                { field: 'diskon_persen_2', header: 'DISKON 2 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) } },
-                { field: 'diskon_nominal_2', header: 'DISKON 2 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
-                { field: 'diskon_persen_3', header: 'DISKON 3 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e) : e } },
-                { field: 'diskon_nominal_3', header: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
-                { field: 'sub_total', header: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e, 'Rp. ') } },
-                { field: 'qty_bonus', header: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e) } },
-                { field: 'nama_bonus', header: 'NAMA BONUS', width: 200, sortable: true, resizable: true }
-            ],
-            dataSource: [],
-            height: "250px",
-            showPaging: false,
-        };
+        this.FormDialogSatuanProps = {
+            title: 'Satuan',
+            type: 'edit',
+            form_props: {
+                id: 'form_edit_satuan',
+                is_inline: true,
+                fields: [
+                    {
+                        id: 'kode_satuan',
+                        label: 'Satuan',
+                        status: 'insert',
+                        type: 'select',
+                        select_props: [],
+                        select_callback: (data: any) => {
+                            this.FormDialogSatuan.CustomForm.handleSetFieldValue('isi', data.isi);
+                        },
+                        required: true,
+                    },
+                    {
+                        id: 'isi',
+                        label: 'Isi',
+                        status: 'readonly',
+                        type: 'string',
+                        required: true,
+                    },
+                ],
+                custom_class: 'grid-rows-2'
+            }
+        }
     }
 
     ngOnInit(): void {
@@ -362,6 +395,37 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
         this.GridSelectedData = args;
     }
 
+    handleSubmitFormSatuan(args: any): void {
+        const gridDatasource = JSON.parse(JSON.stringify(this.GridProps.dataSource));
+
+        gridDatasource[this.GridSelectedIndex].kode_satuan = args.kode_satuan;
+        gridDatasource[this.GridSelectedIndex].isi = args.isi;
+
+        const banyak = parseFloat(gridDatasource[this.GridSelectedIndex].banyak);
+
+        gridDatasource[this.GridSelectedIndex].qty = banyak * args.isi;
+
+        gridDatasource[this.GridSelectedIndex].sub_total = gridDatasource[this.GridSelectedIndex].qty * parseFloat(gridDatasource[this.GridSelectedIndex].harga_order);
+
+        this.GridProps.dataSource = gridDatasource;
+
+        this.FormDialogSatuan.onCloseFormDialog();
+
+        this.onCountFormFooter();
+    }
+
+    onCellFinishEditing(args: any[]): void {
+        args = args.filter((data) => {
+            data.harga_order = parseFloat(data.harga_order);
+            data.sub_total = parseFloat(data.qty) * data.harga_order;
+
+            return data;
+        });
+
+        this.GridProps.dataSource = args;
+        this.onCountFormFooter();
+    }
+
     handleChangeDiskonFooter(value: number): void {
         const diskonNominalFooter = this.CustomFormFooter.handleGetFieldValue('sub_total1') * (value / 100);
         this.CustomFormFooter.handleSetFieldValue('diskon_nominal', diskonNominalFooter);
@@ -395,21 +459,19 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
 
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
-        console.log(payload);
+        this._store.dispatch(new PembelianDenganPoAction.Save(payload))
+            .subscribe((result) => {
+                if (result.pembelian_dengan_po.entities.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
 
-        // this._store.dispatch(new PembelianDenganPoAction.Save(payload))
-        //     .subscribe((result) => {
-        //         if (result.pemesanan_po.entities.success) {
-        //             this._messageService.clear();
-        //             this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
+                    this.CustomForm.handleResetForm();
 
-        //             this.CustomForm.handleResetForm();
-
-        //             setTimeout(() => {
-        //                 this._router.navigate(['pembelian/pemesanan-po/history']);
-        //             }, 1500);
-        //         }
-        //     });
+                    setTimeout(() => {
+                        this._router.navigate(['pembelian/penerimaan-dengan-po/history']);
+                    }, 1500);
+                }
+            });
     }
 }
 

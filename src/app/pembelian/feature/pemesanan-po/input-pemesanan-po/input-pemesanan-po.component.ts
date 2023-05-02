@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { timeStamp } from 'console';
 import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -11,6 +12,7 @@ import { DashboardModel } from 'src/app/@shared/models/components/dashboard.mode
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { PemesananPoModel } from 'src/app/@shared/models/pembelian/pemesanan-po.model';
+import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
 import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
 import { SetupSatuanModel } from 'src/app/@shared/models/setup-data/setup-satuan.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
@@ -38,6 +40,7 @@ export class InputPemesananPoComponent implements OnInit {
     GridSelectedData: PemesananPoModel.IPemesananPoDetail = {} as any;
 
     // ** For Modal Dialog Detail
+    Banyak: number = 0;
     Qty: number = 0;
     HargaOrder: number = 0;
     Diskon1Persen: number = 0;
@@ -171,7 +174,10 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Barang',
                             selectedField: 'nama_barang',
                             selectedValue: 'id_barang',
-                            url: `${environment.endpoint}/barang/by_param`
+                            url: `${environment.endpoint}/barang/by_param`,
+                            callback: (data) => {
+                                this.onGetSatuan(data.satuan);
+                            }
                         },
                         lookup_set_value_field: ['barcode', 'nama_barang'],
                         required: true,
@@ -198,6 +204,9 @@ export class InputPemesananPoComponent implements OnInit {
                         status: 'insert',
                         type: 'numeric',
                         required: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeBanyak(data);
+                        }
                     },
                     {
                         id: 'kode_satuan',
@@ -206,12 +215,15 @@ export class InputPemesananPoComponent implements OnInit {
                         type: 'select',
                         select_props: [],
                         required: true,
+                        select_callback: (data) => {
+                            this.onChangeSatuan(data);
+                        }
                     },
                     {
                         id: 'isi',
                         label: 'Isi',
-                        status: 'insert',
-                        type: 'numeric',
+                        status: 'readonly',
+                        type: 'string',
                         required: true,
                     },
                     {
@@ -407,7 +419,6 @@ export class InputPemesananPoComponent implements OnInit {
     ngOnInit(): void {
         this.onGetLokasi();
         this.onGetWarehouse();
-        this.onGetSatuan();
     }
 
     handleClickButtonNav(args: string): void {
@@ -493,29 +504,30 @@ export class InputPemesananPoComponent implements OnInit {
         }
     }
 
-    onGetSatuan(): void {
-        this._store.dispatch(new SetupSatuanAction.GetAll())
-            .pipe(
-                map((result) => {
-                    if (result.setup_satuan.entities.success) {
-                        return result.setup_satuan.entities.data;
-                    } else {
-                        return result;
-                    }
-                })
-            )
-            .subscribe((result: SetupSatuanModel.ISetupSatuan[]) => {
-                const index = this.FormDialog.CustomForm.props.fields.findIndex((item) => {
-                    return item.id == 'kode_satuan'
-                });
+    onGetSatuan(data: SetupBarangModel.ISetupBarangSatuan[]): void {
+        const index = this.FormDialog.CustomForm.props.fields.findIndex((item) => {
+            return item.id == 'kode_satuan'
+        });
 
-                this.FormDialog.CustomForm.props.fields[index].select_props = result.map((item) => {
-                    return {
-                        name: item.nama_satuan,
-                        value: item.kode_satuan
-                    }
-                });
-            })
+        this.FormDialog.CustomForm.props.fields[index].select_props = data.map((item) => {
+            return {
+                name: item.nama_satuan,
+                value: item.kode_satuan,
+                isi: item.isi,
+            }
+        });
+    }
+
+    onChangeSatuan(data: SetupBarangModel.ISetupBarangSatuan): void {
+        this.FormDialog.CustomForm.handleSetFieldValue('isi', data.isi);
+
+        this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * data.isi!));
+
+        this.Qty = (this.Banyak * data.isi!)
+    }
+
+    handleChangeBanyak(value: number): void {
+        this.Banyak = value;
     }
 
     handleChangeQty(value: number): void {
@@ -524,7 +536,6 @@ export class InputPemesananPoComponent implements OnInit {
 
     handleChangeHargaOrder(value: number): void {
         this.HargaOrder = value;
-        console.log(this.Qty * this.HargaOrder);
         this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaOrder));
     }
 

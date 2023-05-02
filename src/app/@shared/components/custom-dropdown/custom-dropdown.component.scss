@@ -1,0 +1,15 @@
+#primeNgDropdown {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+
+    .p-dropdown {
+        width: 100% !important;
+        height: 32px;
+
+        span {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

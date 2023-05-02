@@ -1,5 +1,6 @@
 export class HttpRequestBaseModel {
     success: boolean;
+    status?: boolean;
     message: string;
     data: any;
 

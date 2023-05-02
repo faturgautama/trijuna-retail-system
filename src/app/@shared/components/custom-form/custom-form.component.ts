@@ -87,6 +87,18 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
         props.numeric_callback?.(parseInt(parser));
     }
 
+    handleChangeDropdown(props: CustomFormModel.IFields, args: any): void {
+        const selected = props.select_props?.filter((item) => {
+            if (item.value == args.value) {
+                return item;
+            }
+        });
+
+        const data = selected!.length > 1 ? selected![0] : (selected!.length < 1 ? [] : selected![0]);
+
+        props.select_callback?.(data);
+    }
+
     handleSetFieldValue(id: string, value: any): void {
         this.CustomForms.get(id)?.setValue(value);
     }

@@ -39,6 +39,7 @@ import { OffcanvasFilterComponent } from './filter/offcanvas-filter/offcanvas-fi
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { LookupComponent } from './lookup/lookup.component';
 import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component';
+import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.component';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component'
         BreadcrumbsComponent,
         LookupComponent,
         FormDialogComponent,
+        CustomDropdownComponent,
     ],
     imports: [
         CommonModule,

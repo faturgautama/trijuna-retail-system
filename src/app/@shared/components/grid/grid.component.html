@@ -8,8 +8,8 @@
     <ag-grid-angular [style.width]="'100%'" [style.height]="props.height"
         class="ag-theme-alpine {{ props.toolbar?.length ? 'with_toolbar' : 'no_toolbar'}}" [columnDefs]="props.column"
         [headerHeight]="40" [defaultColDef]="defaultColDef" [rowData]="props.dataSource" [rowSelection]="'single'"
-        [animateRows]="true" [pagination]="props.showPaging" (gridReady)="onGridReady($event)"
-        (cellClicked)="onCellClicked($event)" (rowDoubleClicked)="onRowDoubleClicked($event)"
-        (cellEditingStopped)="onCellFinishEditing($event)">
+        [frameworkComponents]="frameworkComponents" [animateRows]="true" [pagination]="props.showPaging"
+        (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)"
+        (rowDoubleClicked)="onRowDoubleClicked($event)" (cellEditingStopped)="onCellFinishEditing($event)">
     </ag-grid-angular>
 </div>

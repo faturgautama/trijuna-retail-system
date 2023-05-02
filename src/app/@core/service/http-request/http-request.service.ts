@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, map, retry } from 'rxjs';
-import { HttpRequestBaseModel } from '../../models/shared/http-request-base.model';
-import { MessageService } from 'primeng/api';
+import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
+import { HttpRequestBaseModel } from 'src/app/@shared/models/shared/http-request-base.model';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +23,13 @@ export class HttpRequestService {
             .pipe(
                 map((result) => {
                     this.ToggleLoading.next(false);
-                    return result;
+
+                    if (result.success || result.status) {
+                        return result;
+                    } else {
+                        this.handlingError200(result.message);
+                        return result;
+                    }
                 }),
                 catchError((error) => {
                     this.handlingError(error);
@@ -40,7 +45,12 @@ export class HttpRequestService {
             .pipe(
                 map((result) => {
                     this.ToggleLoading.next(false);
-                    return result;
+                    if (result.success || result.status) {
+                        return result;
+                    } else {
+                        this.handlingError200(result.message);
+                        return result;
+                    }
                 }),
                 catchError((error) => {
                     this.handlingError(error);
@@ -56,7 +66,12 @@ export class HttpRequestService {
             .pipe(
                 map((result) => {
                     this.ToggleLoading.next(false);
-                    return result;
+                    if (result.success || result.status) {
+                        return result;
+                    } else {
+                        this.handlingError200(result.message);
+                        return result;
+                    }
                 }),
                 catchError((error) => {
                     this.handlingError(error);
@@ -72,13 +87,23 @@ export class HttpRequestService {
             .pipe(
                 map((result) => {
                     this.ToggleLoading.next(false);
-                    return result;
+                    if (result.success || result.status) {
+                        return result;
+                    } else {
+                        this.handlingError200(result.message);
+                        return result;
+                    }
                 }),
                 catchError((error) => {
                     this.handlingError(error);
                     throw error;
                 })
             )
+    }
+
+    private handlingError200(error: string): void {
+        console.warn(error);
+        this.ErrorToast.next({ show: true, message: "Oops.. Something Went Wrong!" });
     }
 
     private handlingError(error: HttpErrorResponse): void {

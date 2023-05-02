@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { PembelianDenganPoModel } from 'src/app/@shared/models/pembelian/pembelian-dengan-po.model';
 import { environment } from 'src/environments/environment';
@@ -24,6 +24,22 @@ export class PembelianDenganPoService {
 
     getDetailPemesanan(id_pemesanan: number): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/lookup_barang/${id_pemesanan}`, { filter: [] })
+            .pipe(
+                map((result) => {
+                    if (result.status) {
+                        result.data = result.data.filter((item: any) => {
+                            item.biaya_barcode = 0;
+                            item.nama_bonus = "test";
+
+                            return item;
+                        });
+
+                        return result;
+                    } else {
+                        return result;
+                    }
+                })
+            )
     }
 
     save(payload: PembelianDenganPoModel.SavePembelianDenganPo): Observable<any> {

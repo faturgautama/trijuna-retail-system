@@ -6,7 +6,8 @@
     </div>
 
     <div class="grid mb-3">
-        <app-grid [props]="GridProps" (cellClicked)="onCellClicked($event)">
+        <app-grid [props]="GridProps" (cellClicked)="onCellClicked($event)"
+            (cellFinishEdited)="onCellFinishEditing($event)">
         </app-grid>
     </div>
 
@@ -28,4 +29,7 @@
             </div>
         </div>
     </div>
+
+    <app-form-dialog #FormDialogSatuan [props]="FormDialogSatuanProps" (onSubmitForm)="handleSubmitFormSatuan($event)">
+    </app-form-dialog>
 </app-dashboard>

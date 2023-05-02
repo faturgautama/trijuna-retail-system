@@ -48,6 +48,7 @@ export class UtilityService {
     }
 
     JoinTwoObject(obj1: any, obj2: any): any {
+        console.log(obj1);
         return { ...obj1, ...obj2 };
     }
 }

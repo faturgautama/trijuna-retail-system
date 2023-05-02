@@ -3,6 +3,7 @@ import { GridModel } from '../../models/components/grid.model';
 import { ColDef, ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { GridService } from 'src/app/@core/service/components/grid/grid.service';
 import { BehaviorSubject } from 'rxjs';
+import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 
 @Component({
     selector: 'app-grid',
@@ -19,6 +20,8 @@ export class GridComponent {
 
     @Output('toolbarClicked') toolbarClicked = new EventEmitter<GridModel.IGridToolbar>();
 
+    @Output('cellFinishEdited') cellFinishEdited = new EventEmitter<any>();
+
     defaultColDef: ColDef = {
         sortable: true,
         filter: true,
@@ -30,6 +33,10 @@ export class GridComponent {
     gridColumnApi!: ColumnApi;
 
     gridToolbar: GridModel.IGridToolbar[] = [];
+
+    frameworkComponents = {
+        primeNgDropdown: CustomDropdownComponent,
+    };
 
     constructor(
         private gridService: GridService,
@@ -104,5 +111,7 @@ export class GridComponent {
 
         this.props.dataSource = dataSources;
         this.gridApi.setRowData(dataSources);
+
+        this.cellFinishEdited.emit(dataSources);
     }
 }
