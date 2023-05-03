@@ -16,4 +16,8 @@ export namespace PemesananPoAction {
         static readonly type = '[PEMESANAN PO] Save';
         constructor(public payload: PemesananPoModel.SavePemesananPo) { }
     }
+
+    export class GetCountStatusOpen {
+        static readonly type = '[PEMESANAN PO] Get Count Status Open';
+    }
 }

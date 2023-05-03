@@ -1,7 +1,7 @@
 <app-dashboard [props]="DashboardProps">
     <div class="flex h-full gap-8 px-3 py-3">
         <div class="w-6/12">
-            <div class="flex bg-gray-100 rounded-2xl px-3 pl-4 pr-10 justify-between items-center">
+            <div class="flex bg-gray-100 rounded-2xl px-3 pl-4 pr-10 justify-between items-center mb-5">
                 <span>
                     <p class="text-lg text-gray-700 mb-1">
                         Hai, {{ UserData.nama | titlecase }}
@@ -13,6 +13,32 @@
 
                 <img src="../../../../assets/image/undraw_job_offers_re_634p.svg" alt=""
                     style="height: 4rem; margin: 10px 0px">
+            </div>
+
+            <div class="flex gap-3">
+                <div class="w-4/12 border-2 border-solid border-blue-100 bg-gray-100 p-3 rounded-2xl text-center">
+                    <p class="text-gray-900 font-semibold mb-1 text-2xl">
+                        {{ CountPemesananPo }} ITEM
+                    </p>
+                    <p class="text-gray-700 text-sm mb-0">Pemesanan PO</p>
+                    <p class="text-gray-500 text-xs">Status OPEN</p>
+                </div>
+
+                <div class="w-4/12 border-2 border-solid border-blue-100 bg-gray-100 p-3 rounded-2xl text-center">
+                    <p class="text-gray-900 font-semibold mb-1 text-2xl">
+                        {{ CountPembelianDenganPo }} ITEM
+                    </p>
+                    <p class="text-gray-700 text-sm mb-0">Pembelian Dengan PO</p>
+                    <p class="text-gray-500 text-xs">Status OPEN</p>
+                </div>
+
+                <div class="w-4/12 border-2 border-solid border-blue-100 bg-gray-100 p-3 rounded-2xl text-center">
+                    <p class="text-gray-900 font-semibold mb-1 text-2xl">
+                        {{ CountPembelianTanpaPo }} ITEM
+                    </p>
+                    <p class="text-gray-700 text-sm mb-0">Pembelian Tanpa PO</p>
+                    <p class="text-gray-500 text-xs">Status OPEN</p>
+                </div>
             </div>
         </div>
         <div class="w-6/12">

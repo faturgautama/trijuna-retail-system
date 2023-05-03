@@ -5,6 +5,9 @@ import { LoginModel } from 'src/app/@shared/models/authentication/authentication
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { MenuAction } from 'src/app/@shared/state/menu';
+import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
+import { PembelianDenganPoAction } from 'src/app/@shared/state/pembelian/pembelian-dengan-po';
+import { PembelianTanpaPoAction } from 'src/app/@shared/state/pembelian/pembelian-tanpa-po';
 
 @Component({
     selector: 'app-beranda',
@@ -18,6 +21,10 @@ export class BerandaComponent implements OnInit {
     DashboardProps: DashboardModel.IDashboard;
 
     MainMenu: MenuItem[] = [];
+
+    CountPemesananPo: number = 0;
+    CountPembelianDenganPo: number = 0;
+    CountPembelianTanpaPo: number = 0;
 
     constructor(
         private _store: Store,
@@ -33,6 +40,7 @@ export class BerandaComponent implements OnInit {
 
     ngOnInit(): void {
         this.getMainMenu();
+        this.getOtherData();
     }
 
     getMainMenu(): void {
@@ -47,5 +55,22 @@ export class BerandaComponent implements OnInit {
             .subscribe((result) => {
                 // console.log(result);
             })
+    }
+
+    getOtherData(): void {
+        this._store.dispatch(new PemesananPoAction.GetCountStatusOpen())
+            .subscribe((result) => {
+                this.CountPemesananPo = result.pemesanan_po.entities;
+            });
+
+        this._store.dispatch(new PembelianDenganPoAction.GetCountStatusOpen())
+            .subscribe((result) => {
+                this.CountPembelianDenganPo = result.pembelian_dengan_po.entities;
+            });
+
+        this._store.dispatch(new PembelianTanpaPoAction.GetCountStatusOpen())
+            .subscribe((result) => {
+                this.CountPembelianTanpaPo = result.pembelian_tanpa_po.entities;
+            });
     }
 }

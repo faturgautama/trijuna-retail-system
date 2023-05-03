@@ -11,6 +11,18 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputPenerimaanDenganPoComponent } from './feature/penerimaan-dengan-po/input-penerimaan-dengan-po/input-penerimaan-dengan-po.component';
 import { HistoryPenerimaanDenganPoComponent } from './feature/penerimaan-dengan-po/history-penerimaan-dengan-po/history-penerimaan-dengan-po.component';
 import { DetailPenerimaanDenganPoComponent } from './feature/penerimaan-dengan-po/detail-penerimaan-dengan-po/detail-penerimaan-dengan-po.component';
+import { DetailPenerimaanTanpaPoComponent } from './feature/penerimaan-tanpa-po/detail-penerimaan-tanpa-po/detail-penerimaan-tanpa-po.component';
+import { InputPenerimaanTanpaPoComponent } from './feature/penerimaan-tanpa-po/input-penerimaan-tanpa-po/input-penerimaan-tanpa-po.component';
+import { HistoryPenerimaanTanpaPoComponent } from './feature/penerimaan-tanpa-po/history-penerimaan-tanpa-po/history-penerimaan-tanpa-po.component';
+import { InputPenerimaanKonsinyasiComponent } from './feature/penerimaan-konsinyasi/input-penerimaan-konsinyasi/input-penerimaan-konsinyasi.component';
+import { HistoryPenerimaanKonsinyasiComponent } from './feature/penerimaan-konsinyasi/history-penerimaan-konsinyasi/history-penerimaan-konsinyasi.component';
+import { DetailPenerimaanKonsinyasiComponent } from './feature/penerimaan-konsinyasi/detail-penerimaan-konsinyasi/detail-penerimaan-konsinyasi.component';
+import { InputReturPembelianComponent } from './feature/retur-pembelian/input-retur-pembelian/input-retur-pembelian.component';
+import { HistoryReturPembelianComponent } from './feature/retur-pembelian/history-retur-pembelian/history-retur-pembelian.component';
+import { DetailReturPembelianComponent } from './feature/retur-pembelian/detail-retur-pembelian/detail-retur-pembelian.component';
+import { DetailReturKonsinyasiComponent } from './feature/retur-konsinyasi/detail-retur-konsinyasi/detail-retur-konsinyasi.component';
+import { HistoryReturKonsinyasiComponent } from './feature/retur-konsinyasi/history-retur-konsinyasi/history-retur-konsinyasi.component';
+import { InputReturKonsinyasiComponent } from './feature/retur-konsinyasi/input-retur-konsinyasi/input-retur-konsinyasi.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +31,19 @@ import { DetailPenerimaanDenganPoComponent } from './feature/penerimaan-dengan-p
         DetailPemesananPoComponent,
         InputPenerimaanDenganPoComponent,
         HistoryPenerimaanDenganPoComponent,
-        DetailPenerimaanDenganPoComponent
+        DetailPenerimaanDenganPoComponent,
+        DetailPenerimaanTanpaPoComponent,
+        InputPenerimaanTanpaPoComponent,
+        HistoryPenerimaanTanpaPoComponent,
+        InputPenerimaanKonsinyasiComponent,
+        HistoryPenerimaanKonsinyasiComponent,
+        DetailPenerimaanKonsinyasiComponent,
+        InputReturPembelianComponent,
+        HistoryReturPembelianComponent,
+        DetailReturPembelianComponent,
+        DetailReturKonsinyasiComponent,
+        HistoryReturKonsinyasiComponent,
+        InputReturKonsinyasiComponent
     ],
     imports: [
         CommonModule,

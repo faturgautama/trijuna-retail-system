@@ -136,4 +136,17 @@ export namespace PembelianDenganPoModel {
         message!: string
         data!: IPembelianDenganPo
     }
+
+    export interface ValidasiPembelianDenganPo {
+        id_penerimaan: number
+        sub_total1: number
+        diskon_persen: number
+        diskon_nominal: number
+        sub_total2: number
+        ppn_nominal: number
+        pembulatan: number
+        total_transaksi: number
+        total_biaya_barcode: number
+        detail: SavePembelianDenganPoDetail[]
+    }
 }

@@ -139,6 +139,25 @@ export const menu: MenuItem[] = [
                 ]
             },
             {
+                id: 'retur-pembelian',
+                label: 'Retur Pembelian',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-retur-pembelian',
+                        label: 'Input Retur Pembelian',
+                        icon: "",
+                        routerLink: '/pembelian/retur-pembelian/input',
+                    },
+                    {
+                        id: 'history-retur-pembelian',
+                        label: 'History Retur Pembelian',
+                        icon: "",
+                        routerLink: '/pembelian/retur-pembelian/history',
+                    },
+                ]
+            },
+            {
                 id: 'konsinyasi',
                 label: 'Konsinyasi',
                 icon: "",
@@ -158,21 +177,21 @@ export const menu: MenuItem[] = [
                 ]
             },
             {
-                id: 'retur-pembelian',
-                label: 'Retur Pembelian',
+                id: 'retur-konsinyasi',
+                label: 'Retur Konsinyasi',
                 icon: "",
                 items: [
                     {
-                        id: 'input-retur-pembelian',
-                        label: 'Input Retur Pembelian',
+                        id: 'input-retur-konsinyasi',
+                        label: 'Input Retur Konsinyasi',
                         icon: "",
-                        routerLink: '/pembelian/retur-pembelian/add',
+                        routerLink: '/pembelian/retur-konsinyasi/input',
                     },
                     {
-                        id: 'history-retur-pembelian',
-                        label: 'History Retur Pembelian',
+                        id: 'history-retur-konsinyasi',
+                        label: 'History Retur Konsinyasi',
                         icon: "",
-                        routerLink: '/pembelian/retur-pembelian',
+                        routerLink: '/pembelian/retur-konsinyasi/history',
                     },
                 ]
             },

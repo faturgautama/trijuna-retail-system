@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { PemesananPoModel } from 'src/app/@shared/models/pembelian/pemesanan-po.model';
 import { HttpRequestService } from '../../http-request/http-request.service';
@@ -16,6 +16,23 @@ export class PemesananPoService {
 
     getAll(filter: FilterModel.IDynamicFilter[]): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/pembelian/get_by_param`, { filter: filter });
+    }
+
+    getCountStatusOpen(): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/pembelian/get_by_param`, { filter: [] })
+            .pipe(
+                map((result) => {
+                    let data = 0;
+
+                    result.data.forEach((item: any) => {
+                        if (item.status_pemesanan == 'OPEN') {
+                            data += 1;
+                        }
+                    });
+
+                    return data;
+                })
+            );
     }
 
     getById(id_pemesanan: number): Observable<any> {

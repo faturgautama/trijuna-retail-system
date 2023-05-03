@@ -49,7 +49,7 @@ export class DashboardComponent implements AfterViewInit {
                 if (index == (this._router.url.split("/").length - 1)) {
                     item = this.props.title;
                 } else {
-                    item = item.replace('-', " ");
+                    item = item.replace(/-/g, " ");
                 }
 
                 data.push(item);
@@ -67,7 +67,6 @@ export class DashboardComponent implements AfterViewInit {
     }
 
     handleClickButtonNav(id: string): void {
-
         this.onClickButtonNav.emit(id);
     }
 }

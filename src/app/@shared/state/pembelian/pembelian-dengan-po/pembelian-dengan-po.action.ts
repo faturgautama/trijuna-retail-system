@@ -26,4 +26,8 @@ export namespace PembelianDenganPoAction {
         static readonly type = '[PEMBELIAN DENGAN PO] Validasi';
         constructor(public payload: number) { }
     }
+
+    export class GetCountStatusOpen {
+        static readonly type = '[PEMBELIAN DENGAN PO] Get Count Status Open';
+    }
 }

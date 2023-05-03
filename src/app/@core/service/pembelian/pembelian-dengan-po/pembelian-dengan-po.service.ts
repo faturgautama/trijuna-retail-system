@@ -18,6 +18,23 @@ export class PembelianDenganPoService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/get_by_param`, { filter: filter });
     }
 
+    getCountStatusOpen(): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/get_by_param`, { filter: [] })
+            .pipe(
+                map((result) => {
+                    let data = 0;
+
+                    result.data.forEach((item: any) => {
+                        if (item.status_penerimaan == 'OPEN') {
+                            data += 1;
+                        }
+                    });
+
+                    return data;
+                })
+            );
+    }
+
     getById(id_pembelian: number): Observable<any> {
         return this._httpRequestService.getRequest(`${environment.endpoint}/penerimaan_dengan_po/get_by_id/${id_pembelian}`);
     }
@@ -29,7 +46,7 @@ export class PembelianDenganPoService {
                     if (result.status) {
                         result.data = result.data.filter((item: any) => {
                             item.biaya_barcode = 0;
-                            item.nama_bonus = "test";
+                            item.nama_bonus = "";
 
                             return item;
                         });
@@ -46,7 +63,7 @@ export class PembelianDenganPoService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/insert`, payload);
     }
 
-    validasi(id_penerimaan: number): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/validasi`, { id_penerimaan: id_penerimaan });
+    validasi(payload: PembelianDenganPoModel.ValidasiPembelianDenganPo): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/validasi`, payload);
     }
 }

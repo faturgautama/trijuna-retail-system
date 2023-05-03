@@ -23,7 +23,7 @@
 
                     <!-- Password -->
                     <p-password *ngIf="item.type == 'password'" [id]="item.id" formControlName="{{ item.id }}"
-                        [toggleMask]="true" styleClass="w-full p-inputtext-sm ">
+                        [toggleMask]="true" [feedback]="false" styleClass="w-full p-inputtext-sm ">
                     </p-password>
 
                     <!-- Dropdown -->

@@ -72,4 +72,19 @@ export class PemesananPoState {
                 })
             )
     }
+
+    @Action(PemesananPoAction.GetCountStatusOpen)
+    getCountStatusOpen(ctx: StateContext<PemesananPoStateModel>) {
+        return this._pemesananPoService.getCountStatusOpen()
+            .pipe(
+                tap((result) => {
+                    const state = ctx.getState();
+
+                    return ctx.setState({
+                        ...state,
+                        entities: result
+                    })
+                })
+            )
+    }
 }

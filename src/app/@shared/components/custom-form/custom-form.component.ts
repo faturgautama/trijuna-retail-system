@@ -67,7 +67,6 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
         const selectedValue = props.lookup_props?.selectedValue as any;
 
         if (props.id == props.lookup_props?.selectedValue) {
-            console.log("here");
             this.CustomForms.get(selectedValue)?.setValue(args[selectedValue]);
         } else {
             this.CustomForms.get(props.id)?.setValue(args[selectedValue]);

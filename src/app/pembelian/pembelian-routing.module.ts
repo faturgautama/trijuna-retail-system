@@ -6,6 +6,18 @@ import { DetailPemesananPoComponent } from "./feature/pemesanan-po/detail-pemesa
 import { HistoryPenerimaanDenganPoComponent } from "./feature/penerimaan-dengan-po/history-penerimaan-dengan-po/history-penerimaan-dengan-po.component";
 import { InputPenerimaanDenganPoComponent } from "./feature/penerimaan-dengan-po/input-penerimaan-dengan-po/input-penerimaan-dengan-po.component";
 import { DetailPenerimaanDenganPoComponent } from "./feature/penerimaan-dengan-po/detail-penerimaan-dengan-po/detail-penerimaan-dengan-po.component";
+import { HistoryPenerimaanTanpaPoComponent } from "./feature/penerimaan-tanpa-po/history-penerimaan-tanpa-po/history-penerimaan-tanpa-po.component";
+import { InputPenerimaanTanpaPoComponent } from "./feature/penerimaan-tanpa-po/input-penerimaan-tanpa-po/input-penerimaan-tanpa-po.component";
+import { DetailPenerimaanTanpaPoComponent } from "./feature/penerimaan-tanpa-po/detail-penerimaan-tanpa-po/detail-penerimaan-tanpa-po.component";
+import { HistoryPenerimaanKonsinyasiComponent } from "./feature/penerimaan-konsinyasi/history-penerimaan-konsinyasi/history-penerimaan-konsinyasi.component";
+import { InputPenerimaanKonsinyasiComponent } from "./feature/penerimaan-konsinyasi/input-penerimaan-konsinyasi/input-penerimaan-konsinyasi.component";
+import { DetailPenerimaanKonsinyasiComponent } from "./feature/penerimaan-konsinyasi/detail-penerimaan-konsinyasi/detail-penerimaan-konsinyasi.component";
+import { HistoryReturPembelianComponent } from "./feature/retur-pembelian/history-retur-pembelian/history-retur-pembelian.component";
+import { InputReturPembelianComponent } from "./feature/retur-pembelian/input-retur-pembelian/input-retur-pembelian.component";
+import { DetailReturPembelianComponent } from "./feature/retur-pembelian/detail-retur-pembelian/detail-retur-pembelian.component";
+import { HistoryReturKonsinyasiComponent } from "./feature/retur-konsinyasi/history-retur-konsinyasi/history-retur-konsinyasi.component";
+import { InputReturKonsinyasiComponent } from "./feature/retur-konsinyasi/input-retur-konsinyasi/input-retur-konsinyasi.component";
+import { DetailReturKonsinyasiComponent } from "./feature/retur-konsinyasi/detail-retur-konsinyasi/detail-retur-konsinyasi.component";
 
 const routes: Routes = [
     {
@@ -20,6 +32,34 @@ const routes: Routes = [
             { path: 'history', component: HistoryPenerimaanDenganPoComponent },
             { path: 'input', component: InputPenerimaanDenganPoComponent },
             { path: 'detail/:id', component: DetailPenerimaanDenganPoComponent }
+        ]
+    },
+    {
+        path: 'penerimaan-tanpa-po', children: [
+            { path: 'history', component: HistoryPenerimaanTanpaPoComponent },
+            { path: 'input', component: InputPenerimaanTanpaPoComponent },
+            { path: 'detail/:id', component: DetailPenerimaanTanpaPoComponent }
+        ]
+    },
+    {
+        path: 'konsinyasi', children: [
+            { path: 'history', component: HistoryPenerimaanKonsinyasiComponent },
+            { path: 'input', component: InputPenerimaanKonsinyasiComponent },
+            { path: 'detail/:id', component: DetailPenerimaanKonsinyasiComponent }
+        ]
+    },
+    {
+        path: 'retur-pembelian', children: [
+            { path: 'history', component: HistoryReturPembelianComponent },
+            { path: 'input', component: InputReturPembelianComponent },
+            { path: 'detail/:id', component: DetailReturPembelianComponent }
+        ]
+    },
+    {
+        path: 'retur-konsinyasi', children: [
+            { path: 'history', component: HistoryReturKonsinyasiComponent },
+            { path: 'input', component: InputReturKonsinyasiComponent },
+            { path: 'detail/:id', component: DetailReturKonsinyasiComponent }
         ]
     },
 ]

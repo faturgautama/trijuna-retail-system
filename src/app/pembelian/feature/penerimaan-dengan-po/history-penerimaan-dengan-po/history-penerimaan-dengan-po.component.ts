@@ -34,11 +34,11 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'nomor_pemesanan', headerName: 'NO. FAKTUR', width: 170, sortable: true, resizable: true },
-                { field: 'status_pemesanan', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
-                { field: 'tangal_expired_pemesanan', headerName: 'TGL. EXP PO', width: 170, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'tanggal_pemesanan', headerName: 'TGL. PEMESANAN', width: 170, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'tanggal_kirim', headerName: 'TGL. KIRIM', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'nomor_pemesanan', headerName: 'NO. PEMESANAN', width: 170, sortable: true, resizable: true },
+                { field: 'nomor_penerimaan', headerName: 'NO. PENERIMAAN', width: 170, sortable: true, resizable: true },
+                { field: 'status_penerimaan', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
+                { field: 'no_nota', headerName: 'NO. NOTA', width: 170, sortable: true, resizable: true },
+                { field: 'tanggal_nota', headerName: 'TGL. NOTA', width: 170, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
                 { field: 'kode_supplier', headerName: 'KODE SUPPLIER', width: 150, sortable: true, resizable: true },
                 { field: 'nama_supplier', headerName: 'NAMA SUPPLIER', width: 200, sortable: true, resizable: true },
                 { field: 'nama_lokasi', headerName: 'LOKASI KIRIM', width: 200, sortable: true, resizable: true },
@@ -94,7 +94,7 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['pembelian/pemesanan-po/input']);
+        this._router.navigate(['pembelian/penerimaan-dengan-po/input']);
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -107,7 +107,7 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
     }
 
     handleRowDoubleClicked(args: any): void {
-        this._router.navigate(['pembelian/penerimaan-dengan-po/detail', args.id_pemesanan]);
+        this._router.navigate(['pembelian/penerimaan-dengan-po/detail', args.id_penerimaan]);
     }
 
     handleToolbarClicked(args: any): void {

@@ -86,4 +86,19 @@ export class PembelianTanpaPoState {
                 })
             )
     }
+
+    @Action(PembelianTanpaPoAction.GetCountStatusOpen)
+    getCountStatusOpen(ctx: StateContext<PembelianTanpaPoStateModel>) {
+        return this._pembelianTanpaPoService.getCountStatusOpen()
+            .pipe(
+                tap((result) => {
+                    const state = ctx.getState();
+
+                    return ctx.setState({
+                        ...state,
+                        entities: result
+                    })
+                })
+            )
+    }
 }

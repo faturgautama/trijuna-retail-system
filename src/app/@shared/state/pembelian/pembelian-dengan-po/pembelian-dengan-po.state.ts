@@ -101,4 +101,19 @@ export class PembelianDenganPoState {
                 })
             )
     }
+
+    @Action(PembelianDenganPoAction.GetCountStatusOpen)
+    getCountStatusOpen(ctx: StateContext<PembelianDenganPoStateModel>) {
+        return this._pembelianDenganPoService.getCountStatusOpen()
+            .pipe(
+                tap((result) => {
+                    const state = ctx.getState();
+
+                    return ctx.setState({
+                        ...state,
+                        entities: result
+                    })
+                })
+            )
+    }
 }

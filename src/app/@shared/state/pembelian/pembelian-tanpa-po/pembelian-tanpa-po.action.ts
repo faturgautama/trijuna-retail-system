@@ -21,4 +21,8 @@ export namespace PembelianTanpaPoAction {
         static readonly type = '[PEMBELIAN TANPA PO] Validasi';
         constructor(public payload: number) { }
     }
+
+    export class GetCountStatusOpen {
+        static readonly type = '[PEMBELIAN TANPA PO] Get Count Status Open';
+    }
 }
