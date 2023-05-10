@@ -14,11 +14,9 @@ import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { PemesananPoModel } from 'src/app/@shared/models/pembelian/pemesanan-po.model';
 import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
 import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
-import { SetupSatuanModel } from 'src/app/@shared/models/setup-data/setup-satuan.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
 import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
 import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
-import { SetupSatuanAction } from 'src/app/@shared/state/setup-data/setup-satuan';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
 import { environment } from 'src/environments/environment';
 

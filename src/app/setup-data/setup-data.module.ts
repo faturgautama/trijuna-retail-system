@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { SetupDataRoutingModule } from "./setup-data-routing.module";
 import { CommonModule } from "@angular/common";
 import { ComponentsModule } from "../@shared/components/components.module";
-import { StateModule } from "../@shared/state/state.module";
 
 import { MessageService } from "primeng/api";
 

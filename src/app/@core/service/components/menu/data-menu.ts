@@ -203,9 +203,136 @@ export const menu: MenuItem[] = [
         icon: 'pi pi-truck',
         items: [
             {
-                id: 'mutasi-internal',
-                label: 'Retur Pembelian',
-                icon: ""
+                id: 'mutasi-warehouse',
+                label: 'Mutasi Warehouse',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-mutasi-warehouse',
+                        label: 'Input Mutasi Warehouse',
+                        icon: "",
+                        routerLink: '/inventory/mutasi-warehouse/input'
+                    },
+                    {
+                        id: 'history-mutasi-warehouse',
+                        label: 'History Mutasi Warehouse',
+                        icon: "",
+                        routerLink: '/inventory/mutasi-warehouse/history'
+                    },
+                ]
+            },
+            {
+                id: 'mutasi-lokasi',
+                label: 'Mutasi Lokasi',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-mutasi-lokasi',
+                        label: 'Input Mutasi Lokasi',
+                        icon: "",
+                        routerLink: '/inventory/mutasi-lokasi/input'
+                    },
+                    {
+                        id: 'history-mutasi-lokasi',
+                        label: 'History Mutasi Lokasi',
+                        icon: "",
+                        routerLink: '/inventory/mutasi-lokasi/history'
+                    },
+                ]
+            },
+            {
+                id: 'stok-opname',
+                label: 'Stok Opname',
+                icon: "",
+                items: [
+                    {
+                        id: 'setting-stok-opname',
+                        label: 'Setting Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/stok-opname/setting'
+                    },
+                    {
+                        id: 'input-stok-opname',
+                        label: 'Input Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/stok-opname/input'
+                    },
+                    {
+                        id: 'adjustment-stok-opname',
+                        label: 'Adjustment Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/stok-opname/adjustment'
+                    },
+                    {
+                        id: 'finalisasi-stok-opname',
+                        label: 'Adjustment Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/stok-opname/finalisasi'
+                    },
+                    {
+                        id: 'history-stok-opname',
+                        label: 'History Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/stok-opname/history'
+                    },
+                ]
+            },
+            {
+                id: 'assembly',
+                label: 'Assembly',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-assembly',
+                        label: 'Input Assembly',
+                        icon: "",
+                        routerLink: '/inventory/assembly/input'
+                    },
+                    {
+                        id: 'history-assembly',
+                        label: 'History Assembly',
+                        icon: "",
+                        routerLink: '/inventory/assembly/history'
+                    },
+                ]
+            },
+            {
+                id: 'repacking',
+                label: 'Repacking',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-repacking',
+                        label: 'Input Repacking',
+                        icon: "",
+                        routerLink: '/inventory/repacking/input'
+                    },
+                    {
+                        id: 'history-repacking',
+                        label: 'History Repacking',
+                        icon: "",
+                        routerLink: '/inventory/repacking/history'
+                    },
+                ]
+            },
+            {
+                id: 'pemusnahan-stok',
+                label: 'Pemusnahan Stok',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-pemusnahan-stok',
+                        label: 'Input Pemusnahan Stok',
+                        icon: "",
+                        routerLink: '/inventory/pemusnahan-stok/input'
+                    },
+                    {
+                        id: 'history-pemusnahan-stok',
+                        label: 'History Pemusnahan Stok',
+                        icon: "",
+                        routerLink: '/inventory/pemusnahan-stok/history'
+                    },
+                ]
             },
         ]
     },
@@ -213,6 +340,21 @@ export const menu: MenuItem[] = [
         id: 'penjualan',
         icon: 'pi pi-money-bill',
         label: 'Penjualan',
+        items: [
+            {
+                id: 'point-of-sales',
+                label: 'Point Of Sales',
+                icon: "",
+                items: [
+                    {
+                        id: 'point-of-sales',
+                        label: 'POS Kasir',
+                        icon: "",
+                        routerLink: '/pos/kasir'
+                    },
+                ]
+            },
+        ]
     },
     {
         id: 'finance',

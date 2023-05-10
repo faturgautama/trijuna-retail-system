@@ -33,6 +33,7 @@ export namespace SetupBarangModel {
         updated_by: number
         created_at: string
         updated_at: string
+        nama_satuan?: string;
     }
 
     export interface SaveSetupBarang {

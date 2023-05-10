@@ -21,7 +21,7 @@ export namespace FilterModel {
     }
 
     export interface IDynamicFilter {
-        filter: 'contain' | 'between';
+        filter: 'contain' | 'between' | 'equel';
         column: string;
         value: string;
         value2?: string;
