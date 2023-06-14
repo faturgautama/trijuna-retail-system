@@ -10,10 +10,15 @@
         </app-grid>
     </div>
 
-    <div class="flex w-full justify-end mt-5 mb-0">
+    <div class="flex w-full justify-between">
         <div class="flex w-4/12">
-            <div class="grid w-full">
-                <app-custom-form #CustomFormFooter [props]="FormInputFooter"></app-custom-form>
+            <div class="w-4/12">
+                <label for="keterangan">
+                    Keterangan
+                </label>
+            </div>
+            <div class="w-8/12">
+                <textarea #Keterangan rows="2" pInputTextarea class="w-full" [autoResize]="false"></textarea>
             </div>
         </div>
     </div>

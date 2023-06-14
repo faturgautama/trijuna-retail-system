@@ -7,11 +7,11 @@ import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 
 @Component({
-    selector: 'app-history-mutasi-warehouse',
-    templateUrl: './history-mutasi-warehouse.component.html',
-    styleUrls: ['./history-mutasi-warehouse.component.scss']
+    selector: 'app-history-mutasi-lokasi',
+    templateUrl: './history-mutasi-lokasi.component.html',
+    styleUrls: ['./history-mutasi-lokasi.component.scss']
 })
-export class HistoryMutasiWarehouseComponent implements OnInit {
+export class HistoryMutasiLokasiComponent implements OnInit {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -25,7 +25,7 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
         private _utilityService: UtilityService,
     ) {
         this.DashboardProps = {
-            title: 'History Mutasi Warehouse',
+            title: 'History Mutasi Lokasi',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],
@@ -96,7 +96,7 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['inventory/mutasi-warehouse/input']);
+        this._router.navigate(['inventory/mutasi-lokasi/input']);
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -109,7 +109,7 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
     }
 
     handleRowDoubleClicked(args: any): void {
-        this._router.navigate(['inventory/mutasi-warehouse/detail', args.id_mutasi]);
+        this._router.navigate(['inventory/mutasi-lokasi/detail', args.id_mutasi]);
     }
 
     handleToolbarClicked(args: any): void {

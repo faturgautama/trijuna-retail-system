@@ -108,6 +108,6 @@ export class HttpRequestService {
 
     private handlingError(error: HttpErrorResponse): void {
         this.ToggleLoading.next(false);
-        this.ErrorToast.next({ show: true, message: error.message });
+        this.ErrorToast.next({ show: true, message: `${error.status} ${error.statusText}` });
     }
 }

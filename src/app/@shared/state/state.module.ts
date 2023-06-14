@@ -4,11 +4,13 @@ import { environment } from "src/environments/environment";
 import { MenuState } from "./menu";
 import { SETUP_DATA_STATE } from "./setup-data";
 import { PEMBELIAN_STATE } from "./pembelian";
+import { INVENTORY_STATE } from "./inventory";
 
 const STATES = [
     MenuState,
     ...SETUP_DATA_STATE,
     ...PEMBELIAN_STATE,
+    ...INVENTORY_STATE,
 ];
 
 @NgModule({

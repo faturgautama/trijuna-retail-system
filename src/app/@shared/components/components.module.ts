@@ -60,6 +60,7 @@ import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.compo
     ],
     imports: [
         CommonModule,
+        StateModule.forRoot(),
         ButtonModule,
         MenubarModule,
         InputTextModule,
@@ -77,7 +78,6 @@ import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.compo
         ReactiveFormsModule,
         AvatarModule,
         ProgressSpinnerModule,
-        StateModule.forRoot(),
         AgGridModule,
         ChipModule,
         CheckboxModule,

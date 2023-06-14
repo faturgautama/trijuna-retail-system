@@ -36,7 +36,8 @@
                     <!-- Numeric -->
                     <p-inputNumber *ngIf="item.type == 'numeric' && !item.is_form_grouped"
                         formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm"
-                        (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'">
+                        (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'"
+                        [readonly]="item.status == 'readonly'">
                     </p-inputNumber>
 
                     <!-- Numeric Grouped -->

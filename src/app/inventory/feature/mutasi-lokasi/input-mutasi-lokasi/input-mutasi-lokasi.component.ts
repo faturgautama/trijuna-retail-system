@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
@@ -11,17 +11,20 @@ import { DashboardModel } from 'src/app/@shared/models/components/dashboard.mode
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
+import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
 import { MutasiWarehouseAction } from 'src/app/@shared/state/inventory/mutasi-warehouse';
+import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
 import { environment } from 'src/environments/environment';
 
 @Component({
-    selector: 'app-input-mutasi-warehouse',
-    templateUrl: './input-mutasi-warehouse.component.html',
-    styleUrls: ['./input-mutasi-warehouse.component.scss']
+    selector: 'app-input-mutasi-lokasi',
+    templateUrl: './input-mutasi-lokasi.component.html',
+    styleUrls: ['./input-mutasi-lokasi.component.scss']
 })
-export class InputMutasiWarehouseComponent implements OnInit {
+export default class InputMutasiLokasiComponent implements OnInit {
+
     DashboardProps: DashboardModel.IDashboard;
 
     FormInputHeader: CustomFormModel.IForm;
@@ -48,7 +51,7 @@ export class InputMutasiWarehouseComponent implements OnInit {
         private _utilityService: UtilityService,
     ) {
         this.DashboardProps = {
-            title: 'Input Mutasi Warehouse',
+            title: 'Input Mutasi Lokasi',
             button_navigation: [
                 { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                 { id: 'save', caption: 'Save', icon: 'pi pi-save text-xs' },
@@ -68,6 +71,24 @@ export class InputMutasiWarehouseComponent implements OnInit {
                     required: true,
                 },
                 {
+                    id: 'no_mutasi',
+                    label: 'No. Mutasi',
+                    status: 'insert',
+                    type: 'string',
+                    required: true,
+                },
+                {
+                    id: 'lokasi_asal',
+                    label: 'Lokasi Asal',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: true,
+                    select_callback: (data) => {
+                        this.onChangeWarehouseAsal(data);
+                    },
+                },
+                {
                     id: 'warehouse_asal',
                     label: 'Warehouse Asal',
                     status: 'insert',
@@ -79,6 +100,15 @@ export class InputMutasiWarehouseComponent implements OnInit {
                     },
                 },
                 {
+                    id: 'lokasi_tujuan',
+                    label: 'Lokasi Tujuan',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: true,
+                },
+
+                {
                     id: 'warehouse_tujuan',
                     label: 'Warehouse Tujuan',
                     status: 'insert',
@@ -86,9 +116,8 @@ export class InputMutasiWarehouseComponent implements OnInit {
                     select_props: [],
                     required: true,
                 },
-
             ],
-            custom_class: 'grid-rows-1 grid-cols-3',
+            custom_class: 'grid-rows-2 grid-cols-3',
         };
 
         this.FormInputFooter = {
@@ -113,7 +142,7 @@ export class InputMutasiWarehouseComponent implements OnInit {
                     is_form_grouped: false,
                 },
             ],
-            custom_class: 'grid-rows-2 grid-cols-1',
+            custom_class: 'grid-rows-1 grid-cols-2',
         };
 
         this.GridProps = {
@@ -257,7 +286,41 @@ export class InputMutasiWarehouseComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.onGetLokasi();
         this.onGetWarehouse();
+    }
+
+    onGetLokasi(): void {
+        this._store.dispatch(new SetupLokasiAction.GetAll())
+            .pipe(
+                map((result: any) => {
+                    if (result.setup_lokasi.entities.success) {
+                        return result.setup_lokasi.entities.data;
+                    } else {
+                        return result;
+                    }
+                })
+            )
+            .subscribe((result: SetupLokasiModel.ISetupLokasi[]) => {
+                const indexLokasiAsal = this.CustomForm.props.fields.findIndex((item) => {
+                    return item.id == 'lokasi_asal'
+                });
+
+                const indexLokasiTujuan = this.CustomForm.props.fields.findIndex((item) => {
+                    return item.id == 'lokasi_tujuan'
+                });
+
+                const data = result.map((item) => {
+                    return {
+                        name: item.nama_lokasi,
+                        value: item.id_lokasi
+                    }
+                });
+
+                this.CustomForm.props.fields[indexLokasiAsal].select_props = data;
+
+                this.CustomForm.props.fields[indexLokasiTujuan].select_props = data;
+            })
     }
 
     onGetWarehouse(): void {
@@ -298,13 +361,13 @@ export class InputMutasiWarehouseComponent implements OnInit {
             return item.id == 'id_barang';
         });
 
-        (this.FormDialog.CustomForm.props.fields[indexIdBarang] as any).lookup_props.url = `${environment.endpoint}/mutasi_warehouse/lookup_barang/${data.value}`;
+        (this.FormDialog.CustomForm.props.fields[indexIdBarang] as any).lookup_props.url = `${environment.endpoint}/mutasi_lokasi/lookup_barang/${data.value}`;
     }
 
     handleClickButtonNav(args: string): void {
         switch (args) {
             case 'back':
-                this._router.navigate(['inventory/mutasi-warehouse/history']);
+                this._router.navigate(['inventory/mutasi-lokasi/history']);
                 break;
             case 'save':
                 this.handleSubmitForm();

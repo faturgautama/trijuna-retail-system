@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GridModel } from '../../models/components/grid.model';
 import { ColDef, ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { GridService } from 'src/app/@core/service/components/grid/grid.service';
-import { BehaviorSubject } from 'rxjs';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 
 @Component({

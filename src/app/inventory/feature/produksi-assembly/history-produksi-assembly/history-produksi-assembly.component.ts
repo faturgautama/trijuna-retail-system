@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
+import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
 
 @Component({
-    selector: 'app-history-mutasi-warehouse',
-    templateUrl: './history-mutasi-warehouse.component.html',
-    styleUrls: ['./history-mutasi-warehouse.component.scss']
+    selector: 'app-history-produksi-assembly',
+    templateUrl: './history-produksi-assembly.component.html',
+    styleUrls: ['./history-produksi-assembly.component.scss']
 })
-export class HistoryMutasiWarehouseComponent implements OnInit {
+export class HistoryProduksiAssemblyComponent {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -25,7 +26,7 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
         private _utilityService: UtilityService,
     ) {
         this.DashboardProps = {
-            title: 'History Mutasi Warehouse',
+            title: 'History Assembly',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],
@@ -34,26 +35,20 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
-                    id: 'warehouse_asal',
-                    title: 'Warehouse Asal',
+                    id: 'nama_supplier',
+                    title: 'Nama Barang',
                     type: 'string',
                     value: 'ms.nama_supplier',
                 },
                 {
-                    id: 'warehouse_tujuan',
-                    title: 'Warehouse Tujuan',
+                    id: 'nomor_pemesanan',
+                    title: 'No. Faktur',
                     type: 'string',
                     value: 'tp.nomor_pemesanan',
                 },
                 {
-                    id: 'tanggal_mutasi',
-                    title: 'Tgl. Mutasi',
-                    type: 'date',
-                    value: 'tp.tanggal_pemesanan',
-                },
-                {
-                    id: 'tanggal_validasi',
-                    title: 'Tgl. Validasi',
+                    id: 'tanggal_pemesanan',
+                    title: 'Tgl. Assembly',
                     type: 'date',
                     value: 'tp.tanggal_pemesanan',
                 },
@@ -68,22 +63,14 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'id_mutasi_warehouse', headerName: 'NO. FAKTUR', width: 170, sortable: true, resizable: true },
-                {
-                    field: 'tanggal_mutasi_warehouse', headerName: 'TGL. MUTASI', width: 150, sortable: true, resizable: true,
-                    cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) }
-                },
-                { field: 'warehouse_asal', headerName: 'WAREHOUSE ASAL', width: 200, sortable: true, resizable: true },
-                { field: 'warehouse_tujuan', headerName: 'WAREHOUSE TUJUAN', width: 200, sortable: true, resizable: true },
-                {
-                    field: 'qty', headerName: 'QTY', width: 150, sortable: true, resizable: true,
-                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) }
-                },
-                {
-                    field: 'total_harga', headerName: 'GRAND TOTAL', width: 200, sortable: true, resizable: true, cellClass: 'text-right',
-                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) }
-                },
-                { field: 'status_mutasi_warehouse', headerName: 'STATUS MUTASI', width: 240, sortable: true, resizable: true },
+                { field: 'nomor_pemesanan', headerName: 'NO. FAKTUR', width: 170, sortable: true, resizable: true },
+                { field: 'status_pemesanan', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
+                { field: 'tanggal_pemesanan', headerName: 'TGL. ASSEMBLY', width: 170, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'warehouse', headerName: 'WAREHOUSE', width: 150, sortable: true, resizable: true },
+                { field: 'keterangan', headerName: 'NAM BARANG', width: 170, sortable: true, resizable: true },
+                { field: 'qty', headerName: 'JUMLAH ITEM', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
+                { field: 'created_by', headerName: 'USER INPUT', width: 150, sortable: true, resizable: true },
+                { field: 'created_at', headerName: 'WAKTU ENTRY', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
             height: "calc(100vh - 14rem)",
@@ -96,7 +83,7 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['inventory/mutasi-warehouse/input']);
+        this._router.navigate(['inventory/assembly/input']);
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -109,7 +96,7 @@ export class HistoryMutasiWarehouseComponent implements OnInit {
     }
 
     handleRowDoubleClicked(args: any): void {
-        this._router.navigate(['inventory/mutasi-warehouse/detail', args.id_mutasi]);
+        this._router.navigate(['inventory/assembly/detail', args.id_pemesanan]);
     }
 
     handleToolbarClicked(args: any): void {
