@@ -100,6 +100,7 @@ import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.compo
         LookupComponent,
         FormDialogComponent,
         TabViewModule,
+        InputNumberModule,
     ],
     providers: []
 })

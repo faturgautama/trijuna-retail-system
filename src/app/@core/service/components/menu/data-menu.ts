@@ -315,25 +315,6 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
-            {
-                id: 'pemusnahan-stok',
-                label: 'Pemusnahan Stok',
-                icon: "",
-                items: [
-                    {
-                        id: 'input-pemusnahan-stok',
-                        label: 'Input Pemusnahan Stok',
-                        icon: "",
-                        routerLink: '/inventory/pemusnahan-stok/input'
-                    },
-                    {
-                        id: 'history-pemusnahan-stok',
-                        label: 'History Pemusnahan Stok',
-                        icon: "",
-                        routerLink: '/inventory/pemusnahan-stok/history'
-                    },
-                ]
-            },
         ]
     },
     {
@@ -353,6 +334,75 @@ export const menu: MenuItem[] = [
                         routerLink: '/pos/kasir'
                     },
                 ]
+            },
+            {
+                id: 'refund-penjualan',
+                label: 'Refund Penjualan',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-refund-penjualan',
+                        label: 'Input Refund Penjualan',
+                        icon: "",
+                        routerLink: '/penjualan/refund-penjualan/input'
+                    },
+                    {
+                        id: 'history-refund-penjualan',
+                        label: 'History Refund Penjualan',
+                        icon: "",
+                        routerLink: '/penjualan/refund-penjualan/history'
+                    },
+                ]
+            },
+            {
+                id: 'buka-kasir',
+                label: 'Buka Kasir',
+                icon: "",
+                routerLink: '/penjualan/buka-kasir'
+            },
+            {
+                id: 'tutup-kasir',
+                label: 'Tutup Kasir',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-tutup-kasir',
+                        label: 'Input Tutup Kasir',
+                        icon: "",
+                        routerLink: '/penjualan/tutup-kasir/input'
+                    },
+                    {
+                        id: 'history-tutup-kasir',
+                        label: 'History Tutup Kasir',
+                        icon: "",
+                        routerLink: '/penjualan/tutup-kasir/history'
+                    },
+                ]
+            },
+            {
+                id: 'croscek-tutup-kasir',
+                label: 'Croscek Tutup Kasir',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-croscek-tutup-kasir',
+                        label: 'Input Croscek Tutup Kasir',
+                        icon: "",
+                        routerLink: '/penjualan/croscek-tutup-kasir/input'
+                    },
+                    {
+                        id: 'history-croscek-tutup-kasir',
+                        label: 'History Croscek Tutup Kasir',
+                        icon: "",
+                        routerLink: '/penjualan/croscek-tutup-kasir/history'
+                    },
+                ]
+            },
+            {
+                id: 'setting-voucher',
+                label: 'Setting Voucher',
+                icon: "",
+                routerLink: '/penjualan/setting-voucher'
             },
         ]
     },

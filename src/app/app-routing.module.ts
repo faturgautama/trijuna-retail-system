@@ -28,6 +28,10 @@ const routes: Routes = [
         loadChildren: async () => (await import('./point-of-sales/pos.module')).PointOfSaleModule
     },
     {
+        path: 'penjualan',
+        loadChildren: async () => (await import('./penjualan/penjualan.module')).PenjualanModule
+    },
+    {
         path: "**", component: PageNotFoundComponent
     }
 ];

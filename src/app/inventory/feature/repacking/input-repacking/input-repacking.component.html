@@ -1,1 +1,28 @@
-<p>input-repacking works!</p>
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-full mb-5">
+        <div class="grid w-full">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div class="grid mb-3">
+        <app-grid [props]="GridProps" (cellClicked)="onCellClicked($event)" (toolbarClicked)="onToolbarClicked($event)">
+        </app-grid>
+    </div>
+
+    <div class="flex w-full justify-between">
+        <div class="flex w-4/12">
+            <div class="w-4/12">
+                <label for="keterangan">
+                    Keterangan
+                </label>
+            </div>
+            <div class="w-8/12">
+                <textarea #Keterangan rows="2" pInputTextarea class="w-full" [autoResize]="false"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <app-form-dialog #FormDialog [props]="FormInputDetail" (onSubmitForm)="handleSubmitFormDetail($event)">
+    </app-form-dialog>
+</app-dashboard>

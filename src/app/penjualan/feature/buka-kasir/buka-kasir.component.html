@@ -3,9 +3,13 @@
         <app-offcanvas-filter [props]="OffcanvasFilterProps" (onSearch)="handleSearchOffcanvas($event)">
         </app-offcanvas-filter>
     </div>
+
     <div class="grid">
         <app-grid [props]="GridProps" (rowDoubleClicked)="handleRowDoubleClicked($event)"
             (toolbarClicked)="handleToolbarClicked($event)">
         </app-grid>
     </div>
+
+    <app-form-dialog #FormDialog [props]="FormInputDetail" (onSubmitForm)="handleSubmitFormDetail($event)">
+    </app-form-dialog>
 </app-dashboard>

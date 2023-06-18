@@ -1,0 +1,70 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-full mb-5">
+        <div class="grid w-full">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 w-full gap-5">
+        <div class="flex flex-col w-full border border-solid border-gray-200 shadow-sm rounded-lg">
+            <div class="flex w-full p-2 mb-0 border-b border-t-0 border-x-0 border-solid border-gray-200 bg-gray-100">
+                <p class="text-sky-600 ">
+                    Daftar Modal
+                </p>
+            </div>
+
+            <div class="flex flex-col w-full">
+                <app-grid [props]="GridDaftarModalProps"></app-grid>
+            </div>
+        </div>
+
+        <div class="flex flex-col w-full border border-solid border-gray-200 shadow-sm rounded-lg">
+            <div class="flex w-full p-2 mb-2 border-b border-t-0 border-x-0 border-solid border-gray-200 bg-gray-100">
+                <p class="text-sky-600 ">
+                    Daftar Pendapatan
+                </p>
+            </div>
+
+            <div class="flex flex-col w-full gap-2 p-2 border-b border-t-0 border-x-0 border-gray-100 border-solid">
+                <div class="flex flex-row gap-2">
+                    <div class="w-1/12 border-r border-solid border-gray-200 border-y-0 border-l-0">
+                        <p class="text-gray-700 text-sm text-center">
+                            No.
+                        </p>
+                    </div>
+                    <div class="w-6/12 border-r border-solid border-gray-200 border-y-0 border-l-0">
+                        <p class="text-gray-700 text-sm text-center">
+                            Metode Bayar
+                        </p>
+                    </div>
+                    <div class="w-5/12">
+                        <p class="text-gray-700 text-sm text-center">
+                            Pendapatan
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col w-full gap-2 p-2">
+                <div *ngFor="let item of DaftarPendapatanDatasource"
+                    class="flex flex-row gap-2 pb-2 border-b border-t-0 border-x-0 border-gray-100 border-solid items-center">
+                    <div class="w-1/12 border-r border-solid border-gray-200 border-y-0 border-l-0">
+                        <p class="text-gray-700 text-sm text-center">
+                            {{ item.id }}
+                        </p>
+                    </div>
+                    <div class="w-6/12 border-r border-solid border-gray-200 border-y-0 border-l-0">
+                        <p class="text-gray-700 text-sm text-center">
+                            {{ item.payment_method }}
+                        </p>
+                    </div>
+                    <div class="w-5/12">
+                        <p-inputNumber class="p-inputtext-sm w-full"
+                            (onInput)="handleChangeJumlahPendapatan($event, item)">
+                        </p-inputNumber>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dashboard>
