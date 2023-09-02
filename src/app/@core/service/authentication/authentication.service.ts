@@ -5,6 +5,7 @@ import { Observable, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { CookiesUtils } from '../../../@shared/utils/cookies.utils';
 import { environment } from 'src/environments/environment';
+import { loginResponse } from '../../data/data';
 
 @Injectable({
     providedIn: 'root'
@@ -22,15 +23,18 @@ export class AuthenticationService {
     }
 
     login(payload: LoginModel.ILogin): Observable<LoginModel.Login> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/login`, payload)
-            .pipe(
-                map((result) => {
-                    if (result.success) {
-                        this.handlingAuth(result.data);
-                        return result;
-                    }
-                })
-            )
+        // return this._httpRequestService.postRequest(`${environment.endpoint}/login`, payload)
+        //     .pipe(
+        //         map((result) => {
+        //             if (result.success) {
+        //                 this.handlingAuth(result.data);
+        //                 return result;
+        //             }
+        //         })
+        //     );
+
+        this.handlingAuth(loginResponse);
+        return of({ success: true, message: 'Login Berhasil', data: loginResponse });
     }
 
     logout(): Promise<any> {

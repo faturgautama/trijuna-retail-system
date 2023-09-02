@@ -40,7 +40,7 @@ export class BerandaComponent implements OnInit {
 
     ngOnInit(): void {
         this.getMainMenu();
-        this.getOtherData();
+        // this.getOtherData();
     }
 
     getMainMenu(): void {
