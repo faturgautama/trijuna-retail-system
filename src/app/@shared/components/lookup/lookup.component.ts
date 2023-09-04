@@ -49,6 +49,7 @@ export class LookupComponent implements OnInit {
     }
 
     handleToggleDialog(): void {
+        console.log("handleToggleDialog click");
         this.ShowDialog = !this.ShowDialog;
     }
 
