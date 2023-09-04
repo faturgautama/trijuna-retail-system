@@ -240,43 +240,43 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
-            {
-                id: 'stok-opname',
-                label: 'Stok Opname',
-                icon: "",
-                items: [
-                    {
-                        id: 'setting-stok-opname',
-                        label: 'Setting Stok Opname',
-                        icon: "",
-                        routerLink: '/inventory/stok-opname/setting'
-                    },
-                    {
-                        id: 'input-stok-opname',
-                        label: 'Input Stok Opname',
-                        icon: "",
-                        routerLink: '/inventory/stok-opname/input'
-                    },
-                    {
-                        id: 'adjustment-stok-opname',
-                        label: 'Adjustment Stok Opname',
-                        icon: "",
-                        routerLink: '/inventory/stok-opname/adjustment'
-                    },
-                    {
-                        id: 'finalisasi-stok-opname',
-                        label: 'Adjustment Stok Opname',
-                        icon: "",
-                        routerLink: '/inventory/stok-opname/finalisasi'
-                    },
-                    {
-                        id: 'history-stok-opname',
-                        label: 'History Stok Opname',
-                        icon: "",
-                        routerLink: '/inventory/stok-opname/history'
-                    },
-                ]
-            },
+            // {
+            //     id: 'stok-opname',
+            //     label: 'Stok Opname',
+            //     icon: "",
+            //     items: [
+            //         {
+            //             id: 'setting-stok-opname',
+            //             label: 'Setting Stok Opname',
+            //             icon: "",
+            //             routerLink: '/inventory/stok-opname/setting'
+            //         },
+            //         {
+            //             id: 'input-stok-opname',
+            //             label: 'Input Stok Opname',
+            //             icon: "",
+            //             routerLink: '/inventory/stok-opname/input'
+            //         },
+            //         {
+            //             id: 'adjustment-stok-opname',
+            //             label: 'Adjustment Stok Opname',
+            //             icon: "",
+            //             routerLink: '/inventory/stok-opname/adjustment'
+            //         },
+            //         {
+            //             id: 'finalisasi-stok-opname',
+            //             label: 'Adjustment Stok Opname',
+            //             icon: "",
+            //             routerLink: '/inventory/stok-opname/finalisasi'
+            //         },
+            //         {
+            //             id: 'history-stok-opname',
+            //             label: 'History Stok Opname',
+            //             icon: "",
+            //             routerLink: '/inventory/stok-opname/history'
+            //         },
+            //     ]
+            // },
             {
                 id: 'assembly',
                 label: 'Assembly',
@@ -335,25 +335,25 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
-            {
-                id: 'refund-penjualan',
-                label: 'Refund Penjualan',
-                icon: "",
-                items: [
-                    {
-                        id: 'input-refund-penjualan',
-                        label: 'Input Refund Penjualan',
-                        icon: "",
-                        routerLink: '/penjualan/refund-penjualan/input'
-                    },
-                    {
-                        id: 'history-refund-penjualan',
-                        label: 'History Refund Penjualan',
-                        icon: "",
-                        routerLink: '/penjualan/refund-penjualan/history'
-                    },
-                ]
-            },
+            // {
+            //     id: 'refund-penjualan',
+            //     label: 'Refund Penjualan',
+            //     icon: "",
+            //     items: [
+            //         {
+            //             id: 'input-refund-penjualan',
+            //             label: 'Input Refund Penjualan',
+            //             icon: "",
+            //             routerLink: '/penjualan/refund-penjualan/input'
+            //         },
+            //         {
+            //             id: 'history-refund-penjualan',
+            //             label: 'History Refund Penjualan',
+            //             icon: "",
+            //             routerLink: '/penjualan/refund-penjualan/history'
+            //         },
+            //     ]
+            // },
             {
                 id: 'buka-kasir',
                 label: 'Buka Kasir',
@@ -379,31 +379,31 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
-            {
-                id: 'croscek-tutup-kasir',
-                label: 'Croscek Tutup Kasir',
-                icon: "",
-                items: [
-                    {
-                        id: 'input-croscek-tutup-kasir',
-                        label: 'Input Croscek Tutup Kasir',
-                        icon: "",
-                        routerLink: '/penjualan/croscek-tutup-kasir/input'
-                    },
-                    {
-                        id: 'history-croscek-tutup-kasir',
-                        label: 'History Croscek Tutup Kasir',
-                        icon: "",
-                        routerLink: '/penjualan/croscek-tutup-kasir/history'
-                    },
-                ]
-            },
-            {
-                id: 'setting-voucher',
-                label: 'Setting Voucher',
-                icon: "",
-                routerLink: '/penjualan/setting-voucher'
-            },
+            // {
+            //     id: 'croscek-tutup-kasir',
+            //     label: 'Croscek Tutup Kasir',
+            //     icon: "",
+            //     items: [
+            //         {
+            //             id: 'input-croscek-tutup-kasir',
+            //             label: 'Input Croscek Tutup Kasir',
+            //             icon: "",
+            //             routerLink: '/penjualan/croscek-tutup-kasir/input'
+            //         },
+            //         {
+            //             id: 'history-croscek-tutup-kasir',
+            //             label: 'History Croscek Tutup Kasir',
+            //             icon: "",
+            //             routerLink: '/penjualan/croscek-tutup-kasir/history'
+            //         },
+            //     ]
+            // },
+            // {
+            //     id: 'setting-voucher',
+            //     label: 'Setting Voucher',
+            //     icon: "",
+            //     routerLink: '/penjualan/setting-voucher'
+            // },
         ]
     },
     {

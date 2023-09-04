@@ -16,6 +16,7 @@ export namespace SetupBarangModel {
         berat: number
         id_supplier: string
         harga_order: number
+        harga_jual: number
         harga_beli_terakhir: number
         hpp_average: number
         is_ppn: number

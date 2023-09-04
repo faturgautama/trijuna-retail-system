@@ -63,18 +63,22 @@ export class LoginComponent implements OnInit {
 
         this.LoadingDialog.showDialog();
 
+        // !! After
         this._authenticationService.login(data)
-            .subscribe((result) => {
-                if (result.success) {
+            .subscribe({
+                next: (result) => {
+                    if (result.success) {
+                        this.LoadingDialog.closeDialog();
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Login Success' });
+                    }
+                },
+                error: (error) => {
                     this.LoadingDialog.closeDialog();
                     this._messageService.clear();
-                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Login Success' });
+                    this._messageService.add({ severity: 'error', summary: 'Oops', detail: error.message });
                 }
-            }, (error) => {
-                this.LoadingDialog.closeDialog();
-                this._messageService.clear();
-                this._messageService.add({ severity: 'error', summary: 'Oops', detail: error.message });
-            })
+            });
     }
 
     onCloseToast(args: any): void {

@@ -11,6 +11,9 @@ export class LayoutPosComponent {
 
     @Input('order') set order(value: any) {
         this.DaftarOrder = value;
+        setTimeout(() => {
+            console.log("Layout POS Props =>", value);
+        }, 1000);
     }
 
     get order() {
