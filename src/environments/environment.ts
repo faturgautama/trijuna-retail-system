@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    endpoint: 'http://128.199.75.235:8888/api',
+    endpoint: 'https://megateknikcool.com/api',
 };
 
 /*
