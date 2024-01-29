@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    endpoint: 'http://203.175.10.195/trijuna_retail_backend/public/api',
+    endpoint: 'http://128.199.75.235:8888/api',
 };
 
 /*
