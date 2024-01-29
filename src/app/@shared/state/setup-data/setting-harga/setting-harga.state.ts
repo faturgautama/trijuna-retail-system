@@ -4,7 +4,6 @@ import { SettingHargaService } from "src/app/@core/service/setup-data/setting-ha
 import { SettingHargaModel } from "src/app/@shared/models/setup-data/setting-harga.model";
 import { SettingHargaAction } from "./setting-harga.action";
 import { tap } from "rxjs";
-import { FilterModel } from "src/app/@shared/models/components/filter.model";
 
 export interface SettingHargaStateModel {
     entities: SettingHargaModel.ISettingHarga[] | [];
