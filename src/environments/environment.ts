@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    endpoint: 'https://megateknikcool.com/api',
+    endpoint: 'https://api-retail.tirta-rudensia.my.id/api',
 };
 
 /*
