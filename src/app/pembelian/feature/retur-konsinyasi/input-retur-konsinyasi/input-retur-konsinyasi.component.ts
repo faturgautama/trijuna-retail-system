@@ -123,7 +123,16 @@ export class InputReturKonsinyasiComponent implements OnInit {
                     label: 'Mekanisme',
                     status: 'readonly',
                     type: 'select',
-                    select_props: [],
+                    select_props: [
+                        {
+                            name: 'Potong Tagihan',
+                            value: 1
+                        },
+                        {
+                            name: 'Tukar Barang',
+                            value: 2
+                        }
+                    ],
                     required: true,
                 },
             ],
@@ -407,7 +416,6 @@ export class InputReturKonsinyasiComponent implements OnInit {
     handleSubmitForm(): void {
         const header = this.CustomForm.handleSubmitForm();
         header.detail = this.GridProps.dataSource;
-        header.mekanisme = 1;
 
         const footer = this.CustomFormFooter.handleSubmitForm();
 
