@@ -55,17 +55,17 @@ export class ListSettingHargaComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'id_setting_harga', headerName: 'ID SETTING HARGA', width: 170, sortable: true, resizable: true, hide: true },
-                { field: 'id_lokasi', headerName: 'ID LOKASI', width: 170, sortable: true, resizable: true, hide: true },
-                { field: 'nama_lokasi', headerName: 'LOKASI', width: 400, sortable: true, resizable: true },
-                { field: 'tanggal_mulai_berlaku', headerName: 'TGL. BERLAKU', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'created_by', headerName: 'CREATED BY', width: 150, sortable: true, resizable: true },
-                { field: 'created_at', headerName: 'WAKTU INPUT', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'updated_by', headerName: 'UPDATED BY', width: 150, sortable: true, resizable: true },
-                { field: 'updated_at', headerName: 'WAKTU UPDATE', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'id_setting_harga', headerName: 'ID SETTING HARGA', flex: 170, sortable: true, resizable: true, hide: true },
+                { field: 'id_lokasi', headerName: 'ID LOKASI', flex: 170, sortable: true, resizable: true, hide: true },
+                { field: 'nama_lokasi', headerName: 'LOKASI', flex: 400, sortable: true, resizable: true },
+                { field: 'tanggal_mulai_berlaku', headerName: 'TGL. BERLAKU', flex: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'created_by', headerName: 'CREATED BY', flex: 150, sortable: true, resizable: true },
+                { field: 'created_at', headerName: 'WAKTU INPUT', flex: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'updated_by', headerName: 'UPDATED BY', flex: 150, sortable: true, resizable: true },
+                { field: 'updated_at', headerName: 'WAKTU UPDATE', flex: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "calc(100vh - 11rem)",
+            height: "calc(100vh - 14rem)",
             showPaging: true,
         };
     }

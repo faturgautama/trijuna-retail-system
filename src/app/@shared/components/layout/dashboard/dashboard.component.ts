@@ -1,16 +1,21 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { LoadingDialogComponent } from '../../dialog/loading-dialog/loading-dialog.component';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpRequestService } from 'src/app/@core/service/http-request/http-request.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements AfterViewInit, OnDestroy {
+
+    Destroy$ = new Subject();
+
+    IsBeranda = false;
 
     @Input('props') props: DashboardModel.IDashboard;
 
@@ -22,26 +27,38 @@ export class DashboardComponent implements AfterViewInit {
 
     constructor(
         private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _messageService: MessageService,
         private _httpRequestService: HttpRequestService,
     ) {
         this.props = { title: '', button_navigation: [] };
+
+        this._activatedRoute.url.subscribe((result) => {
+            console.log(result)
+        })
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
+
             // ** Loading
-            this._httpRequestService.ToggleLoading.subscribe((result) => {
-                this.LoadingDialog.Visible = result;
-            });
+            this._httpRequestService
+                .ToggleLoading
+                .pipe(takeUntil(this.Destroy$))
+                .subscribe((result) => {
+                    this.LoadingDialog.Visible = result;
+                });
 
             // ** Error
-            this._httpRequestService.ErrorToast.subscribe((result) => {
-                if (result.show) {
-                    this._messageService.clear();
-                    this._messageService.add({ severity: 'error', summary: 'Oops', detail: result.message })
-                }
-            });
+            this._httpRequestService
+                .ErrorToast
+                .pipe(takeUntil(this.Destroy$))
+                .subscribe((result) => {
+                    if (result.show) {
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'error', summary: 'Oops', detail: result.message })
+                    }
+                });
 
             let data: any[] = [];
 
@@ -51,6 +68,8 @@ export class DashboardComponent implements AfterViewInit {
                 } else {
                     item = item.replace(/-/g, " ");
                 }
+
+                console.log(item);
 
                 data.push(item);
             });
@@ -68,5 +87,10 @@ export class DashboardComponent implements AfterViewInit {
 
     handleClickButtonNav(id: string): void {
         this.onClickButtonNav.emit(id);
+    }
+
+    ngOnDestroy(): void {
+        this.Destroy$.next(0);
+        this.Destroy$.complete();
     }
 }

@@ -15,7 +15,7 @@
 </div>
 
 <p-dialog [id]="props.id" appendTo="body" [header]="props.title" [(visible)]="ShowDialog" [style]="{ width: '60vw' }"
-    [modal]="true" [position]="'top'" [draggable]="false" [keepInViewport]="true">
+    [modal]="true" [position]="'center'" [draggable]="false" [resizable]="false" [keepInViewport]="true">
     <ng-template pTemplate="header" class="border-b border-b-gray-100">
         <span class="text-lg font-semibold">
             {{ props.title }}
@@ -38,7 +38,7 @@
             </div>
 
             <div class="flex w-full">
-                <input pInputText formControlName="search" class="w-full p-inputtext-sm"
+                <input pInputText id="lookupSearchText" formControlName="search" class="w-full p-inputtext-sm"
                     (keyup.enter)="handleEnterInputSearch(search.value)" />
             </div>
         </div>

@@ -323,15 +323,15 @@ export const menu: MenuItem[] = [
         label: 'Penjualan',
         items: [
             {
-                id: 'point-of-sales',
-                label: 'Point Of Sales',
+                id: 'penjualan',
+                label: 'Transaksi Penjualan',
                 icon: "",
                 items: [
                     {
-                        id: 'point-of-sales',
-                        label: 'POS Kasir',
+                        id: 'history-penjualan',
+                        label: 'History Penjualan',
                         icon: "",
-                        routerLink: '/pos/kasir'
+                        routerLink: '/penjualan/transaksi-penjualan/history'
                     },
                 ]
             },
@@ -398,12 +398,25 @@ export const menu: MenuItem[] = [
             //         },
             //     ]
             // },
-            // {
-            //     id: 'setting-voucher',
-            //     label: 'Setting Voucher',
-            //     icon: "",
-            //     routerLink: '/penjualan/setting-voucher'
-            // },
+            {
+                id: 'setting-promo',
+                label: 'Setting Promo',
+                icon: "",
+                items: [
+                    {
+                        id: 'setting-diskon',
+                        label: 'Setting Diskon',
+                        icon: "",
+                        routerLink: '/penjualan/setting-promo/setting-diskon'
+                    },
+                    {
+                        id: 'setting-hadiah',
+                        label: 'Setting Hadiah',
+                        icon: "",
+                        routerLink: '/penjualan/setting-promo/setting-hadiah'
+                    }
+                ]
+            },
         ]
     },
     {

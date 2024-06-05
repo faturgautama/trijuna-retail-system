@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    endpoint: 'https://api-retail.tirta-rudensia.my.id/api',
+    endpoint: 'https://retial-api.trijuna.online/api',
 };
 
 /*

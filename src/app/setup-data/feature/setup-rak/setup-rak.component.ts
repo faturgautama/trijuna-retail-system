@@ -37,10 +37,10 @@ export class SetupRakComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'kode_rak', headerName: 'KODE RAK', width: 650, sortable: true, resizable: true },
-                { field: 'nama_rak', headerName: 'RAK', width: 650, sortable: true, resizable: true },
-                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'is_active', headerName: 'IS ACTIVE', width: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
+                { field: 'kode_rak', headerName: 'KODE RAK', flex: 650, sortable: true, resizable: true },
+                { field: 'nama_rak', headerName: 'RAK', flex: 650, sortable: true, resizable: true },
+                { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'is_active', headerName: 'IS ACTIVE', flex: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
             ],
             dataSource: [],
             height: "calc(100vh - 11rem)",

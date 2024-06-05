@@ -1,1 +1,9 @@
 <router-outlet></router-outlet>
+
+<div class="splash-screen bg-gray-100 flex flex-col gap-5" [class.show]="isLoading">
+    <p-progressSpinner></p-progressSpinner>
+
+    <p class="text-gray-600 text-xl text-nowrap whitespace-nowrap zoom-text">
+        Mohon Menunggu...
+    </p>
+</div>

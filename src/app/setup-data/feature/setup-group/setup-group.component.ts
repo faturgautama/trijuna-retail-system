@@ -39,9 +39,9 @@ export class SetupGroupComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'group', headerName: 'GROUP', width: 1250, sortable: true, resizable: true },
-                { field: 'created_at', headerName: 'CREATED AT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'is_active', headerName: 'IS ACTIVE', width: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
+                { field: 'group', headerName: 'GROUP', flex: 1250, sortable: true, resizable: true },
+                { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'is_active', headerName: 'IS ACTIVE', flex: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
             ],
             dataSource: [],
             height: "calc(100vh - 11rem)",

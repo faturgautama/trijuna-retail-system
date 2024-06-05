@@ -6,8 +6,10 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CookiesUtils } from './@shared/utils/cookies.utils';
 import { StateModule } from './@shared/state/state.module';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
+import { CookiesUtils } from './@shared/utils/cookies.utils';
 import { MessageService } from 'primeng/api';
 
 @NgModule({
@@ -21,6 +23,7 @@ import { MessageService } from 'primeng/api';
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
+        ProgressSpinnerModule,
         StateModule.forRoot(),
     ],
     providers: [

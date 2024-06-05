@@ -39,7 +39,7 @@ export class LookupComponent implements OnInit {
         this.GridProps = {
             column: [],
             dataSource: [],
-            height: '300px',
+            height: 'calc(100vh - 19rem)',
             showPaging: true,
         };
     }
@@ -49,8 +49,11 @@ export class LookupComponent implements OnInit {
     }
 
     handleToggleDialog(): void {
-        console.log("handleToggleDialog click");
         this.ShowDialog = !this.ShowDialog;
+        setTimeout(() => {
+            this.FormLookup.get('filter')?.setValue(this.props.filter[this.props.filter.length - 1].value);
+            (<HTMLInputElement>document.getElementById('lookupSearchText')).focus();
+        }, 1000);
     }
 
     handleEnterInputSearch(value: string): void {

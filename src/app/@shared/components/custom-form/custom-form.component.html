@@ -17,8 +17,8 @@
 
                     <!-- Datepicker -->
                     <p-calendar *ngIf="item.type == 'date'" [id]="item.id" formControlName="{{ item.id }}"
-                        [touchUI]="true" styleClass="w-full p-inputtext-sm" [showButtonBar]="true"
-                        [dateFormat]="'dd/MM/yy'" [disabled]="item.status == 'readonly'">
+                        styleClass="w-full p-inputtext-sm" [showButtonBar]="true" [dateFormat]="'dd MM yy'"
+                        [disabled]="item.status == 'readonly'" appendTo="body">
                     </p-calendar>
 
                     <!-- Password -->
@@ -35,7 +35,7 @@
 
                     <!-- Numeric -->
                     <p-inputNumber *ngIf="item.type == 'numeric' && !item.is_form_grouped"
-                        formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm"
+                        formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm text-end"
                         (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'"
                         [readonly]="item.status == 'readonly'">
                     </p-inputNumber>
@@ -78,7 +78,7 @@
                     <!-- Multi Select -->
                     <p-multiSelect *ngIf="item.type == 'multi_select'" [options]="item.select_props!"
                         formControlName="{{ item.id }}" optionLabel="name" styleClass="w-full p-inputtext-sm"
-                        [filter]="true">
+                        [filter]="true" appendTo="body">
                     </p-multiSelect>
 
                     <!-- Lookup -->
