@@ -94,6 +94,18 @@ export class DetailSetupBarangComponent implements OnInit {
                     validator: 'Barcode Tidak Boleh Kosong',
                 },
                 {
+                    id: 'barcodebysystem',
+                    label: 'Barcode By System',
+                    status: 'insert',
+                    type: 'radio',
+                    radio_props: [
+                        { id: 'barcodebysystem_true', name: 'Ya', value: true },
+                        { id: 'barcodebysystem_false', name: 'Tidak', value: false },
+                    ],
+                    required: true,
+                    validator: 'Barcode By System Tidak Boleh Kosong',
+                },
+                {
                     id: 'persediaan',
                     label: 'Persediaan',
                     status: 'insert',
@@ -107,7 +119,7 @@ export class DetailSetupBarangComponent implements OnInit {
                     status: 'insert',
                     type: 'select',
                     select_props: [],
-                    required: true,
+                    required: false,
                 },
                 {
                     id: 'ukuran',
@@ -138,9 +150,8 @@ export class DetailSetupBarangComponent implements OnInit {
                     label: 'Supplier',
                     status: 'insert',
                     type: 'select',
+                    select_props: [],
                     required: true,
-                    validator: 'Supplier Tidak Boleh Kosong',
-                    select_props: []
                 },
                 {
                     id: 'harga_order',
@@ -179,13 +190,6 @@ export class DetailSetupBarangComponent implements OnInit {
                     validator: 'PPn Tidak Boleh Kosong',
                 },
                 {
-                    id: 'isi',
-                    label: 'Isi',
-                    status: 'insert',
-                    type: 'numeric',
-                    required: true,
-                },
-                {
                     id: 'nama_label',
                     label: 'Nama Label',
                     status: 'insert',
@@ -195,11 +199,48 @@ export class DetailSetupBarangComponent implements OnInit {
                 },
                 {
                     id: 'id_satuan',
-                    label: 'Satuan',
+                    label: 'Satuan 1',
                     status: 'insert',
                     type: 'select',
                     select_props: [],
                     required: true,
+                },
+                {
+                    id: 'isi',
+                    label: 'Isi Satuan 1',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                },
+                {
+                    id: 'id_satuan2',
+                    label: 'Satuan 2',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: false,
+                },
+                {
+                    id: 'isi_satuan2',
+                    label: 'Isi Satuan 2',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: false,
+                },
+                {
+                    id: 'id_satuan3',
+                    label: 'Satuan 3',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: false,
+                },
+                {
+                    id: 'isi_satuan3',
+                    label: 'Isi Satuan 3',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: false,
                 },
                 {
                     id: 'margin',
@@ -246,7 +287,7 @@ export class DetailSetupBarangComponent implements OnInit {
                     label: 'Tahun Produksi',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
                 },
                 {
                     id: 'stok_min',
@@ -261,10 +302,10 @@ export class DetailSetupBarangComponent implements OnInit {
                     label: 'Image',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
                 }
             ],
-            custom_class: 'grid-rows-9'
+            custom_class: 'grid-rows-11'
         };
 
         this.DashboardProps = {
@@ -321,13 +362,19 @@ export class DetailSetupBarangComponent implements OnInit {
 
         // ** Satuan
         const indexSatuan = this.FormInput.fields.findIndex((item) => { return item.id == 'id_satuan' });
+        const indexSatuan2 = this.FormInput.fields.findIndex((item) => { return item.id == 'id_satuan2' });
+        const indexSatuan3 = this.FormInput.fields.findIndex((item) => { return item.id == 'id_satuan3' });
 
         this._store.dispatch(new SetupSatuanAction.GetAll())
             .subscribe((result) => {
                 if (result.setup_satuan.entities.success) {
-                    this.FormInput.fields[indexSatuan].select_props = result.setup_satuan.entities.data.map((item: any) => {
+                    const satuan = result.setup_satuan.entities.data.map((item: any) => {
                         return { name: item.nama_satuan, value: item.id_satuan }
                     });
+
+                    this.FormInput.fields[indexSatuan].select_props = satuan;
+                    this.FormInput.fields[indexSatuan2].select_props = satuan;
+                    this.FormInput.fields[indexSatuan3].select_props = satuan;
                 }
             })
 

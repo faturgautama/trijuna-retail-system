@@ -78,6 +78,18 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     validator: 'Barcode Tidak Boleh Kosong',
                 },
                 {
+                    id: 'barcodebysystem',
+                    label: 'Barcode By System',
+                    status: 'insert',
+                    type: 'radio',
+                    radio_props: [
+                        { id: 'barcodebysystem_true', name: 'Ya', value: true },
+                        { id: 'barcodebysystem_false', name: 'Tidak', value: false },
+                    ],
+                    required: true,
+                    validator: 'Barcode By System Tidak Boleh Kosong',
+                },
+                {
                     id: 'persediaan',
                     label: 'Persediaan',
                     status: 'insert',
@@ -91,7 +103,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     status: 'insert',
                     type: 'select',
                     select_props: [],
-                    required: true,
+                    required: false,
                 },
                 {
                     id: 'ukuran',
@@ -126,8 +138,8 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                         id: 'lookupSupplier',
                         title: 'Data Supplier',
                         columns: [
-                            { field: 'kode_supplier', width: 340, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
-                            { field: 'nama_supplier', width: 340, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
+                            { field: 'kode_supplier', flex: 340, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
+                            { field: 'nama_supplier', flex: 340, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
                         ],
                         filter: [
                             { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
@@ -177,13 +189,6 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     validator: 'PPn Tidak Boleh Kosong',
                 },
                 {
-                    id: 'isi',
-                    label: 'Isi',
-                    status: 'insert',
-                    type: 'numeric',
-                    required: true,
-                },
-                {
                     id: 'nama_label',
                     label: 'Nama Label',
                     status: 'insert',
@@ -193,11 +198,48 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                 },
                 {
                     id: 'id_satuan',
-                    label: 'Satuan',
+                    label: 'Satuan 1',
                     status: 'insert',
                     type: 'select',
                     select_props: [],
                     required: true,
+                },
+                {
+                    id: 'isi',
+                    label: 'Isi Satuan 1',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                },
+                {
+                    id: 'id_satuan2',
+                    label: 'Satuan 2',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: false,
+                },
+                {
+                    id: 'isi_satuan2',
+                    label: 'Isi Satuan 2',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: false,
+                },
+                {
+                    id: 'id_satuan3',
+                    label: 'Satuan 3',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: false,
+                },
+                {
+                    id: 'isi_satuan3',
+                    label: 'Isi Satuan 3',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: false,
                 },
                 {
                     id: 'margin',
@@ -244,7 +286,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     label: 'Tahun Produksi',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
                 },
                 {
                     id: 'stok_min',
@@ -259,10 +301,10 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     label: 'Image',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
                 }
             ],
-            custom_class: 'grid-rows-9'
+            custom_class: 'grid-rows-11'
         };
 
         this.DashboardProps = {
@@ -317,13 +359,19 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
 
         // ** Satuan
         const indexSatuan = this.FormInput.fields.findIndex((item) => { return item.id == 'id_satuan' });
+        const indexSatuan2 = this.FormInput.fields.findIndex((item) => { return item.id == 'id_satuan2' });
+        const indexSatuan3 = this.FormInput.fields.findIndex((item) => { return item.id == 'id_satuan3' });
 
         this._store.dispatch(new SetupSatuanAction.GetAll())
             .subscribe((result) => {
                 if (result.setup_satuan.entities.success) {
-                    this.FormInput.fields[indexSatuan].select_props = result.setup_satuan.entities.data.map((item: any) => {
+                    const satuan = result.setup_satuan.entities.data.map((item: any) => {
                         return { name: item.nama_satuan, value: item.id_satuan }
                     });
+
+                    this.FormInput.fields[indexSatuan].select_props = satuan;
+                    this.FormInput.fields[indexSatuan2].select_props = satuan;
+                    this.FormInput.fields[indexSatuan3].select_props = satuan;
                 }
             })
     }
