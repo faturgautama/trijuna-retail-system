@@ -404,7 +404,7 @@ export class InputMutasiWarehouseComponent implements OnInit {
 
         this._store.dispatch(new MutasiWarehouseAction.Save(payload))
             .subscribe((result) => {
-                if (result.pembelian_dengan_po.entities.success) {
+                if (result.mutasi_warehouse.entities.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
 

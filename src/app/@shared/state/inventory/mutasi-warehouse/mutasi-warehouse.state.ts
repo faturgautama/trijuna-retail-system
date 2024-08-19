@@ -74,7 +74,7 @@ export class MutasiWarehouseState {
 
     @Action(MutasiWarehouseAction.Validasi)
     validasiMutasiWarehouse(ctx: StateContext<MutasiWarehouseStateModel>, action: any) {
-        return this._mutasiWarehouseService.validasi(action.payload)
+        return this._mutasiWarehouseService.validasi({ id_mutasi_warehouse: action.payload })
             .pipe(
                 tap((result) => {
                     const state = ctx.getState();

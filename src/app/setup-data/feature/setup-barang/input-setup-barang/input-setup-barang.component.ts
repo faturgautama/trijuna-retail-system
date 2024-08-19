@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
+import { Subject } from 'rxjs';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
@@ -18,6 +19,8 @@ import { environment } from 'src/environments/environment';
     styleUrls: ['./input-setup-barang.component.scss']
 })
 export class InputSetupBarangComponent implements OnInit, OnDestroy {
+
+    Destroy$ = new Subject();
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -404,5 +407,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.Destroy$.next(0);
+        this.Destroy$.complete();
     }
 }

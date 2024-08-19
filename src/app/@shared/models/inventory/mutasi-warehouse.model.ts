@@ -2,7 +2,24 @@ import { HttpRequestBaseModel } from "../shared/http-request-base.model";
 
 export namespace MutasiWarehouseModel {
     export interface IMutasiWarehouse {
-
+        id_mutasi_warehouse: number
+        tanggal_mutasi_warehouse: string
+        nomor_mutasi: string
+        warehouse_asal: number
+        nama_warehouse_asal: string
+        warehouse_tujuan: number
+        nama_warehouse_tujuan: string
+        qty: string
+        total_harga: string
+        status_mutasi_warehouse: string
+        is_deleted: boolean
+        deleted_by: any
+        deleted_at: any
+        deleted_reason: any
+        created_by: string
+        created_at: string
+        updated_by: string
+        updated_at: string
     }
 
     export class GetAllMutasiWarehouse implements HttpRequestBaseModel {

@@ -324,7 +324,8 @@ export default class InputMutasiLokasiComponent implements OnInit {
     }
 
     onGetWarehouse(): void {
-        this._store.dispatch(new SetupWarehouseAction.GetAll())
+        this._store
+            .dispatch(new SetupWarehouseAction.GetAll())
             .pipe(
                 map((result: any) => {
                     if (result.setup_warehouse.entities.success) {

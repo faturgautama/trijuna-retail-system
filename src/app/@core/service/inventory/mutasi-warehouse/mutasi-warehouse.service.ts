@@ -4,6 +4,7 @@ import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { MutasiWarehouseModel } from 'src/app/@shared/models/inventory/mutasi-warehouse.model';
 import { environment } from 'src/environments/environment';
 import { HttpRequestService } from '../../http-request/http-request.service';
+import { HttpRequestBaseModel } from 'src/app/@shared/models/shared/http-request-base.model';
 
 @Injectable({
     providedIn: 'root'

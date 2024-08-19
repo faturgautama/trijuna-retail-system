@@ -33,9 +33,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     ) {
         this.props = { title: '', button_navigation: [] };
 
-        this._activatedRoute.url.subscribe((result) => {
-            console.log(result)
-        })
+        // this._activatedRoute.url.subscribe((result) => {
+        //     console.log(result)
+        // })
     }
 
     ngAfterViewInit(): void {
@@ -68,8 +68,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
                 } else {
                     item = item.replace(/-/g, " ");
                 }
-
-                console.log(item);
 
                 data.push(item);
             });
