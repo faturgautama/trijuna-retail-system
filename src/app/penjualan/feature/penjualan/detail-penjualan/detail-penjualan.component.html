@@ -1,0 +1,43 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-full mb-5">
+        <div class="grid w-full">
+            <app-custom-form #CustomFormHeader [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div class="grid mb-3 gap-0 pt-2 border-t border-b-0 border-x-0 border-dashed border border-gray-200">
+        <p class="text-gray-700 text-base font-medium">
+            Detail Item
+        </p>
+        <p class="text-gray-600 text-sm mb-3">
+            Data item penjualan
+        </p>
+
+        <app-grid [props]="GridProps">
+        </app-grid>
+    </div>
+
+    <div class="grid mb-3 gap-0 pt-2 border-t border-b-0 border-x-0 border-dashed border border-gray-200">
+        <p class="text-gray-700 text-base font-medium">
+            Detail Payment
+        </p>
+        <p class="text-gray-600 text-sm mb-2">
+            Data payment method oleh customer
+        </p>
+
+        <app-grid [props]="GridPaymentProps">
+        </app-grid>
+    </div>
+
+    <div class="flex w-full justify-between mb-5">
+        <div class="flex w-4/12">
+
+        </div>
+
+        <div class="flex w-4/12">
+            <div class="grid w-full">
+                <app-custom-form #CustomFormFooter [props]="FormInputFooter"></app-custom-form>
+            </div>
+        </div>
+    </div>
+</app-dashboard>

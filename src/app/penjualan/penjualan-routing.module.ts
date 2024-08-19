@@ -12,6 +12,7 @@ import { HistoryCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir
 import { InputCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/input-croscek-tutup-kasir/input-croscek-tutup-kasir.component';
 import { DetailCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/detail-croscek-tutup-kasir/detail-croscek-tutup-kasir.component';
 import { HistoryPenjualanComponent } from './feature/penjualan/history-penjualan/history-penjualan.component';
+import { DetailPenjualanComponent } from './feature/penjualan/detail-penjualan/detail-penjualan.component';
 
 const routes: Routes = [
     {
@@ -45,6 +46,7 @@ const routes: Routes = [
         path: 'transaksi-penjualan',
         children: [
             { path: 'history', component: HistoryPenjualanComponent },
+            { path: 'detail/:id', component: DetailPenjualanComponent },
         ]
     }
 ]
