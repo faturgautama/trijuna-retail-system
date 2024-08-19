@@ -13,6 +13,7 @@ import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
 import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
+import { MutasiLokasiAction } from 'src/app/@shared/state/inventory/mutasi-lokasi';
 import { MutasiWarehouseAction } from 'src/app/@shared/state/inventory/mutasi-warehouse';
 import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
@@ -64,7 +65,7 @@ export default class InputMutasiLokasiComponent implements OnInit {
             is_inline: true,
             fields: [
                 {
-                    id: 'tanggal_mutasi_warehouse',
+                    id: 'tanggal_mutasi_lokasi',
                     label: 'Tgl. Mutasi',
                     status: 'insert',
                     type: 'date',
@@ -78,7 +79,7 @@ export default class InputMutasiLokasiComponent implements OnInit {
                     required: true,
                 },
                 {
-                    id: 'lokasi_asal',
+                    id: 'id_lokasi_asal',
                     label: 'Lokasi Asal',
                     status: 'insert',
                     type: 'select',
@@ -100,7 +101,7 @@ export default class InputMutasiLokasiComponent implements OnInit {
                     },
                 },
                 {
-                    id: 'lokasi_tujuan',
+                    id: 'id_lokasi_tujuan',
                     label: 'Lokasi Tujuan',
                     status: 'insert',
                     type: 'select',
@@ -303,11 +304,11 @@ export default class InputMutasiLokasiComponent implements OnInit {
             )
             .subscribe((result: SetupLokasiModel.ISetupLokasi[]) => {
                 const indexLokasiAsal = this.CustomForm.props.fields.findIndex((item) => {
-                    return item.id == 'lokasi_asal'
+                    return item.id == 'id_lokasi_asal'
                 });
 
                 const indexLokasiTujuan = this.CustomForm.props.fields.findIndex((item) => {
-                    return item.id == 'lokasi_tujuan'
+                    return item.id == 'id_lokasi_tujuan'
                 });
 
                 const data = result.map((item) => {
@@ -466,16 +467,16 @@ export default class InputMutasiLokasiComponent implements OnInit {
 
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
-        this._store.dispatch(new MutasiWarehouseAction.Save(payload))
+        this._store.dispatch(new MutasiLokasiAction.Save(payload))
             .subscribe((result) => {
-                if (result.pembelian_dengan_po.entities.success) {
+                if (result.mutasi_lokasi.entities.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
 
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['inventory/mutasi-warehouse/history']);
+                        this._router.navigate(['inventory/mutasi-lokasi/history']);
                     }, 1500);
                 }
             });

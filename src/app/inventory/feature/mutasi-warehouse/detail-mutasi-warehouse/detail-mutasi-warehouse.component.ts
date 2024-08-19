@@ -1,20 +1,14 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { map, Subject } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
-import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
-import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
-import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
 import { MutasiWarehouseAction } from 'src/app/@shared/state/inventory/mutasi-warehouse';
-import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
-import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-detail-mutasi-warehouse',
