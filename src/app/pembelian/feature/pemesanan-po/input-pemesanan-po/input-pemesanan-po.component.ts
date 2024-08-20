@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { Grid } from 'ag-grid-community';
 import { timeStamp } from 'console';
 import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
+import { GridComponent } from 'src/app/@shared/components/grid/grid.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
@@ -36,6 +38,7 @@ export class InputPemesananPoComponent implements OnInit {
 
     GridProps: GridModel.IGrid;
     GridSelectedData: PemesananPoModel.IPemesananPoDetail = {} as any;
+    @ViewChild('GridComps') GridComps!: GridComponent;
 
     // ** For Modal Dialog Detail
     Banyak: number = 0;
@@ -522,11 +525,10 @@ export class InputPemesananPoComponent implements OnInit {
             case 'add':
                 this.FormInputDetail.type = 'add';
                 this.FormDialog.onOpenFormDialog();
-                this
                 break;
             case 'delete':
                 const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
-                this.GridProps.dataSource.splice(selectedIndex, 1);
+                this.GridComps.onDeleteClientSide(selectedIndex);
                 break;
             default:
                 break;
@@ -598,6 +600,13 @@ export class InputPemesananPoComponent implements OnInit {
 
     handleSubmitFormDetail(data: any): void {
         data.urut = this.GridProps.dataSource.length + 1;
+        data.diskon_nominal_1 = data.diskon_nominal_1 ? data.diskon_nominal_1 : 0;
+        data.diskon_nominal_2 = data.diskon_nominal_2 ? data.diskon_nominal_2 : 0;
+        data.diskon_nominal_3 = data.diskon_nominal_3 ? data.diskon_nominal_3 : 0;
+        data.diskon_persen_1 = data.diskon_persen_1 ? data.diskon_persen_1 : 0;
+        data.diskon_persen_2 = data.diskon_persen_2 ? data.diskon_persen_2 : 0;
+        data.diskon_persen_3 = data.diskon_persen_3 ? data.diskon_persen_3 : 0;
+
         this.GridProps.dataSource = [...this.GridProps.dataSource, data];
         this.FormDialog.onCloseFormDialog();
 
@@ -609,7 +618,6 @@ export class InputPemesananPoComponent implements OnInit {
         this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(value.isi * value.banyak);
         this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(value.qty * value.harga_order);
     }
-
 
     onCellFinishEditing(args: any[]): void {
         args = args.filter((data) => {

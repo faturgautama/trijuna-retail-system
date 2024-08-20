@@ -38,6 +38,10 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
         this.props.fields.forEach((item) => {
             if (item.type == 'numeric') {
                 this.CustomForms.addControl(item.id, new FormControl(0, [Validators.required]));
+
+                if (item.form_grouped_props) {
+                    this.CustomForms.addControl(item.form_grouped_props.id, new FormControl(0, [Validators.required]));
+                }
             };
 
             if (item.type == 'date') {
@@ -52,8 +56,6 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
                 this.CustomForms.addControl(item.form_grouped_props?.id!, new FormControl(0, []))
             };
         });
-
-        console.log("props =>", this.props);
     }
 
     ngAfterViewInit(): void {

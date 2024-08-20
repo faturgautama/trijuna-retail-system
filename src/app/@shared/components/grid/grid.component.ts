@@ -97,6 +97,13 @@ export class GridComponent {
         this.toolbarClicked.emit(args);
     }
 
+    onDeleteClientSide(index: any): void {
+        let data = JSON.parse(JSON.stringify(this.props.dataSource));
+        data.splice(index, 1);
+        this.props.dataSource = data;
+        this.gridApi.setRowData(data);
+    }
+
     onCellFinishEditing(args: any): void {
         const index = args.node.rowIndex;
 
