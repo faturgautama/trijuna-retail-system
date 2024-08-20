@@ -636,6 +636,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
         data.diskon_persen_1 = data.diskon_persen_1 ? data.diskon_persen_1 : 0;
         data.diskon_persen_2 = data.diskon_persen_2 ? data.diskon_persen_2 : 0;
         data.diskon_persen_3 = data.diskon_persen_3 ? data.diskon_persen_3 : 0;
+        data.qty_bonus = data.qty_bonus ? data.qty_bonus : 0;
 
         this.GridProps.dataSource = [...this.GridProps.dataSource, data];
         this.FormDialog.onCloseFormDialog();
