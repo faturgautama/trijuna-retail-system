@@ -558,6 +558,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
             case 'delete':
                 const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
                 this.GridComps.onDeleteClientSide(selectedIndex);
+                this.onCountFormFooter();
                 break;
             default:
                 break;
