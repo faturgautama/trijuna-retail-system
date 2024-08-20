@@ -102,8 +102,7 @@ export class HttpRequestService {
     }
 
     private handlingError200(error: string): void {
-        console.warn(error);
-        this.ErrorToast.next({ show: true, message: "Oops.. Something Went Wrong!" });
+        this.ErrorToast.next({ show: true, message: error });
     }
 
     private handlingError(error: HttpErrorResponse): void {
