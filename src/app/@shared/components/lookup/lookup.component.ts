@@ -70,7 +70,8 @@ export class LookupComponent implements OnInit {
             });
         }
 
-        this._httpRequestService.postRequest(this.props.url, { filter: payload })
+        this._httpRequestService
+            .postRequest(this.props.url, { filter: payload })
             .subscribe((result) => {
                 this.GridProps.dataSource = result.data;
             });
@@ -78,6 +79,8 @@ export class LookupComponent implements OnInit {
 
     handleSelectData(args: any): void {
         this.onSelectData.emit(args);
+
+        this.GridProps.dataSource = [];
 
         this.ShowDialog = false;
 

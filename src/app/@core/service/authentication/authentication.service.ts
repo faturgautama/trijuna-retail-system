@@ -29,12 +29,11 @@ export class AuthenticationService {
                     if (result.success) {
                         this.handlingAuth(result.data);
                         return result;
+                    } else {
+                        return result;
                     }
                 })
             );
-
-        // this.handlingAuth(loginResponse);
-        // return of({ success: true, message: 'Login Berhasil', data: loginResponse });
     }
 
     logout(): Promise<any> {

@@ -41,11 +41,11 @@ export class SetupLokasiComponent implements OnInit {
                 { field: 'kode_lokasi', headerName: 'KODE', width: 150, sortable: true, resizable: true },
                 { field: 'nama_lokasi', headerName: 'NAMA', width: 300, sortable: true, resizable: true },
                 { field: 'alamat', headerName: 'ALAMAT', width: 350, sortable: true, resizable: true },
-                { field: 'telepon', headerName: 'TELEPON', width: 150, sortable: true, resizable: true },
+                { field: 'telepon', headerName: 'TELEPON', width: 350, sortable: true, resizable: true },
                 { field: 'npwp', headerName: 'NPWP', width: 150, sortable: true, resizable: true },
-                { field: 'server', headerName: 'SERVER', width: 150, sortable: true, resizable: true },
+                { field: 'server', headerName: 'SERVER', width: 200, sortable: true, resizable: true },
                 {
-                    field: 'is_use', headerName: 'IS USE', width: 200, sortable: true, resizable: true, cellClass: 'text-center',
+                    field: 'is_use', headerName: 'DEFAULT USE', width: 200, sortable: true, resizable: true, cellClass: 'text-center',
                     cellRenderer: (e: any) => {
                         return this._utilityService.IconBoolean(e.value)
                     }
@@ -123,15 +123,15 @@ export class SetupLokasiComponent implements OnInit {
                     },
                     {
                         id: 'is_use',
-                        label: 'Status Active',
+                        label: 'Set As Default',
                         status: 'insert',
                         type: 'radio',
                         radio_props: [
-                            { id: 'is_use_true', name: 'Active', value: true },
-                            { id: 'is_use_false', name: 'Non Active', value: false },
+                            { id: 'is_use_true', name: 'Iya', value: true },
+                            { id: 'is_use_false', name: 'Tidak', value: false },
                         ],
                         required: true,
-                        validator: 'Status Active Tidak Boleh Kosong',
+                        validator: 'Set As Default Tidak Boleh Kosong',
                     },
                 ],
                 custom_class: 'grid-rows-7'

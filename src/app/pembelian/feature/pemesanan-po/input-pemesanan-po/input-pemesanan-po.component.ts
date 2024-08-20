@@ -118,9 +118,9 @@ export class InputPemesananPoComponent implements OnInit {
                         id: 'lookupSupplier',
                         title: 'Data Supplier',
                         columns: [
-                            { field: 'kode_supplier', width: 200, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
-                            { field: 'nama_supplier', width: 275, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
-                            { field: 'alamat', width: 290, headerName: 'ALAMAT SUPPLIER', sortable: true, resizable: true },
+                            { field: 'kode_supplier', flex: 200, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
+                            { field: 'nama_supplier', flex: 275, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
+                            { field: 'alamat', flex: 290, headerName: 'ALAMAT SUPPLIER', sortable: true, resizable: true },
                         ],
                         filter: [
                             { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
@@ -161,9 +161,15 @@ export class InputPemesananPoComponent implements OnInit {
                             id: 'lookupBarang',
                             title: 'Data Barang',
                             columns: [
-                                { field: 'kode_barang', width: 250, headerName: 'KODE BARANG', sortable: true, resizable: true },
+                                { field: 'kode_barang', width: 150, headerName: 'KODE BARANG', sortable: true, resizable: true },
                                 { field: 'nama_barang', width: 250, headerName: 'NAMA BARANG', sortable: true, resizable: true },
-                                { field: 'barcode', width: 250, headerName: 'BARCODE', sortable: true, resizable: true },
+                                { field: 'barcode', width: 200, headerName: 'BARCODE', sortable: true, resizable: true },
+                                {
+                                    field: 'harga_beli_terakhir', width: 250, headerName: 'HARGA BELI TERAKHIR', sortable: true, resizable: true,
+                                    cellClass: 'text-end',
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
+                                },
+                                { field: 'nama_supplier', width: 250, headerName: 'SUPPLIER', sortable: true, resizable: true },
                             ],
                             filter: [
                                 { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
@@ -172,10 +178,13 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Barang',
                             selectedField: 'nama_barang',
                             selectedValue: 'id_barang',
-                            url: `${environment.endpoint}/barang/by_param`,
+                            url: `${environment.endpoint}/pembelian/lookup_barang`,
                             callback: (data) => {
+                                this.HargaOrder = data.harga_order ? parseFloat(data.harga_order) : 0;
+                                this.FormDialog.CustomForm.CustomForms.get('harga_order')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
-                            }
+                            },
+                            width: '70vw',
                         },
                         lookup_set_value_field: ['barcode', 'nama_barang'],
                         required: true,
@@ -322,7 +331,7 @@ export class InputPemesananPoComponent implements OnInit {
                 ],
                 custom_class: 'grid-rows-6 grid-cols-2'
             },
-            width: '65vw'
+            width: '70vw'
         };
 
         this.FormInputFooter = {
@@ -392,11 +401,33 @@ export class InputPemesananPoComponent implements OnInit {
                 { field: 'urut', headerName: 'URUT', width: 120, sortable: true, resizable: true },
                 { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
-                { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
+                {
+                    field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true, editable: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.banyak },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.banyak = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
                 { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
                 { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'harga_order', headerName: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                {
+                    field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                },
+                {
+                    field: 'harga_order', headerName: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                    editable: true,
+                    valueGetter: params => { return params.data.harga_order },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.harga_order = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
                 { field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
@@ -518,23 +549,24 @@ export class InputPemesananPoComponent implements OnInit {
 
     onChangeSatuan(data: SetupBarangModel.ISetupBarangSatuan): void {
         this.FormDialog.CustomForm.handleSetFieldValue('isi', data.isi);
-
         this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * data.isi!));
-
-        this.Qty = (this.Banyak * data.isi!)
+        this.Qty = (this.Banyak * data.isi!);
+        this.onCountSubtotal();
     }
 
     handleChangeBanyak(value: number): void {
         this.Banyak = value;
+        this.onCountSubtotal();
     }
 
     handleChangeQty(value: number): void {
         this.Qty = value;
+        this.onCountSubtotal();
     }
 
     handleChangeHargaOrder(value: number): void {
         this.HargaOrder = value;
-        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaOrder));
+        this.onCountSubtotal();
     }
 
     handleChangeDiskon1Persen(value: number): void {
@@ -569,6 +601,43 @@ export class InputPemesananPoComponent implements OnInit {
         this.GridProps.dataSource = [...this.GridProps.dataSource, data];
         this.FormDialog.onCloseFormDialog();
 
+        this.onCountFormFooter();
+    }
+
+    private onCountSubtotal() {
+        const value = this.FormDialog.CustomForm.CustomForms.value;
+        this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(value.isi * value.banyak);
+        this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(value.qty * value.harga_order);
+    }
+
+
+    onCellFinishEditing(args: any[]): void {
+        args = args.filter((data) => {
+            let total_after_diskon_1 = 0,
+                total_after_diskon_2 = 0,
+                total_after_diskon_3 = 0;
+
+            data.qty = parseFloat(data.banyak) * parseFloat(data.isi);
+            data.harga_order = parseFloat(data.harga_order);
+
+            data.diskon_persen_1 = parseFloat(data.diskon_persen_1);
+            data.diskon_nominal_1 = (parseFloat(data.qty) * data.harga_order) * (data.diskon_persen_1 / 100);
+            total_after_diskon_1 = (parseFloat(data.qty) * data.harga_order) - data.diskon_nominal_1;
+
+            data.diskon_persen_2 = parseFloat(data.diskon_persen_2);
+            data.diskon_nominal_2 = total_after_diskon_1 * (data.diskon_persen_2 / 100);
+            total_after_diskon_2 = total_after_diskon_1 - data.diskon_nominal_2;
+
+            data.diskon_persen_3 = parseFloat(data.diskon_persen_3);
+            data.diskon_nominal_3 = total_after_diskon_2 * (data.diskon_persen_3 / 100);
+            total_after_diskon_3 = total_after_diskon_2 - data.diskon_nominal_3;
+
+            data.sub_total = total_after_diskon_3;
+
+            return data;
+        });
+
+        this.GridProps.dataSource = args;
         this.onCountFormFooter();
     }
 

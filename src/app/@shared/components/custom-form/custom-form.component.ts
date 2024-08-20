@@ -52,6 +52,8 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
                 this.CustomForms.addControl(item.form_grouped_props?.id!, new FormControl(0, []))
             };
         });
+
+        console.log("props =>", this.props);
     }
 
     ngAfterViewInit(): void {

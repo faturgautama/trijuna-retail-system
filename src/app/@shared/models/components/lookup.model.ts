@@ -12,5 +12,6 @@ export namespace LookupModel {
         selectedField: string;
         selectedValue?: string;
         callback?: (data: any) => void;
+        width?: any;
     }
 }
