@@ -115,4 +115,27 @@ export namespace PenjualanModel {
         message!: string
         data!: IPenjualan
     }
+
+    export interface ISellOutItem {
+        kode_barang: string
+        barcode: string
+        nama_barang: string
+        id_barang: number
+        id_divisi: number
+        divisi: string
+        id_group: number
+        group: string
+        kode_satuan: string
+        id_merk: number
+        merk: any
+        qty_jual: string
+        harga_jual: string
+    }
+
+    export class GetAllSellOutItem implements HttpRequestBaseModel {
+        success!: boolean
+        message!: string
+        data!: ISellOutItem[]
+    }
+
 }

@@ -13,6 +13,7 @@ import { InputCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/i
 import { DetailCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/detail-croscek-tutup-kasir/detail-croscek-tutup-kasir.component';
 import { HistoryPenjualanComponent } from './feature/penjualan/history-penjualan/history-penjualan.component';
 import { DetailPenjualanComponent } from './feature/penjualan/detail-penjualan/detail-penjualan.component';
+import { SellOutComponent } from './feature/sell-out/sell-out.component';
 
 const routes: Routes = [
     {
@@ -47,6 +48,7 @@ const routes: Routes = [
         children: [
             { path: 'history', component: HistoryPenjualanComponent },
             { path: 'detail/:id', component: DetailPenjualanComponent },
+            { path: 'sell-out-item', component: SellOutComponent },
         ]
     }
 ]

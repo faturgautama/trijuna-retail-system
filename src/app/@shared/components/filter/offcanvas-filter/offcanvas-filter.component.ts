@@ -67,8 +67,8 @@ export class OffcanvasFilterComponent {
             const kataKunci1 = this.kataKunci.value[0];
             const kataKunci2 = this.kataKunci.value[1];
 
-            data.kataKunci = this._utilityService.FormatDate(kataKunci1);
-            data.kataKunci2 = this._utilityService.FormatDate(kataKunci2);
+            data.kataKunci = this._utilityService.FormatDate(kataKunci1, 'yyyy-MM-DD');
+            data.kataKunci2 = this._utilityService.FormatDate(kataKunci2, 'yyyy-MM-DD');
         }
 
         this.SavedFilter.push(data);

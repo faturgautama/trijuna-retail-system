@@ -333,6 +333,12 @@ export const menu: MenuItem[] = [
                         icon: "",
                         routerLink: '/penjualan/transaksi-penjualan/history'
                     },
+                    {
+                        id: 'sell-out-item',
+                        label: 'Sell Out Item',
+                        icon: "",
+                        routerLink: '/penjualan/transaksi-penjualan/sell-out-item'
+                    },
                 ]
             },
             // {

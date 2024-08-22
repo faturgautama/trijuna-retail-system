@@ -1,0 +1,9 @@
+<app-dashboard [props]="DashboardProps">
+    <div class="flex mb-3">
+        <app-offcanvas-filter [props]="OffcanvasFilterProps" (onSearch)="handleSearchOffcanvas($event)">
+        </app-offcanvas-filter>
+    </div>
+    <div class="grid">
+        <app-grid [props]="GridProps"></app-grid>
+    </div>
+</app-dashboard>

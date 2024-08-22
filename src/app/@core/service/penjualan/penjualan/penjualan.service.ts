@@ -20,4 +20,8 @@ export class PenjualanService {
     getById(id_penjualan: number): Observable<any> {
         return this._httpRequestService.getRequest(`${environment.endpoint}/penjualan/get_by_id/${id_penjualan}`);
     }
+
+    getAllSellOut(queryParams: string, filter: FilterModel.IDynamicFilter[]): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/penjualan/sell_out_item${queryParams}`, { filter: filter });
+    }
 }

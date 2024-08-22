@@ -16,6 +16,7 @@ import { DetailCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/
 import { SettingVoucherComponent } from './feature/setting-voucher/setting-voucher.component';
 import { HistoryPenjualanComponent } from './feature/penjualan/history-penjualan/history-penjualan.component';
 import { DetailPenjualanComponent } from './feature/penjualan/detail-penjualan/detail-penjualan.component';
+import { SellOutComponent } from './feature/sell-out/sell-out.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { DetailPenjualanComponent } from './feature/penjualan/detail-penjualan/d
         DetailCroscekTutupKasirComponent,
         SettingVoucherComponent,
         HistoryPenjualanComponent,
-        DetailPenjualanComponent
+        DetailPenjualanComponent,
+        SellOutComponent
     ],
     imports: [
         CommonModule,
