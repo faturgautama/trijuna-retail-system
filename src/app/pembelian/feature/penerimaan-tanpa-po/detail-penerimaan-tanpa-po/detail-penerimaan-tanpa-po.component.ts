@@ -373,7 +373,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
     }
 
     handleSubmitForm(): void {
-        const id_pemesanan = this.CustomForm.handleGetFieldValue('id_pemesanan');
+        const id_pemesanan = this.CustomForm.handleGetFieldValue('id_penerimaan');
 
         this._store.dispatch(new PembelianTanpaPoAction.Validasi(id_pemesanan))
             .subscribe((result: any) => {
