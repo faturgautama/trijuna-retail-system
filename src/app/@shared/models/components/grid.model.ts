@@ -5,6 +5,7 @@ export namespace GridModel {
         id: string;
         title: string;
         icon: string;
+        data?: any;
     }
 
     export interface IGrid {

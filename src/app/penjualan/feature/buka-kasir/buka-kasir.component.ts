@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
+import { ModalKasirService } from 'src/app/@core/service/penjualan/modal-kasir/modal-kasir.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
@@ -31,9 +32,10 @@ export class BukaKasirComponent {
         private _router: Router,
         private _utilityService: UtilityService,
         private _messageService: MessageService,
+        private _bukaKasirService: ModalKasirService,
     ) {
         this.DashboardProps = {
-            title: 'Buka Kasir',
+            title: 'Modal Kasir',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],
@@ -58,21 +60,19 @@ export class BukaKasirComponent {
 
         this.GridProps = {
             column: [
-                { field: 'no_faktur', headerName: 'NO. FAKTUR', width: 250, sortable: true, resizable: true },
                 {
-                    field: 'tanggal_buka_kasir', headerName: 'TGL. BUKA KASIR', width: 250, sortable: true, resizable: true,
+                    field: 'tanggal_modal_kasir', headerName: 'TGL. MODAL KASIR', flex: 250, sortable: true, resizable: true,
                     cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) }
                 },
-                { field: 'nama_kasir', headerName: 'NAMA KASIR', width: 500, sortable: true, resizable: true },
+                { field: 'nama_kasir', headerName: 'NAMA KASIR', flex: 500, sortable: true, resizable: true },
                 {
-                    field: 'modal', headerName: 'JUMLAH MODAL', width: 300, sortable: true, resizable: true,
+                    field: 'modal_kasir', headerName: 'JUMLAH MODAL', flex: 300, sortable: true, resizable: true,
                     cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
                 },
             ],
-            dataSource: [
-                { no_faktur: 'TEST', tanggal_buka_kasir: new Date(), nama_kasir: 'Lisa', modal: 500000 }
-            ],
-            height: "calc(100vh - 14rem)",
+            dataSource: [],
+            height: "calc(100vh - 18rem)",
+            toolbar: ['Delete'],
             showPaging: true,
         };
 
@@ -85,25 +85,31 @@ export class BukaKasirComponent {
                 is_inline: true,
                 fields: [
                     {
-                        id: 'tanggal_buka_kasir',
-                        label: 'Tanggal',
-                        status: 'readonly',
+                        id: 'id_modal_kasir',
+                        label: 'ID',
+                        status: 'insert',
                         type: 'string',
                         required: true,
+                        hidden: true,
                     },
                     {
-                        id: 'nama_kasir',
-                        label: 'Nama Kasir',
+                        id: 'tanggal_modal_kasir',
+                        label: 'Tanggal',
                         status: 'insert',
-                        type: 'select',
-                        select_props: [
-                            { name: 'Trial', value: 'trial' }
-                        ],
+                        type: 'date',
                         required: true,
                     },
                     {
-                        id: 'modal',
-                        label: 'Modal',
+                        id: 'id_user_kasir',
+                        label: 'Pilih User Kasir',
+                        status: 'insert',
+                        type: 'select',
+                        select_props: [],
+                        required: true,
+                    },
+                    {
+                        id: 'modal_kasir',
+                        label: 'Modal Kasir',
                         status: 'insert',
                         type: 'numeric',
                         required: true,
@@ -117,40 +123,99 @@ export class BukaKasirComponent {
 
     ngOnInit(): void {
         this.handleSearchOffcanvas([]);
+        this.getUserKasir();
     }
 
     handleClickButtonNav(args: string): void {
         if (args == 'add') {
             this.FormDialog.onOpenFormDialog();
-            this.FormDialog.CustomForm.handleSetFieldValue('tanggal_buka_kasir', formatDate(new Date(), 'dd MMMM yyyy', 'en'))
         }
     }
 
     handleSearchOffcanvas(args: any): void {
-        // this._store.dispatch(new PemesananPoAction.GetAll(args))
-        //     .subscribe((result) => {
-        //         if (result.pemesanan_po.entities.success) {
-        //             this.GridProps.dataSource = result.pemesanan_po.entities.data;
-        //         }
-        //     })
+        this._bukaKasirService
+            .getAll()
+            .subscribe((result) => {
+                if (result.success) {
+                    this.GridProps.dataSource = result.data;
+                }
+            })
+    }
+
+    private getUserKasir() {
+        this._bukaKasirService
+            .getAllUserKasir()
+            .subscribe((result) => {
+                if (result.success) {
+                    this.FormInputDetail.form_props.fields[2].select_props = result.data.map((item: any) => {
+                        return {
+                            name: item.nama,
+                            value: item.id_user
+                        }
+                    });
+                }
+            })
     }
 
     handleRowDoubleClicked(args: any): void {
-        console.log(args);
+        this.FormDialog.onOpenFormDialog();
+        this.FormInputDetail.type = 'edit';
+
+        args.tanggal_modal_kasir = new Date(args.tanggal_modal_kasir);
+        this.FormDialog.CustomForm.CustomForms.patchValue(args);
     }
 
     handleToolbarClicked(args: any): void {
-        console.log(args);
+        if (args.id == 'delete') {
+            this._bukaKasirService
+                .delete(args.data.id_modal_kasir)
+                .subscribe((result) => {
+                    if (result.success) {
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dihapus' });
+                        this.handleSearchOffcanvas([]);
+                    }
+                });
+        }
     }
 
     handleSubmitFormDetail(data: any): void {
-        this._messageService.clear();
-        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
+        if (this.FormInputDetail.type == 'add') {
+            const payload = {
+                id_user_kasir: data.id_user_kasir,
+                tanggal_modal_kasir: data.tanggal_modal_kasir,
+                modal_kasir: data.modal_kasir,
+            };
 
-        setTimeout(() => {
-            data.no_faktur = 'TEST';
-            this.GridProps.dataSource = [...this.GridProps.dataSource, data];
-            this.FormDialog.onCloseFormDialog();
-        }, 1500);
+            this._bukaKasirService
+                .insert(payload)
+                .subscribe((result) => {
+                    if (result.success) {
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
+                        this.handleSearchOffcanvas([]);
+                        this.FormDialog.onCloseFormDialog();
+                    }
+                });
+        }
+
+        if (this.FormInputDetail.type == 'edit') {
+            const payload = {
+                id_user_kasir: data.id_user_kasir,
+                tanggal_modal_kasir: data.tanggal_modal_kasir,
+                modal_kasir: data.modal_kasir,
+            };
+
+            this._bukaKasirService
+                .update(data.id_modal_kasir, payload)
+                .subscribe((result) => {
+                    if (result.success) {
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Diperbarui' });
+                        this.handleSearchOffcanvas([]);
+                        this.FormDialog.onCloseFormDialog();
+                    }
+                });
+        }
     }
 }

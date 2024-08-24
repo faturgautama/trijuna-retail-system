@@ -361,10 +361,10 @@ export const menu: MenuItem[] = [
             //     ]
             // },
             {
-                id: 'buka-kasir',
-                label: 'Buka Kasir',
+                id: 'modal-kasir',
+                label: 'Modal Kasir',
                 icon: "",
-                routerLink: '/penjualan/buka-kasir'
+                routerLink: '/penjualan/modal-kasir'
             },
             // {
             //     id: 'tutup-kasir',
