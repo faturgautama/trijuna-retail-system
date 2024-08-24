@@ -17,6 +17,11 @@ import { SettingVoucherComponent } from './feature/setting-voucher/setting-vouch
 import { HistoryPenjualanComponent } from './feature/penjualan/history-penjualan/history-penjualan.component';
 import { DetailPenjualanComponent } from './feature/penjualan/detail-penjualan/detail-penjualan.component';
 import { SellOutComponent } from './feature/sell-out/sell-out.component';
+import { DialogModule } from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -37,8 +42,13 @@ import { SellOutComponent } from './feature/sell-out/sell-out.component';
     ],
     imports: [
         CommonModule,
+        FormsModule,
         ComponentsModule,
-        PenjualanRoutingModule
+        PenjualanRoutingModule,
+        DialogModule,
+        CalendarModule,
+        InputTextareaModule,
+        ButtonModule,
     ],
     providers: [
         MessageService
