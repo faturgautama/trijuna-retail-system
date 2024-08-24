@@ -42,20 +42,20 @@ jobs:
       - run:
           name: Build dockerfile
           command: |
-            docker build --no-cache -t dockerhiscis/frontend-ois:$CIRCLE_SHA1 .
+            docker build --no-cache -t triastartya/frontend-retail:$CIRCLE_SHA1 .
       - run:
           name: Push Docker Image
           command: |
-            docker push dockerhiscis/frontend-ois:$CIRCLE_SHA1
-            docker tag dockerhiscis/frontend-ois:$CIRCLE_SHA1 dockerhiscis/frontend-ois:development-latest
-            docker push dockerhiscis/frontend-ois:development-latest
+            docker push triastartya/frontend-retail:$CIRCLE_SHA1
+            docker tag triastartya/frontend-retail:$CIRCLE_SHA1 triastartya/frontend-retail:development-latest
+            docker push triastartya/frontend-retail:development-latest
       - add_ssh_keys:
           fingerprints:
             - "7a:54:b4:aa:a2:32:67:43:d9:06:5e:90:eb:0c:19:c2"
-      - run:
-          name: Deploy app to development server
-          command: |
-            ssh -o StrictHostKeyChecking=no root@174.138.22.139 "cd /home/frontend-ois-circle/ && docker-compose down && docker pull dockerhiscis/frontend-ois:development-latest && docker-compose up -d"
+      # - run:
+      #     name: Deploy app to development server
+      #     command: |
+      #       ssh -o StrictHostKeyChecking=no root@174.138.22.139 "cd /home/frontend-ois-circle/ && docker-compose down && docker pull triastartya/frontend-retail:development-latest && docker-compose up -d"
 workflows:
   basic-workflow:
     jobs:
@@ -63,4 +63,4 @@ workflows:
           filters:
             branches:
               only:
-                - production
+                - main
