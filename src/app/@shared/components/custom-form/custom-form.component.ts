@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomFormModel } from '../../models/components/custom-form.model';
+import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 
 @Component({
     selector: 'app-custom-form',
@@ -24,6 +25,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
 
     constructor(
         private _formBuilder: FormBuilder,
+        private _utilityService: UtilityService,
     ) {
         this.CustomForms = this._formBuilder.group({});
     }
@@ -45,7 +47,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
             };
 
             if (item.type == 'date') {
-                this.CustomForms.addControl(item.id, new FormControl(new Date, [Validators.required]));
+                this.CustomForms.addControl(item.id, new FormControl(null, [Validators.required]));
             };
 
             if (item.type != 'numeric' && item.type != 'date') {
@@ -64,6 +66,13 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
     handleSetFormDefaultValue(): void {
         for (let item in this.props.default_value) {
             this.CustomForms.get(item)?.setValue(this.props.default_value[item]);
+        }
+    }
+
+    handleChangeCalendar(props: CustomFormModel.IFields, args: any): void {
+        if (args) {
+            const formatedDate = this._utilityService.FormatDate(new Date(this.CustomForms.get(props.id)?.value), 'yyyy-MM-DD');
+            this.CustomForms.get(props.id)?.setValue(formatedDate);
         }
     }
 

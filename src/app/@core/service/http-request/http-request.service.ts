@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
 import { HttpRequestBaseModel } from 'src/app/@shared/models/shared/http-request-base.model';
+import { UtilityService } from '../utility/utility.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,6 +15,7 @@ export class HttpRequestService {
 
     constructor(
         private _httpClient: HttpClient,
+        private _utilityService: UtilityService,
     ) { }
 
     getRequest(url: string): Observable<any> {
@@ -41,6 +43,12 @@ export class HttpRequestService {
     postRequest(url: string, payload: any): Observable<any> {
         this.ToggleLoading.next(true);
 
+        for (const item in payload) {
+            if (item.includes('tanggal') || item.includes('tgl')) {
+                payload[item] = this._utilityService.FormatDate(payload[item], 'yyyy-MM-DD')
+            }
+        };
+
         return this._httpClient.post<HttpRequestBaseModel>(url, payload)
             .pipe(
                 map((result) => {
@@ -61,6 +69,12 @@ export class HttpRequestService {
 
     putRequest(url: string, payload: any): Observable<any> {
         this.ToggleLoading.next(true);
+
+        for (const item in payload) {
+            if (item.includes('tanggal') || item.includes('tgl')) {
+                payload[item] = this._utilityService.FormatDate(payload[item], 'yyyy-MM-DD')
+            }
+        };
 
         return this._httpClient.put<HttpRequestBaseModel>(url, payload)
             .pipe(
