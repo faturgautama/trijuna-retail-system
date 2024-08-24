@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { CroscekTutupKasirService } from 'src/app/@core/service/penjualan/croscek-tutup-kasir/croscek-tutup-kasir.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
@@ -23,6 +24,7 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
         private _store: Store,
         private _router: Router,
         private _utilityService: UtilityService,
+        private _croscekTutupKasir: CroscekTutupKasirService,
     ) {
         this.DashboardProps = {
             title: 'History Croscek Tutup Kasir',
@@ -56,21 +58,32 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'id_mutasi_warehouse', headerName: 'NO. FAKTUR', width: 170, sortable: true, resizable: true },
                 {
-                    field: 'tanggal_mutasi_warehouse', headerName: 'TGL. TUTUP KASIR', width: 200, sortable: true, resizable: true,
+                    field: 'tanggal_tutup_kasir', headerName: 'TGL. TUTUP KASIR', width: 200, sortable: true, resizable: true,
                     cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) }
                 },
-                { field: 'warehouse_asal', headerName: 'USER KASIR', width: 150, sortable: true, resizable: true },
                 {
-                    field: 'qty', headerName: 'PENDAPATAN VERSI KASIR', width: 300, sortable: true, resizable: true,
-                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) }
+                    field: 'tanggal_kroscek_tutup_kasir', headerName: 'TGL. KROSCEK KASIR', width: 200, sortable: true, resizable: true,
+                    cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) }
+                },
+                { field: 'kasir', headerName: 'USER KASIR', width: 150, sortable: true, resizable: true },
+                {
+                    field: 'pendapatan_versi_user', headerName: 'PENDAPATAN VERSI KASIR', width: 250, sortable: true, resizable: true,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
                 },
                 {
-                    field: 'qty', headerName: 'PENDAPATAN VERSI KOMPUTER', width: 300, sortable: true, resizable: true,
-                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) }
+                    field: 'pendapatan_versi_system', headerName: 'PENDAPATAN VERSI KOMPUTER', width: 250, sortable: true, resizable: true,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
                 },
-                { field: 'status_mutasi_warehouse', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
+                {
+                    field: 'selisih', headerName: 'SELISIH', width: 150, sortable: true, resizable: true,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
+                },
+                { field: 'keterangan_tutup_kasir', headerName: 'KETERANGAN TUTUP KASIR', width: 200, sortable: true, resizable: true },
+                { field: 'keterangan_kroscek', headerName: 'KETERANGAN KROSCEK', width: 200, sortable: true, resizable: true },
             ],
             dataSource: [],
             height: "calc(100vh - 14rem)",
@@ -87,16 +100,17 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
     }
 
     handleSearchOffcanvas(args: any): void {
-        // this._store.dispatch(new PemesananPoAction.GetAll(args))
-        //     .subscribe((result) => {
-        //         if (result.pemesanan_po.entities.success) {
-        //             this.GridProps.dataSource = result.pemesanan_po.entities.data;
-        //         }
-        //     })
+        this._croscekTutupKasir
+            .getAll(args)
+            .subscribe((result) => {
+                if (result.success) {
+                    this.GridProps.dataSource = result.data;
+                }
+            })
     }
 
     handleRowDoubleClicked(args: any): void {
-        // this._router.navigate(['inventory/mutasi-lokasi/detail', args.id_mutasi]);
+        this._router.navigate(['penjualan/croscek-tutup-kasir/detail', args.id_kroscek_tutup_kasir]);
     }
 
     handleToolbarClicked(args: any): void {

@@ -15,11 +15,11 @@ export class CroscekTutupKasirService {
     ) { }
 
     getAll(filter: FilterModel.IDynamicFilter[]): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/kroscek_tutup_kasir/get_by_param`, { filter: filter });
+        return this._httpRequestService.postRequest(`${environment.endpoint}/kroscek_tutup_kasir/by_param`, { filter: filter });
     }
 
-    getById(id_penjualan: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/kroscek_tutup_kasir/get_by_id/${id_penjualan}`);
+    getById(id_kroscek_tutup_kasir: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/kroscek_tutup_kasir/by_id/${id_kroscek_tutup_kasir}`);
     }
 
     getAllBelumCroscek(): Observable<CroscekTutupKasirModel.GetTutupKasirBelumCroscek> {

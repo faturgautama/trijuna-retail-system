@@ -2,19 +2,19 @@ import { HttpRequestBaseModel } from "../shared/http-request-base.model"
 
 export namespace CroscekTutupKasirModel {
     export interface ICroscekTutupKasir {
-        id_modal_kasir: number
-        id_user_kasir: number
-        tanggal_modal_kasir: string
-        modal_kasir: string
-        is_deleted: boolean
-        deleted_by: any
-        deleted_at: any
-        deleted_reason: any
-        created_by: number
-        updated_by: number
-        id_tutup_kasir: any
+        id_kroscek_tutup_kasir: number
+        id_tutup_kasir: number
+        kasir: string
+        email: string
+        tanggal_tutup_kasir: string
+        tanggal_kroscek_tutup_kasir: string
+        pendapatan_versi_user: string
+        pendapatan_versi_system: string
+        selisih: string
+        keterangan_kroscek: string
+        keterangan_tutup_kasir: string
+        created_by: string
         created_at: string
-        updated_at: string
     }
 
     export class GetAllCroscekTutupKasir implements HttpRequestBaseModel {
@@ -23,10 +23,27 @@ export namespace CroscekTutupKasirModel {
         data!: ICroscekTutupKasir[]
     }
 
+    export interface IDetailCroscekTutupKasir {
+        id_kroscek_tutup_kasir: number
+        id_tutup_kasir: number
+        kasir: string
+        email: string
+        tanggal_tutup_kasir: string
+        tanggal_kroscek_tutup_kasir: string
+        pendapatan_versi_user: string
+        pendapatan_versi_system: string
+        selisih: string
+        keterangan_kroscek: string
+        keterangan_tutup_kasir: string
+        created_by: string
+        created_at: string
+        detail_pendapatan: Pendapatan[]
+    }
+
     export class GetByIdCroscekTutupKasir implements HttpRequestBaseModel {
         success!: boolean
         message!: string
-        data!: ICroscekTutupKasir
+        data!: IDetailCroscekTutupKasir
     }
 
     export interface ITutupKasirBelumCroscek {
