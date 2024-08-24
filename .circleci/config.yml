@@ -54,8 +54,8 @@ jobs:
             - "7a:54:b4:aa:a2:32:67:43:d9:06:5e:90:eb:0c:19:c2"
   build-jepon:
     machine:
-      image: ubuntu-2204:2024.01.2
-    resource_class: arm.medium
+      image: ubuntu-2004:current
+    resource_class: medium
     steps:
       - run:
           name: validate branch and repo
