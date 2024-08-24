@@ -1,3 +1,3 @@
 FROM nginx:stable
 WORKDIR /app
-COPY dist/DASHBOARD-TEMPLATE /usr/share/nginx/html
+COPY dist/trijuna-retail-system /usr/share/nginx/html
