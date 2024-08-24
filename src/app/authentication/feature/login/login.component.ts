@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit {
                     this.LoadingDialog.closeDialog();
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Login Success' });
+                    this._router.navigate(['beranda']);
                 } else {
                     this.LoadingDialog.closeDialog();
                     this._messageService.clear();
@@ -86,6 +87,7 @@ export class LoginComponent implements OnInit {
     onCloseToast(args: any): void {
         if (args.message.severity == 'success') {
             this._router.navigate(['beranda']);
+            window.location.reload();
         }
     }
 }
