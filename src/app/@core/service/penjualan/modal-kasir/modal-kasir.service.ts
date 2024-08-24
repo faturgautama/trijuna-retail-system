@@ -20,7 +20,7 @@ export class ModalKasirService {
     }
 
     getAll(): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/modal_kasir`);
+        return this._httpRequestService.getRequest(`${environment.endpoint}/modal_kasir_get`);
     }
 
     getById(id_modal_kasir: number): Observable<any> {

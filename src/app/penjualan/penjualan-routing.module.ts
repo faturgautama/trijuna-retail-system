@@ -24,7 +24,7 @@ const routes: Routes = [
         ]
     },
     {
-        path: 'buka-kasir', component: BukaKasirComponent
+        path: 'modal-kasir', component: BukaKasirComponent
     },
     {
         path: 'tutup-kasir', children: [

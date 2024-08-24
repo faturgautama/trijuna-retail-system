@@ -726,7 +726,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['pembelian/penerimaan-dengan-po/history']);
+                        this._router.navigate(['pembelian/penerimaan-tanpa-po/history']);
                     }, 1500);
                 }
             });

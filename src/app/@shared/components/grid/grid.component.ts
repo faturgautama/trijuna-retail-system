@@ -37,6 +37,8 @@ export class GridComponent {
         primeNgDropdown: CustomDropdownComponent,
     };
 
+    SelectedData: any;
+
     constructor(
         private gridService: GridService,
     ) { };
@@ -86,6 +88,7 @@ export class GridComponent {
     }
 
     onCellClicked(args: any): void {
+        this.SelectedData = args.data;
         this.cellClicked.emit(args.data);
     }
 
@@ -94,7 +97,10 @@ export class GridComponent {
     }
 
     onToolbarClicked(args: GridModel.IGridToolbar): void {
-        this.toolbarClicked.emit(args);
+        this.toolbarClicked.emit({
+            ...args,
+            data: this.SelectedData
+        });
     }
 
     onDeleteClientSide(index: any): void {
