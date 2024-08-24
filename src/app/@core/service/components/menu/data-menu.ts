@@ -360,12 +360,12 @@ export const menu: MenuItem[] = [
             //         },
             //     ]
             // },
-            // {
-            //     id: 'buka-kasir',
-            //     label: 'Buka Kasir',
-            //     icon: "",
-            //     routerLink: '/penjualan/buka-kasir'
-            // },
+            {
+                id: 'buka-kasir',
+                label: 'Buka Kasir',
+                icon: "",
+                routerLink: '/penjualan/buka-kasir'
+            },
             // {
             //     id: 'tutup-kasir',
             //     label: 'Tutup Kasir',

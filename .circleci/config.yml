@@ -52,10 +52,55 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "7a:54:b4:aa:a2:32:67:43:d9:06:5e:90:eb:0c:19:c2"
-      # - run:
-      #     name: Deploy app to development server
-      #     command: |
-      #       ssh -o StrictHostKeyChecking=no root@174.138.22.139 "cd /home/frontend-ois-circle/ && docker-compose down && docker pull triastartya/frontend-retail:development-latest && docker-compose up -d"
+  build-jepon:
+    machine:
+      image: ubuntu-2204:2024.01.2
+    resource_class: arm.medium
+    steps:
+      - run:
+          name: validate branch and repo
+          command: echo $CIRCLE_BRANCH && echo $CIRCLE_REPOSITORY_URL
+      - run:
+          name: checkout
+          command: git clone -b "$CIRCLE_BRANCH" "$CIRCLE_REPOSITORY_URL" .
+      - node/install:
+          install-yarn: false
+          node-version: "16.20.0"
+      - run:
+          name: list dir
+          command: ls
+      - run:
+          name: verify node version
+          command: node --version
+      - run:
+          name: install angular 15.0.1
+          command: npm install -g @angular/cli@15.1.0
+      - run:
+          name: install package
+          command: npm install -f
+      - run:
+          name: npm version patch --no-git-tag-version
+          command: npm version patch --no-git-tag-version
+      - run:
+          name: build angular
+          command: ng build --configuration=jepon --output-hashing=all
+      - run:
+          name: Login to dockerhub
+          command: |
+            echo "$DOCKER_PASS" | docker login  --username $DOCKER_USER --password-stdin
+      - run:
+          name: Build dockerfile
+          command: |
+            docker build --no-cache -t triastartya/frontend-retail:$CIRCLE_SHA1 .
+      - run:
+          name: Push Docker Image
+          command: |
+            docker push triastartya/frontend-retail:$CIRCLE_SHA1
+            docker tag triastartya/frontend-retail:$CIRCLE_SHA1 triastartya/frontend-retail:jepon-latest
+            docker push triastartya/frontend-retail:jepon-latest
+      - add_ssh_keys:
+          fingerprints:
+            - "7a:54:b4:aa:a2:32:67:43:d9:06:5e:90:eb:0c:19:c2"
 workflows:
   basic-workflow:
     jobs:
@@ -64,3 +109,8 @@ workflows:
             branches:
               only:
                 - main
+      - build-jepon:
+          filters:
+            branches:
+              only:
+                - jepon
