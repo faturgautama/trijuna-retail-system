@@ -26,6 +26,11 @@ import { DetailBarangUraiComponent } from './feature/setup-barang/detail-setup-b
 import { InputSettingHargaComponent } from './feature/setting-harga/input-setting-harga/input-setting-harga.component';
 import { ListSettingHargaComponent } from './feature/setting-harga/list-setting-harga/list-setting-harga.component';
 import { DetailSettingHargaComponent } from './feature/setting-harga/detail-setting-harga/detail-setting-harga.component';
+import { DetailKartuStokComponent } from './feature/setup-barang/detail-setup-barang/detail-kartu-stok/detail-kartu-stok.component';
+import { FormsModule } from "@angular/forms";
+import { CalendarModule } from "primeng/calendar";
+import { DropdownModule } from "primeng/dropdown";
+import { ButtonModule } from "primeng/button";
 
 @NgModule({
     declarations: [
@@ -50,11 +55,16 @@ import { DetailSettingHargaComponent } from './feature/setting-harga/detail-sett
         InputSettingHargaComponent,
         ListSettingHargaComponent,
         DetailSettingHargaComponent,
+        DetailKartuStokComponent,
     ],
     imports: [
         CommonModule,
         SetupDataRoutingModule,
         ComponentsModule,
+        FormsModule,
+        CalendarModule,
+        DropdownModule,
+        ButtonModule,
     ],
     providers: [
         MessageService,

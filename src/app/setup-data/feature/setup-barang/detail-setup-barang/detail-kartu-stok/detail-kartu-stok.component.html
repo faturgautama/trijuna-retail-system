@@ -1,0 +1,38 @@
+<div class="flex flex-row mb-3 gap-5">
+    <!-- Tanggal Pencarian -->
+    <div class="w-4/12 flex gap-2 items-center">
+        <div class="w-4/12">
+            <p class="text-sm font-medium text-gray-700">
+                Tanggal Pencarian
+            </p>
+        </div>
+        <div class="w-8/12">
+            <p-calendar styleClass="p-inputtext-sm w-full" [(ngModel)]="Tanggal" appendTo="body" dateFormat="dd-mm-yy"
+                [selectionMode]="'range'">
+            </p-calendar>
+        </div>
+    </div>
+
+    <!-- Tanggal Pencarian -->
+    <div class="w-4/12 flex gap-2 items-center">
+        <div class="w-4/12">
+            <p class="text-sm font-medium text-gray-700">
+                Warehouse
+            </p>
+        </div>
+        <div class="w-8/12">
+            <p-dropdown [options]="WarehouseDatasource" [(ngModel)]="Warehouse" optionLabel="warehouse"
+                optionValue="id_warehouse" styleClass="w-full p-inputtext-sm" appendTo="body"
+                [autoDisplayFirst]="false">
+            </p-dropdown>
+        </div>
+    </div>
+
+    <!-- Button -->
+    <p-button styleClass="p-button-sm p-button-info" (onClick)="getKartuStokBarang()">
+        Cari Kartu Stok
+    </p-button>
+</div>
+
+<app-grid [props]="GridBarangSatuanProps">
+</app-grid>

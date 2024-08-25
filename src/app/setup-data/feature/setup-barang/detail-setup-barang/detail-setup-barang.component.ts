@@ -28,7 +28,7 @@ export class DetailSetupBarangComponent implements OnInit {
 
     @ViewChild('CustomForm') CustomForm!: CustomFormComponent;
 
-    PageState: 'detail' | 'barang_satuan' | 'barang_rak' | 'barang_komponen' | 'barang_urai' = 'detail';
+    PageState: 'detail' | 'barang_satuan' | 'barang_rak' | 'barang_komponen' | 'barang_urai' | 'kartu_stok' = 'detail';
 
     IdBarang: number = 0;
 
@@ -298,11 +298,20 @@ export class DetailSetupBarangComponent implements OnInit {
                     validator: 'Stok Min Tidak Boleh Kosong',
                 },
                 {
+                    id: 'harga_jual',
+                    label: 'Harga Jual',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: false,
+                    validator: 'Harga Jual Tidak Boleh Kosong',
+                },
+                {
                     id: 'image',
                     label: 'Image',
                     status: 'insert',
                     type: 'string',
                     required: false,
+                    hidden: true,
                 }
             ],
             custom_class: 'grid-rows-11'
@@ -448,6 +457,13 @@ export class DetailSetupBarangComponent implements OnInit {
                     { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                 ];
                 this.PageState = 'barang_urai';
+                break;
+            case 5:
+                console.log("Kartu Stok Barang");
+                this.DashboardProps.button_navigation = [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                ];
+                this.PageState = 'kartu_stok';
                 break;
             default:
                 break;

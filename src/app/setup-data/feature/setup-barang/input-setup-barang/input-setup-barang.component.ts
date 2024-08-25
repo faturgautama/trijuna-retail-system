@@ -300,11 +300,20 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     validator: 'Stok Min Tidak Boleh Kosong',
                 },
                 {
+                    id: 'harga_jual',
+                    label: 'Harga Jual',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: false,
+                    validator: 'Harga Jual Tidak Boleh Kosong',
+                },
+                {
                     id: 'image',
                     label: 'Image',
                     status: 'insert',
                     type: 'string',
                     required: false,
+                    hidden: true,
                 }
             ],
             custom_class: 'grid-rows-11'

@@ -34,6 +34,10 @@ export class SetupBarangService {
         return this._httpRequestService.deleteRequest(`${environment.endpoint}/barang/${id_barang}`);
     }
 
+    getKartuStokBarang(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/barang/kartu_stok`, payload);
+    }
+
     // ** Barang Satuan
     getAllBarangSatuan(id_barang: number): Observable<any> {
         return this._httpRequestService.getRequest(`${environment.endpoint}/barang_satuan/by_id_barang/${id_barang}`);
