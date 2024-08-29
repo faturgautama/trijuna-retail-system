@@ -23,6 +23,8 @@ import { DetailReturPembelianComponent } from './feature/retur-pembelian/detail-
 import { DetailReturKonsinyasiComponent } from './feature/retur-konsinyasi/detail-retur-konsinyasi/detail-retur-konsinyasi.component';
 import { HistoryReturKonsinyasiComponent } from './feature/retur-konsinyasi/history-retur-konsinyasi/history-retur-konsinyasi.component';
 import { InputReturKonsinyasiComponent } from './feature/retur-konsinyasi/input-retur-konsinyasi/input-retur-konsinyasi.component';
+import { RadioButtonModule } from "primeng/radiobutton";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -49,7 +51,9 @@ import { InputReturKonsinyasiComponent } from './feature/retur-konsinyasi/input-
         CommonModule,
         ComponentsModule,
         PembelianRoutingModule,
-        InputTextareaModule
+        InputTextareaModule,
+        RadioButtonModule,
+        FormsModule,
     ],
     providers: [
         MessageService,

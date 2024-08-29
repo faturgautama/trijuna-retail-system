@@ -31,6 +31,8 @@ import { FormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
 import { DropdownModule } from "primeng/dropdown";
 import { ButtonModule } from "primeng/button";
+import { SetupGroupUserComponent } from './feature/management-user/setup-group-user/setup-group-user.component';
+import { SetupUserComponent } from './feature/management-user/setup-user/setup-user.component';
 
 @NgModule({
     declarations: [
@@ -56,6 +58,8 @@ import { ButtonModule } from "primeng/button";
         ListSettingHargaComponent,
         DetailSettingHargaComponent,
         DetailKartuStokComponent,
+        SetupGroupUserComponent,
+        SetupUserComponent,
     ],
     imports: [
         CommonModule,

@@ -44,7 +44,7 @@ export class HttpRequestService {
         this.ToggleLoading.next(true);
 
         for (const item in payload) {
-            if (item.includes('tanggal') || item.includes('tgl')) {
+            if (item.includes('tanggal') || item.includes('tgl') || item.includes('tangal')) {
                 payload[item] = this._utilityService.FormatDate(payload[item], 'yyyy-MM-DD')
             }
         };

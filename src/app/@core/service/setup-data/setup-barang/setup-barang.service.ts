@@ -105,4 +105,8 @@ export class SetupBarangService {
     deleteBarangUrai(id_barang_urai: number): Observable<any> {
         return this._httpRequestService.deleteRequest(`${environment.endpoint}/barang_urai/${id_barang_urai}`);
     }
+
+    getOmsetDanStokBarangCabang(id_barang: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/barang/lihat_stok_omzet_cabang/${id_barang}`);
+    }
 }

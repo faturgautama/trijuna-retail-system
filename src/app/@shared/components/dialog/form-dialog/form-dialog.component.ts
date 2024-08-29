@@ -25,6 +25,8 @@ export class FormDialogComponent implements OnInit {
 
     ShowDialog: boolean = false;
 
+    @Output('onCloseDialog') onCloseDialog = new EventEmitter<any>();
+
     @Output('onSubmitForm') onSubmitForm = new EventEmitter<any>();
 
     constructor() { }
@@ -54,5 +56,10 @@ export class FormDialogComponent implements OnInit {
     handleSubmitForm(): void {
         const data = this.CustomForm.handleSubmitForm();
         this.onSubmitForm.emit(data);
+    }
+
+    handleCloseDialog(): void {
+        this.ShowDialog = false;
+        this.onCloseDialog.emit('closed');
     }
 }

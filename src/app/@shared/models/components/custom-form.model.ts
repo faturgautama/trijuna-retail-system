@@ -28,6 +28,7 @@ export namespace CustomFormModel {
         status: 'readonly' | 'insert';
         required: boolean;
         validator?: string;
+        numeric_max_number?: number;
         numeric_callback?: (data: any) => void;
         select_props?: IFormSelectProps[] | any[];
         select_callback?: (data: any) => void;

@@ -113,7 +113,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     label: 'Ukuran',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
                     validator: 'Ukuran Tidak Boleh Kosong',
                 },
                 {
@@ -121,7 +121,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     label: 'Warna',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
                     validator: 'Warna Tidak Boleh Kosong',
                 },
                 {
@@ -129,7 +129,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     label: 'Berat',
                     status: 'insert',
                     type: 'numeric',
-                    required: true,
+                    required: false,
                     validator: 'Berat Tidak Boleh Kosong',
                 },
                 {
@@ -246,11 +246,15 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                 },
                 {
                     id: 'margin',
-                    label: 'Margin Harga',
+                    label: 'Margin Harga (%)',
                     status: 'insert',
                     type: 'numeric',
                     required: true,
                     validator: 'Margin Harga Tidak Boleh Kosong',
+                    numeric_max_number: 100,
+                    numeric_callback: (args: any) => {
+                        console.log(args);
+                    }
                 },
                 {
                     id: 'qty_grosir1',

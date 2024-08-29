@@ -9,9 +9,14 @@
 
     <app-custom-form #CustomForm [props]="FormProps"></app-custom-form>
 
+    <div *ngIf="props.showContent">
+        <ng-content></ng-content>
+    </div>
+
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-times" (click)="ShowDialog = false" label="Close"
-            styleClass="p-button-secondary p-button-sm"></p-button>
+        <p-button icon="pi pi-times" (click)="handleCloseDialog()" label="Close"
+            styleClass="p-button-secondary p-button-sm">
+        </p-button>
 
         <p-button icon="pi pi-save" (click)="handleSubmitForm()" [label]=" props.type == 'add' ? 'Save' : 'Update'"
             styleClass="p-button-info p-button-sm">

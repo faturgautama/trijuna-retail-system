@@ -44,6 +44,7 @@ export class DetailKartuStokComponent implements OnInit {
                 { field: 'stok_akhir', headerName: 'STOK AKHIR', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'nominal_akhir', headerName: 'NOMINAL AKHIR', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'keterangan', headerName: 'KETERANGAN', width: 200, sortable: true, resizable: true, },
+                { field: 'user_update', headerName: 'USER UPDATE', width: 150, sortable: true, resizable: true, },
             ],
             dataSource: [],
             height: 'calc(100vh - 19rem)',

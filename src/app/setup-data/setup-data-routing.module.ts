@@ -17,6 +17,7 @@ import { DetailSetupBarangComponent } from "./feature/setup-barang/detail-setup-
 import { ListSettingHargaComponent } from "./feature/setting-harga/list-setting-harga/list-setting-harga.component";
 import { InputSettingHargaComponent } from "./feature/setting-harga/input-setting-harga/input-setting-harga.component";
 import { DetailSettingHargaComponent } from "./feature/setting-harga/detail-setting-harga/detail-setting-harga.component";
+import { SetupUserComponent } from "./feature/management-user/setup-user/setup-user.component";
 
 const routes: Routes = [
     {
@@ -68,6 +69,18 @@ const routes: Routes = [
             { path: 'list', component: ListSettingHargaComponent },
             { path: 'input', component: InputSettingHargaComponent },
             { path: 'detail/:id', component: DetailSettingHargaComponent },
+        ],
+    },
+    {
+        path: 'management-user', children: [
+            {
+                path: 'setup-user-group',
+                component: SetupUserComponent
+            },
+            {
+                path: 'setup-user',
+                component: SetupUserComponent
+            },
         ],
     }
 ];

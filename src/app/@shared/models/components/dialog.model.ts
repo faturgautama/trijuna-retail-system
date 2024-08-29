@@ -6,5 +6,6 @@ export namespace DialogModel {
         type: 'add' | 'edit';
         form_props: CustomFormModel.IForm;
         width?: string;
+        showContent?: boolean;
     }
 }

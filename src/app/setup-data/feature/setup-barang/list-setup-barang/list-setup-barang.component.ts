@@ -35,6 +35,24 @@ export class ListSetupBarangComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
+                    id: 'kode_barang',
+                    title: 'Kode Barang',
+                    type: 'string',
+                    value: 'mb.kode_barang',
+                },
+                {
+                    id: 'nama_barang',
+                    title: 'Nama Barang',
+                    type: 'string',
+                    value: 'mb.nama_barang',
+                },
+                {
+                    id: 'barcode',
+                    title: 'Barcode',
+                    type: 'string',
+                    value: 'mb.barcode',
+                },
+                {
                     id: 'divisi',
                     title: 'Nama Divisi',
                     type: 'string',
@@ -45,18 +63,6 @@ export class ListSetupBarangComponent implements OnInit {
                     title: 'Nama Group',
                     type: 'string',
                     value: ' mg.group',
-                },
-                {
-                    id: 'kode_barang',
-                    title: 'Kode Barang',
-                    type: 'string',
-                    value: 'mb.kode_barang',
-                },
-                {
-                    id: 'barcode',
-                    title: 'Barcode',
-                    type: 'string',
-                    value: 'mb.barcode',
                 },
                 {
                     id: 'supplier',

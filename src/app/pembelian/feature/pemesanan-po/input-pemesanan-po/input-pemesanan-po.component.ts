@@ -4,7 +4,8 @@ import { Store } from '@ngxs/store';
 import { Grid } from 'ag-grid-community';
 import { timeStamp } from 'console';
 import { MessageService } from 'primeng/api';
-import { map } from 'rxjs';
+import { map, takeUntil } from 'rxjs';
+import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
@@ -31,7 +32,9 @@ export class InputPemesananPoComponent implements OnInit {
     DashboardProps: DashboardModel.IDashboard;
 
     FormInputHeader: CustomFormModel.IForm;
-    @ViewChild('CustomForm') CustomForm!: CustomFormComponent
+    @ViewChild('CustomForm') CustomForm!: CustomFormComponent;
+
+    SelectedSupplierLookup: any;
 
     FormInputDetail: DialogModel.IFormDialog;
     @ViewChild('FormDialog') FormDialog!: FormDialogComponent;
@@ -58,16 +61,23 @@ export class InputPemesananPoComponent implements OnInit {
     // ** Footer
     @ViewChild('Keterangan') Keterangan!: ElementRef;
 
+    is_ppn = false;
+    is_item_include_ppn = false;
+    is_update_harga_order = false;
+
     DiskonFooter: number = 0;
 
     FormInputFooter: CustomFormModel.IForm;
-    @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent
+    @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
+
+    GridStokDanOmsetProps: GridModel.IGrid;
 
     constructor(
         private _store: Store,
         private _router: Router,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
+        private _setupBarangService: SetupBarangService,
     ) {
         this.DashboardProps = {
             title: 'Input Pemesanan PO',
@@ -76,76 +86,6 @@ export class InputPemesananPoComponent implements OnInit {
                 { id: 'save', caption: 'Save', icon: 'pi pi-save text-xs' },
             ],
         };
-
-        this.FormInputHeader = {
-            id: 'form_pemesanan_po_header',
-            type: 'save',
-            is_inline: true,
-            fields: [
-                {
-                    id: 'tanggal_pemesanan',
-                    label: 'Tgl. Pemesanan',
-                    status: 'insert',
-                    type: 'date',
-                    required: true,
-                },
-                {
-                    id: 'tangal_expired_pemesanan',
-                    label: 'Tgl. Expired',
-                    status: 'insert',
-                    type: 'date',
-                    required: true,
-                },
-                {
-                    id: 'id_lokasi',
-                    label: 'Lokasi',
-                    status: 'insert',
-                    type: 'select',
-                    select_props: [],
-                    required: true,
-                },
-                {
-                    id: 'id_warehouse',
-                    label: 'Warehouse',
-                    status: 'insert',
-                    type: 'select',
-                    select_props: [],
-                    required: true,
-                },
-                {
-                    id: 'id_supplier',
-                    label: 'Supplier',
-                    status: 'insert',
-                    type: 'lookup',
-                    lookup_props: {
-                        id: 'lookupSupplier',
-                        title: 'Data Supplier',
-                        columns: [
-                            { field: 'kode_supplier', flex: 200, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
-                            { field: 'nama_supplier', flex: 275, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
-                            { field: 'alamat', flex: 290, headerName: 'ALAMAT SUPPLIER', sortable: true, resizable: true },
-                        ],
-                        filter: [
-                            { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
-                            { id: 'nama_supplier', title: 'Nama Supplier', type: 'contain', value: 'ms.nama_supplier' },
-                        ],
-                        label: 'Supplier',
-                        selectedField: 'nama_supplier',
-                        selectedValue: 'id_supplier',
-                        url: `${environment.endpoint}/supplier/by_param`
-                    },
-                    required: true,
-                },
-                {
-                    id: 'tanggal_kirim',
-                    label: 'Tgl. Kirim',
-                    status: 'insert',
-                    type: 'date',
-                    required: true,
-                },
-            ],
-            custom_class: 'grid-rows-2 grid-cols-3',
-        }
 
         this.FormInputDetail = {
             title: 'Item',
@@ -173,6 +113,16 @@ export class InputPemesananPoComponent implements OnInit {
                                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
                                 },
                                 { field: 'nama_supplier', width: 250, headerName: 'SUPPLIER', sortable: true, resizable: true },
+                                {
+                                    field: 'stok_gudang', width: 150, headerName: 'STOK GUDANG', sortable: true, resizable: true,
+                                    cellClass: 'text-center',
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
+                                },
+                                {
+                                    field: 'stok_toko', width: 150, headerName: 'STOK TOKO', sortable: true, resizable: true,
+                                    cellClass: 'text-center',
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
+                                },
                             ],
                             filter: [
                                 { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
@@ -181,11 +131,12 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Barang',
                             selectedField: 'nama_barang',
                             selectedValue: 'id_barang',
-                            url: `${environment.endpoint}/pembelian/lookup_barang`,
+                            url: `${environment.endpoint}/pembelian/lookup_barang?id_supplier=${this.SelectedSupplierLookup}`,
                             callback: (data) => {
                                 this.HargaOrder = data.harga_order ? parseFloat(data.harga_order) : 0;
                                 this.FormDialog.CustomForm.CustomForms.get('harga_order')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
+                                this.getOmsetDanStokBarang(data.id_barang);
                             },
                             width: '70vw',
                         },
@@ -334,8 +285,83 @@ export class InputPemesananPoComponent implements OnInit {
                 ],
                 custom_class: 'grid-rows-6 grid-cols-2'
             },
-            width: '70vw'
+            width: '70vw',
+            showContent: true
         };
+
+        this.FormInputHeader = {
+            id: 'form_pemesanan_po_header',
+            type: 'save',
+            is_inline: true,
+            fields: [
+                {
+                    id: 'tanggal_pemesanan',
+                    label: 'Tgl. Pemesanan',
+                    status: 'insert',
+                    type: 'date',
+                    required: true,
+                },
+                {
+                    id: 'tangal_expired_pemesanan',
+                    label: 'Tgl. Expired',
+                    status: 'insert',
+                    type: 'date',
+                    required: true,
+                },
+                {
+                    id: 'id_lokasi',
+                    label: 'Lokasi',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: true,
+                },
+                {
+                    id: 'id_warehouse',
+                    label: 'Warehouse',
+                    status: 'insert',
+                    type: 'select',
+                    select_props: [],
+                    required: true,
+                },
+                {
+                    id: 'id_supplier',
+                    label: 'Supplier',
+                    status: 'insert',
+                    type: 'lookup',
+                    lookup_props: {
+                        id: 'lookupSupplier',
+                        title: 'Data Supplier',
+                        columns: [
+                            { field: 'kode_supplier', flex: 200, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
+                            { field: 'nama_supplier', flex: 275, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
+                            { field: 'alamat', flex: 290, headerName: 'ALAMAT SUPPLIER', sortable: true, resizable: true },
+                        ],
+                        filter: [
+                            { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
+                            { id: 'nama_supplier', title: 'Nama Supplier', type: 'contain', value: 'ms.nama_supplier' },
+                        ],
+                        label: 'Supplier',
+                        selectedField: 'nama_supplier',
+                        selectedValue: 'id_supplier',
+                        url: `${environment.endpoint}/supplier/by_param`,
+                        callback: (args: any) => {
+                            this.SelectedSupplierLookup = args.id_supplier;
+                            this.FormInputDetail.form_props.fields[0].lookup_props!.url = `${environment.endpoint}/pembelian/lookup_barang?id_supplier=${args.id_supplier}`;
+                        }
+                    },
+                    required: true,
+                },
+                {
+                    id: 'tanggal_kirim',
+                    label: 'Tgl. Kirim',
+                    status: 'insert',
+                    type: 'date',
+                    required: true,
+                },
+            ],
+            custom_class: 'grid-rows-2 grid-cols-3',
+        }
 
         this.FormInputFooter = {
             id: 'form_pemesanan_po_footer',
@@ -446,6 +472,27 @@ export class InputPemesananPoComponent implements OnInit {
             toolbar: ['Add', 'Delete'],
             showPaging: false,
         };
+
+        this.GridStokDanOmsetProps = {
+            column: [
+                { field: 'nama_lokasi', headerName: 'NAMA LOKASI', flex: 150, sortable: true, resizable: true },
+                { field: 'alamat', headerName: 'ALAMAT', flex: 200, sortable: true, resizable: true },
+                {
+                    field: 'jumlah_stok', headerName: 'STOK', flex: 150, sortable: true, resizable: true, editable: false,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                },
+                {
+                    field: 'last_omzet', headerName: 'OMSET', flex: 150, sortable: true, resizable: true, editable: false,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                },
+            ],
+            dataSource: [],
+            height: "150px",
+            toolbar: [],
+            showPaging: false,
+        };
     }
 
     ngOnInit(): void {
@@ -513,6 +560,14 @@ export class InputPemesananPoComponent implements OnInit {
                         value: item.id_warehouse
                     }
                 });
+            })
+    }
+
+    private getOmsetDanStokBarang(id_barang: number) {
+        this._setupBarangService
+            .getOmsetDanStokBarangCabang(id_barang)
+            .subscribe((result) => {
+                this.GridStokDanOmsetProps.dataSource = result.data;
             })
     }
 
@@ -615,6 +670,12 @@ export class InputPemesananPoComponent implements OnInit {
         this.onCountFormFooter();
     }
 
+    handleCloseFormDetail(args: any): void {
+        if (args == 'closed') {
+            this.GridStokDanOmsetProps.dataSource = [];
+        }
+    }
+
     private onCountSubtotal() {
         const value = this.FormDialog.CustomForm.CustomForms.value;
         this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(value.isi * value.banyak);
@@ -680,7 +741,10 @@ export class InputPemesananPoComponent implements OnInit {
         const header = this.CustomForm.handleSubmitForm();
         header.detail = this.GridProps.dataSource;
 
-        const footer = this.CustomFormFooter.handleSubmitForm();
+        let footer = this.CustomFormFooter.handleSubmitForm();
+        footer.is_ppn = this.is_ppn;
+        footer.is_item_include_ppn = this.is_item_include_ppn;
+        footer.is_update_harga_order = this.is_update_harga_order;
 
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
