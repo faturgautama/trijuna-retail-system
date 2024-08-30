@@ -31,12 +31,22 @@
                     </label>
 
                     <!-- String -->
-                    <input *ngIf="type.value != 'between'" pInputText style="width: 100%" class="p-inputtext-sm"
+                    <input *ngIf="!type.value" pInputText style=" width: 100%" class="p-inputtext-sm"
                         formControlName="kataKunci" />
 
+                    <input *ngIf="type.value == 'like'" pInputText style=" width: 100%" class="p-inputtext-sm"
+                        formControlName="kataKunci" />
+
+                    <!-- Calendar -->
                     <p-calendar *ngIf="type.value == 'between'" selectionMode="range" [readonlyInput]="true"
                         styleClass="w-full p-inputtext-sm" formControlName="kataKunci">
                     </p-calendar>
+
+                    <!-- Dropdown -->
+                    <p-dropdown *ngIf="type.value == 'equal'" styleClass="p-inputtext-sm w-full"
+                        [options]="dropdownDatasource.value" optionValue="name" optionLabel="name" [filter]="true"
+                        appendTo="body" [autoDisplayFirst]="false" formControlName="kataKunci">
+                    </p-dropdown>
                 </div>
 
                 <div class="grid w-1/6">
@@ -54,6 +64,10 @@
                     </div>
                     <div class="grid w-3/6">
                         <p *ngIf="item.type == 'like'" class="text-gray-500 text-sm">
+                            {{ item.kataKunci }}
+                        </p>
+
+                        <p *ngIf="item.type == 'equal'" class="text-gray-500 text-sm">
                             {{ item.kataKunci }}
                         </p>
 

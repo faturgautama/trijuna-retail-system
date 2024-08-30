@@ -6,6 +6,9 @@ import { DashboardModel } from 'src/app/@shared/models/components/dashboard.mode
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangAction } from 'src/app/@shared/state/setup-data/setup-barang';
+import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
+import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
+import { SetupSupplierAction } from 'src/app/@shared/state/setup-data/setup-supplier';
 
 @Component({
     selector: 'app-list-setup-barang',
@@ -54,15 +57,17 @@ export class ListSetupBarangComponent implements OnInit {
                 },
                 {
                     id: 'divisi',
-                    title: 'Nama Divisi',
-                    type: 'string',
-                    value: 'md.divisi',
+                    title: 'Pilih Divisi',
+                    type: 'dropdown',
+                    value: 'mb.id_divisi',
+                    dropdown_props: []
                 },
                 {
                     id: 'group',
-                    title: 'Nama Group',
-                    type: 'string',
-                    value: ' mg.group',
+                    title: 'Pilih Group',
+                    type: 'dropdown',
+                    value: ' mb.id_group',
+                    dropdown_props: []
                 },
                 {
                     id: 'supplier',
@@ -119,7 +124,35 @@ export class ListSetupBarangComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getAllDivisi();
+        this.getAllGroup();
         this.handleSearchOffcanvas([]);
+    }
+
+    private getAllDivisi() {
+        this._store
+            .dispatch(new SetupDivisiAction.GetAll())
+            .subscribe((result) => {
+                this.OffcanvasFilterProps.filter[3].dropdown_props = result.setup_divisi.entities.data.map((item: any) => {
+                    return {
+                        name: item.divisi,
+                        value: item.id_divisi
+                    }
+                });
+            })
+    }
+
+    private getAllGroup() {
+        this._store
+            .dispatch(new SetupGroupAction.GetAll())
+            .subscribe((result) => {
+                this.OffcanvasFilterProps.filter[4].dropdown_props = result.setup_group.entities.data.map((item: any) => {
+                    return {
+                        name: item.group,
+                        value: item.id_group
+                    }
+                });
+            })
     }
 
     handleClickButtonNav(args: string): void {

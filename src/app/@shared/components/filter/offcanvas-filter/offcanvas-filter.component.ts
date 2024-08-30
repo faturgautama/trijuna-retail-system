@@ -48,6 +48,7 @@ export class OffcanvasFilterComponent {
             columnName: [''],
             kataKunci: [''],
             kataKunci2: [''],
+            dropdownDatasource: [[]]
         });
     }
 
@@ -58,8 +59,9 @@ export class OffcanvasFilterComponent {
     handleChangeFilterBy(args: any): void {
         this.id.setValue(args.value.id + "_" + (this.SavedFilter.length + 1));
         this.title.setValue(args.value.title);
-        this.type.setValue(args.value.type == 'string' ? 'like' : 'between');
+        this.type.setValue(args.value.type == 'string' ? 'like' : (args.value.type == 'date' ? 'between' : 'equal'));
         this.columnName.setValue(args.value.value);
+        this.dropdownDatasource.setValue(args.value.dropdown_props);
     }
 
     handleAddSearch(data: FilterModel.IOffcanvasSavedFilter): void {
@@ -69,6 +71,14 @@ export class OffcanvasFilterComponent {
 
             data.kataKunci = this._utilityService.FormatDate(kataKunci1, 'yyyy-MM-DD');
             data.kataKunci2 = this._utilityService.FormatDate(kataKunci2, 'yyyy-MM-DD');
+        }
+
+        if (data.type == 'equal') {
+            const kataKunci1 = this.kataKunci.value;
+            const kataKunci2 = data.dropdownDatasource?.find(item => item.name == kataKunci1).value;
+
+            data.kataKunci = kataKunci1;
+            data.kataKunci2 = kataKunci2;
         }
 
         this.SavedFilter.push(data);
@@ -87,8 +97,7 @@ export class OffcanvasFilterComponent {
     handleSearchData(changeChip: boolean): void {
         this.ChipsDatasource = [];
 
-        const payload: FilterModel.IDynamicFilter[] = this.SavedFilter.map((item) => {
-
+        const payload: any[] = this.SavedFilter.map((item) => {
             if (changeChip) {
                 const chip = `${item.title} = ${item.type == 'between' ? item.kataKunci + " - " + item.kataKunci2 : item.kataKunci}`
 
@@ -99,12 +108,14 @@ export class OffcanvasFilterComponent {
             }
 
             return {
-                filter: item.type == 'like' ? 'contain' : 'between',
+                filter: item.type == 'like' ? 'contain' : (item.type == 'between' ? 'between' : 'equel'),
                 column: item.columnName,
-                value: item.kataKunci,
-                value2: item.kataKunci2,
+                value: item.type == 'equal' ? item.kataKunci2 : item.kataKunci,
+                value2: item.type == 'between' ? item.kataKunci2 : "",
             }
         });
+
+        console.log("payload");
 
         this.onSearch.emit(payload);
 
@@ -125,4 +136,5 @@ export class OffcanvasFilterComponent {
     get columnName(): AbstractControl { return this.FormSearch.get('columnName') as AbstractControl }
     get kataKunci(): AbstractControl { return this.FormSearch.get('kataKunci') as AbstractControl }
     get kataKunci2(): AbstractControl { return this.FormSearch.get('kataKunci2') as AbstractControl }
+    get dropdownDatasource(): AbstractControl { return this.FormSearch.get('dropdownDatasource') as AbstractControl }
 }
