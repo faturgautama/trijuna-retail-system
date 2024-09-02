@@ -1,8 +1,9 @@
-import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { PenjualanService } from 'src/app/@core/service/penjualan/penjualan/penjualan.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
+import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
+import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
@@ -19,7 +20,8 @@ export class SellOutComponent implements OnInit {
     GridProps: GridModel.IGrid;
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
-
+    FormInputFooter: CustomFormModel.IForm;
+    @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
     constructor(
         private _messageService: MessageService,
         private _utilityService: UtilityService,
@@ -88,10 +90,28 @@ export class SellOutComponent implements OnInit {
                 { field: 'merk', headerName: 'MERK', width: 150, sortable: true, resizable: true },
                 { field: 'qty_jual', headerName: 'QTY JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, '') } },
                 { field: 'harga_jual', headerName: 'HARGA JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
+                { field:'subtotal', headerName: 'SUBTOTAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
             ],
             dataSource: [],
             height: "calc(100vh - 14rem)",
-            showPaging: true,
+            // height: "100%",
+            showPaging: false,
+        };
+
+        this.FormInputFooter = {
+            id: 'form_pemesanan_po_footer',
+            type: 'save',
+            is_inline: true,
+            fields: [
+                {
+                    id: 'total',
+                    label: 'Total',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true
+                },
+            ],
+            custom_class: 'grid-rows-6 grid-cols-1',
         };
     }
 
@@ -116,6 +136,11 @@ export class SellOutComponent implements OnInit {
                 .subscribe((result) => {
                     if (result.success) {
                         this.GridProps.dataSource = result.data;
+                        let total = 0;
+                        for (const item of this.GridProps.dataSource) {
+                            total+= parseFloat(item.subtotal) ; // Output: apple, banana, cherry
+                        }
+                        this.CustomFormFooter.handleSetFieldValue('total', total);
                     }
                 })
         } else {
