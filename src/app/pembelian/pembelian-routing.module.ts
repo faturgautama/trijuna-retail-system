@@ -19,6 +19,7 @@ import { HistoryReturKonsinyasiComponent } from "./feature/retur-konsinyasi/hist
 import { InputReturKonsinyasiComponent } from "./feature/retur-konsinyasi/input-retur-konsinyasi/input-retur-konsinyasi.component";
 import { DetailReturKonsinyasiComponent } from "./feature/retur-konsinyasi/detail-retur-konsinyasi/detail-retur-konsinyasi.component";
 import { PrintPemesananPoComponent } from "./feature/pemesanan-po/print-pemesanan-po/print-pemesanan-po.component";
+import { PrintPenerimaanDenganPoComponent } from "./feature/penerimaan-dengan-po/print-penerimaan-dengan-po/print-penerimaan-dengan-po.component";
 
 const routes: Routes = [
     {
@@ -33,14 +34,16 @@ const routes: Routes = [
         path: 'penerimaan-dengan-po', children: [
             { path: 'history', component: HistoryPenerimaanDenganPoComponent },
             { path: 'input', component: InputPenerimaanDenganPoComponent },
-            { path: 'detail/:id', component: DetailPenerimaanDenganPoComponent }
+            { path: 'detail/:id', component: DetailPenerimaanDenganPoComponent },
+            { path: 'print/:id', component: PrintPenerimaanDenganPoComponent },
         ]
     },
     {
         path: 'penerimaan-tanpa-po', children: [
             { path: 'history', component: HistoryPenerimaanTanpaPoComponent },
             { path: 'input', component: InputPenerimaanTanpaPoComponent },
-            { path: 'detail/:id', component: DetailPenerimaanTanpaPoComponent }
+            { path: 'detail/:id', component: DetailPenerimaanTanpaPoComponent },
+            { path: 'print/:id', component: PrintPemesananPoComponent },
         ]
     },
     {

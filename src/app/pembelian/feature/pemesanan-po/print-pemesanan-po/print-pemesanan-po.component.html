@@ -13,7 +13,7 @@
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.nomor_pemesanan }}
+                    : {{ Data.nomor_pemesanan || Data.nomor_penerimaan }}
                 </p>
             </div>
         </div>
@@ -27,13 +27,13 @@
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.tanggal_pemesanan }}
+                    : {{ Data.tanggal_pemesanan || Data.tanggal_nota }}
                 </p>
             </div>
         </div>
 
         <!-- Tanggal Kirim -->
-        <div class="flex w-full gap-2">
+        <div *ngIf="Data.tanggal_kirim" class="flex w-full gap-2">
             <div class="w-3/12">
                 <p class="text-xs text-gray-700">
                     Tanggal Kirim
@@ -53,9 +53,12 @@
                     Kepada Yth
                 </p>
             </div>
-            <div class="w-9/12">
+            <div class="w-9/12 flex flex-col">
                 <p class="text-xs text-gray-700">
                     : {{ Data.nama_supplier }}
+                </p>
+                <p class="text-xs text-gray-700">
+                    : {{ Data.alamat }}
                 </p>
             </div>
         </div>

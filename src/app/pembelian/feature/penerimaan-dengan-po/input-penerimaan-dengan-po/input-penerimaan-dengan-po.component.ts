@@ -489,7 +489,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['pembelian/penerimaan-dengan-po/history']);
+                        this._router.navigate([`pembelian/penerimaan-dengan-po/print/${result.pembelian_dengan_po.entities.data}`]);
                     }, 1500);
                 }
             });

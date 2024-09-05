@@ -5,7 +5,7 @@
     </div>
     <div class="grid">
         <app-grid [props]="GridProps" (rowDoubleClicked)="handleRowDoubleClicked($event)"
-            (toolbarClicked)="handleToolbarClicked($event)">
+            (cellClicked)="handleCellClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
         </app-grid>
     </div>
 </app-dashboard>

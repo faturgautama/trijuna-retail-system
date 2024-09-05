@@ -116,7 +116,6 @@ export class HistoryPemesananPoComponent implements OnInit {
     }
 
     handleCellClicked(args: any): void {
-        console.log(args);
         this.SelectedData = args;
     }
 

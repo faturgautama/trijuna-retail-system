@@ -1,16 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PembelianTanpaPoService } from 'src/app/@core/service/pembelian/pembelian-tanpa-po/pembelian-tanpa-po.service';
-import { PemesananPoService } from 'src/app/@core/service/pembelian/pemesanan-po/pemesanan-po.service';
+import { PembelianDenganPoService } from 'src/app/@core/service/pembelian/pembelian-dengan-po/pembelian-dengan-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
 
 @Component({
-    selector: 'app-print-pemesanan-po',
-    templateUrl: './print-pemesanan-po.component.html',
-    styleUrls: ['./print-pemesanan-po.component.scss']
+    selector: 'app-print-penerimaan-dengan-po',
+    templateUrl: './print-penerimaan-dengan-po.component.html',
+    styleUrls: ['./print-penerimaan-dengan-po.component.scss']
 })
-export class PrintPemesananPoComponent implements OnInit {
+export class PrintPenerimaanDenganPoComponent implements OnInit {
 
     Data: any;
 
@@ -26,8 +25,7 @@ export class PrintPemesananPoComponent implements OnInit {
     constructor(
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
-        private _pemesananPoService: PemesananPoService,
-        private _pembelianTanpaPoService: PembelianTanpaPoService,
+        private _pembelianDenganPoService: PembelianDenganPoService,
     ) {
         this.GridProps = {
             id: 'print-out-master-barang',
@@ -39,6 +37,9 @@ export class PrintPemesananPoComponent implements OnInit {
                 { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'currency' },
                 { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency' },
                 { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
+                { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency' },
+                { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency' },
+                { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency' },
             ],
             dataSource: [],
             height: "100%",
@@ -48,30 +49,8 @@ export class PrintPemesananPoComponent implements OnInit {
 
     ngOnInit(): void {
         const id = this._activatedRoute.snapshot.params['id'];
-        const params = this._activatedRoute.snapshot.params;
 
-        if (params) {
-            this.getPembelianTanpaPo(id);
-        } else {
-            this.getPemesananPo(id);
-        }
-    }
-
-    getPemesananPo(id: any) {
-        this._pemesananPoService
-            .getById(id)
-            .subscribe((result) => {
-                this.Data = result.data;
-                this.GridProps.dataSource = result.data.detail_pemesanan;
-
-                setTimeout(() => {
-                    window.print();
-                }, 1500);
-            })
-    }
-
-    getPembelianTanpaPo(id: any) {
-        this._pembelianTanpaPoService
+        this._pembelianDenganPoService
             .getById(id)
             .subscribe((result) => {
                 this.Data = result.data;
@@ -82,4 +61,5 @@ export class PrintPemesananPoComponent implements OnInit {
                 }, 1500);
             })
     }
+
 }
