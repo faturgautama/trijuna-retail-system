@@ -56,6 +56,10 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
     // ** Footer
     @ViewChild('Keterangan') Keterangan!: ElementRef;
 
+    is_ppn = false;
+    is_item_include_ppn = false;
+    is_update_harga_order = false;
+
     DiskonFooter: number = 0;
 
     GridProps: GridModel.IGrid = {} as any;
@@ -347,7 +351,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
         };
 
         this.FormInputFooter = {
-            id: 'form_penerimaan_dengan_po_footer',
+            id: 'form_penerimaan_tanpa_po_footer',
             type: 'save',
             is_inline: true,
             fields: [

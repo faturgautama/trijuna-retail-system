@@ -43,13 +43,32 @@
                     <!-- Numeric Grouped -->
                     <div *ngIf="item.type == 'numeric' && item.is_form_grouped"
                         class="grid grid-rows-1 grid-cols-2 gap-2">
-                        <p-inputNumber formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm"
-                            (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'">
-                        </p-inputNumber>
+                        <div
+                            class="flex {{ item.prefix_position == 'left' ? '' : 'flex-row-reverse' }} items-center gap-1 pr-2 w-full border-r border-y-0 border-l-0 border-solid border-gray-300">
+                            <span *ngIf="item.prefix" class="text-sm text-gray-700">
+                                {{ item.prefix }}
+                            </span>
 
-                        <p-inputNumber formControlName="{{ item.form_grouped_props?.id }}"
-                            styleClass="w-full p-inputtext-sm" [readonly]="true" [disabled]="item.status == 'readonly'">
-                        </p-inputNumber>
+                            <p-inputNumber formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm"
+                                (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'">
+                            </p-inputNumber>
+                        </div>
+
+                        <div
+                            class="flex {{ item.form_grouped_props?.prefix_position == 'left' ? '' : 'flex-row-reverse' }} items-center gap-1 w-full">
+                            <span *ngIf="item.form_grouped_props?.prefix" class="text-sm text-gray-700">
+                                {{ item.form_grouped_props?.prefix }}
+                            </span>
+
+                            <p-inputNumber formControlName="{{ item.form_grouped_props?.id }}"
+                                styleClass="w-full p-inputtext-sm"
+                                [readonly]="item.form_grouped_props!.status == 'readonly'"
+                                [disabled]="item.form_grouped_props!.status == 'readonly'"
+                                (onBlur)="handleChangeNumeric(item.form_grouped_props!, $event)">
+                            </p-inputNumber>
+                        </div>
+
+
                     </div>
 
                     <!-- Checkbox -->

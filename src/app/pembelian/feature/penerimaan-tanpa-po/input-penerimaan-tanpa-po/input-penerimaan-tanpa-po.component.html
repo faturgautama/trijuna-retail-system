@@ -12,14 +12,93 @@
     </div>
 
     <div class="flex w-full justify-between mt-5 mb-5">
-        <div class="flex w-4/12">
-            <div class="w-4/12">
-                <label for="keterangan">
-                    Keterangan
-                </label>
+        <div class="flex flex-col gap-3 w-4/12">
+            <!-- Dengan PPn -->
+            <div class="flex w-full">
+                <div class="w-4/12">
+                    <label>
+                        Dengan PPn?
+                    </label>
+                </div>
+                <div class="w-8/12 flex flex-row gap-3">
+                    <div class="flex items-center">
+                        <p-radioButton name="is_ppn" [value]="true" [(ngModel)]="is_ppn" inputId="is_ppn_true" />
+                        <label for="is_ppn_true" class="ml-2">
+                            Iya
+                        </label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <p-radioButton name="is_ppn" [value]="false" [(ngModel)]="is_ppn" inputId="is_ppn_false" />
+                        <label for="is_ppn_false" class="ml-2">
+                            Tidak
+                        </label>
+                    </div>
+                </div>
             </div>
-            <div class="w-8/12">
-                <textarea #Keterangan rows="5" pInputTextarea class="w-full" [autoResize]="false"></textarea>
+
+            <!-- Barang Include PPn -->
+            <div class="flex w-full">
+                <div class="w-4/12">
+                    <label>
+                        Barang Include PPn?
+                    </label>
+                </div>
+                <div class="w-8/12 flex flex-row gap-3">
+                    <div class="flex items-center">
+                        <p-radioButton name="is_item_include_ppn" [value]="true" [(ngModel)]="is_item_include_ppn"
+                            inputId="is_item_include_ppn_true" />
+                        <label for="is_item_include_ppn_true" class="ml-2">
+                            Iya
+                        </label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <p-radioButton name="is_item_include_ppn" [value]="false" [(ngModel)]="is_item_include_ppn"
+                            inputId="is_item_include_ppn_false" />
+                        <label for="is_item_include_ppn_false" class="ml-2">
+                            Tidak
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Harga Order -->
+            <div class="hidden w-full">
+                <div class="w-4/12">
+                    <label>
+                        Update Harga Order?
+                    </label>
+                </div>
+                <div class="w-8/12 flex flex-row gap-3">
+                    <div class="flex items-center">
+                        <p-radioButton name="is_update_harga_order_false" [value]="true"
+                            [(ngModel)]="is_update_harga_order" inputId="is_update_harga_order_true" />
+                        <label for="is_update_harga_order_true" class="ml-2">
+                            Iya
+                        </label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <p-radioButton name="is_update_harga_order_false" [value]="false"
+                            [(ngModel)]="is_update_harga_order" inputId="is_update_harga_order_false" />
+                        <label for="is_update_harga_order_false" class="ml-2">
+                            Tidak
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keterangan -->
+            <div class="flex w-full">
+                <div class="w-4/12">
+                    <label for="keterangan">
+                        Keterangan
+                    </label>
+                </div>
+                <div class="w-8/12">
+                    <textarea #Keterangan rows="5" pInputTextarea class="w-full" [autoResize]="false"></textarea>
+                </div>
             </div>
         </div>
 

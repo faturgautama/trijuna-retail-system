@@ -40,6 +40,8 @@ export namespace CustomFormModel {
         lookup_set_value_field?: any[]; // id_field yg lain yg mau di set value nya
         hidden?: boolean;
         is_form_grouped?: boolean;
+        prefix?: string;
+        prefix_position?: 'left' | 'right';
         form_grouped_props?: IFields;
         value?: any;
     }

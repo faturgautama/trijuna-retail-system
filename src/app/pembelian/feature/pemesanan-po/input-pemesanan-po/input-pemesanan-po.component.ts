@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Grid } from 'ag-grid-community';
-import { timeStamp } from 'console';
 import { MessageService } from 'primeng/api';
-import { map, takeUntil } from 'rxjs';
+import { map } from 'rxjs';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
@@ -387,6 +385,8 @@ export class InputPemesananPoComponent implements OnInit {
                     label: 'Diskon',
                     status: 'insert',
                     type: 'numeric',
+                    prefix: '%',
+                    prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
                     numeric_callback: (data) => {
@@ -395,9 +395,14 @@ export class InputPemesananPoComponent implements OnInit {
                     form_grouped_props: {
                         id: 'diskon_nominal',
                         label: 'Diskon',
-                        status: 'readonly',
+                        status: 'insert',
                         type: 'numeric',
+                        prefix: 'Rp.',
+                        prefix_position: 'left',
                         required: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeDiskonNominalFooter(data);
+                        }
                     }
                 },
                 {
@@ -715,6 +720,12 @@ export class InputPemesananPoComponent implements OnInit {
     handleChangeDiskonFooter(value: number): void {
         const diskonNominalFooter = this.CustomFormFooter.handleGetFieldValue('sub_total1') * (value / 100);
         this.CustomFormFooter.handleSetFieldValue('diskon_nominal', diskonNominalFooter);
+        this.onCountFormFooter();
+    }
+
+    handleChangeDiskonNominalFooter(value: number): void {
+        const diskonPersenFooter = (value / this.CustomFormFooter.handleGetFieldValue('sub_total1')) * 100;
+        this.CustomFormFooter.handleSetFieldValue('diskon_persen', diskonPersenFooter);
         this.onCountFormFooter();
     }
 
