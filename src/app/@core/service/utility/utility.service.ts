@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import 'moment/locale/id';
 import { MessageService } from 'primeng/api';
 import * as Excel from "exceljs";
 import * as fs from 'file-saver';
 import domtoimage from 'dom-to-image';
 import jspdf from 'jspdf';
-import html2canvas from 'html2canvas';
 import { DocumentModel } from 'src/app/@shared/models/shared/document.model';
 
 @Injectable({
@@ -21,6 +21,7 @@ export class UtilityService {
 
     FormatDate(date: Date, format?: string): any {
         if (date) {
+            moment.locale('id');
             return format ? moment(date).format(format) : moment(date).format('DD/MM/yyyy');
         } else {
             return date;

@@ -768,7 +768,7 @@ export class InputPemesananPoComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['pembelian/pemesanan-po/history']);
+                        this._router.navigate([`pembelian/pemesanan-po/print/${result.pemesanan_po.entities.data}`]);
                     }, 1500);
                 }
             });

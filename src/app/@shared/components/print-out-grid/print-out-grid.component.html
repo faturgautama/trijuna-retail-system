@@ -1,9 +1,9 @@
 <div class="grid w-full">
-    <p-table [value]="props.dataSource" [columns]="props.column" styleClass="p-datatable-striped p-datatable-sm"
+    <p-table [value]="props.dataSource" [columns]="props.column" styleClass="p-datatable-gridlines p-datatable-sm"
         [tableStyle]="{'min-width': 'auto'}" selectionMode="single" [(selection)]="SelectedRow">
         <ng-template pTemplate="header" let-columns>
             <tr class="bg-gray-100">
-                <th *ngFor="let col of columns" class="text-xs">
+                <th *ngFor="let col of columns" class="text-xs text-center">
                     {{ col.headerName }}
                 </th>
             </tr>

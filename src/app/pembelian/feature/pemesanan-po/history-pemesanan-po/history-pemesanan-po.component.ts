@@ -18,6 +18,8 @@ export class HistoryPemesananPoComponent implements OnInit {
 
     GridProps: GridModel.IGrid;
 
+    SelectedData: any;
+
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
     constructor(
@@ -28,7 +30,8 @@ export class HistoryPemesananPoComponent implements OnInit {
         this.DashboardProps = {
             title: 'History Pemesanan PO',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
@@ -94,7 +97,13 @@ export class HistoryPemesananPoComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['pembelian/pemesanan-po/input']);
+        if (args == 'add') {
+            this._router.navigate(['pembelian/pemesanan-po/input']);
+        };
+
+        if (args == 'print') {
+            this._router.navigate([`pembelian/pemesanan-po/print/${this.SelectedData.id_pemesanan}`]);
+        }
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -104,6 +113,11 @@ export class HistoryPemesananPoComponent implements OnInit {
                     this.GridProps.dataSource = result.pemesanan_po.entities.data;
                 }
             })
+    }
+
+    handleCellClicked(args: any): void {
+        console.log(args);
+        this.SelectedData = args;
     }
 
     handleRowDoubleClicked(args: any): void {
