@@ -33,8 +33,6 @@ export class DetailKartuStokComponent implements OnInit {
         this.GridBarangSatuanProps = {
             column: [
                 { field: 'tanggal', headerName: 'TANGGAL', width: 150, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'kode_satuan', headerName: 'KODE SATUAN', width: 300, sortable: true, resizable: true },
-                { field: 'nama_satuan', headerName: 'NAMA SATUAN', width: 300, sortable: true, resizable: true },
                 { field: 'stok_awal', headerName: 'STOK AWAL', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'nominal_awal', headerName: 'NOMINAL AWAL', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'stok_masuk', headerName: 'STOK MASUK', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
@@ -44,7 +42,7 @@ export class DetailKartuStokComponent implements OnInit {
                 { field: 'stok_akhir', headerName: 'STOK AKHIR', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'nominal_akhir', headerName: 'NOMINAL AKHIR', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'keterangan', headerName: 'KETERANGAN', width: 200, sortable: true, resizable: true, },
-                { field: 'user_update', headerName: 'USER UPDATE', width: 150, sortable: true, resizable: true, },
+                { field: 'nama', headerName: 'USER UPDATE', width: 150, sortable: true, resizable: true, },
             ],
             dataSource: [],
             height: 'calc(100vh - 19rem)',

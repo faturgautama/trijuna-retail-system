@@ -1,0 +1,63 @@
+<div class="grid w-full">
+    <p-table [value]="props.dataSource" [columns]="props.column" styleClass="p-datatable-striped p-datatable-sm"
+        [tableStyle]="{'min-width': 'auto'}" selectionMode="single" [(selection)]="SelectedRow">
+        <ng-template pTemplate="header" let-columns>
+            <tr class="bg-gray-100">
+                <th *ngFor="let col of columns" class="text-xs">
+                    {{ col.headerName }}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template *ngIf="props.dataSource" pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns" class="text-xs {{ col.class }}">
+                    <span *ngIf="col.renderAsCheckbox && !col.renderAsPills">
+                        <i class="pi {{ rowData[col.field] ? 'pi-check' : 'pi-times' }}"></i>
+                    </span>
+
+                    <span *ngIf="!col.renderAsCheckbox && col.renderAsPills" class="{{ col.pillClass }}">
+                        <p class="text-xs">
+                            {{ rowData[col.field] }}
+                        </p>
+                    </span>
+
+                    <span *ngIf="!col.renderAsCheckbox && !col.renderAsPills">
+                        <div [ngSwitch]="col.format">
+                            <!-- Currency format -->
+                            <ng-container *ngSwitchCase="'currency'">
+                                {{ handleFormatStringToNumber(rowData[col.field]) | currency: 'Rp. ' }}
+                            </ng-container>
+
+                            <!-- Date format -->
+                            <ng-container *ngSwitchCase="'date'">
+                                {{ rowData[col.field] | date: 'dd-MM-yyyy' }}
+                            </ng-container>
+
+                            <!-- Number format -->
+                            <ng-container *ngSwitchCase="'number'">
+                                {{ handleFormatStringToNumber(rowData[col.field]) | number: '' }}
+                            </ng-container>
+
+                            <!-- Undefined format -->
+                            <ng-container *ngSwitchCase="undefined">
+                                {{ rowData[col.field] }}
+                            </ng-container>
+
+                            <!-- Default format -->
+                            <ng-container *ngSwitchDefault>
+                                {{ rowData[col.field] }}
+                            </ng-container>
+                        </div>
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template *ngIf="!props.dataSource">
+            <div class="flex w-full justify-center">
+                <p class="text-sm font-medium text-gray-700">
+                    Tidak ada data
+                </p>
+            </div>
+        </ng-template>
+    </p-table>
+</div>

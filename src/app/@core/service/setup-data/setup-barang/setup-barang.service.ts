@@ -106,6 +106,18 @@ export class SetupBarangService {
         return this._httpRequestService.deleteRequest(`${environment.endpoint}/barang_urai/${id_barang_urai}`);
     }
 
+    getOmsetBarang(id_barang: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/barang/lihat_omzet/${id_barang}`);
+    }
+
+    getOmsetDanStokBarang(id_barang: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/barang/lihat_stok_omzet/${id_barang}`);
+    }
+
+    getHistoryPenerimaan(id_barang: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/barang/history_penerimaan/${id_barang}`);
+    }
+
     getOmsetDanStokBarangCabang(id_barang: number): Observable<any> {
         return this._httpRequestService.getRequest(`${environment.endpoint}/barang/lihat_stok_omzet_cabang/${id_barang}`);
     }

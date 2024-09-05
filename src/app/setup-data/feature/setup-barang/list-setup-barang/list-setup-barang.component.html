@@ -4,6 +4,30 @@
         </app-offcanvas-filter>
     </div>
     <div class="grid">
-        <app-grid [props]="GridProps" (rowDoubleClicked)="handleRowDoubleClicked($event)"></app-grid>
+        <app-grid [props]="GridProps" (cellClicked)="handleCellClicked($event)"
+            (rowDoubleClicked)="handleRowDoubleClicked($event)"></app-grid>
+
+        <div class="flex flex-row gap-3">
+            <div class="w-4/12">
+                <div class="grid w-full mt-5 pt-3 border-t border-b-0 border-x-0 border-dashed border-gray-300">
+                    <p class="text-sm text-gray-700 font-medium mb-2">
+                        Omset 3 Bulan Terakhir
+                    </p>
+
+                    <app-grid [props]="GridStokDanOmsetProps">
+                    </app-grid>
+                </div>
+            </div>
+            <div class="w-8/12">
+                <div class="grid w-full mt-5 pt-3 border-t border-b-0 border-x-0 border-dashed border-gray-300">
+                    <p class="text-sm text-gray-700 font-medium mb-2">
+                        History Penerimaan Barang
+                    </p>
+
+                    <app-grid [props]="GridPenerimaanBarangProps">
+                    </app-grid>
+                </div>
+            </div>
+        </div>
     </div>
 </app-dashboard>

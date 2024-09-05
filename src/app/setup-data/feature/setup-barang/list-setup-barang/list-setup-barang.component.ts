@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
@@ -8,7 +9,6 @@ import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangAction } from 'src/app/@shared/state/setup-data/setup-barang';
 import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
 import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
-import { SetupSupplierAction } from 'src/app/@shared/state/setup-data/setup-supplier';
 
 @Component({
     selector: 'app-list-setup-barang',
@@ -21,17 +21,24 @@ export class ListSetupBarangComponent implements OnInit {
 
     GridProps: GridModel.IGrid;
 
+    GridPenerimaanBarangProps: GridModel.IGrid;
+
+    GridStokDanOmsetProps: GridModel.IGrid;
+
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
     constructor(
         private _store: Store,
         private _router: Router,
         private _utilityService: UtilityService,
+        private _setupBarangService: SetupBarangService,
     ) {
         this.DashboardProps = {
             title: 'Data Setup Barang',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'export_excel', caption: 'Excel', icon: 'pi pi-file-excel text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
@@ -118,8 +125,56 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'updated_at', headerName: 'WAKTU UPDATE', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "400px",
+            height: "calc(100vh - 20rem)",
             showPaging: true,
+        };
+
+        this.GridPenerimaanBarangProps = {
+            column: [
+                { field: 'tanggal_nota', headerName: 'TGL. NOTA', flex: 150, sortable: true, resizable: true },
+                { field: 'nama_supplier', headerName: 'SUPPLIER', flex: 200, sortable: true, resizable: true },
+                {
+                    field: 'harga_beli', headerName: 'HARGA BELI', flex: 150, sortable: true, resizable: true, editable: false,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                },
+                {
+                    field: 'qty', headerName: 'QTY', flex: 150, sortable: true, resizable: true, editable: false,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                },
+                {
+                    field: 'qty_bonus', headerName: 'QTY BONUS', flex: 150, sortable: true, resizable: true, editable: false,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                },
+            ],
+            dataSource: [],
+            height: "200px",
+            toolbar: [],
+            showPaging: false,
+        };
+
+        this.GridStokDanOmsetProps = {
+            column: [
+                {
+                    field: 'tanggal', headerName: 'TANGGAL', flex: 150, sortable: true, resizable: true, editable: false,
+                },
+                {
+                    field: 'qty', headerName: 'QTY', flex: 150, sortable: true, resizable: true, editable: false,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                },
+                {
+                    field: 'nominal', headerName: 'OMSET', flex: 150, sortable: true, resizable: true, editable: false,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                },
+            ],
+            dataSource: [],
+            height: "200px",
+            toolbar: [],
+            showPaging: false,
         };
     }
 
@@ -156,19 +211,68 @@ export class ListSetupBarangComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['setup-data/setup-inventory/setup-barang/input']);
+        if (args == 'add') {
+            this._router.navigate(['setup-data/setup-inventory/setup-barang/input']);
+        };
+
+        if (args == 'export_excel') {
+            const dataSource = this.GridProps.dataSource.map((item) => {
+                return {
+                    kode_barang: item.kode_barang,
+                    nama_barang: item.nama_barang,
+                    barcode: item.barcode,
+                    satuan: item.nama_satuan,
+                    harga_jual: (item.harga_jual),
+                    tanggal_dibuat: item.created_at,
+                    nama_supplier: item.nama_supplier,
+                    kode_supplier: item.kode_supplier,
+                    stok_toko: item.stok_toko,
+                    stok_gudang: item.stok_gudang,
+                }
+            });
+
+            this._utilityService.exportToExcel({ worksheetName: 'Master_Barang', dataSource: dataSource })
+        };
+
+        if (args == 'print') {
+            this._router.navigate(['setup-data/setup-inventory/setup-barang/print']);
+        }
     }
 
     handleRowDoubleClicked(args: any): void {
         this._router.navigate(['setup-data/setup-inventory/setup-barang/detail/', args.id_barang])
     }
 
+    handleCellClicked(args: any): void {
+        this.getOmsetDanStokBarang(args.id_barang);
+        this.getHistoryPenerimaanBarang(args.id_barang);
+    }
+
     handleSearchOffcanvas(args: any): void {
-        this._store.dispatch(new SetupBarangAction.GetAllBarang(args))
+        localStorage.setItem("_TRS_BRG_SEARCH_", JSON.stringify(args));
+
+        this._store
+            .dispatch(new SetupBarangAction.GetAllBarang(args))
             .subscribe((result) => {
                 if (result.setup_barang.entities.success) {
                     this.GridProps.dataSource = result.setup_barang.entities.data;
                 }
+            })
+    }
+
+    private getHistoryPenerimaanBarang(id_barang: number) {
+        this._setupBarangService
+            .getHistoryPenerimaan(id_barang)
+            .subscribe((result) => {
+                this.GridPenerimaanBarangProps.dataSource = result.data;
+            })
+    }
+
+    private getOmsetDanStokBarang(id_barang: number) {
+        this._setupBarangService
+            .getOmsetBarang(id_barang)
+            .subscribe((result) => {
+                this.GridStokDanOmsetProps.dataSource = result.data;
             })
     }
 }

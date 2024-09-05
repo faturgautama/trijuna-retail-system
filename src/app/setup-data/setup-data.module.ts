@@ -33,6 +33,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { ButtonModule } from "primeng/button";
 import { SetupGroupUserComponent } from './feature/management-user/setup-group-user/setup-group-user.component';
 import { SetupUserComponent } from './feature/management-user/setup-user/setup-user.component';
+import { PrintSetupBarangComponent } from './feature/setup-barang/print-setup-barang/print-setup-barang.component';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,7 @@ import { SetupUserComponent } from './feature/management-user/setup-user/setup-u
         DetailKartuStokComponent,
         SetupGroupUserComponent,
         SetupUserComponent,
+        PrintSetupBarangComponent,
     ],
     imports: [
         CommonModule,
