@@ -190,7 +190,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/barang/by_param`,
                             callback: (data) => {
-                                this.HargaOrder = data.harga_order ? parseFloat(data.harga_order) : 0;
+                                this.HargaOrder = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
                                 this.FormDialog.CustomForm.CustomForms.get('harga_order')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
                             }

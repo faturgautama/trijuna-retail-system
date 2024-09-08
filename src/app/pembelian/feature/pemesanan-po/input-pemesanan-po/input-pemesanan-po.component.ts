@@ -134,10 +134,10 @@ export class InputPemesananPoComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/pembelian/lookup_barang?id_supplier=${this.SelectedSupplierLookup}`,
                             callback: (data) => {
-                                this.HargaOrder = data.harga_order ? parseFloat(data.harga_order) : 0;
+                                this.HargaOrder = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
                                 this.FormDialog.CustomForm.CustomForms.get('harga_order')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
-                                this.getOmsetDanStokBarang(data.id_barang);
+                                // this.getOmsetDanStokBarang(data.id_barang);
                             },
                             width: '70vw',
                         },
@@ -307,7 +307,7 @@ export class InputPemesananPoComponent implements OnInit {
                         required: true,
                     },
                 ],
-                custom_class: 'grid-rows-6 grid-cols-2'
+                custom_class: 'grid-rows-7 grid-cols-2'
             },
             width: '70vw',
             showContent: true

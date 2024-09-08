@@ -35,6 +35,8 @@ export class InputReturPembelianComponent implements OnInit {
     FormInputFooter: CustomFormModel.IForm = {} as any;
     @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
 
+    SelectedSupplierLookup: any;
+
     Banyak: number = 0;
     Qty: number = 0;
     HargaOrder: number = 0;
@@ -57,86 +59,6 @@ export class InputReturPembelianComponent implements OnInit {
                 { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                 { id: 'save', caption: 'Save', icon: 'pi pi-save text-xs' },
             ],
-        };
-
-        this.FormInputHeader = {
-            id: 'form_retur_pembelian_header',
-            type: 'save',
-            is_inline: true,
-            fields: [
-                {
-                    id: 'jenis_retur',
-                    label: 'Jenis Retur',
-                    status: 'insert',
-                    type: 'string',
-                    required: true,
-                },
-                {
-                    id: 'tanggal_retur_pembelian',
-                    label: 'Tgl. Retur',
-                    status: 'insert',
-                    type: 'date',
-                    required: true,
-                },
-                {
-                    id: 'id_supplier',
-                    label: 'Supplier',
-                    status: 'insert',
-                    type: 'lookup',
-                    lookup_props: {
-                        id: 'lookupSupplier',
-                        title: 'Data Supplier',
-                        columns: [
-                            { field: 'kode_supplier', width: 200, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
-                            { field: 'nama_supplier', width: 275, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
-                            { field: 'alamat', width: 290, headerName: 'ALAMAT SUPPLIER', sortable: true, resizable: true },
-                        ],
-                        filter: [
-                            { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
-                            { id: 'nama_supplier', title: 'Nama Supplier', type: 'contain', value: 'ms.nama_supplier' },
-                        ],
-                        label: 'Supplier',
-                        selectedField: 'nama_supplier',
-                        selectedValue: 'id_supplier',
-                        url: `${environment.endpoint}/supplier/by_param`
-                    },
-                    lookup_set_value_field: ['alamat'],
-                    required: true,
-                },
-                {
-                    id: 'alamat',
-                    label: 'Alamat',
-                    status: 'readonly',
-                    type: 'string',
-                    required: true,
-                },
-                {
-                    id: 'id_warehouse',
-                    label: 'Warehouse',
-                    status: 'readonly',
-                    type: 'select',
-                    select_props: [],
-                    required: true,
-                },
-                {
-                    id: 'mekanisme',
-                    label: 'Mekanisme',
-                    status: 'readonly',
-                    type: 'select',
-                    select_props: [
-                        {
-                            name: 'Potong Tagihan',
-                            value: 1
-                        },
-                        {
-                            name: 'Tukar Barang',
-                            value: 2
-                        }
-                    ],
-                    required: true,
-                },
-            ],
-            custom_class: 'grid-rows-2 grid-cols-3',
         };
 
         this.FormInputDetail = {
@@ -167,8 +89,10 @@ export class InputReturPembelianComponent implements OnInit {
                             label: 'Barang',
                             selectedField: 'nama_barang',
                             selectedValue: 'id_barang',
-                            url: `${environment.endpoint}/barang/by_param`,
+                            url: `${environment.endpoint}/pembelian/lookup_barang?id_supplier=${this.SelectedSupplierLookup}`,
                             callback: (data) => {
+                                this.HargaOrder = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
+                                this.FormDialog.CustomForm.CustomForms.get('harga_satuan')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
                             }
                         },
@@ -251,6 +175,92 @@ export class InputReturPembelianComponent implements OnInit {
             },
             width: '65vw'
         };
+
+        this.FormInputHeader = {
+            id: 'form_retur_pembelian_header',
+            type: 'save',
+            is_inline: true,
+            fields: [
+                {
+                    id: 'jenis_retur',
+                    label: 'Jenis Retur',
+                    status: 'insert',
+                    type: 'string',
+                    required: true,
+                },
+                {
+                    id: 'tanggal_retur_pembelian',
+                    label: 'Tgl. Retur',
+                    status: 'insert',
+                    type: 'date',
+                    required: true,
+                },
+                {
+                    id: 'id_supplier',
+                    label: 'Supplier',
+                    status: 'insert',
+                    type: 'lookup',
+                    lookup_props: {
+                        id: 'lookupSupplier',
+                        title: 'Data Supplier',
+                        columns: [
+                            { field: 'kode_supplier', width: 200, headerName: 'KODE SUPPLIER', sortable: true, resizable: true },
+                            { field: 'nama_supplier', width: 275, headerName: 'NAMA SUPPLIER', sortable: true, resizable: true },
+                            { field: 'alamat', width: 290, headerName: 'ALAMAT SUPPLIER', sortable: true, resizable: true },
+                        ],
+                        filter: [
+                            { id: 'kode_supplier', title: 'Kode Supplier', type: 'contain', value: 'ms.kode_supplier' },
+                            { id: 'nama_supplier', title: 'Nama Supplier', type: 'contain', value: 'ms.nama_supplier' },
+                        ],
+                        label: 'Supplier',
+                        selectedField: 'nama_supplier',
+                        selectedValue: 'id_supplier',
+                        url: `${environment.endpoint}/supplier/by_param`,
+                        callback: (args: any) => {
+                            this.SelectedSupplierLookup = args.id_supplier;
+                            this.FormInputDetail.form_props.fields[0].lookup_props!.url = `${environment.endpoint}/pembelian/lookup_barang?id_supplier=${args.id_supplier}`;
+                        }
+                    },
+                    lookup_set_value_field: ['alamat'],
+                    required: true,
+                },
+                {
+                    id: 'alamat',
+                    label: 'Alamat',
+                    status: 'readonly',
+                    type: 'string',
+                    required: true,
+                },
+                {
+                    id: 'id_warehouse',
+                    label: 'Warehouse',
+                    status: 'readonly',
+                    type: 'select',
+                    select_props: [],
+                    required: true,
+                },
+                {
+                    id: 'mekanisme',
+                    label: 'Mekanisme',
+                    status: 'readonly',
+                    type: 'select',
+                    select_props: [
+                        {
+                            name: 'Potong Tagihan',
+                            value: 1
+                        },
+                        {
+                            name: 'Tukar Barang',
+                            value: 2
+                        }
+                    ],
+                    required: true,
+                },
+            ],
+            custom_class: 'grid-rows-2 grid-cols-3',
+        };
+
+
 
         this.FormInputFooter = {
             id: 'form_retur_pembelian_footer',
