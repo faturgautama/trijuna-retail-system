@@ -147,7 +147,7 @@ export class DetailReturPembelianComponent implements OnInit, AfterViewInit {
             dataSource: [],
             height: "250px",
             showPaging: false,
-            toolbar: ['Add', 'Delete'],
+            toolbar: [],
         };
     }
 
