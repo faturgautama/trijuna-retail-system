@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PembelianTanpaPoService } from 'src/app/@core/service/pembelian/pembelian-tanpa-po/pembelian-tanpa-po.service';
 import { PemesananPoService } from 'src/app/@core/service/pembelian/pemesanan-po/pemesanan-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -24,6 +24,7 @@ export class PrintPemesananPoComponent implements OnInit {
     }
 
     constructor(
+        private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
         private _pemesananPoService: PemesananPoService,
@@ -48,9 +49,9 @@ export class PrintPemesananPoComponent implements OnInit {
 
     ngOnInit(): void {
         const id = this._activatedRoute.snapshot.params['id'];
-        const params = this._activatedRoute.snapshot.params;
+        const url = this._router.url;
 
-        if (params) {
+        if (url.includes('penerimaan-tanpa-po')) {
             this.getPembelianTanpaPo(id);
         } else {
             this.getPemesananPo(id);

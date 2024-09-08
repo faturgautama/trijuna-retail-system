@@ -19,6 +19,7 @@ import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-war
 import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
 import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
+import { EditSatuanPembelianComponent } from 'src/app/pembelian/components/edit-satuan-pembelian/edit-satuan-pembelian.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -69,6 +70,8 @@ export class InputPemesananPoComponent implements OnInit {
     @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
 
     GridStokDanOmsetProps: GridModel.IGrid;
+
+    @ViewChild('EditSatuanPembelianComps') EditSatuanPembelianComps!: EditSatuanPembelianComponent;
 
     constructor(
         private _store: Store,
@@ -169,6 +172,17 @@ export class InputPemesananPoComponent implements OnInit {
                     },
                     {
                         id: 'kode_satuan',
+                        label: 'Satuan',
+                        status: 'insert',
+                        type: 'select',
+                        select_props: [],
+                        required: true,
+                        select_callback: (data) => {
+                            this.onChangeSatuan(data);
+                        }
+                    },
+                    {
+                        id: 'satuan',
                         label: 'Satuan',
                         status: 'insert',
                         type: 'select',
@@ -446,7 +460,13 @@ export class InputPemesananPoComponent implements OnInit {
                         return true;
                     }
                 },
-                { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
+                {
+                    field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true,
+                    onCellDoubleClicked: (args: any) => {
+                        console.log(args);
+                        this.EditSatuanPembelianComps.handleOpenModal(args.data.id_barang);
+                    },
+                },
                 { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 {
                     field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
@@ -470,7 +490,8 @@ export class InputPemesananPoComponent implements OnInit {
                 { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'qty_bonus', headerName: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true }
+                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true },
+                { field: 'satuan', headerName: 'SATUAN', width: 200, sortable: true, resizable: true, hide: true },
             ],
             dataSource: [],
             height: "250px",

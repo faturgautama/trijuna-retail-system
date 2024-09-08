@@ -102,7 +102,7 @@ export class HistoryPenerimaanTanpaPoComponent implements OnInit {
         };
 
         if (args == 'print') {
-            this._router.navigate([`pembelian/penerimaan-tanpa-po/print/${this.SelectedData.id_penerimaan}?from=penerimaan-tanpa-po`]);
+            this._router.navigate([`pembelian/penerimaan-tanpa-po/print/${this.SelectedData.id_penerimaan}`]);
         }
     }
 

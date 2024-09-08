@@ -730,7 +730,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate([`pembelian/penerimaan-tanpa-po/print/${result.pembelian_tanpa_po.entities.data}?from=penerimaan-tanpa-po`]);
+                        this._router.navigate([`/pembelian/penerimaan-tanpa-po/print/${result.pembelian_tanpa_po.entities.data}`]);
                     }, 1500);
                 }
             });

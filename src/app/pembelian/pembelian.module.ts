@@ -27,6 +27,7 @@ import { RadioButtonModule } from "primeng/radiobutton";
 import { FormsModule } from "@angular/forms";
 import { PrintPemesananPoComponent } from './feature/pemesanan-po/print-pemesanan-po/print-pemesanan-po.component';
 import { PrintPenerimaanDenganPoComponent } from './feature/penerimaan-dengan-po/print-penerimaan-dengan-po/print-penerimaan-dengan-po.component';
+import { EditSatuanPembelianComponent } from './components/edit-satuan-pembelian/edit-satuan-pembelian.component';
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { PrintPenerimaanDenganPoComponent } from './feature/penerimaan-dengan-po
         HistoryReturKonsinyasiComponent,
         InputReturKonsinyasiComponent,
         PrintPemesananPoComponent,
-        PrintPenerimaanDenganPoComponent
+        PrintPenerimaanDenganPoComponent,
+        EditSatuanPembelianComponent
     ],
     imports: [
         CommonModule,

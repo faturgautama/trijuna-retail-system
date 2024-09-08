@@ -13,6 +13,6 @@ export class PageNotFoundComponent {
     ) { }
 
     handleBackToBeranda() {
-        this._router.navigateByUrl("/beranda");
+        window.history.back();
     }
 }

@@ -104,6 +104,9 @@ import { PrintOutGridComponent } from './print-out-grid/print-out-grid.component
         TabViewModule,
         InputNumberModule,
         PrintOutGridComponent,
+        DialogModule,
+        DropdownModule,
+        ButtonModule,
     ],
     providers: []
 })
