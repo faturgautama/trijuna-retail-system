@@ -19,7 +19,7 @@ export class SetupBarangService {
     }
 
     getByIdBarang(id_barang: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/barang/${id_barang}`);
+        return this._httpRequestService.getRequest(`${environment.endpoint}/barang/by_id/${id_barang}`);
     }
 
     saveBarang(payload: SetupBarangModel.SaveSetupBarang): Observable<any> {
@@ -27,11 +27,15 @@ export class SetupBarangService {
     }
 
     updateBarang(payload: SetupBarangModel.UpdateSetupBarang): Observable<any> {
-        return this._httpRequestService.putRequest(`${environment.endpoint}/barang/${payload.id_barang}`, payload);
+        return this._httpRequestService.putRequest(`${environment.endpoint}/updatebarang/${payload.id_barang}`, payload);
     }
 
     deleteBarang(id_barang: number): Observable<any> {
         return this._httpRequestService.deleteRequest(`${environment.endpoint}/barang/${id_barang}`);
+    }
+
+    ubahStatusActiveBarang(id_barang: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/barang/update_status_active/${id_barang}`);
     }
 
     getKartuStokBarang(payload: any): Observable<any> {

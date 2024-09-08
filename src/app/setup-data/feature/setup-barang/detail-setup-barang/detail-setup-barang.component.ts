@@ -74,8 +74,7 @@ export class DetailSetupBarangComponent implements OnInit {
                     label: 'Kode Barang',
                     status: 'insert',
                     type: 'string',
-                    required: true,
-                    validator: 'Kode Barang Tidak Boleh Kosong',
+                    required: false,
                 },
                 {
                     id: 'nama_barang',
@@ -109,8 +108,12 @@ export class DetailSetupBarangComponent implements OnInit {
                     id: 'persediaan',
                     label: 'Persediaan',
                     status: 'insert',
-                    type: 'numeric',
+                    type: 'select',
                     required: true,
+                    select_props: [
+                        { id: 'persediaan_general', name: 'General', value: 'general' },
+                        { id: 'persediaan_konsinyasi', name: 'Konsinyasi', value: 'konsinyasi' },
+                    ],
                     validator: 'Persediaan Tidak Boleh Kosong',
                 },
                 {
@@ -323,6 +326,7 @@ export class DetailSetupBarangComponent implements OnInit {
                 { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                 { id: 'delete', caption: 'Delete', icon: 'pi pi-trash text-xs' },
                 { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
+                { id: 'ubah_status', caption: 'Ubah Status Active', icon: 'pi pi-sync text-xs' },
             ],
         };
     }
@@ -427,6 +431,7 @@ export class DetailSetupBarangComponent implements OnInit {
                     { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                     { id: 'delete', caption: 'Delete', icon: 'pi pi-trash text-xs' },
                     { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
+                    { id: 'ubah_status', caption: 'Ubah Status Active', icon: 'pi pi-sync text-xs' },
                 ];
                 this.PageState = 'detail';
                 break;
@@ -481,6 +486,9 @@ export class DetailSetupBarangComponent implements OnInit {
             case 'delete':
                 this.handleDeleteBarang();
                 break;
+            case 'ubah_status':
+                this.handleUbahStatusActiveBarang();
+                break;
             default:
                 break;
         }
@@ -489,7 +497,8 @@ export class DetailSetupBarangComponent implements OnInit {
     handleSubmitForm(): void {
         const data = this.CustomForm.handleSubmitForm();
 
-        this._store.dispatch(new SetupBarangAction.UpdateBarang(data))
+        this._store
+            .dispatch(new SetupBarangAction.UpdateBarang(data))
             .subscribe((result) => {
                 if (result.setup_barang.entities.success) {
                     this._messageService.clear();
@@ -503,11 +512,29 @@ export class DetailSetupBarangComponent implements OnInit {
     handleDeleteBarang(): void {
         const id = this._activatedRoute.snapshot.params.id;
 
-        this._store.dispatch(new SetupBarangAction.DeleteBarang(id))
+        this._store
+            .dispatch(new SetupBarangAction.DeleteBarang(id))
             .subscribe((result) => {
                 if (result.setup_barang.entities.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dihapus' });
+
+                    setTimeout(() => {
+                        this._router.navigate(['setup-data/setup-inventory/setup-barang/list']);
+                    }, 1500);
+                }
+            })
+    }
+
+    handleUbahStatusActiveBarang(): void {
+        const id = this._activatedRoute.snapshot.params.id;
+
+        this._store
+            .dispatch(new SetupBarangAction.UbahStatusActiveBarang(id))
+            .subscribe((result) => {
+                if (result.setup_barang.entities.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Status Berhasil Diubah' });
 
                     setTimeout(() => {
                         this._router.navigate(['setup-data/setup-inventory/setup-barang/list']);

@@ -36,6 +36,7 @@ export namespace CustomFormModel {
         checkbox_callback?: (data: any) => void;
         radio_props?: IFormCheckboxRadioProps[];
         radio_callback?: (data: any) => void;
+        radio_initial_value?: any;
         lookup_props?: LookupModel.ILookup;
         lookup_set_value_field?: any[]; // id_field yg lain yg mau di set value nya
         hidden?: boolean;
