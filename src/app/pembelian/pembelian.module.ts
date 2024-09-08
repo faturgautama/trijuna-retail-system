@@ -25,6 +25,10 @@ import { HistoryReturKonsinyasiComponent } from './feature/retur-konsinyasi/hist
 import { InputReturKonsinyasiComponent } from './feature/retur-konsinyasi/input-retur-konsinyasi/input-retur-konsinyasi.component';
 import { RadioButtonModule } from "primeng/radiobutton";
 import { FormsModule } from "@angular/forms";
+import { PrintPemesananPoComponent } from './feature/pemesanan-po/print-pemesanan-po/print-pemesanan-po.component';
+import { PrintPenerimaanDenganPoComponent } from './feature/penerimaan-dengan-po/print-penerimaan-dengan-po/print-penerimaan-dengan-po.component';
+import { EditSatuanPembelianComponent } from './components/edit-satuan-pembelian/edit-satuan-pembelian.component';
+import { PrintReturPembelianComponent } from './feature/retur-pembelian/print-retur-pembelian/print-retur-pembelian.component';
 
 @NgModule({
     declarations: [
@@ -45,7 +49,11 @@ import { FormsModule } from "@angular/forms";
         DetailReturPembelianComponent,
         DetailReturKonsinyasiComponent,
         HistoryReturKonsinyasiComponent,
-        InputReturKonsinyasiComponent
+        InputReturKonsinyasiComponent,
+        PrintPemesananPoComponent,
+        PrintPenerimaanDenganPoComponent,
+        EditSatuanPembelianComponent,
+        PrintReturPembelianComponent
     ],
     imports: [
         CommonModule,

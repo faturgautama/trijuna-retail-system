@@ -1,0 +1,130 @@
+<div *ngIf="Data" class="grid p-5 gap-0">
+    <div class="flex flex-col gap-0 mb-3">
+        <p class="text-lg font-semibold text-center">
+            Order Pembelian
+        </p>
+
+        <!-- Faktur PO -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Faktur PO
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nomor_pemesanan || Data.nomor_penerimaan }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal PO -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Tanggal PO
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.tanggal_pemesanan || Data.tanggal_nota }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal Kirim -->
+        <div *ngIf="Data.tanggal_kirim" class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Tanggal Kirim
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.tanggal_kirim }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Kepada Yth -->
+        <div class="flex w-full gap-2 mb-3">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Kepada Yth
+                </p>
+            </div>
+            <div class="w-9/12 flex flex-col">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nama_supplier }}
+                </p>
+                <p class="text-xs text-gray-700">
+                    : {{ Data.alamat }}
+                </p>
+            </div>
+        </div>
+
+        <p class="text-xs text-gray-700">
+            Mohon dikirim pesanan kami sebagai berikut :
+        </p>
+    </div>
+
+    <div class="grid mb-1">
+        <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+
+    <!-- Total -->
+    <div
+        class="flex flex-row justify-end w-full px-3 pb-2 mb-2 border-b border-t-0 border-x-0 border-solid border-gray-700">
+        <div class="w-3/12">
+            <p class="text-xs text-gray-700 text-end">
+                Total
+            </p>
+        </div>
+        <div class="w-2/12">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.total_transaksi, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-row justify-between w-full px-3">
+        <div class="w-4/12 flex flex-col gap-1">
+            <p class="text-xs text-gray-700 font-medium">
+                Catatan :
+            </p>
+            <p class="text-xs text-gray-700">
+                Setiap pengiriman barang mohon disertakan tembusan Nota, Faktur, Surat Jalan, dan Fotocopy Order
+                Pembelian ini.
+            </p>
+        </div>
+
+        <div class="w-5/12 flex flex-col justify-center items-center pr-3">
+            <p class="text-xs text-gray-700 text-center mb-3 font-medium">
+                Blora, {{ _utilityService.FormatDate(Data.tanggal_pemesanan, 'DD MMMM yyyy ') }}
+            </p>
+
+            <div class="flex flex-row gap-5">
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Penjual / Supplier
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Manager Pembelian
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

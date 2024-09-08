@@ -27,6 +27,11 @@ export namespace SetupBarangAction {
         constructor(public payload: number) { }
     }
 
+    export class UbahStatusActiveBarang {
+        static readonly type = '[SETUP BARANG] Ubah Status Active';
+        constructor(public payload: number) { }
+    }
+
     // ** Barang Satuan
     export class GetAllBarangSatuan {
         static readonly type = '[SETUP BARANG SATUAN] Get All';

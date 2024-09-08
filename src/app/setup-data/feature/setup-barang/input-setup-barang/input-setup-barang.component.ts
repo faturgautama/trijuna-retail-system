@@ -96,8 +96,12 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     id: 'persediaan',
                     label: 'Persediaan',
                     status: 'insert',
-                    type: 'numeric',
+                    type: 'select',
                     required: true,
+                    select_props: [
+                        { id: 'persediaan_general', name: 'General', value: 'general' },
+                        { id: 'persediaan_konsinyasi', name: 'Konsinyasi', value: 'konsinyasi' },
+                    ],
                     validator: 'Persediaan Tidak Boleh Kosong',
                 },
                 {
@@ -188,6 +192,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                         { id: 'ppn_true', name: 'Ya', value: true },
                         { id: 'ppn_false', name: 'Tidak', value: false },
                     ],
+                    radio_initial_value: true,
                     required: true,
                     validator: 'PPn Tidak Boleh Kosong',
                 },

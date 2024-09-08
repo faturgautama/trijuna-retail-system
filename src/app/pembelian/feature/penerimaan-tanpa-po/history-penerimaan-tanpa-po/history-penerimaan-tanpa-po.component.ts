@@ -18,6 +18,8 @@ export class HistoryPenerimaanTanpaPoComponent implements OnInit {
 
     GridProps: GridModel.IGrid;
 
+    SelectedData: any;
+
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
     constructor(
@@ -28,7 +30,8 @@ export class HistoryPenerimaanTanpaPoComponent implements OnInit {
         this.DashboardProps = {
             title: 'History Penerimaan Tanpa PO',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
@@ -94,7 +97,13 @@ export class HistoryPenerimaanTanpaPoComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['pembelian/penerimaan-tanpa-po/input']);
+        if (args == 'add') {
+            this._router.navigate(['pembelian/penerimaan-tanpa-po/input']);
+        };
+
+        if (args == 'print') {
+            this._router.navigate([`pembelian/penerimaan-tanpa-po/print/${this.SelectedData.id_penerimaan}`]);
+        }
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -104,6 +113,10 @@ export class HistoryPenerimaanTanpaPoComponent implements OnInit {
                     this.GridProps.dataSource = result.pembelian_tanpa_po.entities.data;
                 }
             })
+    }
+
+    handleCellClicked(args: any): void {
+        this.SelectedData = args;
     }
 
     handleRowDoubleClicked(args: any): void {

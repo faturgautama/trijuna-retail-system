@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import 'moment/locale/id';
 import { MessageService } from 'primeng/api';
+import * as Excel from "exceljs";
+import * as fs from 'file-saver';
+import domtoimage from 'dom-to-image';
+import jspdf from 'jspdf';
+import { DocumentModel } from 'src/app/@shared/models/shared/document.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UtilityService {
+
+    private Workbook = new Excel.Workbook();
 
     constructor(
         private _messageService: MessageService,
@@ -13,6 +21,7 @@ export class UtilityService {
 
     FormatDate(date: Date, format?: string): any {
         if (date) {
+            moment.locale('id');
             return format ? moment(date).format(format) : moment(date).format('DD/MM/yyyy');
         } else {
             return date;
@@ -49,5 +58,63 @@ export class UtilityService {
 
     JoinTwoObject(obj1: any, obj2: any): any {
         return { ...obj1, ...obj2 };
+    }
+
+    exportToPdf(divId: string, fileTitle: string) {
+        const node = document.getElementById(divId);
+
+        if (node) {
+            domtoimage.toPng(node)
+                .then((dataUrl) => {
+                    // Generate the PDF
+                    const pdf = new jspdf('p', 'mm', 'a4');
+                    const imgProps = pdf.getImageProperties(dataUrl);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                    // Open the PDF in a new window and trigger print
+                    const pdfBlob = pdf.output('blob');
+                    const pdfUrl = URL.createObjectURL(pdfBlob);
+                    const pdfWindow: any = window.open(pdfUrl);
+
+                    pdfWindow.onload = () => {
+                        pdfWindow.focus();
+                        pdfWindow.print();
+                    };
+                })
+                .catch((error) => {
+                    console.error('Error capturing the element:', error);
+                });
+        } else {
+            console.error('Element not found:', divId);
+        }
+    }
+
+    exportToExcel(payload: DocumentModel.ExportExcel) {
+        let worksheets = this.Workbook.addWorksheet('docs');
+
+        let column = [];
+
+        for (const data of Object.keys(payload.dataSource[0])) {
+            column.push({
+                header: data.replace(/_/g, " ").toUpperCase(),
+                key: data,
+                width: 20,
+            });
+        }
+
+        worksheets.columns = column;
+
+        for (const item of payload.dataSource) {
+            worksheets.addRow(item);
+        }
+
+        let fileName = `${payload.worksheetName}-${this.FormatDate(new Date(), 'DD-mm-yyyy HH:mm:ss')}`;
+
+        this.Workbook.xlsx.writeBuffer().then((data) => {
+            let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            fs.saveAs(blob, fileName + '.xlsx');
+        })
     }
 }

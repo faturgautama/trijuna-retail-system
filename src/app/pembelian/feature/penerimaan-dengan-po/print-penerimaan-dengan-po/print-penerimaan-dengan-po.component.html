@@ -1,0 +1,244 @@
+<div class="grid p-5 gap-0">
+    <div class="flex flex-col gap-0 mb-3">
+        <p class="text-lg font-semibold">
+            Bukti Penerimaan Barang Dengan PO
+        </p>
+
+        <!-- Nomor Faktur -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Nomor Faktur
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nomor_penerimaan }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal Bukti -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Tanggal Bukti
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatDate(Data.created_at, 'DD MMMM yyyy') }}
+                </p>
+            </div>
+        </div>
+
+        <!-- No. Nota Supplier -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    No. Nota Supplier
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.no_nota }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tgl. Nota Supplier -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Tgl. Nota Supplier
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatDate(Data.tanggal_nota, 'DD MMMM yyyy') }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Nama Supplier -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Nama Supplier
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nama_supplier }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Alamat Supplier -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Alamat Supplier
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.alamat }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Alamat Supplier -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Telepon Supplier
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.no_handphone }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid mb-1">
+        <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Jumlah
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.sub_total1, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Disc {{ Data.diskon_persen }}
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.diskon_nominal, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Potongan
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                Rp. 0
+            </p>
+        </div>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                DPP
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.sub_total2, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                PPN 11
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.ppn_nominal, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Pembulatan
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.pembulatan, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full pb-2 mb-3 border-b border-t-0 border-x-0 border-solid border-gray-700">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Total
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.total_transaksi, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-row justify-center w-full px-3">
+        <div class="w-8/12 flex flex-col justify-center items-center pr-3">
+            <div class="flex flex-row gap-10">
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dibukukan
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dikeluarkan Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Diketahui Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

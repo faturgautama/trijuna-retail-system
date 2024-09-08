@@ -50,6 +50,10 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
                 this.CustomForms.addControl(item.id, new FormControl(null, [Validators.required]));
             };
 
+            if (item.type == 'radio') {
+                this.CustomForms.addControl(item.id, new FormControl(item.radio_initial_value ? item.radio_initial_value : null, [Validators.required]));
+            };
+
             if (item.type != 'numeric' && item.type != 'date') {
                 this.CustomForms.addControl(item.id, new FormControl("", [Validators.required]));
             };

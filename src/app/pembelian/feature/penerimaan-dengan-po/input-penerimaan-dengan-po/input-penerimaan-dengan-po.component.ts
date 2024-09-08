@@ -155,6 +155,8 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                     label: 'Diskon',
                     status: 'insert',
                     type: 'numeric',
+                    prefix: '%',
+                    prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
                     numeric_callback: (data) => {
@@ -165,6 +167,8 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                         label: 'Diskon',
                         status: 'readonly',
                         type: 'numeric',
+                        prefix: 'Rp. ',
+                        prefix_position: 'left',
                         required: true,
                     }
                 },
@@ -489,7 +493,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['pembelian/penerimaan-dengan-po/history']);
+                        this._router.navigate([`pembelian/penerimaan-dengan-po/print/${result.pembelian_dengan_po.entities.data}`]);
                     }, 1500);
                 }
             });

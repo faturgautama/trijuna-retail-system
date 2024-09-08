@@ -40,6 +40,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { LookupComponent } from './lookup/lookup.component';
 import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component';
 import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.component';
+import { PrintOutGridComponent } from './print-out-grid/print-out-grid.component';
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.compo
         LookupComponent,
         FormDialogComponent,
         CustomDropdownComponent,
+        PrintOutGridComponent,
     ],
     imports: [
         CommonModule,
@@ -101,6 +103,10 @@ import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.compo
         FormDialogComponent,
         TabViewModule,
         InputNumberModule,
+        PrintOutGridComponent,
+        DialogModule,
+        DropdownModule,
+        ButtonModule,
     ],
     providers: []
 })

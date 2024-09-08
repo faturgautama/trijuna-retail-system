@@ -40,6 +40,24 @@ export class HttpRequestService {
             )
     }
 
+    getRequestWithoutLoading(url: string): Observable<any> {
+        return this._httpClient.get<HttpRequestBaseModel>(url)
+            .pipe(
+                map((result) => {
+                    if (result.success || result.status) {
+                        return result;
+                    } else {
+                        this.handlingError200(result.message);
+                        return result;
+                    }
+                }),
+                catchError((error) => {
+                    this.handlingError(error);
+                    throw error;
+                })
+            )
+    }
+
     postRequest(url: string, payload: any): Observable<any> {
         this.ToggleLoading.next(true);
 

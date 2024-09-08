@@ -1,0 +1,17 @@
+<div class="grid p-5 gap-3">
+    <div class="flex flex-col gap-0">
+        <p class="text-lg font-medium">
+            Master Barang
+        </p>
+        <p class="text-base text-gray-700">
+            {{ UserData.lokasi.nama_lokasi }}
+        </p>
+        <p class="text-sm text-gray-700">
+            Tgl. Cetak : {{ Date | date: 'dd-MM-yyyy HH:mm:ss' }}
+        </p>
+    </div>
+
+    <div class="grid">
+        <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+</div>

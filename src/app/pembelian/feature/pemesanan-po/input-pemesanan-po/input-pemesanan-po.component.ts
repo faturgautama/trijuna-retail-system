@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Grid } from 'ag-grid-community';
-import { timeStamp } from 'console';
 import { MessageService } from 'primeng/api';
-import { map, takeUntil } from 'rxjs';
+import { map } from 'rxjs';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
@@ -21,6 +19,7 @@ import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-war
 import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
 import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
+import { EditSatuanPembelianComponent } from 'src/app/pembelian/components/edit-satuan-pembelian/edit-satuan-pembelian.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -71,6 +70,8 @@ export class InputPemesananPoComponent implements OnInit {
     @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
 
     GridStokDanOmsetProps: GridModel.IGrid;
+
+    @ViewChild('EditSatuanPembelianComps') EditSatuanPembelianComps!: EditSatuanPembelianComponent;
 
     constructor(
         private _store: Store,
@@ -133,10 +134,10 @@ export class InputPemesananPoComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/pembelian/lookup_barang?id_supplier=${this.SelectedSupplierLookup}`,
                             callback: (data) => {
-                                this.HargaOrder = data.harga_order ? parseFloat(data.harga_order) : 0;
+                                this.HargaOrder = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
                                 this.FormDialog.CustomForm.CustomForms.get('harga_order')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
-                                this.getOmsetDanStokBarang(data.id_barang);
+                                // this.getOmsetDanStokBarang(data.id_barang);
                             },
                             width: '70vw',
                         },
@@ -181,6 +182,17 @@ export class InputPemesananPoComponent implements OnInit {
                         }
                     },
                     {
+                        id: 'satuan',
+                        label: 'Satuan',
+                        status: 'insert',
+                        type: 'select',
+                        select_props: [],
+                        required: true,
+                        select_callback: (data) => {
+                            this.onChangeSatuan(data);
+                        }
+                    },
+                    {
                         id: 'isi',
                         label: 'Isi',
                         status: 'readonly',
@@ -213,6 +225,8 @@ export class InputPemesananPoComponent implements OnInit {
                         status: 'insert',
                         type: 'numeric',
                         required: true,
+                        prefix: '%',
+                        prefix_position: 'right',
                         is_form_grouped: true,
                         numeric_callback: (data) => {
                             this.handleChangeDiskon1Persen(data);
@@ -222,6 +236,8 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Diskon 1 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -230,6 +246,8 @@ export class InputPemesananPoComponent implements OnInit {
                         label: 'Diskon 2',
                         status: 'insert',
                         type: 'numeric',
+                        prefix: '%',
+                        prefix_position: 'right',
                         required: true,
                         is_form_grouped: true,
                         numeric_callback: (data) => {
@@ -240,6 +258,8 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Diskon 1 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -248,6 +268,8 @@ export class InputPemesananPoComponent implements OnInit {
                         label: 'Diskon 3',
                         status: 'insert',
                         type: 'numeric',
+                        prefix: '%',
+                        prefix_position: 'right',
                         required: true,
                         is_form_grouped: true,
                         numeric_callback: (data) => {
@@ -258,6 +280,8 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Diskon 3 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -283,7 +307,7 @@ export class InputPemesananPoComponent implements OnInit {
                         required: true,
                     },
                 ],
-                custom_class: 'grid-rows-6 grid-cols-2'
+                custom_class: 'grid-rows-7 grid-cols-2'
             },
             width: '70vw',
             showContent: true
@@ -387,6 +411,8 @@ export class InputPemesananPoComponent implements OnInit {
                     label: 'Diskon',
                     status: 'insert',
                     type: 'numeric',
+                    prefix: '%',
+                    prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
                     numeric_callback: (data) => {
@@ -395,9 +421,14 @@ export class InputPemesananPoComponent implements OnInit {
                     form_grouped_props: {
                         id: 'diskon_nominal',
                         label: 'Diskon',
-                        status: 'readonly',
+                        status: 'insert',
                         type: 'numeric',
+                        prefix: 'Rp.',
+                        prefix_position: 'left',
                         required: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeDiskonNominalFooter(data);
+                        }
                     }
                 },
                 {
@@ -441,7 +472,13 @@ export class InputPemesananPoComponent implements OnInit {
                         return true;
                     }
                 },
-                { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
+                {
+                    field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true,
+                    onCellDoubleClicked: (args: any) => {
+                        console.log(args);
+                        this.EditSatuanPembelianComps.handleOpenModal(args.data.id_barang);
+                    },
+                },
                 { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 {
                     field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
@@ -465,7 +502,8 @@ export class InputPemesananPoComponent implements OnInit {
                 { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'qty_bonus', headerName: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true }
+                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true },
+                { field: 'satuan', headerName: 'SATUAN', width: 200, sortable: true, resizable: true, hide: true },
             ],
             dataSource: [],
             height: "250px",
@@ -718,6 +756,12 @@ export class InputPemesananPoComponent implements OnInit {
         this.onCountFormFooter();
     }
 
+    handleChangeDiskonNominalFooter(value: number): void {
+        const diskonPersenFooter = (value / this.CustomFormFooter.handleGetFieldValue('sub_total1')) * 100;
+        this.CustomFormFooter.handleSetFieldValue('diskon_persen', diskonPersenFooter);
+        this.onCountFormFooter();
+    }
+
     onCountFormFooter(): void {
         let qty = 0;
         let subtotal1 = 0;
@@ -757,7 +801,7 @@ export class InputPemesananPoComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['pembelian/pemesanan-po/history']);
+                        this._router.navigate([`pembelian/pemesanan-po/print/${result.pemesanan_po.entities.data}`]);
                     }, 1500);
                 }
             });

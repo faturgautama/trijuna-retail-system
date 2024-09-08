@@ -16,7 +16,7 @@ export class CustomDropdownComponent implements ICellRendererAngularComp {
 
     agInit(params: any): void {
         this.params = params;
-        this.dataSource = params.data[params.dataSource];
+        this.dataSource = params.dataSource;
     }
 
     refresh(params: ICellRendererParams) {

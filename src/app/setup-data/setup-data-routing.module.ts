@@ -18,6 +18,7 @@ import { ListSettingHargaComponent } from "./feature/setting-harga/list-setting-
 import { InputSettingHargaComponent } from "./feature/setting-harga/input-setting-harga/input-setting-harga.component";
 import { DetailSettingHargaComponent } from "./feature/setting-harga/detail-setting-harga/detail-setting-harga.component";
 import { SetupUserComponent } from "./feature/management-user/setup-user/setup-user.component";
+import { PrintSetupBarangComponent } from "./feature/setup-barang/print-setup-barang/print-setup-barang.component";
 
 const routes: Routes = [
     {
@@ -60,6 +61,7 @@ const routes: Routes = [
                     { path: 'list', component: ListSetupBarangComponent },
                     { path: 'input', component: InputSetupBarangComponent },
                     { path: 'detail/:id', component: DetailSetupBarangComponent },
+                    { path: 'print', component: PrintSetupBarangComponent },
                 ],
             },
         ]

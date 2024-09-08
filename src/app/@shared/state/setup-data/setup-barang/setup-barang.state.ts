@@ -102,6 +102,21 @@ export class SetupBarangState {
             )
     }
 
+    @Action(SetupBarangAction.UbahStatusActiveBarang)
+    ubahStatusActiveBarang(ctx: StateContext<SetupBarangStateModel>, action: any) {
+        return this._setupBarangService.ubahStatusActiveBarang(action.payload)
+            .pipe(
+                tap((result) => {
+                    const state = ctx.getState();
+
+                    return ctx.setState({
+                        ...state,
+                        entities: result
+                    })
+                })
+            )
+    }
+
     // ** Setup Barang Satuan
     @Action(SetupBarangAction.GetAllBarangSatuan)
     getBarangSatuan(ctx: StateContext<SetupBarangStateModel>, action: any) {
