@@ -268,6 +268,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                         status: 'insert',
                         type: 'numeric',
                         required: true,
+                        prefix: '%',
+                        prefix_position: 'right',
                         is_form_grouped: true,
                         numeric_callback: (data) => {
                             this.handleChangeDiskon1Persen(data);
@@ -277,6 +279,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                             label: 'Diskon 1 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -285,6 +289,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                         label: 'Diskon 2',
                         status: 'insert',
                         type: 'numeric',
+                        prefix: '%',
+                        prefix_position: 'right',
                         required: true,
                         is_form_grouped: true,
                         numeric_callback: (data) => {
@@ -295,6 +301,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                             label: 'Diskon 1 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -303,6 +311,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                         label: 'Diskon 3',
                         status: 'insert',
                         type: 'numeric',
+                        prefix: '%',
+                        prefix_position: 'right',
                         required: true,
                         is_form_grouped: true,
                         numeric_callback: (data) => {
@@ -313,6 +323,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                             label: 'Diskon 3 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -374,6 +386,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                     label: 'Diskon',
                     status: 'insert',
                     type: 'numeric',
+                    prefix: '%',
+                    prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
                     numeric_callback: (data) => {
@@ -384,6 +398,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                         label: 'Diskon',
                         status: 'readonly',
                         type: 'numeric',
+                        prefix: 'Rp. ',
+                        prefix_position: 'left',
                         required: true,
                     }
                 },
@@ -654,6 +670,16 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
         this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(value.qty * value.harga_order);
     }
 
+    handleChangeWithPpn(args: any): void {
+        if (args.value) {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
+        } else {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', 0);
+        };
+
+        this.onCountFormFooter();
+    }
+
     onCellFinishEditing(args: any[]): void {
         args = args.filter((data) => {
             let total_after_diskon_1 = 0,
@@ -698,7 +724,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
         this.GridProps.dataSource.forEach((item) => {
             qty += parseFloat(item.qty);
             subtotal1 += parseFloat(item.sub_total);
-            biaya_barcode += parseFloat(item.biaya_barcode);
+            biaya_barcode += parseFloat(item.biaya_barcode ? item.biaya_barcode : 0);
 
             this.CustomFormFooter.handleSetFieldValue('qty', qty);
             this.CustomFormFooter.handleSetFieldValue('sub_total1', subtotal1);
@@ -706,9 +732,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
         });
 
         this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
-
-        this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
-
+        // this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
         this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal'))
     }
 

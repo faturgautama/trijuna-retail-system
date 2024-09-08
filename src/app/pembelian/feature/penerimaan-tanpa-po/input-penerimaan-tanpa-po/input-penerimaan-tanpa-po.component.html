@@ -22,14 +22,16 @@
                 </div>
                 <div class="w-8/12 flex flex-row gap-3">
                     <div class="flex items-center">
-                        <p-radioButton name="is_ppn" [value]="true" [(ngModel)]="is_ppn" inputId="is_ppn_true" />
+                        <p-radioButton name="is_ppn" [value]="true" [(ngModel)]="is_ppn" inputId="is_ppn_true"
+                            (onClick)="handleChangeWithPpn($event)" />
                         <label for="is_ppn_true" class="ml-2">
                             Iya
                         </label>
                     </div>
 
                     <div class="flex items-center">
-                        <p-radioButton name="is_ppn" [value]="false" [(ngModel)]="is_ppn" inputId="is_ppn_false" />
+                        <p-radioButton name="is_ppn" [value]="false" [(ngModel)]="is_ppn" inputId="is_ppn_false"
+                            (onClick)="handleChangeWithPpn($event)" />
                         <label for="is_ppn_false" class="ml-2">
                             Tidak
                         </label>
@@ -38,7 +40,7 @@
             </div>
 
             <!-- Barang Include PPn -->
-            <div class="flex w-full">
+            <div class="hidden w-full">
                 <div class="w-4/12">
                     <label>
                         Barang Include PPn?

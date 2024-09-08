@@ -225,6 +225,8 @@ export class InputPemesananPoComponent implements OnInit {
                         status: 'insert',
                         type: 'numeric',
                         required: true,
+                        prefix: '%',
+                        prefix_position: 'right',
                         is_form_grouped: true,
                         numeric_callback: (data) => {
                             this.handleChangeDiskon1Persen(data);
@@ -234,6 +236,8 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Diskon 1 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -242,6 +246,8 @@ export class InputPemesananPoComponent implements OnInit {
                         label: 'Diskon 2',
                         status: 'insert',
                         type: 'numeric',
+                        prefix: '%',
+                        prefix_position: 'right',
                         required: true,
                         is_form_grouped: true,
                         numeric_callback: (data) => {
@@ -252,6 +258,8 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Diskon 1 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },
@@ -260,6 +268,8 @@ export class InputPemesananPoComponent implements OnInit {
                         label: 'Diskon 3',
                         status: 'insert',
                         type: 'numeric',
+                        prefix: '%',
+                        prefix_position: 'right',
                         required: true,
                         is_form_grouped: true,
                         numeric_callback: (data) => {
@@ -270,6 +280,8 @@ export class InputPemesananPoComponent implements OnInit {
                             label: 'Diskon 3 (Rp. )',
                             status: 'readonly',
                             type: 'numeric',
+                            prefix: 'Rp. ',
+                            prefix_position: 'left',
                             required: true,
                         }
                     },

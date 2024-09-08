@@ -155,6 +155,8 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                     label: 'Diskon',
                     status: 'insert',
                     type: 'numeric',
+                    prefix: '%',
+                    prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
                     numeric_callback: (data) => {
@@ -165,6 +167,8 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
                         label: 'Diskon',
                         status: 'readonly',
                         type: 'numeric',
+                        prefix: 'Rp. ',
+                        prefix_position: 'left',
                         required: true,
                     }
                 },
