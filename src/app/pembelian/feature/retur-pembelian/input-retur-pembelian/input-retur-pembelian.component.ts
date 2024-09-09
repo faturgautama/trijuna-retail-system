@@ -440,7 +440,7 @@ export class InputReturPembelianComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['pembelian/retur-pembelian/history']);
+                        this._router.navigate([`pembelian/retur-pembelian/print/${result.retur_pembelian.entities.data}`]);
                     }, 1500);
                 }
             });

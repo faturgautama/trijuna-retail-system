@@ -20,6 +20,8 @@ export class HistoryReturPembelianComponent implements OnInit {
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
+    SelectedData: any;
+
     constructor(
         private _store: Store,
         private _router: Router,
@@ -28,7 +30,8 @@ export class HistoryReturPembelianComponent implements OnInit {
         this.DashboardProps = {
             title: 'History Retur Pembelian',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
@@ -85,7 +88,13 @@ export class HistoryReturPembelianComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['pembelian/retur-pembelian/input']);
+        if (args == 'add') {
+            this._router.navigate(['pembelian/retur-pembelian/input']);
+        };
+
+        if (args == 'print') {
+            this._router.navigate([`pembelian/retur-pembelian/print/${this.SelectedData.id_retur_pembelian}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -95,6 +104,10 @@ export class HistoryReturPembelianComponent implements OnInit {
                     this.GridProps.dataSource = result.retur_pembelian.entities.data;
                 }
             })
+    }
+
+    handleCellClicked(args: any): void {
+        this.SelectedData = args;
     }
 
     handleRowDoubleClicked(args: any): void {
