@@ -22,6 +22,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { PrintCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/print-croscek-tutup-kasir/print-croscek-tutup-kasir.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { FormsModule } from '@angular/forms';
         SettingVoucherComponent,
         HistoryPenjualanComponent,
         DetailPenjualanComponent,
-        SellOutComponent
+        SellOutComponent,
+        PrintCroscekTutupKasirComponent
     ],
     imports: [
         CommonModule,

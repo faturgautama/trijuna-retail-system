@@ -20,6 +20,8 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
+    SelectedData: any;
+
     constructor(
         private _store: Store,
         private _router: Router,
@@ -29,7 +31,8 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
         this.DashboardProps = {
             title: 'History Croscek Tutup Kasir',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
@@ -96,7 +99,13 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['penjualan/croscek-tutup-kasir/input']);
+        if (args == 'add') {
+            this._router.navigate(['penjualan/croscek-tutup-kasir/input']);
+        };
+
+        if (args == 'print') {
+            this._router.navigate([`penjualan/croscek-tutup-kasir/print/${this.SelectedData.id_kroscek_tutup_kasir}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -107,6 +116,10 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
                     this.GridProps.dataSource = result.data;
                 }
             })
+    }
+
+    handleCellClicked(args: any): void {
+        this.SelectedData = args;
     }
 
     handleRowDoubleClicked(args: any): void {

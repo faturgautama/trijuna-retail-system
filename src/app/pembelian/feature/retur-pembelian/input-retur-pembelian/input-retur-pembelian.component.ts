@@ -186,7 +186,8 @@ export class InputReturPembelianComponent implements OnInit {
                     label: 'Jenis Retur',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
+                    hidden: true
                 },
                 {
                     id: 'tanggal_retur_pembelian',
