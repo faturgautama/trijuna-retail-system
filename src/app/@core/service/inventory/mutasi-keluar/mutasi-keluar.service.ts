@@ -30,7 +30,7 @@ export class MutasiKeluarService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/mutasi_lokasi_keluar/validasi`, payload);
     }
 
-    downloadFile(): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/mutasi_lokasi_keluar/download`);
+    downloadFile(id: string): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/mutasi_lokasi_keluar/download/${id}`);
     }
 }
