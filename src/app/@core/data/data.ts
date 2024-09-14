@@ -1,5 +1,4 @@
 import { LoginModel } from "src/app/@shared/models/authentication/authentication.model";
-import { SetupBarangModel } from "src/app/@shared/models/setup-data/setup-barang.model";
 import { SetupLokasiModel } from "src/app/@shared/models/setup-data/setup-lokasi.model";
 import { SetupMemberModel } from "src/app/@shared/models/setup-data/setup-member.model";
 import { SetupRakModel } from "src/app/@shared/models/setup-data/setup-rak.model";

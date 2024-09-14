@@ -12,6 +12,12 @@ import { DetailProduksiAssemblyComponent } from "./feature/produksi-assembly/det
 import { HistoryRepackingComponent } from "./feature/repacking/history-repacking/history-repacking.component";
 import { InputRepackingComponent } from "./feature/repacking/input-repacking/input-repacking.component";
 import { DetailRepackingComponent } from "./feature/repacking/detail-repacking/detail-repacking.component";
+import { HistoryMutasiMasukComponent } from "./feature/mutasi-masuk/history-mutasi-masuk/history-mutasi-masuk.component";
+import { InputMutasiMasukComponent } from "./feature/mutasi-masuk/input-mutasi-masuk/input-mutasi-masuk.component";
+import { DetailMutasiMasukComponent } from "./feature/mutasi-masuk/detail-mutasi-masuk/detail-mutasi-masuk.component";
+import { HistoryMutasiKeluarComponent } from "./feature/mutasi-keluar/history-mutasi-keluar/history-mutasi-keluar.component";
+import { InputMutasiKeluarComponent } from "./feature/mutasi-keluar/input-mutasi-keluar/input-mutasi-keluar.component";
+import { DetailMutasiKeluarComponent } from "./feature/mutasi-keluar/detail-mutasi-keluar/detail-mutasi-keluar.component";
 
 const routes: Routes = [
     {
@@ -37,6 +43,32 @@ const routes: Routes = [
             },
             {
                 path: 'detail/:id', component: DetailMutasiLokasiComponent,
+            }
+        ]
+    },
+    {
+        path: 'mutasi-masuk', children: [
+            {
+                path: 'history', component: HistoryMutasiMasukComponent
+            },
+            {
+                path: 'input', component: InputMutasiMasukComponent
+            },
+            {
+                path: 'detail/:id', component: DetailMutasiMasukComponent,
+            }
+        ]
+    },
+    {
+        path: 'mutasi-keluar', children: [
+            {
+                path: 'history', component: HistoryMutasiKeluarComponent
+            },
+            {
+                path: 'input', component: InputMutasiKeluarComponent
+            },
+            {
+                path: 'detail/:id', component: DetailMutasiKeluarComponent,
             }
         ]
     },

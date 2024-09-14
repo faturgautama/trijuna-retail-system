@@ -1,0 +1,36 @@
+<p-dialog header="Upload File Mutasi Masuk" [(visible)]="ShowDialog" [modal]="true" [style]="{ width: '50vw' }"
+    [draggable]="false" [resizable]="false">
+    <div class="flex flex-col gap-2">
+        <!-- File -->
+        <div class="flex flex-col gap-1 w-full mb-3">
+            <p class="text-base text-gray-700">
+                Pilih File
+            </p>
+
+            <div class="flex items-center gap-2 w-full">
+                <div [class]="'w-full'">
+                    <input id="fileContainer" type="text" pInputText class="p-inputtext-sm w-full"
+                        placeholder="Tekan untuk mencari file" readonly (click)="File.click()">
+                </div>
+
+                <div *ngIf="SelectedFile" class="w-[9rem]">
+                    <span class="text-sm font-medium text-red-600 bg-red-100 rounded-lg px-3 py-2 cursor-pointer"
+                        (click)="handleDeleteFile()">
+                        <i class="pi pi-trash" style="font-size: 10px"></i>&nbsp;Hapus File
+                    </span>
+                </div>
+            </div>
+
+            <input #File type="file" class="hidden" accept=".json" (change)="handleChangeFile($event)">
+        </div>
+
+        <!-- Button -->
+        <div class="flex gap-3 justify-end">
+            <p-button styleClass="p-button-secondary p-button-sm" label="Tutup" (onClick)="ShowDialog = false">
+            </p-button>
+
+            <p-button styleClass="p-button-info p-button-sm" label="Simpan" (onClick)="handleSave()">
+            </p-button>
+        </div>
+    </div>
+</p-dialog>

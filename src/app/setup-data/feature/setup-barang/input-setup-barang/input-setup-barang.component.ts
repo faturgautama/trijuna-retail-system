@@ -61,8 +61,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     label: 'Kode Barang',
                     status: 'insert',
                     type: 'string',
-                    required: true,
-                    validator: 'Kode Barang Tidak Boleh Kosong',
+                    required: false,
                 },
                 {
                     id: 'nama_barang',

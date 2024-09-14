@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { Subject, map } from 'rxjs';
+import { MutasiMasukService } from 'src/app/@core/service/inventory/mutasi-masuk/mutasi-masuk.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
@@ -11,11 +12,11 @@ import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { MutasiLokasiAction } from 'src/app/@shared/state/inventory/mutasi-lokasi';
 
 @Component({
-    selector: 'app-detail-mutasi-lokasi',
-    templateUrl: './detail-mutasi-lokasi.component.html',
-    styleUrls: ['./detail-mutasi-lokasi.component.scss']
+    selector: 'app-detail-mutasi-masuk',
+    templateUrl: './detail-mutasi-masuk.component.html',
+    styleUrls: ['./detail-mutasi-masuk.component.scss']
 })
-export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
+export class DetailMutasiMasukComponent implements OnInit, OnDestroy {
 
     Destroy$ = new Subject();
 
@@ -37,9 +38,10 @@ export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _utilityService: UtilityService,
         private _messageService: MessageService,
+        private _mutasiMasukService: MutasiMasukService,
     ) {
         this.DashboardProps = {
-            title: 'Detail Mutasi Lokasi',
+            title: 'Detail Mutasi Masuk',
             button_navigation: [
                 { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
             ],
@@ -156,11 +158,12 @@ export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
     getDetailMutasiWarehouse(): void {
         const id = this._activatedRoute.snapshot.params.id;
 
-        this._store.dispatch(new MutasiLokasiAction.GetById(id))
+        this._mutasiMasukService
+            .getById(id)
             .pipe(
                 map((result) => {
-                    if (result.mutasi_lokasi.entities.success) {
-                        return result.mutasi_lokasi.entities.data;
+                    if (result.success) {
+                        return result.data;
                     } else {
                         return result;
                     }
@@ -169,7 +172,7 @@ export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
             .subscribe((result) => {
                 if (result.status_mutasi_lokasi == 'OPEN') {
                     this.DashboardProps = {
-                        title: 'Detail Mutasi Lokasi',
+                        title: 'Detail Mutasi Masuk',
                         button_navigation: [
                             { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                             { id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs' },
@@ -177,7 +180,7 @@ export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
                     };
                 } else {
                     this.DashboardProps = {
-                        title: 'Detail Mutasi Lokasi',
+                        title: 'Detail Mutasi Masuk',
                         button_navigation: [
                             { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                         ],
@@ -197,15 +200,15 @@ export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
     handleClickButtonNav(args: string): void {
         switch (args) {
             case 'back':
-                this._router.navigate(['inventory/mutasi-lokasi/history']);
+                this._router.navigate(['inventory/mutasi-masuk/history']);
                 break;
             case 'validasi':
                 const id = this._activatedRoute.snapshot.params.id;
 
-                this._store
-                    .dispatch(new MutasiLokasiAction.Validasi(id))
+                this._mutasiMasukService
+                    .validasi(id)
                     .subscribe((result) => {
-                        if (result.mutasi_lokasi.entities.success) {
+                        if (result.success) {
                             this._messageService.clear();
                             this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Divalidasi' });
 
@@ -213,7 +216,7 @@ export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
                             this.CustomFormFooter.handleResetForm();
 
                             setTimeout(() => {
-                                this._router.navigate(['inventory/mutasi-lokasi/history']);
+                                this._router.navigate(['inventory/mutasi-masuk/history']);
                             }, 1500);
                         }
                     });
@@ -222,4 +225,5 @@ export class DetailMutasiLokasiComponent implements OnInit, OnDestroy {
                 break;
         }
     }
+
 }
