@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 
 @Component({
@@ -12,20 +12,21 @@ export class EditSatuanPembelianComponent {
 
     SatuanDatasource: any[] = [];
 
+    SelectedSatuan: any;
+
+    @Output('onSave') onSave = new EventEmitter<any>();
+
     constructor(
         private _setupBarangService: SetupBarangService
     ) { }
 
-    handleOpenModal(id_barang: number) {
+    handleOpenModal(satuans: string) {
         this.ToggleModal = true;
-        this.getBarangSatuan(id_barang);
+        this.SatuanDatasource = JSON.parse(satuans);
     }
 
-    private getBarangSatuan(id_barang: number) {
-        this._setupBarangService
-            .getAllBarangSatuan(id_barang)
-            .subscribe((result) => {
-                console.log(result);
-            })
+    handleUpdateSatuan() {
+        this.ToggleModal = false;
+        this.onSave.emit(this.SelectedSatuan);
     }
 }

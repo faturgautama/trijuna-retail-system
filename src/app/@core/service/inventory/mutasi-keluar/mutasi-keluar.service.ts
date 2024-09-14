@@ -23,7 +23,7 @@ export class MutasiKeluarService {
     }
 
     save(payload: any): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/mutasi_lokasi_keluar/upload`, payload);
+        return this._httpRequestService.postRequest(`${environment.endpoint}/mutasi_lokasi_keluar/insert`, payload);
     }
 
     validasi(payload: any): Observable<any> {

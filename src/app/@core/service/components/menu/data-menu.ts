@@ -221,25 +221,25 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
-            {
-                id: 'mutasi-lokasi',
-                label: 'Mutasi Lokasi',
-                icon: "",
-                items: [
-                    {
-                        id: 'input-mutasi-lokasi',
-                        label: 'Input Mutasi Lokasi',
-                        icon: "",
-                        routerLink: '/inventory/mutasi-lokasi/input'
-                    },
-                    {
-                        id: 'history-mutasi-lokasi',
-                        label: 'History Mutasi Lokasi',
-                        icon: "",
-                        routerLink: '/inventory/mutasi-lokasi/history'
-                    },
-                ]
-            },
+            // {
+            //     id: 'mutasi-lokasi',
+            //     label: 'Mutasi Lokasi',
+            //     icon: "",
+            //     items: [
+            //         {
+            //             id: 'input-mutasi-lokasi',
+            //             label: 'Input Mutasi Lokasi',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-lokasi/input'
+            //         },
+            //         {
+            //             id: 'history-mutasi-lokasi',
+            //             label: 'History Mutasi Lokasi',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-lokasi/history'
+            //         },
+            //     ]
+            // },
             {
                 id: 'mutasi-masuk',
                 label: 'Mutasi Masuk',
