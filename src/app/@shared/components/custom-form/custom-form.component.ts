@@ -115,6 +115,10 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
         props.select_callback?.(data);
     }
 
+    handleChangeRadioButton(props: CustomFormModel.IFields, args: any): void {
+        props.radio_callback?.(args);
+    }
+
     handleSetFieldValue(id: string, value: any): void {
         this.CustomForms.get(id)?.setValue(value);
     }
