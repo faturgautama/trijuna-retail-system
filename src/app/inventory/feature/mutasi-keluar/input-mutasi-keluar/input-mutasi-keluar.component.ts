@@ -370,7 +370,7 @@ export class InputMutasiKeluarComponent implements OnInit {
     handleClickButtonNav(args: string): void {
         switch (args) {
             case 'back':
-                this._router.navigate(['inventory/mutasi-lokasi/history']);
+                this._router.navigate(['inventory/mutasi-keluar/history']);
                 break;
             case 'save':
                 this.handleSubmitForm();
@@ -478,7 +478,7 @@ export class InputMutasiKeluarComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['inventory/mutasi-lokasi/history']);
+                        this._router.navigate(['inventory/mutasi-keluar/history']);
                     }, 1500);
                 }
             });

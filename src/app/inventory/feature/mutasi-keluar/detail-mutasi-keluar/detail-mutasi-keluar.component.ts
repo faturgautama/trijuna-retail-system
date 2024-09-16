@@ -9,6 +9,7 @@ import { CustomFormComponent } from 'src/app/@shared/components/custom-form/cust
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-detail-mutasi-keluar',
@@ -207,17 +208,11 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
                 this._router.navigate(['inventory/mutasi-keluar/history']);
                 break;
             case 'unduh':
-                this._mutasiKeluarService
-                    .downloadFile(id)
-                    .subscribe((result) => {
-                        if (result.success) {
-                            window.open(result.data);
-                        }
-                    });
+                window.open(`${environment.endpoint}/mutasi_lokasi_keluar/download/${id}`);
                 break;
             case 'validasi':
                 this._mutasiKeluarService
-                    .validasi(id)
+                    .validasi({ id_mutasi_lokasi: id })
                     .subscribe((result) => {
                         if (result.success) {
                             this._messageService.clear();
