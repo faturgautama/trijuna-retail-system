@@ -2,14 +2,14 @@
     [resizable]="false">
     <div class="grid gap-2">
         <p-dropdown styleClass="p-inputtext-sm w-full" appendTo="body" [filter]="true" [options]="SatuanDatasource"
-            optionLabel="kode_satuan">
+            optionLabel="kode_satuan" [(ngModel)]="SelectedSatuan">
         </p-dropdown>
 
         <div class="flex gap-2 justify-end mt-3">
             <p-button styleClass="p-button-secondary p-button-sm" label="Tutup" (onClick)="ToggleModal = false">
             </p-button>
 
-            <p-button styleClass="p-button-info p-button-sm" label="Simpan"></p-button>
+            <p-button styleClass="p-button-info p-button-sm" label="Simpan" (onClick)="handleUpdateSatuan()"></p-button>
         </div>
     </div>
 </p-dialog>

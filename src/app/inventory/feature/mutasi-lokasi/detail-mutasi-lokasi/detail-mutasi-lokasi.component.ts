@@ -9,7 +9,6 @@ import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.m
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { MutasiLokasiAction } from 'src/app/@shared/state/inventory/mutasi-lokasi';
-import { MutasiWarehouseAction } from 'src/app/@shared/state/inventory/mutasi-warehouse';
 
 @Component({
     selector: 'app-detail-mutasi-lokasi',

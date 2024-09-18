@@ -32,12 +32,16 @@ const routes: Routes = [
         loadChildren: async () => (await import('./penjualan/penjualan.module')).PenjualanModule
     },
     {
+        path: 'finance',
+        loadChildren: async () => (await import('./finance/finance.module')).FinanceModule
+    },
+    {
         path: "**", component: PageNotFoundComponent
     }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top',useHash:true})],
+    imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top', useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

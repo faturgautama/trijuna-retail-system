@@ -20,6 +20,7 @@ import { InputReturKonsinyasiComponent } from "./feature/retur-konsinyasi/input-
 import { DetailReturKonsinyasiComponent } from "./feature/retur-konsinyasi/detail-retur-konsinyasi/detail-retur-konsinyasi.component";
 import { PrintPemesananPoComponent } from "./feature/pemesanan-po/print-pemesanan-po/print-pemesanan-po.component";
 import { PrintPenerimaanDenganPoComponent } from "./feature/penerimaan-dengan-po/print-penerimaan-dengan-po/print-penerimaan-dengan-po.component";
+import { PrintReturPembelianComponent } from "./feature/retur-pembelian/print-retur-pembelian/print-retur-pembelian.component";
 
 const routes: Routes = [
     {
@@ -57,7 +58,8 @@ const routes: Routes = [
         path: 'retur-pembelian', children: [
             { path: 'history', component: HistoryReturPembelianComponent },
             { path: 'input', component: InputReturPembelianComponent },
-            { path: 'detail/:id', component: DetailReturPembelianComponent }
+            { path: 'detail/:id', component: DetailReturPembelianComponent },
+            { path: 'print/:id', component: PrintReturPembelianComponent },
         ]
     },
     {

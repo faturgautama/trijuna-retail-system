@@ -21,5 +21,7 @@ export namespace PrintOutGridModel {
         dataSource: any[];
         height: string;
         showPaging: boolean;
+        showFooter?: boolean;
+        footerCol?: string[]
     }
 }

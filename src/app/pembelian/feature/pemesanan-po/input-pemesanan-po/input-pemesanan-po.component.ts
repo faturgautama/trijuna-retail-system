@@ -137,7 +137,6 @@ export class InputPemesananPoComponent implements OnInit {
                                 this.HargaOrder = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
                                 this.FormDialog.CustomForm.CustomForms.get('harga_order')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
-                                // this.getOmsetDanStokBarang(data.id_barang);
                             },
                             width: '70vw',
                         },
@@ -182,15 +181,12 @@ export class InputPemesananPoComponent implements OnInit {
                         }
                     },
                     {
-                        id: 'satuan',
+                        id: 'satuans',
                         label: 'Satuan',
                         status: 'insert',
-                        type: 'select',
-                        select_props: [],
-                        required: true,
-                        select_callback: (data) => {
-                            this.onChangeSatuan(data);
-                        }
+                        type: 'string',
+                        required: false,
+                        hidden: true
                     },
                     {
                         id: 'isi',
@@ -307,7 +303,7 @@ export class InputPemesananPoComponent implements OnInit {
                         required: true,
                     },
                 ],
-                custom_class: 'grid-rows-7 grid-cols-2'
+                custom_class: 'grid-rows-6 grid-cols-2'
             },
             width: '70vw',
             showContent: true
@@ -475,8 +471,7 @@ export class InputPemesananPoComponent implements OnInit {
                 {
                     field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true,
                     onCellDoubleClicked: (args: any) => {
-                        console.log(args);
-                        this.EditSatuanPembelianComps.handleOpenModal(args.data.id_barang);
+                        this.EditSatuanPembelianComps.handleOpenModal(args.data.satuans);
                     },
                 },
                 { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
@@ -503,7 +498,7 @@ export class InputPemesananPoComponent implements OnInit {
                 { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'qty_bonus', headerName: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true },
-                { field: 'satuan', headerName: 'SATUAN', width: 200, sortable: true, resizable: true, hide: true },
+                { field: 'satuans', headerName: 'SATUAN', width: 200, sortable: true, resizable: true, hide: true },
             ],
             dataSource: [],
             height: "250px",
@@ -601,14 +596,6 @@ export class InputPemesananPoComponent implements OnInit {
             })
     }
 
-    private getOmsetDanStokBarang(id_barang: number) {
-        this._setupBarangService
-            .getOmsetDanStokBarangCabang(id_barang)
-            .subscribe((result) => {
-                this.GridStokDanOmsetProps.dataSource = result.data;
-            })
-    }
-
     onCellClicked(args: any): void {
         this.GridSelectedData = args;
     }
@@ -634,13 +621,17 @@ export class InputPemesananPoComponent implements OnInit {
             return item.id == 'kode_satuan'
         });
 
-        this.FormDialog.CustomForm.props.fields[index].select_props = data.map((item) => {
+        const satuanDatasource = data.map((item) => {
             return {
                 name: item.nama_satuan,
                 value: item.kode_satuan,
                 isi: item.isi,
             }
         });
+
+        this.FormDialog.CustomForm.props.fields[index].select_props = satuanDatasource;
+
+        this.FormDialog.CustomForm.CustomForms.get('satuans')?.setValue(JSON.stringify(data));
     }
 
     onChangeSatuan(data: SetupBarangModel.ISetupBarangSatuan): void {
@@ -718,6 +709,26 @@ export class InputPemesananPoComponent implements OnInit {
         const value = this.FormDialog.CustomForm.CustomForms.value;
         this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(value.isi * value.banyak);
         this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(value.qty * value.harga_order);
+    }
+
+    handleUpdateSatuanGrid(args: any) {
+        const index = this.GridProps.dataSource.findIndex((item: any) => {
+            return item.urut == this.GridSelectedData.urut;
+        });
+
+        const newGridDatasource: any[] = [];
+
+        this.GridProps.dataSource.forEach((item: any, indexes: number) => {
+            if (index == indexes) {
+                item.kode_satuan = args.kode_satuan;
+                item.isi = args.isi;
+            };
+
+            newGridDatasource.push(item);
+        });
+
+        this.GridProps.dataSource = newGridDatasource;
+        this.onCellFinishEditing(this.GridProps.dataSource);
     }
 
     onCellFinishEditing(args: any[]): void {

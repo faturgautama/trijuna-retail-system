@@ -8,6 +8,7 @@ import { MenuAction } from 'src/app/@shared/state/menu';
 import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
 import { PembelianDenganPoAction } from 'src/app/@shared/state/pembelian/pembelian-dengan-po';
 import { PembelianTanpaPoAction } from 'src/app/@shared/state/pembelian/pembelian-tanpa-po';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-beranda',
@@ -28,6 +29,7 @@ export class BerandaComponent implements OnInit {
 
     constructor(
         private _store: Store,
+        private _router: Router,
         private _authenticationService: AuthenticationService,
     ) {
         this.UserData = this._authenticationService.userData;
@@ -72,5 +74,9 @@ export class BerandaComponent implements OnInit {
             .subscribe((result) => {
                 this.CountPembelianTanpaPo = result.pembelian_tanpa_po.entities;
             });
+    }
+
+    testPrint() {
+        this._router.navigateByUrl('beranda/test-print');
     }
 }

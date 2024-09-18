@@ -16,6 +16,13 @@ import { DetailProduksiAssemblyComponent } from './feature/produksi-assembly/det
 import { InputRepackingComponent } from './feature/repacking/input-repacking/input-repacking.component';
 import { HistoryRepackingComponent } from './feature/repacking/history-repacking/history-repacking.component';
 import { DetailRepackingComponent } from './feature/repacking/detail-repacking/detail-repacking.component';
+import { InputMutasiMasukComponent } from './feature/mutasi-masuk/input-mutasi-masuk/input-mutasi-masuk.component';
+import { HistoryMutasiMasukComponent } from './feature/mutasi-masuk/history-mutasi-masuk/history-mutasi-masuk.component';
+import { DetailMutasiMasukComponent } from './feature/mutasi-masuk/detail-mutasi-masuk/detail-mutasi-masuk.component';
+import { InputMutasiKeluarComponent } from './feature/mutasi-keluar/input-mutasi-keluar/input-mutasi-keluar.component';
+import { HistoryMutasiKeluarComponent } from './feature/mutasi-keluar/history-mutasi-keluar/history-mutasi-keluar.component';
+import { DetailMutasiKeluarComponent } from './feature/mutasi-keluar/detail-mutasi-keluar/detail-mutasi-keluar.component';
+import { InputTextModule } from "primeng/inputtext";
 
 @NgModule({
     declarations: [
@@ -30,12 +37,19 @@ import { DetailRepackingComponent } from './feature/repacking/detail-repacking/d
         DetailProduksiAssemblyComponent,
         InputRepackingComponent,
         HistoryRepackingComponent,
-        DetailRepackingComponent
+        DetailRepackingComponent,
+        InputMutasiMasukComponent,
+        HistoryMutasiMasukComponent,
+        DetailMutasiMasukComponent,
+        InputMutasiKeluarComponent,
+        HistoryMutasiKeluarComponent,
+        DetailMutasiKeluarComponent
     ],
     imports: [
         CommonModule,
         ComponentsModule,
         InventoryRoutingModule,
+        InputTextModule,
         InputTextareaModule
     ],
     providers: [

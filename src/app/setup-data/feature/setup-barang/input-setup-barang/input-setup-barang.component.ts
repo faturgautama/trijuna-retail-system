@@ -61,8 +61,7 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     label: 'Kode Barang',
                     status: 'insert',
                     type: 'string',
-                    required: true,
-                    validator: 'Kode Barang Tidak Boleh Kosong',
+                    required: false,
                 },
                 {
                     id: 'nama_barang',
@@ -91,6 +90,16 @@ export class InputSetupBarangComponent implements OnInit, OnDestroy {
                     ],
                     required: true,
                     validator: 'Barcode By System Tidak Boleh Kosong',
+                    radio_initial_value: false,
+                    radio_callback: (data) => {
+                        const barcodeIndex = this.FormInput.fields.findIndex(item => item.id == 'barcode');
+                        if (data) {
+                            this.FormInput.fields[barcodeIndex].status = 'readonly';
+                            this.CustomForm.CustomForms.get('barcode')?.setValue("");
+                        } else {
+                            this.FormInput.fields[barcodeIndex].status = 'insert';
+                        }
+                    },
                 },
                 {
                     id: 'persediaan',

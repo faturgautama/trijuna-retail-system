@@ -1,4 +1,4 @@
-<app-dashboard [props]="DashboardProps">
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
     <div class="flex mb-3">
         <app-offcanvas-filter [props]="OffcanvasFilterProps" (onSearch)="handleSearchOffcanvas($event)">
         </app-offcanvas-filter>

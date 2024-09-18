@@ -1,7 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { PembelianTanpaPoService } from 'src/app/@core/service/pembelian/pembelian-tanpa-po/pembelian-tanpa-po.service';
-import { PemesananPoService } from 'src/app/@core/service/pembelian/pemesanan-po/pemesanan-po.service';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
+import { ReturPembelianService } from 'src/app/@core/service/pembelian/retur-pembelian/retur-pembelian.service';
+import { SetupSupplierService } from 'src/app/@core/service/setup-data/setup-supplier/setup-supplier.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
 
@@ -18,28 +19,29 @@ export class PrintReturPembelianComponent implements OnInit {
 
     Date = new Date();
 
+    UserData: any = this._authenticationService.userData;
+
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
         window.history.back();
     }
 
     constructor(
-        private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
-        private _pemesananPoService: PemesananPoService,
-        private _pembelianTanpaPoService: PembelianTanpaPoService,
+        private _setupSupplierService: SetupSupplierService,
+        private _returPembelianService: ReturPembelianService,
+        private _authenticationService: AuthenticationService,
     ) {
         this.GridProps = {
             id: 'print-out-retur-pembelian',
             column: [
                 { field: 'urut', headerName: 'No.', },
                 { field: 'kode_barang', headerName: 'Kode Barang', },
-                { field: 'barcode', headerName: 'Barcode', },
                 { field: 'nama_barang', headerName: 'Nama Barang', },
-                { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'currency' },
-                { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency' },
-                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
+                { field: 'qty', headerName: 'Qty', class: 'text-end', format: 'number' },
+                { field: 'harga_satuan', headerName: 'Jumlah', class: 'text-end', format: 'currency' },
+                { field: 'sub_total', headerName: 'Total', class: 'text-end', format: 'currency' },
             ],
             dataSource: [],
             height: "100%",
@@ -48,40 +50,44 @@ export class PrintReturPembelianComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const id = this._activatedRoute.snapshot.params['id'];
-        const url = this._router.url;
+        console.log("user data =>", this.UserData)
 
-        if (url.includes('penerimaan-tanpa-po')) {
-            this.getPembelianTanpaPo(id);
-        } else {
-            this.getPemesananPo(id);
-        }
+        const id = this._activatedRoute.snapshot.params['id'];
+        this.getPemesananPo(id);
     }
 
     getPemesananPo(id: any) {
-        this._pemesananPoService
-            .getById(id)
-            .subscribe((result) => {
-                this.Data = result.data;
-                this.GridProps.dataSource = result.data.detail_pemesanan;
-
-                setTimeout(() => {
-                    window.print();
-                }, 1500);
-            })
-    }
-
-    getPembelianTanpaPo(id: any) {
-        this._pembelianTanpaPoService
+        this._returPembelianService
             .getById(id)
             .subscribe((result) => {
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail;
 
-                setTimeout(() => {
-                    window.print();
-                }, 1500);
+                let total_harga_satuan = 0;
+
+                result.data.detail.forEach((item: any) => {
+                    item.harga_satuan = parseInt(item.harga_satuan);
+                    total_harga_satuan += item.harga_satuan;
+                });
+
+                this.Data.total_harga_satuan = total_harga_satuan;
+
+                this.getDetailSupplier(this.Data.id_supplier);
             })
     }
 
+    private getDetailSupplier(id_supplier: number) {
+        this._setupSupplierService
+            .getByIdSupplier(id_supplier)
+            .subscribe((result) => {
+                if (result.success) {
+                    this.Data.alamat = result.data.alamat;
+                    this.Data.no_handphone = result.data.no_handphone;
+
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
+                }
+            })
+    }
 }

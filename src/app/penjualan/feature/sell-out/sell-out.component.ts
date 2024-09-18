@@ -29,7 +29,9 @@ export class SellOutComponent implements OnInit {
     ) {
         this.DashboardProps = {
             title: 'History Sell Out Item',
-            button_navigation: [],
+            button_navigation: [
+                { id: 'export_excel', caption: 'Excel', icon: 'pi pi-file-excel text-xs' },
+            ],
         };
 
         this.OffcanvasFilterProps = {
@@ -90,7 +92,7 @@ export class SellOutComponent implements OnInit {
                 { field: 'merk', headerName: 'MERK', width: 150, sortable: true, resizable: true },
                 { field: 'qty_jual', headerName: 'QTY JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, '') } },
                 { field: 'harga_jual', headerName: 'HARGA JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
-                { field:'subtotal', headerName: 'SUBTOTAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
+                { field: 'subtotal', headerName: 'SUBTOTAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
             ],
             dataSource: [],
             height: "calc(100vh - 14rem)",
@@ -119,6 +121,27 @@ export class SellOutComponent implements OnInit {
         // this.handleSearchOffcanvas([]);
     }
 
+    handleClickButtonNav(args: string): void {
+        if (args == 'export_excel') {
+            const dataSource = this.GridProps.dataSource.map((item) => {
+                return {
+                    kode_barang: item.kode_barang,
+                    barcode: item.barcode,
+                    nama_barang: item.nama_barang,
+                    divisi: item.divisi,
+                    group: item.group,
+                    satuan: item.kode_satuan,
+                    merk: item.merk,
+                    qty_jual: (item.qty_jual),
+                    harga_jual: (item.harga_jual),
+                    subtotal: (item.subtotal),
+                }
+            });
+
+            this._utilityService.exportToExcel({ worksheetName: 'Sell_Out_Item', dataSource: dataSource })
+        };
+    }
+
     handleSearchOffcanvas(args: any): void {
         let queryParams = "";
 
@@ -138,7 +161,7 @@ export class SellOutComponent implements OnInit {
                         this.GridProps.dataSource = result.data;
                         let total = 0;
                         for (const item of this.GridProps.dataSource) {
-                            total+= parseFloat(item.subtotal) ; // Output: apple, banana, cherry
+                            total += parseFloat(item.subtotal); // Output: apple, banana, cherry
                         }
                         this.CustomFormFooter.handleSetFieldValue('total', total);
                     }

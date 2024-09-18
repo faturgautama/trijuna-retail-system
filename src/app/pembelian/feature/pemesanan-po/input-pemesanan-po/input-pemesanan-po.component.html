@@ -113,5 +113,6 @@
         (onCloseDialog)="handleCloseFormDetail($event)">
     </app-form-dialog>
 
-    <app-edit-satuan-pembelian #EditSatuanPembelianComps></app-edit-satuan-pembelian>
+    <app-edit-satuan-pembelian #EditSatuanPembelianComps (onSave)="handleUpdateSatuanGrid($event)">
+    </app-edit-satuan-pembelian>
 </app-dashboard>

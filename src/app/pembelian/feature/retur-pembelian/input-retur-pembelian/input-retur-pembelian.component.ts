@@ -186,7 +186,8 @@ export class InputReturPembelianComponent implements OnInit {
                     label: 'Jenis Retur',
                     status: 'insert',
                     type: 'string',
-                    required: true,
+                    required: false,
+                    hidden: true
                 },
                 {
                     id: 'tanggal_retur_pembelian',
@@ -440,7 +441,7 @@ export class InputReturPembelianComponent implements OnInit {
                     this.CustomForm.handleResetForm();
 
                     setTimeout(() => {
-                        this._router.navigate(['pembelian/retur-pembelian/history']);
+                        this._router.navigate([`pembelian/retur-pembelian/print/${result.retur_pembelian.entities.data}`]);
                     }, 1500);
                 }
             });
