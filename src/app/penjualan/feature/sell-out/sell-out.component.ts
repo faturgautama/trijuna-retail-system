@@ -95,7 +95,7 @@ export class SellOutComponent implements OnInit {
                 { field: 'subtotal', headerName: 'SUBTOTAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
             ],
             dataSource: [],
-            height: "calc(100vh - 14rem)",
+            height: "calc(100vh - 18rem)",
             // height: "100%",
             showPaging: false,
         };
@@ -113,7 +113,7 @@ export class SellOutComponent implements OnInit {
                     required: true
                 },
             ],
-            custom_class: 'grid-rows-6 grid-cols-1',
+            custom_class: 'grid-rows-1 grid-cols-1',
         };
     }
 
@@ -159,10 +159,14 @@ export class SellOutComponent implements OnInit {
                 .subscribe((result) => {
                     if (result.success) {
                         this.GridProps.dataSource = result.data;
+
                         let total = 0;
+
                         for (const item of this.GridProps.dataSource) {
-                            total += parseFloat(item.subtotal); // Output: apple, banana, cherry
+                            item.subtotal = parseFloat(item.subtotal);
+                            total += item.subtotal;
                         }
+
                         this.CustomFormFooter.handleSetFieldValue('total', total);
                     }
                 })
