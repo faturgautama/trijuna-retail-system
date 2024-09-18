@@ -475,7 +475,7 @@ export const menu: MenuItem[] = [
                     {
                         id: 'setup-rekening-owner',
                         label: 'Setup Rekening Owner',
-                        routerLink: '/finance/setup-data/setup-potongan-pembelian'
+                        routerLink: '/finance/setup-data/setup-rekening-owner'
                     },
                 ]
             },
