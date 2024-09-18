@@ -14,7 +14,6 @@ import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
 import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
-import { MutasiLokasiAction } from 'src/app/@shared/state/inventory/mutasi-lokasi';
 import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
 import { environment } from 'src/environments/environment';
