@@ -92,6 +92,8 @@ export class UtilityService {
     }
 
     exportToExcel(payload: DocumentModel.ExportExcel) {
+        this.Workbook.removeWorksheet('docs');
+
         let worksheets = this.Workbook.addWorksheet('docs');
 
         let column = [];
