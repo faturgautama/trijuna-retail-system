@@ -111,6 +111,14 @@
 
     <app-form-dialog #FormDialog [props]="FormInputDetail" (onSubmitForm)="handleSubmitFormDetail($event)"
         (onCloseDialog)="handleCloseFormDetail($event)">
+        <div class="grid w-full mt-5 pt-3 border-t border-b-0 border-x-0 border-dashed border-gray-300">
+            <p class="text-sm text-gray-700 font-medium mb-2">
+                Stok & Omset per Cabang
+            </p>
+
+            <app-grid [props]="GridStokDanOmsetProps">
+            </app-grid>
+        </div>
     </app-form-dialog>
 
     <app-edit-satuan-pembelian #EditSatuanPembelianComps (onSave)="handleUpdateSatuanGrid($event)">
