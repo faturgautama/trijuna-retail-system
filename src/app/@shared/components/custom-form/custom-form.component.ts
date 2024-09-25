@@ -46,7 +46,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
                 }
             };
 
-            if (item.type == 'date') {
+            if (item.type == 'date' || item.type == 'datetime') {
                 this.CustomForms.addControl(item.id, new FormControl(null, [Validators.required]));
             };
 
@@ -67,6 +67,10 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
     }
 
+    handleSetFormClass(newClass: string) {
+        this.FormsLayoutClass = newClass;
+    }
+
     handleSetFormDefaultValue(): void {
         for (let item in this.props.default_value) {
             this.CustomForms.get(item)?.setValue(this.props.default_value[item]);
@@ -74,8 +78,13 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
     }
 
     handleChangeCalendar(props: CustomFormModel.IFields, args: any): void {
-        if (args) {
+        if (args && props.type == 'date') {
             const formatedDate = this._utilityService.FormatDate(new Date(this.CustomForms.get(props.id)?.value), 'yyyy-MM-DD');
+            this.CustomForms.get(props.id)?.setValue(formatedDate);
+        }
+
+        if (args && props.type == 'datetime') {
+            const formatedDate = this._utilityService.FormatDate(new Date(this.CustomForms.get(props.id)?.value), 'yyyy-MM-DD HH:mm:ss');
             this.CustomForms.get(props.id)?.setValue(formatedDate);
         }
     }
@@ -101,6 +110,11 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
     handleChangeNumeric(props: CustomFormModel.IFields, args: any): void {
         const parser = `${args.target.value}`.replace(/\$\s?|(,*)/g, '');
         props.numeric_callback?.(parseInt(parser));
+    }
+
+    handleEnterNumeric(props: CustomFormModel.IFields, args: any) {
+        const parser = `${args.target.value}`.replace(/\$\s?|(,*)/g, '');
+        props.numeric_keyup_enter?.(parseInt(parser));
     }
 
     handleChangeDropdown(props: CustomFormModel.IFields, args: any): void {

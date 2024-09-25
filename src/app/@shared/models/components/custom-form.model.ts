@@ -24,12 +24,13 @@ export namespace CustomFormModel {
     export interface IFields {
         id: string;
         label: string;
-        type: 'date' | 'select' | 'checkbox' | 'radio' | 'string' | 'numeric' | 'lookup' | 'multi_select' | 'password';
+        type: 'date' | 'datetime' | 'select' | 'checkbox' | 'radio' | 'string' | 'numeric' | 'lookup' | 'multi_select' | 'password';
         status: 'readonly' | 'insert';
         required: boolean;
         validator?: string;
         numeric_max_number?: number;
         numeric_callback?: (data: any) => void;
+        numeric_keyup_enter?: (data: any) => void;
         select_props?: IFormSelectProps[] | any[];
         select_callback?: (data: any) => void;
         checkbox_props?: IFormCheckboxRadioProps[];

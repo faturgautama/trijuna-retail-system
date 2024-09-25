@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpRequestService } from '../../http-request/http-request.service';
 
@@ -13,7 +13,12 @@ export class SetupPotonganPembelianService {
     ) { }
 
     getAll(): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/ms_potongan_pembelian`);
+        return this._httpRequestService.getRequest(`${environment.endpoint}/ms_potongan_pembelian`)
+            .pipe(
+                map((result) => {
+                    return result.success ? result.data.data : [];
+                })
+            )
     }
 
     getById(id_potongan_pembelian: number): Observable<any> {
