@@ -53,7 +53,8 @@ export class BerandaComponent implements OnInit {
     }
 
     handleClickMainMenu(data: MenuItem): void {
-        this._store.dispatch(new MenuAction.SetNavbarMenu({ data: data.items as MenuItem[] }, "SET MENU NAVBAR"))
+        this._store
+            .dispatch(new MenuAction.SetNavbarMenu({ data: data.items as MenuItem[] }, "SET MENU NAVBAR"))
             .subscribe((result) => {
                 // console.log(result);
             })

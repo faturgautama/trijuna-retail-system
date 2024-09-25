@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MenuItem, MessageService } from 'primeng/api';
 import { LoginModel } from 'src/app/@shared/models/authentication/authentication.model';
 import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { CookiesUtils } from 'src/app/@shared/utils/cookies.utils';
+import { MenuAction } from 'src/app/@shared/state/menu';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 @Component({
     selector: 'app-navbar',
@@ -18,6 +20,10 @@ export class NavbarComponent implements OnInit {
     userMenu: MenuItem[];
 
     UserData: LoginModel.ILoginResponse;
+
+    MainMenu: MenuItem[] = [];
+
+    @ViewChild('op') overlaypanel!: OverlayPanel;
 
     constructor(
         private _store: Store,
@@ -59,6 +65,24 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getMainMenu();
+    }
+
+    private getMainMenu(): void {
+        this._store.dispatch(new MenuAction.GetMainMenu())
+            .subscribe((result) => {
+                this.MainMenu = result.menus.entities;
+            })
+    }
+
+    handleClickMainMenu(data: MenuItem): void {
+        this.overlaypanel.hide();
+
+        this._store
+            .dispatch(new MenuAction.SetNavbarMenu({ data: data.items as MenuItem[] }, "SET MENU NAVBAR"))
+            .subscribe((result) => {
+                // console.log(result);
+            })
     }
 
     onSignOut(): void {

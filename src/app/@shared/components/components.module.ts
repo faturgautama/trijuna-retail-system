@@ -41,6 +41,7 @@ import { LookupComponent } from './lookup/lookup.component';
 import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component';
 import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.component';
 import { PrintOutGridComponent } from './print-out-grid/print-out-grid.component';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
     declarations: [
@@ -87,7 +88,8 @@ import { PrintOutGridComponent } from './print-out-grid/print-out-grid.component
         TabViewModule,
         InputTextareaModule,
         MenuModule,
-        TableModule
+        TableModule,
+        OverlayPanelModule
     ],
     exports: [
         ButtonNavigationComponent,
