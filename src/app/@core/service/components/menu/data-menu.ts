@@ -68,11 +68,11 @@ export const menu: MenuItem[] = [
                 label: 'Setting Harga',
                 routerLink: '/setup-data/setting-harga/list'
             },
-            {
-                id: 'management-user',
-                label: 'Management User',
-                routerLink: '/setup-data/management-user'
-            },
+            // {
+            //     id: 'management-user',
+            //     label: 'Management User',
+            //     routerLink: '/setup-data/management-user'
+            // },
         ]
     },
     {

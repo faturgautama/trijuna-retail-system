@@ -68,8 +68,9 @@ export class SetupGroupComponent implements OnInit {
                         label: 'Kode Group',
                         status: 'insert',
                         type: 'string',
-                        hidden: true,
+                        hidden: false,
                         required: true,
+                        validator: 'Kode Group Tidak Boleh Kosong',
                     },
                     {
                         id: 'group',
@@ -123,7 +124,8 @@ export class SetupGroupComponent implements OnInit {
 
     handleSubmitForm(data: any): void {
         if (this.FormDialogProps.type == 'add') {
-            const payload: SetupGroupModel.SaveSetupGroup = {
+            const payload: any = {
+                kode_group: data.kode_group,
                 group: data.group,
             };
 
