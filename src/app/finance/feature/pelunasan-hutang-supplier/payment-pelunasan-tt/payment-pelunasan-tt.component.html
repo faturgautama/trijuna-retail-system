@@ -1,1 +1,145 @@
-<p>payment-pelunasan-tt works!</p>
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-full mb-6">
+        <div class="grid w-full">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div class="grid mb-4 pb-3 border-b border-dashed border-t-0 border-x-0 border-gray-400">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Detail Faktur Pembelian
+        </p>
+
+        <app-grid [props]="GridProps">
+        </app-grid>
+    </div>
+
+    <div class="grid mb-4 pb-3 border-b border-dashed border-t-0 border-x-0 border-gray-400">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Detail Retur Pembelian
+        </p>
+
+        <app-grid [props]="GridReturProps">
+        </app-grid>
+    </div>
+
+    <div class="grid mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Detail Potongan Hutang
+        </p>
+
+        <app-grid [props]="GridPotonganPembelianProps">
+        </app-grid>
+    </div>
+
+    <div class="flex w-full justify-end mt-5 mb-0">
+        <div class="flex w-4/12">
+            <div class="grid w-full">
+                <app-custom-form #CustomFormFooter [props]="FormInputFooter"></app-custom-form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog -->
+    <p-dialog header="Bayar Hutang Supplier" [modal]="true" [(visible)]="ShowDialogPayment" [style]="{ width: '65rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [resizable]="false" [draggable]="false"
+        [maximizable]="true">
+
+        <div class="flex flex-col w-full pt-2">
+            <!-- Form Insert Dialog -->
+            <div class="grid w-full mb-4 pb-4 border-b border-t-0 border-x-0 border-dashed border-gray-400">
+                <app-custom-form #CustomFormDialog [props]="FormInputDialog"></app-custom-form>
+            </div>
+
+            <!-- Form Insert Payment Method -->
+            <div class="flex flex-col gap-3 w-full mb-4">
+                <div class="flex flex-row items-center justify-between">
+                    <!-- Heading -->
+                    <div class="flex items-center gap-x-4">
+                        <div class="flex flex-col">
+                            <p class="text-base font-semibold text-gray-700">
+                                Metode Bayar
+                            </p>
+                            <p class="text-sm text-gray-700">
+                                Tekan <span class="font-medium">Enter</span> pada Nominal Bayar untuk menambahkan metode
+                                bayar
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Metode Bayar -->
+                    <div class="flex flex-wrap gap-3">
+                        <div class="flex items-center">
+                            <p-radioButton [(ngModel)]="SelectedPaymentMethod" name="paymentMethod" value="cash"
+                                inputId="paymentMethodCash" (ngModelChange)="handleChangePaymentMethod($event)" />
+                            <label for="paymentMethodCash" class="ml-2 text-s">
+                                Cash
+                            </label>
+                        </div>
+
+                        <div class="flex items-center">
+                            <p-radioButton [(ngModel)]="SelectedPaymentMethod" name="paymentMethod" value="transfer"
+                                inputId="paymentMethodTransfer" (ngModelChange)="handleChangePaymentMethod($event)" />
+                            <label for="paymentMethodTransfer" class="ml-2 text-s">
+                                Transfer
+                            </label>
+                        </div>
+
+                        <div class="flex items-center">
+                            <p-radioButton [(ngModel)]="SelectedPaymentMethod" name="paymentMethod" value="giro"
+                                inputId="paymentMethodGiro" (ngModelChange)="handleChangePaymentMethod($event)" />
+                            <label for="paymentMethodGiro" class="ml-2 text-sm">
+                                Giro
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="formPayment" class="grid w-full">
+                    <app-custom-form #CustomFormPaymentDialog [props]="FormInputPaymentDialog"></app-custom-form>
+                </div>
+            </div>
+
+            <!-- List Payment Method -->
+            <div class="grid mb-5">
+                <p-table [value]="GridPaymentMethodDatasource" styleClass="p-datatable-striped p-datatable-sm"
+                    [tableStyle]="{'min-width': '50rem'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="text-sm">Metode Bayar</th>
+                            <th class="text-sm">Waktu Bayar</th>
+                            <th class="text-sm">Nominal</th>
+                            <th class="text-sm">#</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product let-index>
+                        <tr>
+                            <td class="text-sm">
+                                {{ product.metode_bayar | titlecase }}
+                            </td>
+                            <td class="text-sm">
+                                {{ product.waktu_bayar | date: 'dd-MM-yyyy HH:mm' }}
+                            </td>
+                            <td class="text-sm text-end">
+                                {{ product.nominal_bayar | currency: 'Rp. ' }}
+                            </td>
+                            <td class="text-center">
+                                <span class="bg-red-200 text-red-600 font-medium text-sm p-1 rounded-md cursor-pointer"
+                                    (click)="handleDeletePaymentMethod(index)">
+                                    <i class="pi pi-trash" style="font-size: 11px"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+
+            <div class="grid">
+                <p-button styleClass="w-full p-button-sm p-button-info" label="Bayar Sekarang"
+                    [disabled]="!GridPaymentMethodDatasource.length" (onClick)="handleSavePaymentHutang()">
+                </p-button>
+            </div>
+        </div>
+    </p-dialog>
+</app-dashboard>

@@ -142,33 +142,6 @@ export class DetailTitipTagihanComponent implements OnInit {
 
         this.GridReturProps = {
             column: [
-                {
-                    headerName: "PILIH",
-                    field: "choosen",
-                    cellRenderer: (params: any) => {
-                        var input = document.createElement('input');
-                        input.type = "checkbox";
-                        input.checked = params.value;
-                        input.addEventListener('click', (event: any) => {
-                            params.value = !params.value;
-                            params.node.data.choosen = params.value;
-                        });
-                        return input;
-                    },
-                    valueGetter: params => { return params.data.choosen },
-                    valueSetter: params => {
-                        const data = JSON.parse(JSON.stringify(params.data));
-                        data.choosen = params.newValue;
-                        params.data = data;
-                        return true;
-                    },
-                    // onCellValueChanged: (e: any) => {
-                    //     this.countFooter();
-                    // },
-                    flex: 100,
-                    cellClass: 'text-center',
-                    headerClass: 'text-center',
-                },
                 { field: 'nomor_retur_pembelian', headerName: 'FAKTUR', flex: 200, sortable: true, resizable: true, },
                 { field: 'tanggal_retur_pembelian', headerName: 'TGL. RETUR', flex: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatDate(e.value, 'DD-MM-yyyy') : e } },
                 { field: 'total_harga', headerName: 'TOTAL HARGA', flex: 200, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },

@@ -12,6 +12,9 @@ import { HistoryPelunasanTtComponent } from './feature/pelunasan-hutang-supplier
 import { DetailPelunasanTtComponent } from './feature/pelunasan-hutang-supplier/detail-pelunasan-tt/detail-pelunasan-tt.component';
 import { PaymentPelunasanTtComponent } from './feature/pelunasan-hutang-supplier/payment-pelunasan-tt/payment-pelunasan-tt.component';
 import { FinanceRoutingModule } from "./finance-routing.module";
+import { TableModule } from "primeng/table";
+import { RadioButtonModule } from "primeng/radiobutton";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -27,8 +30,11 @@ import { FinanceRoutingModule } from "./finance-routing.module";
     ],
     imports: [
         CommonModule,
+        FormsModule,
         ComponentsModule,
         FinanceRoutingModule,
+        TableModule,
+        RadioButtonModule,
     ],
     providers: [
         MessageService
