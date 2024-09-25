@@ -1,1 +1,24 @@
-<p>detail-refund-penjualan works!</p>
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-full mb-5">
+        <div class="grid w-full">
+            <app-custom-form #CustomFormHeader [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div class="grid mb-3">
+        <app-grid [props]="GridProps">
+        </app-grid>
+    </div>
+
+    <div class="flex w-full justify-between mb-5">
+        <div class="flex w-4/12">
+
+        </div>
+
+        <div class="flex w-4/12">
+            <div class="grid w-full">
+                <app-custom-form #CustomFormFooter [props]="FormInputFooter"></app-custom-form>
+            </div>
+        </div>
+    </div>
+</app-dashboard>
