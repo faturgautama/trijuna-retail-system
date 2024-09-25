@@ -9,7 +9,6 @@ import { CustomFormComponent } from 'src/app/@shared/components/custom-form/cust
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { MutasiWarehouseAction } from 'src/app/@shared/state/inventory/mutasi-warehouse';
 
 @Component({
     selector: 'app-detail-penjualan',

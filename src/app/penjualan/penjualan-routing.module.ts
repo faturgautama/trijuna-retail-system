@@ -20,7 +20,6 @@ const routes: Routes = [
     {
         path: 'refund-penjualan', children: [
             { path: 'history', component: HistoryRefundPenjualanComponent },
-            { path: 'input', component: InputRefundPenjualanComponent },
             { path: 'detail/:id', component: DetailRefundPenjualanComponent }
         ]
     },

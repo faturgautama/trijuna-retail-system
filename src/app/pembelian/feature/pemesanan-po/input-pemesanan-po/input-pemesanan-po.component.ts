@@ -137,6 +137,7 @@ export class InputPemesananPoComponent implements OnInit {
                                 this.HargaOrder = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
                                 this.FormDialog.CustomForm.CustomForms.get('harga_order')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
+                                this.getOmsetDanStokBarang(data.id_barang);
                             },
                             width: '70vw',
                         },
@@ -593,6 +594,14 @@ export class InputPemesananPoComponent implements OnInit {
                         value: item.id_warehouse
                     }
                 });
+            })
+    }
+
+    private getOmsetDanStokBarang(id_barang: number) {
+        this._setupBarangService
+            .getOmsetDanStokBarangCabang(id_barang)
+            .subscribe((result) => {
+                this.GridStokDanOmsetProps.dataSource = result.data;
             })
     }
 
