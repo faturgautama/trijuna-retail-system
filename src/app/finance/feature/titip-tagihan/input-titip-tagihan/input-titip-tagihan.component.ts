@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { settings } from 'cluster';
 import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { SetupPotonganPembelianService } from 'src/app/@core/service/finance/setup-data/setup-potongan-pembelian.service';
@@ -9,17 +8,10 @@ import { TitipTagihanService } from 'src/app/@core/service/finance/titip-tagihan
 import { MutasiKeluarService } from 'src/app/@core/service/inventory/mutasi-keluar/mutasi-keluar.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
-import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
-import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
-import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
-import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
-import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
 import { SetupSupplierAction } from 'src/app/@shared/state/setup-data/setup-supplier';
-import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -341,7 +333,7 @@ export class InputTitipTagihanComponent implements OnInit {
     handleClickButtonNav(args: string): void {
         switch (args) {
             case 'back':
-                this._router.navigate(['inventory/mutasi-keluar/history']);
+                this._router.navigate(['finance/titip-tagihan/history']);
                 break;
             case 'save':
                 this.handleSubmitForm();
@@ -390,6 +382,8 @@ export class InputTitipTagihanComponent implements OnInit {
     }
 
     handleSubmitForm(): void {
+        this.countFooter();
+
         const header = this.CustomForm.handleSubmitForm();
         header.detail_faktur = this.GridProps.dataSource.filter(item => item.choosen);
         header.detail_retur = this.GridReturProps.dataSource.filter(item => item.choosen);

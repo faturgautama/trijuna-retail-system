@@ -1,1 +1,42 @@
-<p>detail-titip-tagihan works!</p>
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-full mb-6">
+        <div class="grid w-full">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div class="grid mb-4 pb-3 border-b border-dashed border-t-0 border-x-0 border-gray-400">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Bayar Hutang Faktur Pembelian
+        </p>
+
+        <app-grid [props]="GridProps">
+        </app-grid>
+    </div>
+
+    <div class="grid mb-4 pb-3 border-b border-dashed border-t-0 border-x-0 border-gray-400">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Pilih Retur Pembelian
+        </p>
+
+        <app-grid [props]="GridReturProps">
+        </app-grid>
+    </div>
+
+    <div class="grid mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Pilih Potongan Hutang
+        </p>
+
+        <app-grid [props]="GridPotonganPembelianProps">
+        </app-grid>
+    </div>
+
+    <div class="flex w-full justify-end mt-5 mb-0">
+        <div class="flex w-4/12">
+            <div class="grid w-full">
+                <app-custom-form #CustomFormFooter [props]="FormInputFooter"></app-custom-form>
+            </div>
+        </div>
+    </div>
+</app-dashboard>
