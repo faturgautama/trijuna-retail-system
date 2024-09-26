@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { ComponentsModule } from "../@shared/components/components.module";
 import { StateModule } from "../@shared/state/state.module";
 import { PembelianRoutingModule } from "./pembelian-routing.module";
@@ -65,6 +65,7 @@ import { PrintReturPembelianComponent } from './feature/retur-pembelian/print-re
     ],
     providers: [
         MessageService,
+        ConfirmationService,
     ]
 })
 export class PembelianModule { }

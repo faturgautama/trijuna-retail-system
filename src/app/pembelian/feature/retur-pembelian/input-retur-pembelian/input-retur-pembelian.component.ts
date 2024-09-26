@@ -166,7 +166,7 @@ export class InputReturPembelianComponent implements OnInit {
                     {
                         id: 'sub_total',
                         label: 'Subtotal',
-                        status: 'insert',
+                        status: 'readonly',
                         type: 'numeric',
                         required: true,
                     },
@@ -260,8 +260,6 @@ export class InputReturPembelianComponent implements OnInit {
             ],
             custom_class: 'grid-rows-2 grid-cols-3',
         };
-
-
 
         this.FormInputFooter = {
             id: 'form_retur_pembelian_footer',
@@ -384,10 +382,9 @@ export class InputReturPembelianComponent implements OnInit {
 
     onChangeSatuan(data: SetupBarangModel.ISetupBarangSatuan): void {
         this.FormDialog.CustomForm.handleSetFieldValue('isi', data.isi);
-
         this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * data.isi!));
-
-        this.Qty = (this.Banyak * data.isi!)
+        this.Qty = (this.Banyak * data.isi!);
+        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaOrder));
     }
 
     handleChangeBanyak(value: number): void {
@@ -396,6 +393,7 @@ export class InputReturPembelianComponent implements OnInit {
 
     handleChangeQty(value: number): void {
         this.Qty = value;
+        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaOrder));
     }
 
     handleChangeHargaOrder(value: number): void {
@@ -405,6 +403,7 @@ export class InputReturPembelianComponent implements OnInit {
 
     handleSubmitFormDetail(data: any): void {
         data.urut = this.GridProps.dataSource.length + 1;
+        data.sub_total = data.sub_total ? data.sub_total : data.qty * data._harga_satuan;
         this.GridProps.dataSource = [...this.GridProps.dataSource, data];
         this.FormDialog.onCloseFormDialog();
 
