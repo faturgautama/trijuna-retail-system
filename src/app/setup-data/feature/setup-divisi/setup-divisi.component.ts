@@ -69,7 +69,7 @@ export class SetupDivisiComponent implements OnInit {
                         status: 'insert',
                         type: 'string',
                         required: true,
-                        hidden: true,
+                        hidden: false,
                     },
                     {
                         id: 'divisi',

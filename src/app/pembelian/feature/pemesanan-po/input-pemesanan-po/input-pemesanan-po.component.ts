@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -79,6 +79,7 @@ export class InputPemesananPoComponent implements OnInit {
         private _messageService: MessageService,
         private _utilityService: UtilityService,
         private _setupBarangService: SetupBarangService,
+        private _confirmationService: ConfirmationService,
     ) {
         this.DashboardProps = {
             title: 'Input Pemesanan PO',
@@ -812,7 +813,31 @@ export class InputPemesananPoComponent implements OnInit {
 
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
-        this._store.dispatch(new PemesananPoAction.Save(payload))
+        this._confirmationService.confirm({
+            target: (<any>event).target as EventTarget,
+            message: 'Apakah Anda Ingin Mencetak Juga? ',
+            header: 'Data Akan Disimpan',
+            icon: 'pi pi-question-circle',
+            acceptButtonStyleClass: "p-button-info p-button-sm",
+            rejectButtonStyleClass: "p-button-secondary p-button-sm",
+            acceptIcon: "none",
+            acceptLabel: 'Iya, Cetak Juga',
+            rejectIcon: "none",
+            rejectLabel: 'Tidak, Simpan Saja',
+            accept: () => {
+                this.onSaveWithConditionPrint(true, payload)
+            },
+            reject: (args: any) => {
+                if (args == 1) {
+                    this.onSaveWithConditionPrint(false, payload)
+                }
+            },
+        });
+    }
+
+    private onSaveWithConditionPrint(print: boolean, payload: any) {
+        this._store
+            .dispatch(new PemesananPoAction.Save(payload))
             .subscribe((result) => {
                 if (result.pemesanan_po.entities.success) {
                     this._messageService.clear();
@@ -820,9 +845,15 @@ export class InputPemesananPoComponent implements OnInit {
 
                     this.CustomForm.handleResetForm();
 
-                    setTimeout(() => {
-                        this._router.navigate([`pembelian/pemesanan-po/print/${result.pemesanan_po.entities.data}`]);
-                    }, 1500);
+                    if (print) {
+                        setTimeout(() => {
+                            this._router.navigate([`pembelian/pemesanan-po/print/${result.pemesanan_po.entities.data}`]);
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            this._router.navigate([`pembelian/pemesanan-po/history`]);
+                        }, 1500);
+                    }
                 }
             });
     }

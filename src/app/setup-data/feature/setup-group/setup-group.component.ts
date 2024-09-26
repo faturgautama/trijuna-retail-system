@@ -39,6 +39,7 @@ export class SetupGroupComponent implements OnInit {
 
         this.GridProps = {
             column: [
+                { field: 'kode_group', headerName: 'KODE GROUP', flex: 1250, sortable: true, resizable: true },
                 { field: 'group', headerName: 'GROUP', flex: 1250, sortable: true, resizable: true },
                 { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
                 { field: 'is_active', headerName: 'IS ACTIVE', flex: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
