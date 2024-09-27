@@ -1,0 +1,17 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <!-- Page state = list -->
+    <div *ngIf="PageState == 'list'" class="flex mb-3">
+        <app-offcanvas-filter [props]="OffcanvasFilterProps" (onSearch)="handleSearchOffcanvas($event)">
+        </app-offcanvas-filter>
+    </div>
+    <div *ngIf="PageState == 'list'" class="grid">
+        <app-grid [props]="GridProps" (rowDoubleClicked)="handleRowDoubleClicked($event)"
+            (cellClicked)="handleCellClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
+        </app-grid>
+    </div>
+
+    <!-- Page state = form -->
+    <div *ngIf="PageState == 'form'" class="grid w-full">
+        <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+    </div>
+</app-dashboard>

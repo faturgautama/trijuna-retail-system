@@ -9,6 +9,9 @@ import { InputPelunasanTtComponent } from "./feature/pelunasan-hutang-supplier/i
 import { DetailPelunasanTtComponent } from "./feature/pelunasan-hutang-supplier/detail-pelunasan-tt/detail-pelunasan-tt.component";
 import { PaymentPelunasanTtComponent } from "./feature/pelunasan-hutang-supplier/payment-pelunasan-tt/payment-pelunasan-tt.component";
 import { NgModule } from "@angular/core";
+import { HistoryFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/history-faktur-pajak-pembelian/history-faktur-pajak-pembelian.component";
+import { InputFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/input-faktur-pajak-pembelian/input-faktur-pajak-pembelian.component";
+import { DetailFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component";
 
 const routes: Routes = [
     {
@@ -48,6 +51,19 @@ const routes: Routes = [
             {
                 path: 'payment/:id', component: PaymentPelunasanTtComponent,
             }
+        ]
+    },
+    {
+        path: 'faktur-pajak-pembelian', children: [
+            {
+                path: 'history', component: HistoryFakturPajakPembelianComponent
+            },
+            {
+                path: 'input', component: InputFakturPajakPembelianComponent
+            },
+            {
+                path: 'detail/:id', component: DetailFakturPajakPembelianComponent,
+            },
         ]
     },
 ];

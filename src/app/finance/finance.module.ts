@@ -15,6 +15,9 @@ import { FinanceRoutingModule } from "./finance-routing.module";
 import { TableModule } from "primeng/table";
 import { RadioButtonModule } from "primeng/radiobutton";
 import { FormsModule } from "@angular/forms";
+import { HistoryFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/history-faktur-pajak-pembelian/history-faktur-pajak-pembelian.component';
+import { InputFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/input-faktur-pajak-pembelian/input-faktur-pajak-pembelian.component';
+import { DetailFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +29,10 @@ import { FormsModule } from "@angular/forms";
         InputPelunasanTtComponent,
         HistoryPelunasanTtComponent,
         DetailPelunasanTtComponent,
-        PaymentPelunasanTtComponent
+        PaymentPelunasanTtComponent,
+        HistoryFakturPajakPembelianComponent,
+        InputFakturPajakPembelianComponent,
+        DetailFakturPajakPembelianComponent,
     ],
     imports: [
         CommonModule,
