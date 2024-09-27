@@ -32,10 +32,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         private _httpRequestService: HttpRequestService,
     ) {
         this.props = { title: '', button_navigation: [] };
-
-        // this._activatedRoute.url.subscribe((result) => {
-        //     console.log(result)
-        // })
     }
 
     ngAfterViewInit(): void {

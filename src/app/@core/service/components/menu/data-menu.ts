@@ -517,6 +517,25 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
+            {
+                id: 'faktur-pajak-pembelian',
+                label: 'Faktur Pajak Pembelian',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-faktur-pajak-pembelian',
+                        label: 'Input Faktur Pajak Pembelian',
+                        icon: "",
+                        routerLink: '/finance/faktur-pajak-pembelian/input'
+                    },
+                    {
+                        id: 'history-faktur-pajak-pembelian',
+                        label: 'History Faktur Pajak Pembelian',
+                        icon: "",
+                        routerLink: '/finance/faktur-pajak-pembelian/history'
+                    },
+                ]
+            },
         ]
     },
     {
