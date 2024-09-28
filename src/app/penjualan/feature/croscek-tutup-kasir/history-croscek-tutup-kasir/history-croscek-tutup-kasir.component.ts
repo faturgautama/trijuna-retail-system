@@ -39,22 +39,22 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
-                    id: 'warehouse_asal',
+                    id: 'nama',
                     title: 'Nama Kasir',
                     type: 'string',
-                    value: 'ms.nama_supplier',
+                    value: 'uk.nama',
                 },
                 {
-                    id: 'tanggal_mutasi',
-                    title: 'Tgl. Buka Kasir',
-                    type: 'date',
-                    value: 'tp.tanggal_pemesanan',
-                },
-                {
-                    id: 'tanggal_mutasi',
+                    id: 'tanggal_tutup_kasir',
                     title: 'Tgl. Tutup Kasir',
                     type: 'date',
-                    value: 'tp.tanggal_pemesanan',
+                    value: 'ptk.tanggal_tutup_kasir',
+                },
+                {
+                    id: 'tanggal_kroscek_tutup_kasir',
+                    title: 'Tgl. Croscek Tutup Kasir',
+                    type: 'date',
+                    value: 'pktk.tanggal_kroscek_tutup_kasiri',
                 },
             ],
         }

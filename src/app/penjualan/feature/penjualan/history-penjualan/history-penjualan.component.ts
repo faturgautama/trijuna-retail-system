@@ -34,28 +34,34 @@ export class HistoryPenjualanComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
-                    id: 'nama_supplier',
-                    title: 'Nama Supplier',
+                    id: 'nama_member',
+                    title: 'Nama Member',
                     type: 'string',
-                    value: 'ms.nama_supplier',
+                    value: 'mm.nama_member',
                 },
                 {
-                    id: 'nomor_pemesanan',
-                    title: 'No. Pemesanan',
+                    id: 'No. Faktur',
+                    title: 'No. Faktur',
                     type: 'string',
-                    value: 'tp.nomor_pemesanan',
+                    value: 'pp.no_faktur',
                 },
                 {
-                    id: 'tanggal_pemesanan',
-                    title: 'Tgl. Pemesanan',
+                    id: 'tanggal_penjualan',
+                    title: 'Tgl. Penjualan',
                     type: 'date',
-                    value: 'tp.tanggal_pemesanan',
+                    value: 'pp.tanggal_penjualan',
                 },
                 {
-                    id: ' created_at',
+                    id: 'nama',
+                    title: 'User Kasir',
+                    type: 'string',
+                    value: 'uk.nama',
+                },
+                {
+                    id: 'created_at',
                     title: 'Waktu Input',
                     type: 'date',
-                    value: 'tp.created_at',
+                    value: 'pp.created_at',
                 },
             ],
         }

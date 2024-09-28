@@ -54,6 +54,10 @@ export class AuthenticationService {
             })
     }
 
+    getDashboard(): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/dashboard`)
+    }
+
     private handlingAuth(data: LoginModel.ILoginResponse): void {
         this._cookieUtils.setCookie("TRSUserData", data);
     }

@@ -202,25 +202,25 @@ export const menu: MenuItem[] = [
         label: 'Inventory',
         icon: 'pi pi-truck',
         items: [
-            {
-                id: 'mutasi-warehouse',
-                label: 'Mutasi Warehouse',
-                icon: "",
-                items: [
-                    {
-                        id: 'input-mutasi-warehouse',
-                        label: 'Input Mutasi Warehouse',
-                        icon: "",
-                        routerLink: '/inventory/mutasi-warehouse/input'
-                    },
-                    {
-                        id: 'history-mutasi-warehouse',
-                        label: 'History Mutasi Warehouse',
-                        icon: "",
-                        routerLink: '/inventory/mutasi-warehouse/history'
-                    },
-                ]
-            },
+            // {
+            //     id: 'mutasi-warehouse',
+            //     label: 'Mutasi Warehouse',
+            //     icon: "",
+            //     items: [
+            //         {
+            //             id: 'input-mutasi-warehouse',
+            //             label: 'Input Mutasi Warehouse',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-warehouse/input'
+            //         },
+            //         {
+            //             id: 'history-mutasi-warehouse',
+            //             label: 'History Mutasi Warehouse',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-warehouse/history'
+            //         },
+            //     ]
+            // },
             // {
             //     id: 'mutasi-lokasi',
             //     label: 'Mutasi Lokasi',
