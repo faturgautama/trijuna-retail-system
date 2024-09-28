@@ -54,15 +54,15 @@ export class InputFakturPajakPembelianComponent implements OnInit {
                 },
                 {
                     id: 'nomor_pemesanan',
-                    title: 'No. Pemesanan',
+                    title: 'No. Nota',
                     type: 'string',
-                    value: 'tp.nomor_pemesanan',
+                    value: 'tp.no_nota',
                 },
                 {
                     id: 'tanggal_pemesanan',
-                    title: 'Tgl. Pemesanan',
+                    title: 'Tgl. Nota',
                     type: 'date',
-                    value: 'tp.tanggal_pemesanan',
+                    value: 'tp.tanggal_nota',
                 },
                 {
                     id: ' created_at',

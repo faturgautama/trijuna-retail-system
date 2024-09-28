@@ -38,28 +38,58 @@ export class HistoryFakturPajakPembelianComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
+                    id: 'kode_supplier',
+                    title: 'Kode Supplier',
+                    type: 'string',
+                    value: 'ms.kode_supplier',
+                },
+                {
                     id: 'nama_supplier',
                     title: 'Nama Supplier',
                     type: 'string',
                     value: 'ms.nama_supplier',
                 },
                 {
-                    id: 'nomor_pemesanan',
-                    title: 'No. Pemesanan',
+                    id: 'nomor_penerimaan',
+                    title: 'No. Penerimaan',
                     type: 'string',
-                    value: 'tp.nomor_pemesanan',
+                    value: 'tp.nomor_penerimaan',
                 },
                 {
-                    id: 'tanggal_pemesanan',
-                    title: 'Tgl. Pemesanan',
+                    id: 'tanggal_nota',
+                    title: 'Tgl. Nota',
                     type: 'date',
-                    value: 'tp.tanggal_pemesanan',
+                    value: 'tp.tanggal_nota',
+                },
+                {
+                    id: 'no_seri',
+                    title: 'No. Seri',
+                    type: 'string',
+                    value: 'tfp.no_seri',
+                },
+                {
+                    id: 'no_seri',
+                    title: 'No. Seri',
+                    type: 'string',
+                    value: 'tfp.no_seri',
+                },
+                {
+                    id: 'tanggal_faktur_pajak',
+                    title: 'Tgl. Faktur Pajak',
+                    type: 'string',
+                    value: 'tfp.no_stanggal_faktur_pajakeri',
+                },
+                {
+                    id: 'nama_ttd_faktur',
+                    title: 'Nama Ttd Faktur',
+                    type: 'string',
+                    value: 'tfp.nama_ttd_faktur',
                 },
                 {
                     id: ' created_at',
                     title: 'Waktu Input',
                     type: 'date',
-                    value: 'tp.created_at',
+                    value: 'tfp.created_at',
                 },
             ],
         }

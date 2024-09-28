@@ -38,6 +38,12 @@ export class HistoryTitipTagihanComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
+                    id: 'kode_supplier',
+                    title: 'Kode Supplier',
+                    type: 'string',
+                    value: 'ms.kode_supplier',
+                },
+                {
                     id: 'nama_supplier',
                     title: 'Nama Supplier',
                     type: 'string',
@@ -50,10 +56,16 @@ export class HistoryTitipTagihanComponent implements OnInit {
                     value: 'tp.nomor_pemesanan',
                 },
                 {
-                    id: 'tanggal_pemesanan',
-                    title: 'Tgl. Pemesanan',
+                    id: 'no_nota',
+                    title: 'No. Nota',
+                    type: 'string',
+                    value: 'tp.no_nota',
+                },
+                {
+                    id: 'tanggal_nota',
+                    title: 'Tgl. Nota',
                     type: 'date',
-                    value: 'tp.tanggal_pemesanan',
+                    value: 'tp.tanggal_nota',
                 },
                 {
                     id: ' created_at',

@@ -42,7 +42,7 @@ export class BerandaComponent implements OnInit {
 
     ngOnInit(): void {
         this.getMainMenu();
-        // this.getOtherData();
+        this.getOtherData();
     }
 
     getMainMenu(): void {
@@ -61,20 +61,15 @@ export class BerandaComponent implements OnInit {
     }
 
     getOtherData(): void {
-        this._store.dispatch(new PemesananPoAction.GetCountStatusOpen())
+        this._authenticationService
+            .getDashboard()
             .subscribe((result) => {
-                this.CountPemesananPo = result.pemesanan_po.entities;
-            });
-
-        this._store.dispatch(new PembelianDenganPoAction.GetCountStatusOpen())
-            .subscribe((result) => {
-                this.CountPembelianDenganPo = result.pembelian_dengan_po.entities;
-            });
-
-        this._store.dispatch(new PembelianTanpaPoAction.GetCountStatusOpen())
-            .subscribe((result) => {
-                this.CountPembelianTanpaPo = result.pembelian_tanpa_po.entities;
-            });
+                if (result.success) {
+                    this.CountPemesananPo = result.data.pemesanan;
+                    this.CountPembelianDenganPo = result.data.penerimaanPO;
+                    this.CountPembelianTanpaPo = result.data.penerimaanTanpaOP;
+                }
+            })
     }
 
     testPrint() {

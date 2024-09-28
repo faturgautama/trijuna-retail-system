@@ -36,28 +36,28 @@ export class HistoryRefundPenjualanComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
-                    id: 'nama_supplier',
-                    title: 'Nama Supplier',
+                    id: 'nama',
+                    title: 'User Kasir',
                     type: 'string',
-                    value: 'ms.nama_supplier',
+                    value: 'u.nama',
                 },
                 {
-                    id: 'nomor_pemesanan',
-                    title: 'No. Pemesanan',
+                    id: 'no_retur_penjualan',
+                    title: 'No. Refund',
                     type: 'string',
-                    value: 'tp.nomor_pemesanan',
+                    value: 'pr.no_retur_penjualan',
                 },
                 {
-                    id: 'tanggal_pemesanan',
-                    title: 'Tgl. Pemesanan',
+                    id: 'tanggal_refund',
+                    title: 'Tgl. Refund',
                     type: 'date',
-                    value: 'tp.tanggal_pemesanan',
+                    value: 'pr.tanggal_refund',
                 },
                 {
                     id: ' created_at',
                     title: 'Waktu Input',
                     type: 'date',
-                    value: 'tp.created_at',
+                    value: 'pr.created_at',
                 },
             ],
         }
