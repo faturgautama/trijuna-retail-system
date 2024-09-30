@@ -202,47 +202,28 @@ export const menu: MenuItem[] = [
         label: 'Inventory',
         icon: 'pi pi-truck',
         items: [
-            // {
-            //     id: 'mutasi-warehouse',
-            //     label: 'Mutasi Warehouse',
-            //     icon: "",
-            //     items: [
-            //         {
-            //             id: 'input-mutasi-warehouse',
-            //             label: 'Input Mutasi Warehouse',
-            //             icon: "",
-            //             routerLink: '/inventory/mutasi-warehouse/input'
-            //         },
-            //         {
-            //             id: 'history-mutasi-warehouse',
-            //             label: 'History Mutasi Warehouse',
-            //             icon: "",
-            //             routerLink: '/inventory/mutasi-warehouse/history'
-            //         },
-            //     ]
-            // },
-            // {
-            //     id: 'mutasi-lokasi',
-            //     label: 'Mutasi Lokasi',
-            //     icon: "",
-            //     items: [
-            //         {
-            //             id: 'input-mutasi-lokasi',
-            //             label: 'Input Mutasi Lokasi',
-            //             icon: "",
-            //             routerLink: '/inventory/mutasi-lokasi/input'
-            //         },
-            //         {
-            //             id: 'history-mutasi-lokasi',
-            //             label: 'History Mutasi Lokasi',
-            //             icon: "",
-            //             routerLink: '/inventory/mutasi-lokasi/history'
-            //         },
-            //     ]
-            // },
             {
-                id: 'mutasi-masuk',
-                label: 'Mutasi Masuk',
+                id: 'mutasi-warehouse',
+                label: 'Mutasi Warehouse',
+                icon: "",
+                items: [
+                    {
+                        id: 'input-mutasi-warehouse',
+                        label: 'Input Mutasi Warehouse',
+                        icon: "",
+                        routerLink: '/inventory/mutasi-warehouse/input'
+                    },
+                    {
+                        id: 'history-mutasi-warehouse',
+                        label: 'History Mutasi Warehouse',
+                        icon: "",
+                        routerLink: '/inventory/mutasi-warehouse/history'
+                    },
+                ]
+            },
+            {
+                id: 'mutasi-lokasi',
+                label: 'Mutasi Lokasi',
                 icon: "",
                 items: [
                     {
@@ -257,13 +238,6 @@ export const menu: MenuItem[] = [
                         icon: "",
                         routerLink: '/inventory/mutasi-masuk/history'
                     },
-                ]
-            },
-            {
-                id: 'mutasi-keluar',
-                label: 'Mutasi Keluar',
-                icon: "",
-                items: [
                     {
                         id: 'input-mutasi-keluar',
                         label: 'Input Mutasi Keluar',
@@ -278,6 +252,44 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
+            // {
+            //     id: 'mutasi-masuk',
+            //     label: 'Mutasi Masuk',
+            //     icon: "",
+            //     items: [
+            //         {
+            //             id: 'input-mutasi-masuk',
+            //             label: 'Input Mutasi Masuk',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-masuk/input'
+            //         },
+            //         {
+            //             id: 'history-mutasi-masuk',
+            //             label: 'History Mutasi Masuk',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-masuk/history'
+            //         },
+            //     ]
+            // },
+            // {
+            //     id: 'mutasi-keluar',
+            //     label: 'Mutasi Keluar',
+            //     icon: "",
+            //     items: [
+            //         {
+            //             id: 'input-mutasi-keluar',
+            //             label: 'Input Mutasi Keluar',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-keluar/input'
+            //         },
+            //         {
+            //             id: 'history-mutasi-keluar',
+            //             label: 'History Mutasi Keluar',
+            //             icon: "",
+            //             routerLink: '/inventory/mutasi-keluar/history'
+            //         },
+            //     ]
+            // },
             // {
             //     id: 'stok-opname',
             //     label: 'Stok Opname',
