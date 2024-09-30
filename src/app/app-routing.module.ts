@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: async () => (await import('./finance/finance.module')).FinanceModule
     },
     {
+        path: 'laporan',
+        loadChildren: async () => (await import('./laporan/laporan.module')).LaporanModule
+    },
+    {
         path: "**", component: PageNotFoundComponent
     }
 ];

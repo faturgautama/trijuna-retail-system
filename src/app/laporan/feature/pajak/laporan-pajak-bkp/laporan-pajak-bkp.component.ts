@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { PenjualanService } from 'src/app/@core/service/penjualan/penjualan/penjualan.service';
+import { LaporanPajakService } from 'src/app/@core/service/laporan/laporan-pajak.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
@@ -9,11 +9,11 @@ import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 
 @Component({
-    selector: 'app-sell-out',
-    templateUrl: './sell-out.component.html',
-    styleUrls: ['./sell-out.component.scss']
+    selector: 'app-laporan-pajak-bkp',
+    templateUrl: './laporan-pajak-bkp.component.html',
+    styleUrls: ['./laporan-pajak-bkp.component.scss']
 })
-export class SellOutComponent implements OnInit {
+export class LaporanPajakBkpComponent implements OnInit {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -26,10 +26,10 @@ export class SellOutComponent implements OnInit {
     constructor(
         private _messageService: MessageService,
         private _utilityService: UtilityService,
-        private _penjualanService: PenjualanService,
+        private _laporanPajakService: LaporanPajakService,
     ) {
         this.DashboardProps = {
-            title: 'History Sell Out Item',
+            title: 'Laporan Pajak BKP',
             button_navigation: [
                 { id: 'export_excel', caption: 'Excel', icon: 'pi pi-file-excel text-xs' },
             ],
@@ -84,20 +84,17 @@ export class SellOutComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'kode_barang', headerName: 'KODE BARANG', width: 150, sortable: true, resizable: true },
-                { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
-                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 200, sortable: true, resizable: true },
-                { field: 'divisi', headerName: 'DIVISI', width: 150, sortable: true, resizable: true },
-                { field: 'group', headerName: 'GROUP', width: 150, sortable: true, resizable: true },
-                { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
-                { field: 'merk', headerName: 'MERK', width: 150, sortable: true, resizable: true },
-                { field: 'qty_jual', headerName: 'QTY JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, '') } },
-                { field: 'harga_jual', headerName: 'HARGA JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
-                { field: 'subtotal', headerName: 'SUBTOTAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
+                { field: 'tanggal', headerName: 'TANGGAL', flex: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'dd-MM-yyyy') } },
+                { field: 'kode_barang', headerName: 'KODE BARANG', flex: 150, sortable: true, resizable: true },
+                { field: 'barcode', headerName: 'BARCODE', flex: 150, sortable: true, resizable: true },
+                { field: 'nama_barang', headerName: 'NAMA BARANG', flex: 200, sortable: true, resizable: true },
+                { field: 'total_qty', headerName: 'TOTAL QTY', flex: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, '') } },
+                { field: 'subtotal', headerName: 'SUBTOTAL', flex: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
+                { field: 'dpp', headerName: 'DPP', flex: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
+                { field: 'ppn', headerName: 'PPN', flex: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
             ],
             dataSource: [],
             height: "calc(100vh - 18rem)",
-            // height: "100%",
             showPaging: false,
         };
 
@@ -107,14 +104,30 @@ export class SellOutComponent implements OnInit {
             is_inline: true,
             fields: [
                 {
-                    id: 'total',
-                    label: 'Total',
+                    id: 'total_jumlah_harian',
+                    label: 'Total Jumlah Harian',
                     status: 'readonly',
                     type: 'numeric',
-                    required: true
+                    required: false
+                },
+                {
+                    id: 'total_dpp_harian',
+                    label: 'Total DPP Harian',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: false
+                },
+                {
+                    id: 'total_ppn_harian',
+                    label: 'Total PPn Harian',
+                    status: 'readonly',
+                    type: 'numeric',
+                    prefix: 'Rp. ',
+                    prefix_position: 'left',
+                    required: false
                 },
             ],
-            custom_class: 'grid-rows-1 grid-cols-1',
+            custom_class: 'grid-rows-3 grid-cols-1',
         };
     }
 
@@ -129,17 +142,14 @@ export class SellOutComponent implements OnInit {
                     kode_barang: item.kode_barang,
                     barcode: item.barcode,
                     nama_barang: item.nama_barang,
-                    divisi: item.divisi,
-                    group: item.group,
-                    satuan: item.kode_satuan,
-                    merk: item.merk,
-                    qty_jual: (item.qty_jual),
-                    harga_jual: (item.harga_jual),
+                    total_qty: (item.total_qty),
                     subtotal: (item.subtotal),
+                    dpp: (item.dpp),
+                    ppn: (item.ppn),
                 }
             });
 
-            this._utilityService.exportToExcel({ worksheetName: 'Sell_Out_Item', dataSource: dataSource })
+            this._utilityService.exportToExcel({ worksheetName: 'Laporan Pajak BKP', dataSource: dataSource })
         };
     }
 
@@ -155,8 +165,8 @@ export class SellOutComponent implements OnInit {
         });
 
         if (queryParams) {
-            this._penjualanService
-                .getAllSellOut(queryParams, filter)
+            this._laporanPajakService
+                .getLaporanPajakBkp(filter)
                 .subscribe((result) => {
                     if (result.success) {
                         this.GridProps.dataSource = result.data;
@@ -176,5 +186,4 @@ export class SellOutComponent implements OnInit {
             this._messageService.add({ severity: 'warning', summary: 'Oops', detail: 'Tanggal Pencarian Tidak Boleh Kosong' })
         }
     }
-
 }

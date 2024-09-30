@@ -52,9 +52,6 @@ const routes: Routes = [
                 path: 'history', component: HistoryMutasiMasukComponent
             },
             {
-                path: 'input', component: InputMutasiMasukComponent
-            },
-            {
                 path: 'detail/:id', component: DetailMutasiMasukComponent,
             }
         ]
