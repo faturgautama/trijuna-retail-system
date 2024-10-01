@@ -5,9 +5,6 @@ import { LoginModel } from 'src/app/@shared/models/authentication/authentication
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { MenuAction } from 'src/app/@shared/state/menu';
-import { PemesananPoAction } from 'src/app/@shared/state/pembelian/pemesanan-po';
-import { PembelianDenganPoAction } from 'src/app/@shared/state/pembelian/pembelian-dengan-po';
-import { PembelianTanpaPoAction } from 'src/app/@shared/state/pembelian/pembelian-tanpa-po';
 import { Router } from '@angular/router';
 
 @Component({
@@ -74,5 +71,9 @@ export class BerandaComponent implements OnInit {
 
     testPrint() {
         this._router.navigateByUrl('beranda/test-print');
+    }
+
+    goToHistory(url: string) {
+        this._router.navigateByUrl(url);
     }
 }

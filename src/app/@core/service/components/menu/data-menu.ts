@@ -339,12 +339,6 @@ export const menu: MenuItem[] = [
                         icon: "",
                         routerLink: '/penjualan/transaksi-penjualan/history'
                     },
-                    {
-                        id: 'sell-out-item',
-                        label: 'Sell Out Item',
-                        icon: "",
-                        routerLink: '/penjualan/transaksi-penjualan/sell-out-item'
-                    },
                 ]
             },
             {
@@ -511,6 +505,19 @@ export const menu: MenuItem[] = [
         icon: 'pi pi-book',
         label: 'Laporan',
         items: [
+            {
+                id: 'Penjualan',
+                label: 'Penjualan',
+                icon: "",
+                items: [
+                    {
+                        id: 'sell-out-item',
+                        label: 'Sell Out Item',
+                        icon: "",
+                        routerLink: '/penjualan/transaksi-penjualan/sell-out-item'
+                    },
+                ]
+            },
             {
                 id: 'Pajak',
                 label: 'Pajak',
