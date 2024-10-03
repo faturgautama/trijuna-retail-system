@@ -108,7 +108,7 @@ workflows:
           filters:
             branches:
               only:
-                - production
+                - main
       - build-jepon:
           filters:
             branches:
