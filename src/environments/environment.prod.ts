@@ -1,5 +1,6 @@
+const hostname = window.location.hostname;
+
 export const environment = {
     production: true,
-    // endpoint: 'https://api-retail.trijuna-pratama.com/api',
-    endpoint: 'https://retial-api.trijuna.online/api',
+    endpoint: `${hostname}:8000/api`,
 };
