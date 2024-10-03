@@ -23,7 +23,7 @@ export class SetupBarangService {
     }
 
     saveBarang(payload: SetupBarangModel.SaveSetupBarang): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/barang`, payload);
+        return this._httpRequestService.postRequest(`${environment.endpoint}/tambahbarang`, payload);
     }
 
     updateBarang(payload: SetupBarangModel.UpdateSetupBarang): Observable<any> {
