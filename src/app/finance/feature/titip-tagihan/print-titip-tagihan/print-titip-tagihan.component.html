@@ -81,7 +81,7 @@
         <app-print-out-grid [props]="GridProps"></app-print-out-grid>
     </div>
 
-    <div class="grid gap-0 mb-3">
+    <div *ngIf="Data.detail.retur.length" class="grid gap-0 mb-3">
         <p class="text-sm text-gray-700 font-medium mb-2">
             Retur Pembelian
         </p>

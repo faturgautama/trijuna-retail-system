@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PembelianDenganPoService } from 'src/app/@core/service/pembelian/pembelian-dengan-po/pembelian-dengan-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
@@ -23,6 +23,7 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
     }
 
     constructor(
+        private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
         private _pembelianDenganPoService: PembelianDenganPoService,
@@ -49,6 +50,8 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
 
     ngOnInit(): void {
         const id = this._activatedRoute.snapshot.params['id'];
+        const url = this._router.url;
+        const isExportPdf = url.includes('export-pdf');
 
         this._pembelianDenganPoService
             .getById(id)
@@ -56,9 +59,15 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail;
 
-                setTimeout(() => {
-                    window.print();
-                }, 1500);
+                if (!isExportPdf) {
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        this._utilityService.exportToPdf('printPenerimaanDenganPo', `Penerimaan Barang Dengan PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
+                    }, 500);
+                }
             })
     }
 

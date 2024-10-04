@@ -29,6 +29,7 @@ const routes: Routes = [
             { path: 'input', component: InputPemesananPoComponent },
             { path: 'detail/:id', component: DetailPemesananPoComponent },
             { path: 'print/:id', component: PrintPemesananPoComponent },
+            { path: 'export-pdf/:id', component: PrintPemesananPoComponent },
         ]
     },
     {
@@ -37,6 +38,7 @@ const routes: Routes = [
             { path: 'input', component: InputPenerimaanDenganPoComponent },
             { path: 'detail/:id', component: DetailPenerimaanDenganPoComponent },
             { path: 'print/:id', component: PrintPenerimaanDenganPoComponent },
+            { path: 'export-pdf/:id', component: PrintPenerimaanDenganPoComponent },
         ]
     },
     {
@@ -45,6 +47,7 @@ const routes: Routes = [
             { path: 'input', component: InputPenerimaanTanpaPoComponent },
             { path: 'detail/:id', component: DetailPenerimaanTanpaPoComponent },
             { path: 'print/:id', component: PrintPemesananPoComponent },
+            { path: 'export-pdf/:id', component: PrintPemesananPoComponent },
         ]
     },
     {

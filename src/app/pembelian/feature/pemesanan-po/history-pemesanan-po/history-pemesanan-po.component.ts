@@ -32,6 +32,7 @@ export class HistoryPemesananPoComponent implements OnInit {
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
                 { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
             ],
         };
 
@@ -103,7 +104,11 @@ export class HistoryPemesananPoComponent implements OnInit {
 
         if (args == 'print') {
             this._router.navigate([`pembelian/pemesanan-po/print/${this.SelectedData.id_pemesanan}`]);
-        }
+        };
+
+        if (args == 'export_pdf') {
+            this._router.navigate([`pembelian/pemesanan-po/export-pdf/${this.SelectedData.id_pemesanan}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {

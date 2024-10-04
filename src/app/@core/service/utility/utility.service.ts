@@ -63,6 +63,8 @@ export class UtilityService {
     exportToPdf(divId: string, fileTitle: string) {
         const node = document.getElementById(divId);
 
+        console.log("node =>", node);
+
         if (node) {
             domtoimage.toPng(node)
                 .then((dataUrl) => {
@@ -73,15 +75,12 @@ export class UtilityService {
                     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
                     pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
-                    // Open the PDF in a new window and trigger print
-                    const pdfBlob = pdf.output('blob');
-                    const pdfUrl = URL.createObjectURL(pdfBlob);
-                    const pdfWindow: any = window.open(pdfUrl);
+                    // Save the PDF
+                    pdf.save(`${fileTitle}.pdf`);
 
-                    pdfWindow.onload = () => {
-                        pdfWindow.focus();
-                        pdfWindow.print();
-                    };
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 100);
                 })
                 .catch((error) => {
                     console.error('Error capturing the element:', error);

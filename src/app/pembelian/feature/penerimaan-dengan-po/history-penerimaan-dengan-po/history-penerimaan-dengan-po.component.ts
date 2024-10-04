@@ -32,6 +32,7 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
                 { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
             ],
         };
 
@@ -97,14 +98,17 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-
         if (args == 'add') {
             this._router.navigate(['pembelian/penerimaan-dengan-po/input']);
         };
 
         if (args == 'print') {
             this._router.navigate([`pembelian/penerimaan-dengan-po/print/${this.SelectedData.id_penerimaan}`]);
-        }
+        };
+
+        if (args == 'export_pdf') {
+            this._router.navigate([`pembelian/penerimaan-dengan-po/export-pdf/${this.SelectedData.id_penerimaan}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {

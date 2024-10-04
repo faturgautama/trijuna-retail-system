@@ -51,36 +51,50 @@ export class PrintPemesananPoComponent implements OnInit {
         const id = this._activatedRoute.snapshot.params['id'];
         const url = this._router.url;
 
+        const isExportPdf = url.includes('export-pdf');
+
         if (url.includes('penerimaan-tanpa-po')) {
-            this.getPembelianTanpaPo(id);
+            this.getPembelianTanpaPo(id, isExportPdf);
         } else {
-            this.getPemesananPo(id);
+            this.getPemesananPo(id, isExportPdf);
         }
     }
 
-    getPemesananPo(id: any) {
+    getPemesananPo(id: any, exportPdf: boolean) {
         this._pemesananPoService
             .getById(id)
             .subscribe((result) => {
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail_pemesanan;
 
-                setTimeout(() => {
-                    window.print();
-                }, 1500);
+                if (!exportPdf) {
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        this._utilityService.exportToPdf('printPemesananPo', `Pemesanan PO - ${this.Data.nomor_pemesanan} - ${new Date().getTime()}`);
+                    }, 500);
+                }
             })
     }
 
-    getPembelianTanpaPo(id: any) {
+    getPembelianTanpaPo(id: any, exportPdf: boolean) {
         this._pembelianTanpaPoService
             .getById(id)
             .subscribe((result) => {
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail;
 
-                setTimeout(() => {
-                    window.print();
-                }, 1500);
+                if (!exportPdf) {
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        this._utilityService.exportToPdf('printPemesananPo', `Pembelian Tanpa PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
+                    }, 500);
+                }
             })
     }
 }
