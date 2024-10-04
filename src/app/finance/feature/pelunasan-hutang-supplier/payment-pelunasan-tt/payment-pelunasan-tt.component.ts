@@ -2,7 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { PelunasanHutangSupplierService } from 'src/app/@core/service/finance/pelunasan-hutang-supplier/pelunasan-hutang-supplier.service';
 import { SetupRekeningOwnerService } from 'src/app/@core/service/finance/setup-data/setup-rekening-owner.service';
@@ -55,6 +55,7 @@ export class PaymentPelunasanTtComponent implements OnInit {
         private _messageService: MessageService,
         private _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
+        private _confirmationService: ConfirmationService,
         private _titipTagihanService: TitipTagihanService,
         private _setupRekeningOwnerService: SetupRekeningOwnerService,
         private _pelunasanHutangSupplierService: PelunasanHutangSupplierService
@@ -511,16 +512,48 @@ export class PaymentPelunasanTtComponent implements OnInit {
             detail_giro: detail_giro,
         };
 
+        this._confirmationService.confirm({
+            target: (<any>event).target as EventTarget,
+            message: 'Apakah Anda Ingin Mencetak Juga? ',
+            header: 'Data Akan Disimpan',
+            icon: 'pi pi-question-circle',
+            acceptButtonStyleClass: "p-button-info p-button-sm",
+            rejectButtonStyleClass: "p-button-secondary p-button-sm",
+            acceptIcon: "none",
+            acceptLabel: 'Iya, Cetak Juga',
+            rejectIcon: "none",
+            rejectLabel: 'Tidak, Simpan Saja',
+            accept: () => {
+                this.onSaveWithConditionPrint(true, payload)
+            },
+            reject: (args: any) => {
+                if (args == 1) {
+                    this.onSaveWithConditionPrint(false, payload)
+                }
+            },
+        });
+    }
+
+    private onSaveWithConditionPrint(print: boolean, payload: any) {
         this._pelunasanHutangSupplierService
             .save(payload)
             .subscribe((result) => {
                 if (result.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
-                    setTimeout(() => {
-                        this._router.navigate(['finance/pelunasan-hutang-supplier/history']);
-                    }, 1500);
+
+                    this.CustomForm.handleResetForm();
+
+                    if (print) {
+                        setTimeout(() => {
+                            this._router.navigate([`finance/pelunasan-hutang-supplier/print/${result.data}`]);
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            this._router.navigate([`finance/pelunasan-hutang-supplier/history`]);
+                        }, 1500);
+                    }
                 }
-            })
+            });
     }
 }

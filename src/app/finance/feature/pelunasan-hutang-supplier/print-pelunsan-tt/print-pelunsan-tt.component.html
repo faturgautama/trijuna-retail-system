@@ -1,0 +1,136 @@
+<div class="grid p-5 gap-0">
+    <div class="flex flex-col gap-0 mb-3">
+        <p class="text-base font-semibold mb-2">
+            Pelunasan Titip Tagihan
+        </p>
+
+        <p class="text-sm mb-0">
+            {{ UserData.lokasi.nama_lokasi }}
+        </p>
+
+        <p class="text-sm mb-0">
+            {{ UserData.lokasi.alamat }}
+        </p>
+
+        <p class="text-sm mb-3">
+            Telp / Fax : {{ UserData.lokasi.telepon }}
+        </p>
+
+        <!-- Nama Supplier -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Supplier
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.kode_supplier }} - {{ Data.nama_supplier }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Nomor Faktur -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    No. Titip Tagihan
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nomor_titip_tagihan }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal Bayar -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Tgl. Bayar
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatDate(Data.tanggal_bayar, 'DD MMMM yyyy') }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="Data.cash.length" class="grid gap-0 mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Cash / Tunai
+        </p>
+
+        <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+
+    <div *ngIf="Data.transfer.length" class="grid gap-0 mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Transfer
+        </p>
+
+        <app-print-out-grid [props]="GridTransferProps"></app-print-out-grid>
+    </div>
+
+    <div *ngIf="Data.giro.length" class="grid gap-0 mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Giro
+        </p>
+
+        <app-print-out-grid [props]="GridGiroProps"></app-print-out-grid>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-3">
+        <div class="w-10/12">
+            <p class="text-xs text-gray-700 text-end">
+                Jumlah Bayar
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.jumlah_bayar, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-row justify-center w-full px-3">
+        <div class="w-8/12 flex flex-col justify-center items-center pr-3">
+            <div class="flex flex-row gap-10">
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dibukukan
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dikeluarkan Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Diketahui Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { PelunasanHutangSupplierService } from 'src/app/@core/service/finance/pelunasan-hutang-supplier/pelunasan-hutang-supplier.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
@@ -24,6 +25,7 @@ export class InputPelunasanTtComponent implements OnInit {
     constructor(
         private _router: Router,
         private _utilityService: UtilityService,
+        private _confirmationService: ConfirmationService,
         private _pelunasanHutangSupplierService: PelunasanHutangSupplierService,
     ) {
         this.DashboardProps = {

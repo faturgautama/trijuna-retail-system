@@ -20,6 +20,7 @@ import { InputFakturPajakPembelianComponent } from './feature/faktur-pajak-pembe
 import { DetailFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component';
 import { PrintTitipTagihanComponent } from './feature/titip-tagihan/print-titip-tagihan/print-titip-tagihan.component';
 import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { PrintPelunsanTtComponent } from './feature/pelunasan-hutang-supplier/print-pelunsan-tt/print-pelunsan-tt.component';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
         InputFakturPajakPembelianComponent,
         DetailFakturPajakPembelianComponent,
         PrintTitipTagihanComponent,
+        PrintPelunsanTtComponent,
     ],
     imports: [
         CommonModule,

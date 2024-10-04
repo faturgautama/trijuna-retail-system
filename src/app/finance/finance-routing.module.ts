@@ -13,6 +13,7 @@ import { HistoryFakturPajakPembelianComponent } from "./feature/faktur-pajak-pem
 import { InputFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/input-faktur-pajak-pembelian/input-faktur-pajak-pembelian.component";
 import { DetailFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component";
 import { PrintTitipTagihanComponent } from "./feature/titip-tagihan/print-titip-tagihan/print-titip-tagihan.component";
+import { PrintPelunsanTtComponent } from "./feature/pelunasan-hutang-supplier/print-pelunsan-tt/print-pelunsan-tt.component";
 
 const routes: Routes = [
     {
@@ -54,6 +55,9 @@ const routes: Routes = [
             },
             {
                 path: 'payment/:id', component: PaymentPelunasanTtComponent,
+            },
+            {
+                path: 'print/:id', component: PrintPelunsanTtComponent,
             }
         ]
     },

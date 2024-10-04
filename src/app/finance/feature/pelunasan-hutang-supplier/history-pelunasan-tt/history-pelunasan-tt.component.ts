@@ -32,7 +32,7 @@ export class HistoryPelunasanTtComponent implements OnInit {
             title: 'History Pelunasan TT Supplier',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
-                // { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
