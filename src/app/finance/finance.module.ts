@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { ComponentsModule } from "../@shared/components/components.module";
 import { SetupPotonganPembelianComponent } from './feature/setup-data/setup-potongan-pembelian/setup-potongan-pembelian.component';
 import { SetupRekeningOwnerComponent } from './feature/setup-data/setup-rekening-owner/setup-rekening-owner.component';
@@ -19,6 +19,7 @@ import { HistoryFakturPajakPembelianComponent } from './feature/faktur-pajak-pem
 import { InputFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/input-faktur-pajak-pembelian/input-faktur-pajak-pembelian.component';
 import { DetailFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component';
 import { PrintTitipTagihanComponent } from './feature/titip-tagihan/print-titip-tagihan/print-titip-tagihan.component';
+import { ConfirmDialogModule } from "primeng/confirmdialog";
 
 @NgModule({
     declarations: [
@@ -43,9 +44,11 @@ import { PrintTitipTagihanComponent } from './feature/titip-tagihan/print-titip-
         FinanceRoutingModule,
         TableModule,
         RadioButtonModule,
+        ConfirmDialogModule
     ],
     providers: [
-        MessageService
+        MessageService,
+        ConfirmationService
     ]
 })
 export class FinanceModule { }

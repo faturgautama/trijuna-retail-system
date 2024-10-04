@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { SetupPotonganPembelianService } from 'src/app/@core/service/finance/setup-data/setup-potongan-pembelian.service';
 import { TitipTagihanService } from 'src/app/@core/service/finance/titip-tagihan/titip-tagihan.service';
@@ -50,6 +50,7 @@ export class InputTitipTagihanComponent implements OnInit {
         private _utilityService: UtilityService,
         private _mutasiKeluarService: MutasiKeluarService,
         private _titipTagihanService: TitipTagihanService,
+        private _confirmationService: ConfirmationService,
         private _setupPotonganPembelianService: SetupPotonganPembelianService,
     ) {
         this.DashboardProps = {
@@ -392,6 +393,29 @@ export class InputTitipTagihanComponent implements OnInit {
         const footer = this.CustomFormFooter.handleSubmitForm();
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
+        this._confirmationService.confirm({
+            target: (<any>event).target as EventTarget,
+            message: 'Apakah Anda Ingin Mencetak Juga? ',
+            header: 'Data Akan Disimpan',
+            icon: 'pi pi-question-circle',
+            acceptButtonStyleClass: "p-button-info p-button-sm",
+            rejectButtonStyleClass: "p-button-secondary p-button-sm",
+            acceptIcon: "none",
+            acceptLabel: 'Iya, Cetak Juga',
+            rejectIcon: "none",
+            rejectLabel: 'Tidak, Simpan Saja',
+            accept: () => {
+                this.onSaveWithConditionPrint(true, payload)
+            },
+            reject: (args: any) => {
+                if (args == 1) {
+                    this.onSaveWithConditionPrint(false, payload)
+                }
+            },
+        });
+    }
+
+    private onSaveWithConditionPrint(print: boolean, payload: any) {
         this._titipTagihanService
             .save(payload)
             .subscribe((result) => {
@@ -401,11 +425,16 @@ export class InputTitipTagihanComponent implements OnInit {
 
                     this.CustomForm.handleResetForm();
 
-                    setTimeout(() => {
-                        this._router.navigate(['finance/titip-tagihan/history']);
-                    }, 1500);
+                    if (print) {
+                        setTimeout(() => {
+                            this._router.navigate([`finance/titip-tagihan/print/${result.data}`]);
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            this._router.navigate([`finance/titip-tagihan/history`]);
+                        }, 1500);
+                    }
                 }
             });
     }
-
 }

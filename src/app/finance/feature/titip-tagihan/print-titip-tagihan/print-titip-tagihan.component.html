@@ -73,13 +73,33 @@
         </div>
     </div>
 
-    <div class="grid mb-1">
+    <div class="grid gap-0 mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Faktur Pembelian
+        </p>
+
         <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+
+    <div class="grid gap-0 mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Retur Pembelian
+        </p>
+
+        <app-print-out-grid [props]="GridReturProps"></app-print-out-grid>
+    </div>
+
+    <div *ngIf="Data.detail.potongan.length" class="grid gap-0 mb-3">
+        <p class="text-sm text-gray-700 font-medium mb-2">
+            Potongan Hutang
+        </p>
+
+        <app-print-out-grid [props]="GridPotonganPembelianProps"></app-print-out-grid>
     </div>
 
     <!-- Total Titip Tagihan -->
     <div class="flex flex-row w-full mb-1">
-        <div class="w-7/12">
+        <div class="w-10/12">
             <p class="text-xs text-gray-700 text-end">
                 Total Titip Tagihan
             </p>
@@ -93,7 +113,7 @@
 
     <!-- Total Retur -->
     <div class="flex flex-row w-full mb-1">
-        <div class="w-7/12">
+        <div class="w-10/12">
             <p class="text-xs text-gray-700 text-end">
                 Total Retur
             </p>
@@ -107,7 +127,7 @@
 
     <!-- Total Potongan -->
     <div class="flex flex-row w-full mb-1">
-        <div class="w-7/12">
+        <div class="w-10/12">
             <p class="text-xs text-gray-700 text-end">
                 Total Potongan
             </p>
@@ -120,8 +140,8 @@
     </div>
 
     <!-- Jumlah -->
-    <div class="flex flex-row w-full mb-1">
-        <div class="w-7/12">
+    <div class="flex flex-row w-full mb-3">
+        <div class="w-10/12">
             <p class="text-xs text-gray-700 text-end">
                 Total Bayar
             </p>

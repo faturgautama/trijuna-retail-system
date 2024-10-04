@@ -27,7 +27,7 @@ export class PrintTitipTagihanComponent implements OnInit {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        // window.history.back();
+        window.history.back();
     }
 
     constructor(
@@ -39,9 +39,9 @@ export class PrintTitipTagihanComponent implements OnInit {
         this.GridProps = {
             id: 'print-out-titip-tagihan',
             column: [
-                { field: 'nomor_penerimaan', headerName: 'No. Faktur Penerimaan', },
-                { field: 'tanggal_nota', headerName: 'Tgl. Nota', },
-                { field: 'created_at', headerName: 'Waktu Input', },
+                { field: 'nomor_penerimaan', headerName: 'No. Penerimaan', },
+                { field: 'tanggal_nota', headerName: 'Tgl. Nota', format: 'date' },
+                { field: 'created_at', headerName: 'Waktu Input', format: 'date' },
                 { field: 'total_transaksi', headerName: 'Total Transaksi', class: 'text-end', format: 'currency' },
             ],
             dataSource: [],
@@ -50,18 +50,13 @@ export class PrintTitipTagihanComponent implements OnInit {
         };
 
         this.GridReturProps = {
-            id: 'print-out-titip-tagihan',
+            id: 'print-out-retur',
             column: [
-                { field: 'urut', headerName: 'No.', },
-                { field: 'kode_barang', headerName: 'Kode Barang', },
-                { field: 'barcode', headerName: 'Barcode', },
-                { field: 'nama_barang', headerName: 'Nama Barang', },
-                { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'currency' },
-                { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency' },
-                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
-                { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency' },
-                { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency' },
-                { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency' },
+                { field: 'nomor_retur_pembelian', headerName: 'No. Retur', },
+                { field: 'tanggal_retur_pembelian', headerName: 'Tgl. Retur', format: 'date' },
+                { field: 'total_harga', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
+                { field: 'qty', headerName: 'Qty', class: 'text-end', format: 'currency' },
+                { field: 'created_at', headerName: 'Waktu Input', class: 'text-end', format: 'date' },
             ],
             dataSource: [],
             height: "100%",
@@ -69,18 +64,10 @@ export class PrintTitipTagihanComponent implements OnInit {
         };
 
         this.GridPotonganPembelianProps = {
-            id: 'print-out-titip-tagihan',
+            id: 'print-out-potongan-pembelian',
             column: [
-                { field: 'urut', headerName: 'No.', },
-                { field: 'kode_barang', headerName: 'Kode Barang', },
-                { field: 'barcode', headerName: 'Barcode', },
-                { field: 'nama_barang', headerName: 'Nama Barang', },
-                { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'currency' },
-                { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency' },
-                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
-                { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency' },
-                { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency' },
-                { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency' },
+                { field: 'potongan_pembelian', headerName: 'Potongan Pembelian', },
+                { field: 'total_potongan', headerName: 'Total Potongan', class: 'text-end', format: 'currency' }
             ],
             dataSource: [],
             height: "100%",
@@ -96,12 +83,25 @@ export class PrintTitipTagihanComponent implements OnInit {
         this._titipTagihanService
             .getById(id)
             .subscribe((result) => {
-                this.Data = result.data;
-                this.GridProps.dataSource = result.data.detail;
 
-                // setTimeout(() => {
-                //     window.print();
-                // }, 1500);
+                let total_retur = 0;
+
+                result.data.retur.forEach((item: any) => {
+                    item.total_harga = parseFloat(item.total_harga);
+                    total_retur += item.total_harga;
+                });
+
+                result.data.total_retur = total_retur;
+
+                this.Data = result.data;
+
+                this.GridProps.dataSource = result.data.faktur;
+                this.GridReturProps.dataSource = result.data.retur;
+                this.GridPotonganPembelianProps.dataSource = result.data.potongan;
+
+                setTimeout(() => {
+                    window.print();
+                }, 1500);
             })
     }
 
