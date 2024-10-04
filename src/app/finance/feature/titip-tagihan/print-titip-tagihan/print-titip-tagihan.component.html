@@ -1,0 +1,172 @@
+<div class="grid p-5 gap-0">
+    <div class="flex flex-col gap-0 mb-3">
+        <p class="text-base font-semibold mb-2">
+            Titip Tagihan
+        </p>
+
+        <p class="text-sm mb-0">
+            {{ UserData.lokasi.nama_lokasi }}
+        </p>
+
+        <p class="text-sm mb-0">
+            {{ UserData.lokasi.alamat }}
+        </p>
+
+        <p class="text-sm mb-3">
+            Telp / Fax : {{ UserData.lokasi.telepon }}
+        </p>
+
+        <!-- Nama Supplier -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Supplier
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.kode_supplier }} - {{ Data.nama_supplier }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Nomor Faktur -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    No. Titip Tagihan
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nomor_titip_tagihan }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal Bukti -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Tgl. Titip Tagihan
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatDate(Data.tanggal_titip_tagihan, 'DD MMMM yyyy') }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal Bukti -->
+        <div class="flex w-full gap-2">
+            <div class="w-2/12">
+                <p class="text-xs text-gray-700">
+                    Tgl. Rencana Bayar
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatDate(Data.tanggal_rencana_bayar, 'DD MMMM yyyy') }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid mb-1">
+        <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+
+    <!-- Total Titip Tagihan -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Total Titip Tagihan
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.total_titip_tagihan, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Total Retur -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Total Retur
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.total_retur, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Total Potongan -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Total Potongan
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.total_potongan, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Jumlah -->
+    <div class="flex flex-row w-full mb-1">
+        <div class="w-7/12">
+            <p class="text-xs text-gray-700 text-end">
+                Total Bayar
+            </p>
+        </div>
+        <div class="w-2/12 pr-3">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.total_bayar, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-row justify-center w-full px-3">
+        <div class="w-8/12 flex flex-col justify-center items-center pr-3">
+            <div class="flex flex-row gap-10">
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dibukukan
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dikeluarkan Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Diketahui Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

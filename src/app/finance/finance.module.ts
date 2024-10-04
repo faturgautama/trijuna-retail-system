@@ -18,6 +18,7 @@ import { FormsModule } from "@angular/forms";
 import { HistoryFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/history-faktur-pajak-pembelian/history-faktur-pajak-pembelian.component';
 import { InputFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/input-faktur-pajak-pembelian/input-faktur-pajak-pembelian.component';
 import { DetailFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component';
+import { PrintTitipTagihanComponent } from './feature/titip-tagihan/print-titip-tagihan/print-titip-tagihan.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { DetailFakturPajakPembelianComponent } from './feature/faktur-pajak-pemb
         HistoryFakturPajakPembelianComponent,
         InputFakturPajakPembelianComponent,
         DetailFakturPajakPembelianComponent,
+        PrintTitipTagihanComponent,
     ],
     imports: [
         CommonModule,

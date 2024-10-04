@@ -12,6 +12,7 @@ import { NgModule } from "@angular/core";
 import { HistoryFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/history-faktur-pajak-pembelian/history-faktur-pajak-pembelian.component";
 import { InputFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/input-faktur-pajak-pembelian/input-faktur-pajak-pembelian.component";
 import { DetailFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component";
+import { PrintTitipTagihanComponent } from "./feature/titip-tagihan/print-titip-tagihan/print-titip-tagihan.component";
 
 const routes: Routes = [
     {
@@ -34,6 +35,9 @@ const routes: Routes = [
             },
             {
                 path: 'detail/:id', component: DetailTitipTagihanComponent,
+            },
+            {
+                path: 'print/:id', component: PrintTitipTagihanComponent,
             }
         ]
     },

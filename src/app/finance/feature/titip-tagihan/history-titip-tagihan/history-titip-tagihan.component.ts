@@ -32,6 +32,7 @@ export class HistoryTitipTagihanComponent implements OnInit {
             title: 'History Titip Tagihan',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
