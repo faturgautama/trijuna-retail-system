@@ -2,8 +2,6 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const hostname = window.location.hostname;
-
 export const environment = {
     production: false,
     endpoint: 'https://retial-api.trijuna.online/api',
