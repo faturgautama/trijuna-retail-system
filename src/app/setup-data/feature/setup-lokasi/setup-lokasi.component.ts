@@ -189,7 +189,7 @@ export class SetupLokasiComponent implements OnInit {
                 telepon: data.telepon,
                 npwp: data.npwp,
                 server: data.server,
-                is_use: data.is_use,
+                is_use: data.is_use ? data.is_use : false,
             };
 
             this._store.dispatch(new SetupLokasiAction.Save(payload))
