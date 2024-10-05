@@ -155,6 +155,22 @@ export class InputMutasiWarehouseComponent implements OnInit {
                                 { field: 'kode_barang', width: 250, headerName: 'KODE BARANG', sortable: true, resizable: true },
                                 { field: 'nama_barang', width: 250, headerName: 'NAMA BARANG', sortable: true, resizable: true },
                                 { field: 'barcode', width: 250, headerName: 'BARCODE', sortable: true, resizable: true },
+                                {
+                                    field: 'harga_beli_terakhir', width: 250, headerName: 'HARGA BELI TERAKHIR', sortable: true, resizable: true,
+                                    cellClass: 'text-end',
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
+                                },
+                                { field: 'nama_supplier', width: 250, headerName: 'SUPPLIER', sortable: true, resizable: true },
+                                {
+                                    field: 'stok_gudang', width: 150, headerName: 'STOK GUDANG', sortable: true, resizable: true,
+                                    cellClass: 'text-center',
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
+                                },
+                                {
+                                    field: 'stok_toko', width: 150, headerName: 'STOK TOKO', sortable: true, resizable: true,
+                                    cellClass: 'text-center',
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
+                                },
                             ],
                             filter: [
                                 { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
@@ -165,6 +181,8 @@ export class InputMutasiWarehouseComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/barang/by_param`,
                             callback: (data) => {
+                                this.HargaSatuan = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
+                                this.FormDialog.CustomForm.CustomForms.get('harga_satuan')?.setValue(this.HargaSatuan);
                                 this.onGetSatuan(data.satuan);
                             }
                         },
@@ -350,10 +368,9 @@ export class InputMutasiWarehouseComponent implements OnInit {
 
     onChangeSatuan(data: SetupBarangModel.ISetupBarangSatuan): void {
         this.FormDialog.CustomForm.handleSetFieldValue('isi', data.isi);
-
         this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * data.isi!));
-
-        this.Qty = (this.Banyak * data.isi!)
+        this.Qty = (this.Banyak * data.isi!);
+        this.onCountSubtotal();
     }
 
     handleChangeBanyak(value: number): void {
@@ -361,24 +378,32 @@ export class InputMutasiWarehouseComponent implements OnInit {
 
         const isi = this.FormDialog.CustomForm.handleGetFieldValue('isi');
         this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * isi));
-        this.Qty = (this.Banyak * isi)
+        this.Qty = (this.Banyak * isi);
+        this.onCountSubtotal();
     }
 
     handleChangeQty(value: number): void {
         this.Qty = value;
+        this.onCountSubtotal();
     }
 
     handleChangeHargaSatuan(value: number): void {
         this.HargaSatuan = value;
         this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaSatuan));
+        this.onCountSubtotal();
     }
 
     handleSubmitFormDetail(data: any): void {
         data.urut = this.GridProps.dataSource.length + 1;
         this.GridProps.dataSource = [...this.GridProps.dataSource, data];
         this.FormDialog.onCloseFormDialog();
-
         this.onCountFormFooter();
+    }
+
+    private onCountSubtotal() {
+        const value = this.FormDialog.CustomForm.CustomForms.value;
+        this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(value.isi * value.banyak);
+        this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(value.qty * value.harga_satuan);
     }
 
     onCountFormFooter(): void {
