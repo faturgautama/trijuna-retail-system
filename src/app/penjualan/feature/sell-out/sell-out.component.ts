@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { PenjualanService } from 'src/app/@core/service/penjualan/penjualan/penjualan.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -7,6 +8,8 @@ import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.m
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
+import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
+import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
 
 @Component({
     selector: 'app-sell-out',
@@ -24,6 +27,7 @@ export class SellOutComponent implements OnInit {
     @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
 
     constructor(
+        private _store: Store,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
         private _penjualanService: PenjualanService,
@@ -62,22 +66,18 @@ export class SellOutComponent implements OnInit {
                     value: 'mb.nama_barang',
                 },
                 {
-                    id: 'md.divisi',
-                    title: 'Divisi',
-                    type: 'string',
-                    value: 'md.divisi',
+                    id: 'divisi',
+                    title: 'Pilih Divisi',
+                    type: 'dropdown',
+                    value: 'mb.id_divisi',
+                    dropdown_props: []
                 },
                 {
-                    id: 'mg.group',
-                    title: 'Group',
-                    type: 'string',
-                    value: 'mg.group',
-                },
-                {
-                    id: 'mm.merk',
-                    title: 'Merk',
-                    type: 'string',
-                    value: 'mm.merk',
+                    id: 'group',
+                    title: 'Pilih Group',
+                    type: 'dropdown',
+                    value: ' mb.id_group',
+                    dropdown_props: []
                 },
             ],
         }
@@ -119,6 +119,8 @@ export class SellOutComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getAllDivisi();
+        this.getAllGroup();
         // this.handleSearchOffcanvas([]);
     }
 
@@ -141,6 +143,32 @@ export class SellOutComponent implements OnInit {
 
             this._utilityService.exportToExcel({ worksheetName: 'Sell_Out_Item', dataSource: dataSource })
         };
+    }
+
+    private getAllDivisi() {
+        this._store
+            .dispatch(new SetupDivisiAction.GetAll())
+            .subscribe((result) => {
+                this.OffcanvasFilterProps.filter[4].dropdown_props = result.setup_divisi.entities.data.map((item: any) => {
+                    return {
+                        name: item.divisi,
+                        value: item.id_divisi
+                    }
+                });
+            })
+    }
+
+    private getAllGroup() {
+        this._store
+            .dispatch(new SetupGroupAction.GetAll())
+            .subscribe((result) => {
+                this.OffcanvasFilterProps.filter[5].dropdown_props = result.setup_group.entities.data.map((item: any) => {
+                    return {
+                        name: item.group,
+                        value: item.id_group
+                    }
+                });
+            })
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -173,7 +201,7 @@ export class SellOutComponent implements OnInit {
                 })
         } else {
             this._messageService.clear();
-            this._messageService.add({ severity: 'warning', summary: 'Oops', detail: 'Tanggal Pencarian Tidak Boleh Kosong' })
+            this._messageService.add({ severity: 'warn', summary: 'Oops', detail: 'Tanggal Pencarian Tidak Boleh Kosong' })
         }
     }
 
