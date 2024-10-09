@@ -214,7 +214,7 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
                 this._mutasiKeluarService
                     .validasi({ id_mutasi_lokasi: id })
                     .subscribe((result) => {
-                        if (result.success) {
+                        if (result.status) {
                             this._messageService.clear();
                             this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Divalidasi' });
 

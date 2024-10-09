@@ -4,8 +4,8 @@
         </app-offcanvas-filter>
     </div>
     <div class="grid">
-        <app-grid [props]="GridProps" (rowDoubleClicked)="handleRowDoubleClicked($event)"
-            (toolbarClicked)="handleToolbarClicked($event)">
+        <app-grid [props]="GridProps" (cellClicked)="handleCellClicked($event)"
+            (rowDoubleClicked)="handleRowDoubleClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
         </app-grid>
     </div>
 

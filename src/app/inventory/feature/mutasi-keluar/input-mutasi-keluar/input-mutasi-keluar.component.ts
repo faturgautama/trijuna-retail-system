@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { MutasiKeluarService } from 'src/app/@core/service/inventory/mutasi-keluar/mutasi-keluar.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -49,6 +49,7 @@ export class InputMutasiKeluarComponent implements OnInit {
         private _router: Router,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
+        private _confirmationService: ConfirmationService,
         private _mutasiKeluarService: MutasiKeluarService,
     ) {
         this.DashboardProps = {
@@ -195,6 +196,8 @@ export class InputMutasiKeluarComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/mutasi_warehouse/lookup_barang`,
                             callback: (data) => {
+                                this.HargaSatuan = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
+                                this.FormDialog.CustomForm.CustomForms.get('harga_satuan')?.setValue(this.HargaSatuan);
                                 this.onGetSatuan(data.satuan);
                             }
                         },
@@ -392,7 +395,9 @@ export class InputMutasiKeluarComponent implements OnInit {
                 break;
             case 'delete':
                 const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
-                this.GridProps.dataSource.splice(selectedIndex, 1);
+                let copyDatasource = JSON.parse(JSON.stringify(this.GridProps.dataSource));
+                copyDatasource.splice(selectedIndex, 1);
+                this.GridProps.dataSource = copyDatasource;
                 break;
             default:
                 break;
@@ -415,35 +420,41 @@ export class InputMutasiKeluarComponent implements OnInit {
 
     onChangeSatuan(data: SetupBarangModel.ISetupBarangSatuan): void {
         this.FormDialog.CustomForm.handleSetFieldValue('isi', data.isi);
-
         this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * data.isi!));
-
-        this.Qty = (this.Banyak * data.isi!)
+        this.Qty = (this.Banyak * data.isi!);
+        this.onCountSubtotal();
     }
 
     handleChangeBanyak(value: number): void {
         this.Banyak = value;
-
         const isi = this.FormDialog.CustomForm.handleGetFieldValue('isi');
         this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * isi));
-        this.Qty = (this.Banyak * isi)
+        this.Qty = (this.Banyak * isi);
+        this.onCountSubtotal();
     }
 
     handleChangeQty(value: number): void {
         this.Qty = value;
+        this.onCountSubtotal();
     }
 
     handleChangeHargaSatuan(value: number): void {
         this.HargaSatuan = value;
         this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaSatuan));
+        this.onCountSubtotal();
     }
 
     handleSubmitFormDetail(data: any): void {
         data.urut = this.GridProps.dataSource.length + 1;
         this.GridProps.dataSource = [...this.GridProps.dataSource, data];
         this.FormDialog.onCloseFormDialog();
-
         this.onCountFormFooter();
+    }
+
+    private onCountSubtotal() {
+        const value = this.FormDialog.CustomForm.CustomForms.value;
+        this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(value.isi * value.banyak);
+        this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(value.qty * value.harga_satuan);
     }
 
     onCountFormFooter(): void {
@@ -467,6 +478,29 @@ export class InputMutasiKeluarComponent implements OnInit {
 
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
+        this._confirmationService.confirm({
+            target: (<any>event).target as EventTarget,
+            message: 'Apakah Anda Ingin Mencetak Juga? ',
+            header: 'Data Akan Disimpan',
+            icon: 'pi pi-question-circle',
+            acceptButtonStyleClass: "p-button-info p-button-sm",
+            rejectButtonStyleClass: "p-button-secondary p-button-sm",
+            acceptIcon: "none",
+            acceptLabel: 'Iya, Cetak Juga',
+            rejectIcon: "none",
+            rejectLabel: 'Tidak, Simpan Saja',
+            accept: () => {
+                this.onSaveWithConditionPrint(true, payload)
+            },
+            reject: (args: any) => {
+                if (args == 1) {
+                    this.onSaveWithConditionPrint(false, payload)
+                }
+            },
+        });
+    }
+
+    private onSaveWithConditionPrint(print: boolean, payload: any) {
         this._mutasiKeluarService
             .save(payload)
             .subscribe((result) => {
@@ -476,11 +510,16 @@ export class InputMutasiKeluarComponent implements OnInit {
 
                     this.CustomForm.handleResetForm();
 
-                    setTimeout(() => {
-                        this._router.navigate(['inventory/mutasi-keluar/history']);
-                    }, 1500);
+                    if (print) {
+                        setTimeout(() => {
+                            this._router.navigate([`inventory/mutasi-keluar/print/${result.data}`]);
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            this._router.navigate([`inventory/mutasi-keluar/history`]);
+                        }, 1500);
+                    }
                 }
             });
     }
-
 }

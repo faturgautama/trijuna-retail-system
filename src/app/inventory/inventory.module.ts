@@ -23,6 +23,7 @@ import { InputMutasiKeluarComponent } from './feature/mutasi-keluar/input-mutasi
 import { HistoryMutasiKeluarComponent } from './feature/mutasi-keluar/history-mutasi-keluar/history-mutasi-keluar.component';
 import { DetailMutasiKeluarComponent } from './feature/mutasi-keluar/detail-mutasi-keluar/detail-mutasi-keluar.component';
 import { InputTextModule } from "primeng/inputtext";
+import { PrintMutasiKeluarComponent } from './feature/mutasi-keluar/print-mutasi-keluar/print-mutasi-keluar.component';
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import { InputTextModule } from "primeng/inputtext";
         DetailMutasiMasukComponent,
         InputMutasiKeluarComponent,
         HistoryMutasiKeluarComponent,
-        DetailMutasiKeluarComponent
+        DetailMutasiKeluarComponent,
+        PrintMutasiKeluarComponent
     ],
     imports: [
         CommonModule,

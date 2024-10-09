@@ -18,6 +18,7 @@ import { DetailMutasiMasukComponent } from "./feature/mutasi-masuk/detail-mutasi
 import { HistoryMutasiKeluarComponent } from "./feature/mutasi-keluar/history-mutasi-keluar/history-mutasi-keluar.component";
 import { InputMutasiKeluarComponent } from "./feature/mutasi-keluar/input-mutasi-keluar/input-mutasi-keluar.component";
 import { DetailMutasiKeluarComponent } from "./feature/mutasi-keluar/detail-mutasi-keluar/detail-mutasi-keluar.component";
+import { PrintMutasiKeluarComponent } from "./feature/mutasi-keluar/print-mutasi-keluar/print-mutasi-keluar.component";
 
 const routes: Routes = [
     {
@@ -66,7 +67,13 @@ const routes: Routes = [
             },
             {
                 path: 'detail/:id', component: DetailMutasiKeluarComponent,
-            }
+            },
+            {
+                path: 'print/:id', component: PrintMutasiKeluarComponent,
+            },
+            {
+                path: 'export-pdf/:id', component: PrintMutasiKeluarComponent,
+            },
         ]
     },
     {

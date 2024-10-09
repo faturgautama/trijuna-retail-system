@@ -345,11 +345,8 @@ export class InputMutasiWarehouseComponent implements OnInit {
                 break;
             case 'delete':
                 const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
-                console.log("selected index =>", selectedIndex);
-
                 let copyDatasource = JSON.parse(JSON.stringify(this.GridProps.dataSource));
                 copyDatasource.splice(selectedIndex, 1);
-
                 this.GridProps.dataSource = copyDatasource;
                 break;
             default:

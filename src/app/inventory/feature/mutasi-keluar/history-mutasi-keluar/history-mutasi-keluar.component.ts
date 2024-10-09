@@ -24,6 +24,8 @@ export class HistoryMutasiKeluarComponent implements OnInit, OnDestroy {
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
+    SelectedData: any;
+
     constructor(
         private _store: Store,
         private _router: Router,
@@ -33,7 +35,9 @@ export class HistoryMutasiKeluarComponent implements OnInit, OnDestroy {
         this.DashboardProps = {
             title: 'History Mutasi Keluar',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
             ],
         };
 
@@ -105,7 +109,17 @@ export class HistoryMutasiKeluarComponent implements OnInit, OnDestroy {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['inventory/mutasi-keluar/input']);
+        if (args == 'add') {
+            this._router.navigate(['inventory/mutasi-keluar/input']);
+        };
+
+        if (args == 'print') {
+            this._router.navigate([`inventory/mutasi-keluar/print/${this.SelectedData.id_mutasi_lokasi}`]);
+        };
+
+        if (args == 'export_pdf') {
+            this._router.navigate([`inventory/mutasi-keluar/export-pdf/${this.SelectedData.id_mutasi_lokasi}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -117,6 +131,10 @@ export class HistoryMutasiKeluarComponent implements OnInit, OnDestroy {
                     this.GridProps.dataSource = result.data;
                 }
             })
+    }
+
+    handleCellClicked(args: any): void {
+        this.SelectedData = args;
     }
 
     handleRowDoubleClicked(args: any): void {
