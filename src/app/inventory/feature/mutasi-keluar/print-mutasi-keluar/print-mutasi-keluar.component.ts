@@ -19,7 +19,7 @@ export class PrintMutasiKeluarComponent implements OnInit {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        // window.history.back();
+        window.history.back();
     }
 
     constructor(
@@ -62,9 +62,9 @@ export class PrintMutasiKeluarComponent implements OnInit {
                 this.GridProps.dataSource = result.data.detail;
 
                 if (!exportPdf) {
-                    // setTimeout(() => {
-                    //     window.print();
-                    // }, 1500);
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
                 } else {
                     setTimeout(() => {
                         this._utilityService.exportToPdf('printMutasiKeluar', `Mutasi Lokasi Keluar - ${this.Data.nomor_pemesanan} - ${new Date().getTime()}`);
