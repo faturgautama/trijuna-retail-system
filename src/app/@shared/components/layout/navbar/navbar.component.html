@@ -3,22 +3,25 @@
         <ng-template pTemplate="start">
             <div class="flex items-center">
                 <img src="../../../../../assets/image/coding.png" height="30" class="mr-2" />
-                <p class="text-blue-500 text-2xl font-semibold my-0">TRS</p>
+                <p class="text-white text-2xl font-semibold my-0">TRS</p>
             </div>
         </ng-template>
         <ng-template pTemplate="end">
             <div class="flex items-center gap-5 mr-">
                 <span class="text-sm cursor-pointer" (click)="op.toggle($event)">
-                    <i class="pi pi-th-large" style="font-size:13px"></i>
+                    <i class="pi pi-th-large text-white" style="font-size:13px"></i>
                 </span>
 
-                <span (click)="MenuUser.toggle($event)" class="text-sm cursor-pointer">
+                <span class="text-sm cursor-pointer text-white">
                     <i class="pi pi-user mr-1" style="font-size:13px"></i>
                     {{ UserData.nama | titlecase }}
-                    <i class="pi pi-angle-down mr-1" style="font-size:13px"></i>
                 </span>
 
-                <p-menu #MenuUser [model]="userMenu" [popup]="true"></p-menu>
+                <span class="text-sm cursor-pointer text-white" (click)="onSignOut()">
+                    <i class="pi pi-sign-out" style="font-size:13px"></i>
+                </span>
+
+                <!-- <p-menu #MenuUser id="menuUser" [model]="userMenu" [popup]="true"></p-menu> -->
             </div>
 
         </ng-template>
