@@ -177,7 +177,8 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
                         button_navigation: [
                             { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                             { id: 'unduh', caption: 'Download File', icon: 'pi pi-download text-xs' },
-                            { id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs' },
+                            { id: 'validasi', caption: 'Validasi Offline', icon: 'pi pi-check text-xs' },
+                            { id: 'validasi_online', caption: 'Validasi Online', icon: 'pi pi-check text-xs' },
                         ],
                     };
                 } else {
@@ -213,6 +214,23 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
             case 'validasi':
                 this._mutasiKeluarService
                     .validasi({ id_mutasi_lokasi: id })
+                    .subscribe((result) => {
+                        if (result.status) {
+                            this._messageService.clear();
+                            this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Divalidasi' });
+
+                            this.CustomFormHeader.handleResetForm();
+                            this.CustomFormFooter.handleResetForm();
+
+                            setTimeout(() => {
+                                this._router.navigate(['inventory/mutasi-keluar/history']);
+                            }, 1500);
+                        }
+                    });
+                break;
+            case 'validasi_online':
+                this._mutasiKeluarService
+                    .validasiOnline({ id_mutasi_lokasi: id })
                     .subscribe((result) => {
                         if (result.status) {
                             this._messageService.clear();
