@@ -112,7 +112,7 @@ export class InputPemesananPoComponent implements OnInit {
                                 {
                                     field: 'harga_beli_terakhir', width: 250, headerName: 'HARGA BELI TERAKHIR', sortable: true, resizable: true,
                                     cellClass: 'text-end',
-                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }
                                 },
                                 { field: 'nama_supplier', width: 250, headerName: 'SUPPLIER', sortable: true, resizable: true },
                                 {

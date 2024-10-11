@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
@@ -23,6 +24,8 @@ import { environment } from 'src/environments/environment';
 })
 export class InputSettingHargaComponent implements OnInit {
 
+    UserData: any = this._authenticationService.userData;
+
     DashboardProps: DashboardModel.IDashboard;
 
     FormInputHeader: CustomFormModel.IForm;
@@ -41,6 +44,7 @@ export class InputSettingHargaComponent implements OnInit {
         private _router: Router,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
+        private _authenticationService: AuthenticationService,
     ) {
         this.DashboardProps = {
             title: 'Input Setting Harga',
@@ -59,7 +63,7 @@ export class InputSettingHargaComponent implements OnInit {
                     id: 'tanggal_mulai_berlaku',
                     label: 'Tgl. Mulai Berlaku',
                     status: 'insert',
-                    type: 'date',
+                    type: 'datetime',
                     required: true,
                 },
                 {
@@ -69,6 +73,7 @@ export class InputSettingHargaComponent implements OnInit {
                     type: 'select',
                     select_props: [],
                     required: true,
+                    hidden: true,
                 },
             ],
             custom_class: 'grid-rows-1 grid-cols-2',
@@ -91,9 +96,14 @@ export class InputSettingHargaComponent implements OnInit {
                             id: 'lookupBarang',
                             title: 'Data Barang',
                             columns: [
-                                { field: 'kode_barang', width: 275, headerName: 'KODE BARANG', sortable: true, resizable: true },
-                                { field: 'nama_barang', width: 275, headerName: 'NAMA BARANG', sortable: true, resizable: true },
-                                { field: 'barcode', width: 275, headerName: 'BARCODE', sortable: true, resizable: true },
+                                { field: 'kode_barang', flex: 200, headerName: 'KODE BARANG', sortable: true, resizable: true },
+                                { field: 'nama_barang', flex: 200, headerName: 'NAMA BARANG', sortable: true, resizable: true },
+                                { field: 'barcode', flex: 200, headerName: 'BARCODE', sortable: true, resizable: true },
+                                {
+                                    field: 'harga_jual', flex: 200, headerName: 'HARGA JUAL', sortable: true, resizable: true,
+                                    cellClass: 'text-end',
+                                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }
+                                },
                             ],
                             filter: [
                                 { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
@@ -104,7 +114,7 @@ export class InputSettingHargaComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/barang/by_param`
                         },
-                        lookup_set_value_field: ['barcode', 'nama_barang'],
+                        lookup_set_value_field: ['barcode', 'nama_barang', 'harga_jual'],
                         required: true,
                     },
                     {
@@ -248,7 +258,9 @@ export class InputSettingHargaComponent implements OnInit {
                 break;
             case 'delete':
                 const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.id_barang == this.GridSelectedData.id_barang });
-                this.GridProps.dataSource.splice(selectedIndex, 1);
+                let copyDatasource = JSON.parse(JSON.stringify(this.GridProps.dataSource));
+                copyDatasource.splice(selectedIndex, 1);
+                this.GridProps.dataSource = copyDatasource;
                 break;
             default:
                 break;
@@ -263,6 +275,8 @@ export class InputSettingHargaComponent implements OnInit {
 
     handleSubmitForm(): void {
         const data = this.CustomForm.handleSubmitForm();
+
+        data.id_lokasi = this.UserData.lokasi.id_lokasi
         data.detail = this.GridProps.dataSource;
 
         this._store.dispatch(new SettingHargaAction.Save(data))
