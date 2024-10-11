@@ -28,7 +28,8 @@
             Pilih Potongan Hutang
         </p>
 
-        <app-grid [props]="GridPotonganPembelianProps" (cellClicked)="onCellClicked($event)">
+        <app-grid [props]="GridPotonganPembelianProps" (cellClicked)="onCellClicked($event)"
+            (cellFinishEdited)="countFooter()">
         </app-grid>
     </div>
 

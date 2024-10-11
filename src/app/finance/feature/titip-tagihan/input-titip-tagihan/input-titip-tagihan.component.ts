@@ -349,8 +349,13 @@ export class InputTitipTagihanComponent implements OnInit {
         this.countFooter();
     }
 
-    private countFooter() {
+    countFooter() {
         let totalFaktur = 0, totalRetur = 0, totalPotongan = 0, totalBayar = 0;
+
+        this.CustomFormFooter.CustomForms.get('total_titip_tagihan')?.setValue(totalFaktur);
+        this.CustomFormFooter.CustomForms.get('total_retur')?.setValue(totalRetur);
+        this.CustomFormFooter.CustomForms.get('total_potongan')?.setValue(totalPotongan);
+        this.CustomFormFooter.CustomForms.get('total_bayar')?.setValue(totalBayar);
 
         this.GridProps.dataSource.forEach((item: any) => {
             if (item.choosen) {
@@ -377,9 +382,9 @@ export class InputTitipTagihanComponent implements OnInit {
         });
 
         setTimeout(() => {
-            totalBayar = totalFaktur + totalRetur - totalPotongan;
+            totalBayar = totalFaktur - totalRetur - totalPotongan;
             this.CustomFormFooter.CustomForms.get('total_bayar')?.setValue(totalBayar);
-        }, 1000);
+        }, 500);
     }
 
     handleSubmitForm(): void {
