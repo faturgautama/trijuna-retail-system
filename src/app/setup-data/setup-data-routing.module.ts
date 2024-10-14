@@ -19,6 +19,7 @@ import { InputSettingHargaComponent } from "./feature/setting-harga/input-settin
 import { DetailSettingHargaComponent } from "./feature/setting-harga/detail-setting-harga/detail-setting-harga.component";
 import { SetupUserComponent } from "./feature/management-user/setup-user/setup-user.component";
 import { PrintSetupBarangComponent } from "./feature/setup-barang/print-setup-barang/print-setup-barang.component";
+import { SetupGroupUserComponent } from "./feature/management-user/setup-group-user/setup-group-user.component";
 
 const routes: Routes = [
     {
@@ -76,8 +77,8 @@ const routes: Routes = [
     {
         path: 'management-user', children: [
             {
-                path: 'setup-user-group',
-                component: SetupUserComponent
+                path: 'setup-group-user',
+                component: SetupGroupUserComponent
             },
             {
                 path: 'setup-user',

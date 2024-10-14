@@ -6,10 +6,7 @@ import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dial
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { SetupGroupModel } from 'src/app/@shared/models/setup-data/setup-group.model';
-import { SetupMerkModel } from 'src/app/@shared/models/setup-data/setup-merk.model';
 import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
-import { SetupMerkAction } from 'src/app/@shared/state/setup-data/setup-merk';
 
 @Component({
     selector: 'app-setup-group',

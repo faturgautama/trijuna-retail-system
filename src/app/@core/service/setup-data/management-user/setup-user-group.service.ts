@@ -1,31 +1,34 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { HttpRequestService } from '../../http-request/http-request.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SetupUserGroupService {
 
-    // constructor(
-    //     private _httpRequestService: HttpRequestService,
-    // ) { }
+    constructor(
+        private _httpRequestService: HttpRequestService,
+    ) { }
 
-    // getAllDivisi(): Observable<any> {
-    //     return this._httpRequestService.getRequest(`${environment.endpoint}/divisi/all`);
-    // }
+    getAll(): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/user_group/all`);
+    }
 
-    // getById(id_divisi: number): Observable<any> {
-    //     return this._httpRequestService.getRequest(`${environment.endpoint}/divisi/${id_divisi}`);
-    // }
+    getById(id_user_group: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/user_group/${id_user_group}`);
+    }
 
-    // saveDivisi(payload: SetupDivisiModel.SaveSetupDivisi): Observable<any> {
-    //     return this._httpRequestService.postRequest(`${environment.endpoint}/divisi`, payload);
-    // }
+    save(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/user_group`, payload);
+    }
 
-    // updateDivisi(payload: SetupDivisiModel.UpdateSetupDivisi): Observable<any> {
-    //     return this._httpRequestService.putRequest(`${environment.endpoint}/divisi/${payload.id_divisi}`, payload);
-    // }
+    update(payload: any): Observable<any> {
+        return this._httpRequestService.putRequest(`${environment.endpoint}/user_group/${payload.id_user_group}`, payload);
+    }
 
-    // deleteDivisi(id_divisi: number): Observable<any> {
-    //     return this._httpRequestService.deleteRequest(`${environment.endpoint}/divisi/${id_divisi}`);
-    // }
+    delete(id_user_group: number): Observable<any> {
+        return this._httpRequestService.deleteRequest(`${environment.endpoint}/user_group/${id_user_group}`);
+    }
 }
