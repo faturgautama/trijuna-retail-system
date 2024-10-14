@@ -81,7 +81,7 @@
         <app-print-out-grid [props]="GridProps"></app-print-out-grid>
     </div>
 
-    <div *ngIf="Data.detail.retur.length" class="grid gap-0 mb-3">
+    <div *ngIf="Data.retur.length" class="grid gap-0 mb-3">
         <p class="text-sm text-gray-700 font-medium mb-2">
             Retur Pembelian
         </p>
@@ -89,7 +89,7 @@
         <app-print-out-grid [props]="GridReturProps"></app-print-out-grid>
     </div>
 
-    <div *ngIf="Data.detail.potongan.length" class="grid gap-0 mb-3">
+    <div *ngIf="Data.potongan.length" class="grid gap-0 mb-3">
         <p class="text-sm text-gray-700 font-medium mb-2">
             Potongan Hutang
         </p>
@@ -140,7 +140,7 @@
     </div>
 
     <!-- Jumlah -->
-    <div class="flex flex-row w-full mb-3">
+    <div class="flex flex-row w-full mb-8">
         <div class="w-10/12">
             <p class="text-xs text-gray-700 text-end">
                 Total Bayar
