@@ -63,7 +63,7 @@ export class HttpRequestService {
 
         for (const item in payload) {
             if (item.includes('tanggal') || item.includes('tgl') || item.includes('tangal')) {
-                if (item == 'tanggal_mulai_berlaku') {
+                if (item == 'tanggal_mulai_berlaku' || item == 'tanggal_faktur_pajak') {
                     payload[item] = this._utilityService.FormatDate(payload[item], 'yyyy-MM-DD HH:mm:ss')
                 } else {
                     payload[item] = this._utilityService.FormatDate(payload[item], 'yyyy-MM-DD')

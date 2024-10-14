@@ -188,7 +188,7 @@ export class InputFakturPajakPembelianComponent implements OnInit {
                     id: 'tanggal_faktur_pajak',
                     label: 'Tgl. Faktur Pajak',
                     status: 'insert',
-                    type: 'date',
+                    type: 'datetime',
                     required: true,
                 },
                 {
@@ -238,7 +238,7 @@ export class InputFakturPajakPembelianComponent implements OnInit {
                 "dasar_pengenaan_pajak": formValue.dasar_pengenaan_pajak,
                 "ppn": formValue.ppn,
                 "no_seri": formValue.no_seri,
-                "tanggal_faktur_pajak": formatDate(formValue.tanggal_faktur_pajak, 'yyyy-MM-dd', 'EN'),
+                "tanggal_faktur_pajak": this._utilityService.FormatDate(formValue.tanggal_faktur_pajak, 'yyyy-MM-DD HH:mm:ss'),
                 "nama_ttd_faktur": formValue.nama_ttd_faktur,
                 "keterangan": formValue.keterangan
             };
