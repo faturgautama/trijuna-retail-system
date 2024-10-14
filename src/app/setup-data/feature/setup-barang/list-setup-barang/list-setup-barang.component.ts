@@ -181,9 +181,9 @@ export class ListSetupBarangComponent implements OnInit {
     ngOnInit(): void {
         this.getAllDivisi();
         this.getAllGroup();
-        // this.handleSearchOffcanvas([]);
+        this.handleSearchOffcanvas([]);
 
-        this.handleGetAllWithoutFilter();
+        // this.handleGetAllWithoutFilter();
     }
 
     private getAllDivisi() {
@@ -242,7 +242,6 @@ export class ListSetupBarangComponent implements OnInit {
     }
 
     handleRowDoubleClicked(args: any): void {
-        console.log("args =>", args);
         this._router.navigate(['setup-data/setup-inventory/setup-barang/detail/', args.id_barang])
     }
 

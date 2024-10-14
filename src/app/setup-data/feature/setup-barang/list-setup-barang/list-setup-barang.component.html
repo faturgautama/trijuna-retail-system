@@ -1,8 +1,8 @@
 <app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
-    <!-- <div class="flex mb-3">
+    <div class="flex mb-3">
         <app-offcanvas-filter [props]="OffcanvasFilterProps" (onSearch)="handleSearchOffcanvas($event)">
         </app-offcanvas-filter>
-    </div> -->
+    </div>
     <div class="grid">
         <app-grid [props]="GridProps" (cellClicked)="handleCellClicked($event)"
             (rowDoubleClicked)="handleRowDoubleClicked($event)">
