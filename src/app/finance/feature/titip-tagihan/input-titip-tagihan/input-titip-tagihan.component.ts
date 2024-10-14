@@ -395,29 +395,35 @@ export class InputTitipTagihanComponent implements OnInit {
         header.detail_retur = this.GridReturProps.dataSource.filter(item => item.choosen);
         header.detail_potongan = this.GridPotonganPembelianProps.dataSource.filter(item => item.total_potongan > 1);
 
-        const footer = this.CustomFormFooter.handleSubmitForm();
-        const payload = this._utilityService.JoinTwoObject(header, footer);
+        const footer = this.CustomFormFooter.CustomForms.value;
+        let payload = this._utilityService.JoinTwoObject(header, footer);
+        payload.total_bayar = payload.total_titip_tagihan - payload.total_retur - payload.total_potongan;
 
-        this._confirmationService.confirm({
-            target: (<any>event).target as EventTarget,
-            message: 'Apakah Anda Ingin Mencetak Juga? ',
-            header: 'Data Akan Disimpan',
-            icon: 'pi pi-question-circle',
-            acceptButtonStyleClass: "p-button-info p-button-sm",
-            rejectButtonStyleClass: "p-button-secondary p-button-sm",
-            acceptIcon: "none",
-            acceptLabel: 'Iya, Cetak Juga',
-            rejectIcon: "none",
-            rejectLabel: 'Tidak, Simpan Saja',
-            accept: () => {
-                this.onSaveWithConditionPrint(true, payload)
-            },
-            reject: (args: any) => {
-                if (args == 1) {
-                    this.onSaveWithConditionPrint(false, payload)
-                }
-            },
-        });
+        if (payload.detail_faktur.length) {
+            this._confirmationService.confirm({
+                target: (<any>event).target as EventTarget,
+                message: 'Apakah Anda Ingin Mencetak Juga? ',
+                header: 'Data Akan Disimpan',
+                icon: 'pi pi-question-circle',
+                acceptButtonStyleClass: "p-button-info p-button-sm",
+                rejectButtonStyleClass: "p-button-secondary p-button-sm",
+                acceptIcon: "none",
+                acceptLabel: 'Iya, Cetak Juga',
+                rejectIcon: "none",
+                rejectLabel: 'Tidak, Simpan Saja',
+                accept: () => {
+                    this.onSaveWithConditionPrint(true, payload)
+                },
+                reject: (args: any) => {
+                    if (args == 1) {
+                        this.onSaveWithConditionPrint(false, payload)
+                    }
+                },
+            });
+        } else {
+            this._messageService.clear();
+            this._messageService.add({ severity: 'error', summary: 'Oops', detail: 'Tidak Ada Faktur Pembelian Yg Dipilih!' });
+        }
     }
 
     private onSaveWithConditionPrint(print: boolean, payload: any) {
