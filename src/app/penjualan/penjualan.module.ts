@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ComponentsModule } from '../@shared/components/components.module';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { PenjualanRoutingModule } from './penjualan-routing.module';
 import { InputRefundPenjualanComponent } from './feature/refund-penjualan/input-refund-penjualan/input-refund-penjualan.component';
 import { HistoryRefundPenjualanComponent } from './feature/refund-penjualan/history-refund-penjualan/history-refund-penjualan.component';
@@ -53,7 +53,8 @@ import { PrintCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/p
         ButtonModule,
     ],
     providers: [
-        MessageService
+        MessageService,
+        ConfirmationService
     ]
 })
 export class PenjualanModule { }
