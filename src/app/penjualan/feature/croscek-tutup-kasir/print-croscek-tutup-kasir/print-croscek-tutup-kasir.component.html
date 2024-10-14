@@ -4,131 +4,143 @@
             {{ UserData.lokasi.nama_lokasi }}
         </p>
 
-        <p class="text-lg font-semibold mb-5">
+        <p class="text-base mb-5">
             {{ UserData.lokasi.alamat | titlecase }}
         </p>
 
-        <!-- Nomor Retur -->
+        <p class="text-sm text-center mb-5">
+            Report Croscek Tutup Kasir
+        </p>
+
+        <!-- Waktu Tutup Kasir -->
         <div class="flex w-full gap-2">
             <div class="w-3/12">
                 <p class="text-xs text-gray-700">
-                    Nomor Retur
+                    Waktu Tutup Kasir
                 </p>
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.nomor_retur_pembelian }}
+                    : {{ Data.tanggal_tutup_kasir }}
                 </p>
             </div>
         </div>
 
-        <!-- Tanggal -->
+        <!-- Waktu Tutup Kasir -->
         <div class="flex w-full gap-2">
             <div class="w-3/12">
                 <p class="text-xs text-gray-700">
-                    Tanggal
+                    Waktu Croscek Tutup Kasir
                 </p>
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.tanggal_retur_pembelian }}
+                    : {{ Data.tanggal_kroscek_tutup_kasir }}
                 </p>
             </div>
         </div>
 
-        <!-- Nama Supplier -->
+        <!-- Nama Kasir -->
         <div class="flex w-full gap-2">
             <div class="w-3/12">
                 <p class="text-xs text-gray-700">
-                    Nama Supplier
+                    Nama Kasir
                 </p>
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.nama_supplier }}
+                    : {{ Data.kasir }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Ket. Tutup Kasir -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Ket. Tutup Kasir
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.keterangan_tutup_kasir }}
                 </p>
             </div>
         </div>
 
         <!--  Alamat Supplier -->
-        <div class="flex w-full gap-2">
-            <div class="w-3/12">
-                <p class="text-xs text-gray-700">
-                    Alamat Supplier
-                </p>
-            </div>
-            <div class="w-9/12">
-                <p class="text-xs text-gray-700">
-                    : {{ Data.alamat }}
-                </p>
-            </div>
-        </div>
-
-        <!--  Telepon Supplier -->
         <div class="flex w-full gap-2 mb-3">
             <div class="w-3/12">
                 <p class="text-xs text-gray-700">
-                    Telepon Supplier
+                    Ket. Croscek
                 </p>
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.no_handphone }}
+                    : {{ Data.keterangan_kroscek }}
+                </p>
+            </div>
+        </div>
+
+        <!--  Pendapatan V. Sistem -->
+        <div class="flex w-full gap-2 pt-3 mt-3 border-t border-dashed border-b-0 border-x-0 border-gray-800">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Pendapatan Versi Sistem
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatNumber(Data.pendapatan_versi_system, 'Rp. ') }}
+                </p>
+            </div>
+        </div>
+
+        <!--  Pendapatan V. Sistem -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Pendapatan Versi Kasir
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatNumber(Data.pendapatan_versi_user, 'Rp. ') }}
+                </p>
+            </div>
+        </div>
+
+        <!--  Selisih -->
+        <div class="flex w-full gap-2 mb-4">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Selisih
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ _utilityService.FormatNumber(Data.selisih, 'Rp. ') }}
                 </p>
             </div>
         </div>
     </div>
 
-    <div class="grid mb-1">
+    <div class="grid mb-5">
         <app-print-out-grid [props]="GridProps"></app-print-out-grid>
-    </div>
-
-    <!-- Total -->
-    <div class="flex flex-row w-full px-3 pb-2 mb-2 border-b border-t-0 border-x-0 border-solid border-gray-700">
-        <div class="w-5/12">
-            <p class="text-xs text-gray-700 text-end">
-                Total
-            </p>
-        </div>
-        <div class="w-2/12">
-            <p class="text-xs text-gray-700 text-end mr-[-6px]">
-                {{ _utilityService.FormatNumber(Data.qty, '') }}
-            </p>
-        </div>
-        <div class="w-3/12">
-            <p class="text-xs text-gray-700 text-end pr-8">
-                {{ _utilityService.FormatNumber(Data.total_harga_satuan, 'Rp. ') }}
-            </p>
-        </div>
     </div>
 
     <!-- Footer -->
     <div class="flex flex-row justify-center w-full px-3">
-        <div class="w-8/12 flex flex-col justify-center items-center pr-3">
+        <div class="w-8/12 flex flex-col justify-end items-end pr-3">
             <div class="flex flex-row gap-10">
-                <div class="flex flex-col items-center justify-center gap-20">
+                <div class="flex flex-col items-center justify-center gap-0">
                     <p class="text-xs text-gray-700">
-                        Dibukukan
+                        {{ UserData.lokasi.nama_lokasi }},
+                        {{ _utilityService.FormatDate(Data.created_at, 'DD MMMM yy') }}
                     </p>
 
-                    <p class="text-xs text-gray-700">
-                        (_________________)
-                    </p>
-                </div>
-
-                <div class="flex flex-col items-center justify-center gap-20">
-                    <p class="text-xs text-gray-700">
-                        Dikeluarkan Oleh
-                    </p>
-
-                    <p class="text-xs text-gray-700">
-                        (_________________)
-                    </p>
-                </div>
-
-                <div class="flex flex-col items-center justify-center gap-20">
-                    <p class="text-xs text-gray-700">
-                        Diketahui Oleh
+                    <p class="text-xs text-gray-700 mb-20">
+                        Mengetahui
                     </p>
 
                     <p class="text-xs text-gray-700">

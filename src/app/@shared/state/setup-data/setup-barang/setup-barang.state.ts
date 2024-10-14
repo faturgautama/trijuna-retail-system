@@ -42,6 +42,21 @@ export class SetupBarangState {
             )
     }
 
+    @Action(SetupBarangAction.GetAllBarangWithoutFilter)
+    getBarangWithoutFilter(ctx: StateContext<SetupBarangStateModel>) {
+        return this._setupBarangService.getAllBarangWithoutFilter()
+            .pipe(
+                tap((result) => {
+                    const state = ctx.getState();
+
+                    return ctx.setState({
+                        ...state,
+                        entities: result
+                    })
+                })
+            )
+    }
+
     @Action(SetupBarangAction.GetByIdBarang)
     getByIdBarang(ctx: StateContext<SetupBarangStateModel>, action: any) {
         return this._setupBarangService.getByIdBarang(action.payload)

@@ -21,6 +21,8 @@ export class GridComponent {
 
     @Output('cellFinishEdited') cellFinishEdited = new EventEmitter<any>();
 
+    @Output('paginationChanged') paginationChanged = new EventEmitter<any>();
+
     defaultColDef: ColDef = {
         sortable: true,
         filter: true,
@@ -125,5 +127,9 @@ export class GridComponent {
         this.gridApi.setRowData(dataSources);
 
         this.cellFinishEdited.emit(dataSources);
+    }
+
+    onPaginationChanged(args: any): void {
+        this.paginationChanged.emit(this.gridApi.paginationGetCurrentPage());
     }
 }

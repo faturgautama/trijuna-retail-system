@@ -7,6 +7,10 @@ export namespace SetupBarangAction {
         constructor(public payload: FilterModel.IDynamicFilter[]) { }
     }
 
+    export class GetAllBarangWithoutFilter {
+        static readonly type = '[SETUP BARANG] Get All Without Filter';
+    }
+
     export class GetByIdBarang {
         static readonly type = '[SETUP BARANG] Get By Id';
         constructor(public payload: number) { }

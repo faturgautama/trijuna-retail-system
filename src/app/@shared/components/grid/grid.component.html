@@ -10,6 +10,7 @@
         [headerHeight]="40" [defaultColDef]="defaultColDef" [rowData]="props.dataSource" [rowSelection]="'single'"
         [frameworkComponents]="frameworkComponents" [animateRows]="true" [pagination]="props.showPaging"
         (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)"
-        (rowDoubleClicked)="onRowDoubleClicked($event)" (cellEditingStopped)="onCellFinishEditing($event)">
+        (rowDoubleClicked)="onRowDoubleClicked($event)" (cellEditingStopped)="onCellFinishEditing($event)"
+        (paginationChanged)="onPaginationChanged($event)">
     </ag-grid-angular>
 </div>

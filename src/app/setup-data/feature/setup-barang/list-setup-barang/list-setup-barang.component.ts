@@ -125,7 +125,7 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'updated_at', headerName: 'WAKTU UPDATE', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "calc(100vh - 20rem)",
+            height: "calc(100vh - 18rem)",
             showPaging: true,
         };
 
@@ -181,7 +181,9 @@ export class ListSetupBarangComponent implements OnInit {
     ngOnInit(): void {
         this.getAllDivisi();
         this.getAllGroup();
-        this.handleSearchOffcanvas([]);
+        // this.handleSearchOffcanvas([]);
+
+        this.handleGetAllWithoutFilter();
     }
 
     private getAllDivisi() {
@@ -254,6 +256,16 @@ export class ListSetupBarangComponent implements OnInit {
 
         this._store
             .dispatch(new SetupBarangAction.GetAllBarang(args))
+            .subscribe((result) => {
+                if (result.setup_barang.entities.success) {
+                    this.GridProps.dataSource = result.setup_barang.entities.data;
+                }
+            })
+    }
+
+    handleGetAllWithoutFilter(): void {
+        this._store
+            .dispatch(new SetupBarangAction.GetAllBarangWithoutFilter())
             .subscribe((result) => {
                 if (result.setup_barang.entities.success) {
                     this.GridProps.dataSource = result.setup_barang.entities.data;

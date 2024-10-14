@@ -36,12 +36,10 @@ export class PrintCroscekTutupKasirComponent implements OnInit {
         this.GridProps = {
             id: 'print-out-croscek-tutup-kasir',
             column: [
-                { field: 'urut', headerName: 'No.', },
-                { field: 'kode_barang', headerName: 'Kode Barang', },
-                { field: 'nama_barang', headerName: 'Nama Barang', },
-                { field: 'qty', headerName: 'Qty', class: 'text-end', format: 'number' },
-                { field: 'harga_satuan', headerName: 'Jumlah', class: 'text-end', format: 'currency' },
-                { field: 'sub_total', headerName: 'Total', class: 'text-end', format: 'currency' },
+                { field: 'nama_payment_method', headerName: 'Metode Bayar', },
+                { field: 'nominal', headerName: 'Jumlah Diterima', format: 'currency' },
+                { field: 'nominal_sistem', headerName: 'Jumlah Diterima Versi Sistem', format: 'currency' },
+                { field: 'selisih', headerName: 'Selisih', format: 'currency' },
             ],
             dataSource: [],
             height: "100%",
@@ -59,7 +57,11 @@ export class PrintCroscekTutupKasirComponent implements OnInit {
             .getById(id)
             .subscribe((result) => {
                 this.Data = result.data;
-                this.GridProps.dataSource = result.data.detail;
+                this.GridProps.dataSource = result.data.detail_pendapatan;
+
+                setTimeout(() => {
+                    window.print();
+                }, 1500);
             })
     }
 
