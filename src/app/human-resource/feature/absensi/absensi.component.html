@@ -1,1 +1,27 @@
-<p>absensi works!</p>
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex items-center gap-4 mb-3">
+        <p class="text-sm text-gray-700">
+            Pencarian
+        </p>
+
+        <div class="w-2/12">
+            <p-calendar styleClass="p-inputtext-sm w-full" dateFormat="yy-mm-dd" [(ngModel)]="StartDate"
+                placeholder="Tanggal Mulai">
+            </p-calendar>
+        </div>
+
+        <div class="w-2/12">
+            <p-calendar styleClass="p-inputtext-sm w-full" dateFormat="yy-mm-dd" [(ngModel)]="EndDate"
+                placeholder="Tanggal Selesai">
+            </p-calendar>
+        </div>
+
+        <p-button styleClass="p-button-sm p-button-info" (onClick)="getAll(StartDate, EndDate)">Cari</p-button>
+    </div>
+
+    <div class="grid">
+        <app-grid [props]="GridProps"></app-grid>
+    </div>
+
+    <app-form-dialog #FormDialog [props]="FormDialogProps" (onSubmitForm)="handleSubmitForm($event)"></app-form-dialog>
+</app-dashboard>

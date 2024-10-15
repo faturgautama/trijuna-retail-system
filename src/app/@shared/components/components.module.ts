@@ -109,7 +109,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
         DialogModule,
         DropdownModule,
         ButtonModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        CalendarModule,
     ],
     providers: []
 })

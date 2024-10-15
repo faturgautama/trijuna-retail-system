@@ -16,8 +16,8 @@ export class SetupKaryawanService {
         return this._httpRequestService.getRequest(`${environment.endpoint}/hr_karyawan`);
     }
 
-    getById(id_hr_karyawan: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/hr_karyawan/${id_hr_karyawan}`);
+    getById(id_karyawan: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/hr_karyawan/${id_karyawan}`);
     }
 
     save(payload: any): Observable<any> {
@@ -25,10 +25,10 @@ export class SetupKaryawanService {
     }
 
     update(payload: any): Observable<any> {
-        return this._httpRequestService.putRequest(`${environment.endpoint}/hr_karyawan/${payload.id_hr_karyawan}`, payload);
+        return this._httpRequestService.putRequest(`${environment.endpoint}/hr_karyawan/${payload.id_karyawan}`, payload);
     }
 
-    delete(id_hr_karyawan: number): Observable<any> {
-        return this._httpRequestService.deleteRequest(`${environment.endpoint}/hr_karyawan/${id_hr_karyawan}`);
+    delete(id_karyawan: number): Observable<any> {
+        return this._httpRequestService.deleteRequest(`${environment.endpoint}/hr_karyawan/${id_karyawan}`);
     }
 }
