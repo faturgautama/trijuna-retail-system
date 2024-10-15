@@ -16,8 +16,8 @@ export class SetupDepartemenService {
         return this._httpRequestService.getRequest(`${environment.endpoint}/hr_departemen`);
     }
 
-    getById(id_hr_departemen: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/hr_departemen/${id_hr_departemen}`);
+    getById(id_divisi: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/hr_departemen/${id_divisi}`);
     }
 
     save(payload: any): Observable<any> {
@@ -25,10 +25,10 @@ export class SetupDepartemenService {
     }
 
     update(payload: any): Observable<any> {
-        return this._httpRequestService.putRequest(`${environment.endpoint}/hr_departemen/${payload.id_hr_departemen}`, payload);
+        return this._httpRequestService.putRequest(`${environment.endpoint}/hr_departemen/${payload.id_divisi}`, payload);
     }
 
-    delete(id_hr_departemen: number): Observable<any> {
-        return this._httpRequestService.deleteRequest(`${environment.endpoint}/hr_departemen/${id_hr_departemen}`);
+    delete(id_divisi: number): Observable<any> {
+        return this._httpRequestService.deleteRequest(`${environment.endpoint}/hr_departemen/${id_divisi}`);
     }
 }
