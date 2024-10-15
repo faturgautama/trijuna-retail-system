@@ -23,6 +23,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { PrintCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/print-croscek-tutup-kasir/print-croscek-tutup-kasir.component';
+import { SettingPromoDiskonComponent } from './feature/setting-promo/setting-promo-diskon/setting-promo-diskon.component';
+import { SettingPromoHadiahComponent } from './feature/setting-promo/setting-promo-hadiah/setting-promo-hadiah.component';
+import { SettingPromoBarangComponent } from './feature/setting-promo/setting-promo-barang/setting-promo-barang.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +43,10 @@ import { PrintCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/p
         HistoryPenjualanComponent,
         DetailPenjualanComponent,
         SellOutComponent,
-        PrintCroscekTutupKasirComponent
+        PrintCroscekTutupKasirComponent,
+        SettingPromoDiskonComponent,
+        SettingPromoHadiahComponent,
+        SettingPromoBarangComponent
     ],
     imports: [
         CommonModule,

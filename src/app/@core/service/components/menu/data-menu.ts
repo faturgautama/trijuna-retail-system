@@ -512,6 +512,28 @@ export const menu: MenuItem[] = [
         ]
     },
     {
+        id: 'human-resource',
+        icon: 'pi pi-users',
+        label: 'HR',
+        items: [
+            {
+                id: 'setup-departemen',
+                label: 'Setup Departemen',
+                routerLink: '/human-resource/setup-departemen'
+            },
+            {
+                id: 'setup-karyawan',
+                label: 'Setup Karyawan',
+                routerLink: '/human-resource/setup-karyawan'
+            },
+            {
+                id: 'absensi',
+                label: 'Absensi',
+                routerLink: '/human-resource/absensi'
+            },
+        ]
+    },
+    {
         id: 'laporan',
         icon: 'pi pi-book',
         label: 'Laporan',

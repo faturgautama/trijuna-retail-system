@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: async () => (await import('./finance/finance.module')).FinanceModule
     },
     {
+        path: 'human-resource',
+        loadChildren: async () => (await import('./human-resource/human-resource.module')).HumanResourceModule
+    },
+    {
         path: 'laporan',
         loadChildren: async () => (await import('./laporan/laporan.module')).LaporanModule
     },

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
-import { SetupUserGroupService } from 'src/app/@core/service/setup-data/management-user/setup-user-group.service';
+import { SetupDepartemenService } from 'src/app/@core/service/human-resource/setup-departemen/setup-departemen.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
@@ -9,11 +9,11 @@ import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 
 @Component({
-    selector: 'app-setup-group-user',
-    templateUrl: './setup-group-user.component.html',
-    styleUrls: ['./setup-group-user.component.scss']
+    selector: 'app-setup-departemen',
+    templateUrl: './setup-departemen.component.html',
+    styleUrls: ['./setup-departemen.component.scss']
 })
-export class SetupGroupUserComponent implements OnInit {
+export class SetupDepartemenComponent implements OnInit {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -26,10 +26,10 @@ export class SetupGroupUserComponent implements OnInit {
         private _store: Store,
         private _utilityService: UtilityService,
         private _messageService: MessageService,
-        private _setupUserGroupService: SetupUserGroupService,
+        private _setupDepartemenService: SetupDepartemenService,
     ) {
         this.DashboardProps = {
-            title: 'Data User Group',
+            title: 'Data Departemen',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],
@@ -37,9 +37,9 @@ export class SetupGroupUserComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'group_name', headerName: 'GROUP', flex: 1250, sortable: true, resizable: true },
+                { field: 'kode_divisi', headerName: 'KODE', flex: 750, sortable: true, resizable: true },
+                { field: 'divisi', headerName: 'DEPARTEMEN', flex: 750, sortable: true, resizable: true },
                 { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'is_active', headerName: 'IS ACTIVE', flex: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
             ],
             dataSource: [],
             height: "calc(100vh - 11rem)",
@@ -47,28 +47,37 @@ export class SetupGroupUserComponent implements OnInit {
         };
 
         this.FormDialogProps = {
-            title: 'Setup User Group',
+            title: 'Setup Departemen',
             type: 'add',
             form_props: {
                 id: 'form_setup_user_group',
                 is_inline: true,
                 fields: [
                     {
-                        id: 'id_group',
-                        label: 'Id Group',
+                        id: 'id_divisi',
+                        label: 'Id Divisi',
                         status: 'insert',
                         type: 'string',
                         hidden: true,
                         required: true,
                     },
                     {
-                        id: 'group_name',
-                        label: 'User Group',
+                        id: 'kode_divisi',
+                        label: 'Kode Departemen',
+                        status: 'insert',
+                        type: 'string',
+                        hidden: true,
+                        required: true,
+                        validator: 'Kode Departemen Tidak Boleh Kosong',
+                    },
+                    {
+                        id: 'divisi',
+                        label: 'Departemen',
                         status: 'insert',
                         type: 'string',
                         hidden: false,
                         required: true,
-                        validator: 'User Group Tidak Boleh Kosong',
+                        validator: 'Departemen Tidak Boleh Kosong',
                     },
                 ],
                 custom_class: 'grid-rows-1'
@@ -83,6 +92,8 @@ export class SetupGroupUserComponent implements OnInit {
     handleClickButtonNav(args: string): void {
         switch (args) {
             case 'add':
+                this.FormDialogProps.form_props.fields[1].hidden = true;
+                this.FormDialogProps.form_props.custom_class = 'grid-rows-1';
                 this.FormDialogProps.type = 'add';
                 this.FormDialog.onOpenFormDialog();
                 break;
@@ -93,17 +104,19 @@ export class SetupGroupUserComponent implements OnInit {
 
     onRowDoubleClicked(args: any): void {
         this.FormDialogProps.form_props.default_value = {
-            id_group: args.id_group,
-            group_name: args.group_name,
+            id_divisi: args.id_divisi,
+            kode_divisi: args.kode_divisi,
+            divisi: args.divisi,
         };
 
+        this.FormDialogProps.form_props.fields[1].hidden = false;
+        this.FormDialogProps.form_props.custom_class = 'grid-rows-2';
         this.FormDialogProps.type = 'edit';
-
         this.FormDialog.onOpenFormDialog();
     }
 
     getAllGroup(): void {
-        this._setupUserGroupService
+        this._setupDepartemenService
             .getAll()
             .subscribe((result) => {
                 if (result.success) {
@@ -115,10 +128,10 @@ export class SetupGroupUserComponent implements OnInit {
     handleSubmitForm(data: any): void {
         if (this.FormDialogProps.type == 'add') {
             const payload: any = {
-                group_name: data.group_name,
+                divisi: data.divisi,
             };
 
-            this._setupUserGroupService
+            this._setupDepartemenService
                 .save(payload)
                 .subscribe((result) => {
                     if (result.success) {
@@ -129,7 +142,7 @@ export class SetupGroupUserComponent implements OnInit {
                     }
                 })
         } else {
-            this._setupUserGroupService
+            this._setupDepartemenService
                 .update(data)
                 .subscribe((result) => {
                     if (result.success) {
@@ -141,5 +154,4 @@ export class SetupGroupUserComponent implements OnInit {
                 })
         }
     }
-
 }

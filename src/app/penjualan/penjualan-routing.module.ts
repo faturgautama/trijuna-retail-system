@@ -15,6 +15,9 @@ import { HistoryPenjualanComponent } from './feature/penjualan/history-penjualan
 import { DetailPenjualanComponent } from './feature/penjualan/detail-penjualan/detail-penjualan.component';
 import { SellOutComponent } from './feature/sell-out/sell-out.component';
 import { PrintCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/print-croscek-tutup-kasir/print-croscek-tutup-kasir.component';
+import { SettingPromoDiskonComponent } from './feature/setting-promo/setting-promo-diskon/setting-promo-diskon.component';
+import { SettingPromoHadiahComponent } from './feature/setting-promo/setting-promo-hadiah/setting-promo-hadiah.component';
+import { SettingPromoBarangComponent } from './feature/setting-promo/setting-promo-barang/setting-promo-barang.component';
 
 const routes: Routes = [
     {
@@ -50,6 +53,14 @@ const routes: Routes = [
             { path: 'history', component: HistoryPenjualanComponent },
             { path: 'detail/:id', component: DetailPenjualanComponent },
             { path: 'sell-out-item', component: SellOutComponent },
+        ]
+    },
+    {
+        path: 'setting-promo',
+        children: [
+            { path: 'setting-diskon', component: SettingPromoDiskonComponent },
+            { path: 'setting-hadiah', component: SettingPromoHadiahComponent },
+            { path: 'setting-barang', component: SettingPromoBarangComponent },
         ]
     }
 ]
