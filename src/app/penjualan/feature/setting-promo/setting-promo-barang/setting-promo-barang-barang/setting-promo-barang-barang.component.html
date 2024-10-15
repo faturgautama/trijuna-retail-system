@@ -1,1 +1,4 @@
-<p>setting-promo-barang-barang works!</p>
+<app-grid [props]="GridProps" (cellClicked)="handleCellClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
+</app-grid>
+
+<app-form-dialog #FormDialog [props]="FormDialogProps" (onSubmitForm)="handleSubmitForm($event)"></app-form-dialog>
