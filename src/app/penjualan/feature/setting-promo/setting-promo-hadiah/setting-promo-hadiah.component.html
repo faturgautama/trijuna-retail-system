@@ -1,1 +1,36 @@
-<p>setting-promo-hadiah works!</p>
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="grid mb-3 pb-3 border-b border-t-0 border-x-0 border-dashed border-gray-400">
+        <app-grid [props]="GridProps" (rowDoubleClicked)="onRowDoubleClicked($event)"
+            (cellClicked)="onCellClicked($event)">
+        </app-grid>
+    </div>
+
+    <div class="grid">
+        <p class="text-base font-medium text-gray-700">
+            Detail Promo
+        </p>
+        <p class="text-sm text-gray-700">
+            Lihat detail promo dengan memilih salah satu promo diatas
+        </p>
+
+        <p-tabView>
+            <!-- Setting Barang -->
+            <p-tabPanel header="Setting Barang">
+                <app-setting-promo-hadiah-barang #SettingBarangComps>
+                </app-setting-promo-hadiah-barang>
+            </p-tabPanel>
+
+            <!-- Setting Merk -->
+            <p-tabPanel header="Setting Merk">
+                <app-setting-promo-hadiah-merk #SettingMerkComps></app-setting-promo-hadiah-merk>
+            </p-tabPanel>
+
+            <!-- Setting Supplier -->
+            <p-tabPanel header="Setting Supplier">
+                <app-setting-promo-hadiah-supplier #SettingSupplierComps></app-setting-promo-hadiah-supplier>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+
+    <app-form-dialog #FormDialog [props]="FormDialogProps" (onSubmitForm)="handleSubmitForm($event)"></app-form-dialog>
+</app-dashboard>
