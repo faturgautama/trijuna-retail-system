@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HistoryRefundPenjualanComponent } from './feature/refund-penjualan/history-refund-penjualan/history-refund-penjualan.component';
-import { InputRefundPenjualanComponent } from './feature/refund-penjualan/input-refund-penjualan/input-refund-penjualan.component';
 import { DetailRefundPenjualanComponent } from './feature/refund-penjualan/detail-refund-penjualan/detail-refund-penjualan.component';
 import { BukaKasirComponent } from './feature/buka-kasir/buka-kasir.component';
 import { SettingVoucherComponent } from './feature/setting-voucher/setting-voucher.component';

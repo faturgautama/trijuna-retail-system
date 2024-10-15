@@ -26,6 +26,13 @@ import { PrintCroscekTutupKasirComponent } from './feature/croscek-tutup-kasir/p
 import { SettingPromoDiskonComponent } from './feature/setting-promo/setting-promo-diskon/setting-promo-diskon.component';
 import { SettingPromoHadiahComponent } from './feature/setting-promo/setting-promo-hadiah/setting-promo-hadiah.component';
 import { SettingPromoBarangComponent } from './feature/setting-promo/setting-promo-barang/setting-promo-barang.component';
+import { SettingPromoDiskonBarangComponent } from './feature/setting-promo/setting-promo-diskon/setting-promo-diskon-barang/setting-promo-diskon-barang.component';
+import { SettingPromoDiskonMerkComponent } from './feature/setting-promo/setting-promo-diskon/setting-promo-diskon-merk/setting-promo-diskon-merk.component';
+import { SettingPromoDiskonSupplierComponent } from './feature/setting-promo/setting-promo-diskon/setting-promo-diskon-supplier/setting-promo-diskon-supplier.component';
+import { SettingPromoHadiahBarangComponent } from './feature/setting-promo/setting-promo-hadiah/setting-promo-hadiah-barang/setting-promo-hadiah-barang.component';
+import { SettingPromoHadiahMerkComponent } from './feature/setting-promo/setting-promo-hadiah/setting-promo-hadiah-merk/setting-promo-hadiah-merk.component';
+import { SettingPromoHadiahSupplierComponent } from './feature/setting-promo/setting-promo-hadiah/setting-promo-hadiah-supplier/setting-promo-hadiah-supplier.component';
+import { SettingPromoBarangBarangComponent } from './feature/setting-promo/setting-promo-barang/setting-promo-barang-barang/setting-promo-barang-barang.component';
 
 @NgModule({
     declarations: [
@@ -46,7 +53,14 @@ import { SettingPromoBarangComponent } from './feature/setting-promo/setting-pro
         PrintCroscekTutupKasirComponent,
         SettingPromoDiskonComponent,
         SettingPromoHadiahComponent,
-        SettingPromoBarangComponent
+        SettingPromoBarangComponent,
+        SettingPromoDiskonBarangComponent,
+        SettingPromoDiskonMerkComponent,
+        SettingPromoDiskonSupplierComponent,
+        SettingPromoHadiahBarangComponent,
+        SettingPromoHadiahMerkComponent,
+        SettingPromoHadiahSupplierComponent,
+        SettingPromoBarangBarangComponent
     ],
     imports: [
         CommonModule,

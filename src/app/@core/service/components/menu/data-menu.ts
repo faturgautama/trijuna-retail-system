@@ -425,6 +425,12 @@ export const menu: MenuItem[] = [
                         label: 'Setting Hadiah',
                         icon: "",
                         routerLink: '/penjualan/setting-promo/setting-hadiah'
+                    },
+                    {
+                        id: 'setting-bonus',
+                        label: 'Setting Bonus',
+                        icon: "",
+                        routerLink: '/penjualan/setting-promo/setting-barang'
                     }
                 ]
             },
