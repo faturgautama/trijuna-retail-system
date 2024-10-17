@@ -7,7 +7,6 @@ import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { MutasiLokasiAction } from 'src/app/@shared/state/inventory/mutasi-lokasi';
 
 @Component({
     selector: 'app-history-mutasi-keluar',

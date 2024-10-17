@@ -1,0 +1,44 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex w-full mb-5">
+        <div class="grid w-full">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+    </div>
+
+    <div *ngIf="JenisStokOpname == 'barang'" class="grid mb-3">
+        <app-grid [props]="GridBarangProps" (cellClicked)="onCellClicked($event)"
+            (toolbarClicked)="onToolbarClicked($event)">
+        </app-grid>
+    </div>
+
+    <div *ngIf="JenisStokOpname == 'divisi'" class="grid mb-3">
+        <app-grid [props]="GridDivisiProps" (cellClicked)="onCellClicked($event)"
+            (toolbarClicked)="onToolbarClicked($event)">
+        </app-grid>
+    </div>
+
+    <div *ngIf="JenisStokOpname == 'group'" class="grid mb-3">
+        <app-grid [props]="GridGroupProps" (cellClicked)="onCellClicked($event)"
+            (toolbarClicked)="onToolbarClicked($event)">
+        </app-grid>
+    </div>
+
+    <div *ngIf="JenisStokOpname == 'supplier'" class="grid mb-3">
+        <app-grid [props]="GridSupplierProps" (cellClicked)="onCellClicked($event)"
+            (toolbarClicked)="onToolbarClicked($event)">
+        </app-grid>
+    </div>
+
+    <div class="flex w-full justify-end mt-5 mb-0">
+        <div class="flex w-4/12">
+            <div class="grid w-full">
+                <app-custom-form #CustomFormFooter [props]="FormInputFooter"></app-custom-form>
+            </div>
+        </div>
+    </div>
+
+    <app-form-dialog #FormDialog [props]="FormInputDetail" (onSubmitForm)="handleSubmitFormDetail($event)">
+    </app-form-dialog>
+
+    <p-confirmDialog></p-confirmDialog>
+</app-dashboard>

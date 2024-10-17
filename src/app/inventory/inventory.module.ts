@@ -24,6 +24,12 @@ import { HistoryMutasiKeluarComponent } from './feature/mutasi-keluar/history-mu
 import { DetailMutasiKeluarComponent } from './feature/mutasi-keluar/detail-mutasi-keluar/detail-mutasi-keluar.component';
 import { InputTextModule } from "primeng/inputtext";
 import { PrintMutasiKeluarComponent } from './feature/mutasi-keluar/print-mutasi-keluar/print-mutasi-keluar.component';
+import { HistorySettingStokOpnameComponent } from './feature/stok-opname/setting-stok-opname/history-setting-stok-opname/history-setting-stok-opname.component';
+import { InputSettingStokOpnameComponent } from './feature/stok-opname/setting-stok-opname/input-setting-stok-opname/input-setting-stok-opname.component';
+import { DetailSettingStokOpnameComponent } from './feature/stok-opname/setting-stok-opname/detail-setting-stok-opname/detail-setting-stok-opname.component';
+import { HistoryStokOpnameComponent } from './feature/stok-opname/input-stok-opname/history-stok-opname/history-stok-opname.component';
+import { DetailStokOpnameComponent } from './feature/stok-opname/input-stok-opname/detail-stok-opname/detail-stok-opname.component';
+import { InputStokOpnameComponent } from './feature/stok-opname/input-stok-opname/input-stok-opname/input-stok-opname.component';
 
 @NgModule({
     declarations: [
@@ -45,7 +51,13 @@ import { PrintMutasiKeluarComponent } from './feature/mutasi-keluar/print-mutasi
         InputMutasiKeluarComponent,
         HistoryMutasiKeluarComponent,
         DetailMutasiKeluarComponent,
-        PrintMutasiKeluarComponent
+        PrintMutasiKeluarComponent,
+        HistorySettingStokOpnameComponent,
+        InputSettingStokOpnameComponent,
+        DetailSettingStokOpnameComponent,
+        HistoryStokOpnameComponent,
+        DetailStokOpnameComponent,
+        InputStokOpnameComponent
     ],
     imports: [
         CommonModule,

@@ -257,43 +257,37 @@ export const menu: MenuItem[] = [
                     },
                 ]
             },
-            // {
-            //     id: 'stok-opname',
-            //     label: 'Stok Opname',
-            //     icon: "",
-            //     items: [
-            //         {
-            //             id: 'setting-stok-opname',
-            //             label: 'Setting Stok Opname',
-            //             icon: "",
-            //             routerLink: '/inventory/stok-opname/setting'
-            //         },
-            //         {
-            //             id: 'input-stok-opname',
-            //             label: 'Input Stok Opname',
-            //             icon: "",
-            //             routerLink: '/inventory/stok-opname/input'
-            //         },
-            //         {
-            //             id: 'adjustment-stok-opname',
-            //             label: 'Adjustment Stok Opname',
-            //             icon: "",
-            //             routerLink: '/inventory/stok-opname/adjustment'
-            //         },
-            //         {
-            //             id: 'finalisasi-stok-opname',
-            //             label: 'Adjustment Stok Opname',
-            //             icon: "",
-            //             routerLink: '/inventory/stok-opname/finalisasi'
-            //         },
-            //         {
-            //             id: 'history-stok-opname',
-            //             label: 'History Stok Opname',
-            //             icon: "",
-            //             routerLink: '/inventory/stok-opname/history'
-            //         },
-            //     ]
-            // },
+            {
+                id: 'stok-opname',
+                label: 'Stok Opname',
+                icon: "",
+                items: [
+                    {
+                        id: 'history-setting-stok-opname',
+                        label: 'History Setting Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/setting-stok-opname/history'
+                    },
+                    {
+                        id: 'input-setting-stok-opname',
+                        label: 'Input Setting Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/setting-stok-opname/input'
+                    },
+                    {
+                        id: 'history-stok-opname',
+                        label: 'History Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/stok-opname/history'
+                    },
+                    {
+                        id: 'input-stok-opname',
+                        label: 'Input Stok Opname',
+                        icon: "",
+                        routerLink: '/inventory/stok-opname/input'
+                    },
+                ]
+            },
             {
                 id: 'assembly',
                 label: 'Assembly',

@@ -19,6 +19,12 @@ import { HistoryMutasiKeluarComponent } from "./feature/mutasi-keluar/history-mu
 import { InputMutasiKeluarComponent } from "./feature/mutasi-keluar/input-mutasi-keluar/input-mutasi-keluar.component";
 import { DetailMutasiKeluarComponent } from "./feature/mutasi-keluar/detail-mutasi-keluar/detail-mutasi-keluar.component";
 import { PrintMutasiKeluarComponent } from "./feature/mutasi-keluar/print-mutasi-keluar/print-mutasi-keluar.component";
+import { HistorySettingStokOpnameComponent } from "./feature/stok-opname/setting-stok-opname/history-setting-stok-opname/history-setting-stok-opname.component";
+import { InputSettingStokOpnameComponent } from "./feature/stok-opname/setting-stok-opname/input-setting-stok-opname/input-setting-stok-opname.component";
+import { DetailSettingStokOpnameComponent } from "./feature/stok-opname/setting-stok-opname/detail-setting-stok-opname/detail-setting-stok-opname.component";
+import { HistoryStokOpnameComponent } from "./feature/stok-opname/input-stok-opname/history-stok-opname/history-stok-opname.component";
+import { InputStokOpnameComponent } from "./feature/stok-opname/input-stok-opname/input-stok-opname/input-stok-opname.component";
+import { DetailStokOpnameComponent } from "./feature/stok-opname/input-stok-opname/detail-stok-opname/detail-stok-opname.component";
 
 const routes: Routes = [
     {
@@ -99,6 +105,32 @@ const routes: Routes = [
             },
             {
                 path: 'detail/:id', component: DetailRepackingComponent,
+            }
+        ]
+    },
+    {
+        path: 'setting-stok-opname', children: [
+            {
+                path: 'history', component: HistorySettingStokOpnameComponent
+            },
+            {
+                path: 'input', component: InputSettingStokOpnameComponent
+            },
+            {
+                path: 'detail/:id', component: DetailSettingStokOpnameComponent,
+            }
+        ]
+    },
+    {
+        path: 'stok-opname', children: [
+            {
+                path: 'history', component: HistoryStokOpnameComponent
+            },
+            {
+                path: 'input', component: InputStokOpnameComponent
+            },
+            {
+                path: 'detail/:id', component: DetailStokOpnameComponent,
             }
         ]
     },
