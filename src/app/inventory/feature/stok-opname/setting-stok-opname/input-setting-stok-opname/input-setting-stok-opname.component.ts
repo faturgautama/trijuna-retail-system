@@ -391,7 +391,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
     handleClickButtonNav(args: string): void {
         switch (args) {
             case 'back':
-                this._router.navigate(['inventory/mutasi-keluar/history']);
+                this._router.navigate(['inventory/setting-stok-opname/history']);
                 break;
             case 'save':
                 this.handleSubmitForm();

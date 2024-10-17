@@ -18,7 +18,7 @@ export class SettingStokOpnameService {
     }
 
     getById(id_setting_stok_opname: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/setting_stok_opname/by_id/${id_setting_stok_opname}`);
+        return this._httpRequestService.getRequest(`${environment.endpoint}/setting_stok_opname/get_by_id/${id_setting_stok_opname}`);
     }
 
     save(payload: any): Observable<any> {
