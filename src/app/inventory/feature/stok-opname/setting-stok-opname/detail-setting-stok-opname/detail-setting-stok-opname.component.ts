@@ -44,10 +44,7 @@ export class DetailSettingStokOpnameComponent implements OnInit {
     GridSupplierProps: GridModel.IGrid;
     GridSupplierSelectedData: any = {} as any;
 
-    Banyak: number = 0;
-    Qty: number = 0;
-    HargaSatuan: number = 0;
-    TotalMutasi: number = 0;
+    ShowDialogFinalisasi: boolean = false;
 
     constructor(
         private _store: Store,
@@ -228,14 +225,13 @@ export class DetailSettingStokOpnameComponent implements OnInit {
                 })
             )
             .subscribe((result) => {
-                if (result.status_mutasi_lokasi == 'OPEN') {
+                if (result.status == 'OPEN') {
                     this.DashboardProps = {
                         title: 'Detail Setting Stok Opname',
                         button_navigation: [
                             { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
-                            { id: 'unduh', caption: 'Download File', icon: 'pi pi-download text-xs' },
-                            { id: 'validasi', caption: 'Validasi Offline', icon: 'pi pi-check text-xs' },
-                            { id: 'validasi_online', caption: 'Validasi Online', icon: 'pi pi-check text-xs' },
+                            { id: 'kalkulasi', caption: 'Kalkulasi', icon: 'pi pi-calculator text-xs' },
+                            { id: 'finalisasi', caption: 'Finalisasi', icon: 'pi pi-check text-xs' },
                         ],
                     };
                 } else {
@@ -243,7 +239,6 @@ export class DetailSettingStokOpnameComponent implements OnInit {
                         title: 'Detail Setting Stok Opname',
                         button_navigation: [
                             { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
-                            { id: 'unduh', caption: 'Download File', icon: 'pi pi-download text-xs' },
                         ],
                     };
                 }
@@ -268,11 +263,29 @@ export class DetailSettingStokOpnameComponent implements OnInit {
             case 'back':
                 this._router.navigate(['inventory/setting-stok-opname/history']);
                 break;
-            // case 'save':
-            //     this.handleSubmitForm();
-            //     break;
+            case 'kalkulasi':
+                this._router.navigateByUrl(`inventory/setting-stok-opname/kalkulasi/${this._activatedRoute.snapshot.params.id}`);
+                break;
+            case 'finalisasi':
+                this.ShowDialogFinalisasi = true;
+                break;
             default:
                 break;
         }
+    }
+
+    handleFinalisasi(keterangan: string) {
+        const payload = {
+            id_setting_stok_opname: this._activatedRoute.snapshot.params.id,
+            keterangan: keterangan
+        };
+
+        this._settingStokOpnameService
+            .finalisasi(payload)
+            .subscribe((result) => {
+                this._messageService.clear();
+                this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Finalisasi Berhasil' });
+                this.ShowDialogFinalisasi = false;
+            })
     }
 }

@@ -25,6 +25,7 @@ import { DetailSettingStokOpnameComponent } from "./feature/stok-opname/setting-
 import { HistoryStokOpnameComponent } from "./feature/stok-opname/input-stok-opname/history-stok-opname/history-stok-opname.component";
 import { InputStokOpnameComponent } from "./feature/stok-opname/input-stok-opname/input-stok-opname/input-stok-opname.component";
 import { DetailStokOpnameComponent } from "./feature/stok-opname/input-stok-opname/detail-stok-opname/detail-stok-opname.component";
+import { KalkulasiSettingStokOpnameComponent } from "./feature/stok-opname/setting-stok-opname/kalkulasi-setting-stok-opname/kalkulasi-setting-stok-opname.component";
 
 const routes: Routes = [
     {
@@ -118,6 +119,9 @@ const routes: Routes = [
             },
             {
                 path: 'detail/:id', component: DetailSettingStokOpnameComponent,
+            },
+            {
+                path: 'kalkulasi/:id', component: KalkulasiSettingStokOpnameComponent,
             }
         ]
     },

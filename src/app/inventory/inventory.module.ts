@@ -30,6 +30,7 @@ import { DetailSettingStokOpnameComponent } from './feature/stok-opname/setting-
 import { HistoryStokOpnameComponent } from './feature/stok-opname/input-stok-opname/history-stok-opname/history-stok-opname.component';
 import { DetailStokOpnameComponent } from './feature/stok-opname/input-stok-opname/detail-stok-opname/detail-stok-opname.component';
 import { InputStokOpnameComponent } from './feature/stok-opname/input-stok-opname/input-stok-opname/input-stok-opname.component';
+import { KalkulasiSettingStokOpnameComponent } from './feature/stok-opname/setting-stok-opname/kalkulasi-setting-stok-opname/kalkulasi-setting-stok-opname.component';
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import { InputStokOpnameComponent } from './feature/stok-opname/input-stok-opnam
         DetailSettingStokOpnameComponent,
         HistoryStokOpnameComponent,
         DetailStokOpnameComponent,
-        InputStokOpnameComponent
+        InputStokOpnameComponent,
+        KalkulasiSettingStokOpnameComponent
     ],
     imports: [
         CommonModule,
