@@ -54,7 +54,7 @@ export class SetupDepartemenComponent implements OnInit {
                 is_inline: true,
                 fields: [
                     {
-                        id: 'id_nama_departemen',
+                        id: 'id_departemen',
                         label: 'Id Divisi',
                         status: 'insert',
                         type: 'string',
@@ -80,7 +80,7 @@ export class SetupDepartemenComponent implements OnInit {
                         validator: 'Departemen Tidak Boleh Kosong',
                     },
                 ],
-                custom_class: 'grid-rows-1'
+                custom_class: 'grid-rows-2'
             },
         }
     }
@@ -104,7 +104,7 @@ export class SetupDepartemenComponent implements OnInit {
 
     onRowDoubleClicked(args: any): void {
         this.FormDialogProps.form_props.default_value = {
-            id_nama_departemen: args.id_nama_departemen,
+            id_departemen: args.id_departemen,
             kode_departemen: args.kode_departemen,
             nama_departemen: args.nama_departemen,
         };

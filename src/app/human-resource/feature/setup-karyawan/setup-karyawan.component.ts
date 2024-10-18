@@ -41,8 +41,8 @@ export class SetupKaryawanComponent implements OnInit {
             column: [
                 { field: 'kode_karyawan', headerName: 'KODE', flex: 200, sortable: true, resizable: true },
                 { field: 'nama_karyawan', headerName: 'NAMA', flex: 350, sortable: true, resizable: true },
+                { field: 'nama_departemen', headerName: 'DEPARTEMEN', flex: 200, sortable: true, resizable: true },
                 { field: 'alamat', headerName: 'ALAMAT', flex: 750, sortable: true, resizable: true },
-                { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
             height: "calc(100vh - 11rem)",
@@ -118,7 +118,7 @@ export class SetupKaryawanComponent implements OnInit {
                     const indexGroup = this.FormDialogProps.form_props.fields.findIndex((item) => { return item.id == 'id_departemen' });
 
                     this.FormDialogProps.form_props.fields[indexGroup].select_props = result.data.map((item: any) => {
-                        return { name: item.divisi, value: item.id_divisi }
+                        return { name: item.nama_departemen, value: item.id_departemen }
                     });
                 }
             })
