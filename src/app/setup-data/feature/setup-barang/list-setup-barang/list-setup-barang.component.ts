@@ -27,6 +27,8 @@ export class ListSetupBarangComponent implements OnInit {
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
+    IsAllBarang = false;
+
     constructor(
         private _store: Store,
         private _router: Router,
@@ -181,9 +183,16 @@ export class ListSetupBarangComponent implements OnInit {
     ngOnInit(): void {
         this.getAllDivisi();
         this.getAllGroup();
-        this.handleSearchOffcanvas([]);
 
-        // this.handleGetAllWithoutFilter();
+        this.IsAllBarang = this._router.url.includes('all');
+
+        if (this.IsAllBarang) {
+            this.GridProps.height = "calc(100vh - 14rem)";
+            this.handleGetAllBarangNoLimit([]);
+        } else {
+            this.GridProps.height = "calc(100vh - 18rem)";
+            this.handleSearchOffcanvas([]);
+        }
     }
 
     private getAllDivisi() {
@@ -262,9 +271,11 @@ export class ListSetupBarangComponent implements OnInit {
             })
     }
 
-    handleGetAllWithoutFilter(): void {
+    handleGetAllBarangNoLimit(args: any): void {
+        localStorage.setItem("_TRS_BRG_SEARCH_", JSON.stringify(args));
+
         this._store
-            .dispatch(new SetupBarangAction.GetAllBarangWithoutFilter())
+            .dispatch(new SetupBarangAction.GetAllBarangWithoutFilter(args))
             .subscribe((result) => {
                 if (result.setup_barang.entities.success) {
                     this.GridProps.dataSource = result.setup_barang.entities.data;

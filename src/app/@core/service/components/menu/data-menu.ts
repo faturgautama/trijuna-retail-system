@@ -61,6 +61,11 @@ export const menu: MenuItem[] = [
                         label: 'Setup Barang',
                         routerLink: '/setup-data/setup-inventory/setup-barang/list'
                     },
+                    {
+                        id: 'list-barang-all',
+                        label: 'List Barang All',
+                        routerLink: '/setup-data/setup-inventory/setup-barang/all'
+                    },
                 ]
             },
             {

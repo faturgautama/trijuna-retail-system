@@ -59,6 +59,7 @@ const routes: Routes = [
             },
             {
                 path: 'setup-barang', children: [
+                    { path: 'all', component: ListSetupBarangComponent },
                     { path: 'list', component: ListSetupBarangComponent },
                     { path: 'input', component: InputSetupBarangComponent },
                     { path: 'detail/:id', component: DetailSetupBarangComponent },

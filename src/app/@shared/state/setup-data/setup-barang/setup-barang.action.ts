@@ -8,7 +8,8 @@ export namespace SetupBarangAction {
     }
 
     export class GetAllBarangWithoutFilter {
-        static readonly type = '[SETUP BARANG] Get All Without Filter';
+        static readonly type = '[SETUP BARANG] Get All No Limit';
+        constructor(public payload: FilterModel.IDynamicFilter[]) { }
     }
 
     export class GetByIdBarang {

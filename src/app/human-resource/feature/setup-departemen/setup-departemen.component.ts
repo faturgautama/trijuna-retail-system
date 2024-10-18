@@ -37,8 +37,8 @@ export class SetupDepartemenComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'kode_divisi', headerName: 'KODE', flex: 750, sortable: true, resizable: true },
-                { field: 'divisi', headerName: 'DEPARTEMEN', flex: 750, sortable: true, resizable: true },
+                { field: 'kode_departemen', headerName: 'KODE', flex: 750, sortable: true, resizable: true },
+                { field: 'nama_departemen', headerName: 'DEPARTEMEN', flex: 750, sortable: true, resizable: true },
                 { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
@@ -54,7 +54,7 @@ export class SetupDepartemenComponent implements OnInit {
                 is_inline: true,
                 fields: [
                     {
-                        id: 'id_divisi',
+                        id: 'id_nama_departemen',
                         label: 'Id Divisi',
                         status: 'insert',
                         type: 'string',
@@ -62,7 +62,7 @@ export class SetupDepartemenComponent implements OnInit {
                         required: true,
                     },
                     {
-                        id: 'kode_divisi',
+                        id: 'kode_departemen',
                         label: 'Kode Departemen',
                         status: 'insert',
                         type: 'string',
@@ -71,7 +71,7 @@ export class SetupDepartemenComponent implements OnInit {
                         validator: 'Kode Departemen Tidak Boleh Kosong',
                     },
                     {
-                        id: 'divisi',
+                        id: 'nama_departemen',
                         label: 'Departemen',
                         status: 'insert',
                         type: 'string',
@@ -104,9 +104,9 @@ export class SetupDepartemenComponent implements OnInit {
 
     onRowDoubleClicked(args: any): void {
         this.FormDialogProps.form_props.default_value = {
-            id_divisi: args.id_divisi,
-            kode_divisi: args.kode_divisi,
-            divisi: args.divisi,
+            id_nama_departemen: args.id_nama_departemen,
+            kode_departemen: args.kode_departemen,
+            nama_departemen: args.nama_departemen,
         };
 
         this.FormDialogProps.form_props.fields[1].hidden = false;
@@ -128,7 +128,7 @@ export class SetupDepartemenComponent implements OnInit {
     handleSubmitForm(data: any): void {
         if (this.FormDialogProps.type == 'add') {
             const payload: any = {
-                divisi: data.divisi,
+                nama_departemen: data.nama_departemen,
             };
 
             this._setupDepartemenService

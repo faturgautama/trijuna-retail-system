@@ -18,8 +18,8 @@ export class SetupBarangService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/barang/by_param`, { filter: filter });
     }
 
-    getAllBarangWithoutFilter(): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/barang`);
+    getAllBarangWithoutFilter(filter: FilterModel.IDynamicFilter[]): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/barang_no_limit/by_param`, { filter: filter });
     }
 
     getByIdBarang(id_barang: number): Observable<any> {

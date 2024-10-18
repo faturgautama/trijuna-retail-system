@@ -34,6 +34,7 @@ import { ButtonModule } from "primeng/button";
 import { SetupGroupUserComponent } from './feature/management-user/setup-group-user/setup-group-user.component';
 import { SetupUserComponent } from './feature/management-user/setup-user/setup-user.component';
 import { PrintSetupBarangComponent } from './feature/setup-barang/print-setup-barang/print-setup-barang.component';
+import { ListBarangAllComponent } from './feature/list-barang-all/list-barang-all.component';
 
 @NgModule({
     declarations: [
@@ -62,6 +63,7 @@ import { PrintSetupBarangComponent } from './feature/setup-barang/print-setup-ba
         SetupGroupUserComponent,
         SetupUserComponent,
         PrintSetupBarangComponent,
+        ListBarangAllComponent,
     ],
     imports: [
         CommonModule,

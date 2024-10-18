@@ -43,8 +43,8 @@ export class SetupBarangState {
     }
 
     @Action(SetupBarangAction.GetAllBarangWithoutFilter)
-    getBarangWithoutFilter(ctx: StateContext<SetupBarangStateModel>) {
-        return this._setupBarangService.getAllBarangWithoutFilter()
+    getBarangWithoutFilter(ctx: StateContext<SetupBarangStateModel>, action: any) {
+        return this._setupBarangService.getAllBarangWithoutFilter(action.payload)
             .pipe(
                 tap((result) => {
                     const state = ctx.getState();
