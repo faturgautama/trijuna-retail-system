@@ -37,15 +37,19 @@ export class AbsensiComponent implements OnInit {
         this.DashboardProps = {
             title: 'Data Absensi',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'export_excel', caption: 'Excel', icon: 'pi pi-file-excel text-xs' },
             ],
         };
 
         this.GridProps = {
             column: [
-                { field: 'kode_karyawan', headerName: 'KODE KARYAWAN', flex: 750, sortable: true, resizable: true },
-                { field: 'nama_karyawan', headerName: 'NAMA KARYAWAN', flex: 750, sortable: true, resizable: true },
-                { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'tanggal', headerName: 'TANGGAL', flex: 200, sortable: true, resizable: true },
+                { field: 'nama_karyawan', headerName: 'NAMA KARYAWAN', flex: 300, sortable: true, resizable: true },
+                { field: 'masuk1', headerName: 'MASUK 1', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', },
+                { field: 'keluar1', headerName: 'KELUAR 1', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', },
+                { field: 'masuk2', headerName: 'MASUK 2', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', },
+                { field: 'keluar2', headerName: 'KELUAR 2', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', },
             ],
             dataSource: [],
             height: "calc(100vh - 15rem)",
@@ -101,6 +105,23 @@ export class AbsensiComponent implements OnInit {
                 this.FormDialogProps.type = 'add';
                 this.FormDialog.onOpenFormDialog();
                 break;
+            case 'export_excel':
+                const startDate = this._utilityService.FormatDate(new Date(this.StartDate), 'yyyy-MM-DD'),
+                    endDate = this._utilityService.FormatDate(new Date(this.EndDate), 'yyyy-MM-DD');
+
+                const dataSource = this.GridProps.dataSource.map((item) => {
+                    return {
+                        tanggal: item.tanggal,
+                        nama_karyawan: item.nama_karyawan,
+                        masuk1: item.masuk1,
+                        keluar1: item.total_qty,
+                        masuk2: item.masuk2,
+                        keluar2: item.keluar2,
+                    }
+                });
+
+                this._utilityService.exportToExcel({ worksheetName: `Absensi Karyawan ${startDate} s.d ${endDate}`, dataSource: dataSource })
+                break;
             default:
                 break;
         }
@@ -110,11 +131,12 @@ export class AbsensiComponent implements OnInit {
         const startDate = this._utilityService.FormatDate(new Date(start), 'yyyy-MM-DD'),
             endDate = this._utilityService.FormatDate(new Date(end), 'yyyy-MM-DD');
 
+
         this._absensiService
             .getAll(startDate, endDate)
             .subscribe((result) => {
                 if (result.success) {
-                    this.GridProps.dataSource = result.data;
+                    this.GridProps.dataSource = result.data.data;
                 }
             })
     }
