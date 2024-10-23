@@ -86,9 +86,12 @@ export class InputRepackingComponent implements OnInit {
                                 const qyt_urai = args.qty_urai ? parseFloat(args.qty_urai) : 0,
                                     hpp_average = args.hpp_average ? parseFloat(args.hpp_average) : 0;
 
-                                this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(qyt_urai);
+                                const qty_repacking = this.CustomForm.CustomForms.get('qty_repacking')?.value;
+
+
+                                this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(qyt_urai * qty_repacking);
                                 this.FormDialog.CustomForm.CustomForms.get('hpp_average')?.setValue(hpp_average);
-                                this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(qyt_urai * hpp_average);
+                                this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue((qyt_urai * qty_repacking) * hpp_average);
                             }
                         },
                         lookup_set_value_field: ['kode_barang', 'barcode', 'nama_barang', 'kode_satuan'],
@@ -133,7 +136,7 @@ export class InputRepackingComponent implements OnInit {
                         required: true,
                         numeric_callback: (args: any) => {
                             const hpp_average = this.FormDialog.CustomForm.CustomForms.get('hpp_average')?.value;
-                            this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue(args * hpp_average);
+                            this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue((args) * hpp_average);
                         }
                     },
                     {
