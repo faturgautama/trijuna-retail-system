@@ -30,6 +30,6 @@ export class RepackingService {
     }
 
     validasi(payload: any): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/repacking/validasi`, payload);
+        return this._httpRequestService.postRequest(`${environment.endpoint}/repacking/validasi`, { id_repacking: payload });
     }
 }
