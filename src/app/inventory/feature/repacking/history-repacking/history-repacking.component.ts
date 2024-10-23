@@ -77,11 +77,16 @@ export class HistoryRepackingComponent {
         this.GridProps = {
             column: [
                 { field: 'nomor_repacking', headerName: 'NO. FAKTUR', width: 170, sortable: true, resizable: true },
-                { field: 'status_pemesanan', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
-                { field: 'tanggal_pemesanan', headerName: 'TGL. REPACKING', width: 170, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'status_repacking', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
+                { field: 'tanggal_repacking', headerName: 'TGL. REPACKING', width: 170, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
                 { field: 'warehouse', headerName: 'WAREHOUSE', width: 150, sortable: true, resizable: true },
-                { field: 'keterangan', headerName: 'NAM BARANG', width: 170, sortable: true, resizable: true },
-                { field: 'qty', headerName: 'JUMLAH ITEM', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
+                { field: 'kode_barang', headerName: 'KODE BARANG', width: 170, sortable: true, resizable: true },
+                { field: 'barcode', headerName: 'BARCODE', width: 170, sortable: true, resizable: true },
+                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 300, sortable: true, resizable: true },
+                { field: 'qty_repacking', headerName: 'QTY REPACKING', width: 170, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
+                { field: 'hpp_avarage_repacking', headerName: 'HPP AVG REPACKING', width: 250, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
+                { field: 'total_hpp_avarage_repacking', headerName: 'TOTAL HPP AVG REPACKING', width: 250, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
+                { field: 'total_hpp_avarage_urai', headerName: 'TOTAL HPP AVG URAI', width: 250, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'created_by', headerName: 'USER INPUT', width: 150, sortable: true, resizable: true },
                 { field: 'created_at', headerName: 'WAKTU ENTRY', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
@@ -104,7 +109,7 @@ export class HistoryRepackingComponent {
             .getAll(args)
             .subscribe((result) => {
                 if (result.success) {
-                    this.GridProps.dataSource = result.pemesanan_po.entities.data;
+                    this.GridProps.dataSource = result.data;
                 }
             })
     }

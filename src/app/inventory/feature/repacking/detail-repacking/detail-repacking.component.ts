@@ -9,7 +9,6 @@ import { CustomFormComponent } from 'src/app/@shared/components/custom-form/cust
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { MutasiLokasiAction } from 'src/app/@shared/state/inventory/mutasi-lokasi';
 
 @Component({
     selector: 'app-detail-repacking',
@@ -121,15 +120,13 @@ export class DetailRepackingComponent implements OnInit, OnDestroy {
 
         this.GridProps = {
             column: [
-                { field: 'urut', headerName: 'URUT', width: 120, sortable: true, resizable: true },
-                { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
-                { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
-                { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
-                { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
-                { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'hpp_average', headerName: 'HPP AVERAE', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                { field: 'urut', headerName: 'URUT', flex: 120, sortable: true, resizable: true },
+                { field: 'id_barang', headerName: 'ID BARANG', flex: 350, sortable: true, resizable: true, hide: true, },
+                { field: 'nama_barang', headerName: 'NAMA BARANG', flex: 350, sortable: true, resizable: true },
+                { field: 'kode_satuan', headerName: 'SATUAN', flex: 150, sortable: true, resizable: true },
+                { field: 'qty', headerName: 'QTY', flex: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'hpp_average', headerName: 'HPP AVERAE', flex: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                { field: 'sub_total', headerName: 'SUBTOTAL', flex: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
             ],
             dataSource: [],
             height: "300px",
@@ -159,7 +156,7 @@ export class DetailRepackingComponent implements OnInit, OnDestroy {
                     id: 'total_hpp_avarage_urai',
                     label: 'Total Hpp Avg Urai',
                     status: 'readonly',
-                    type: 'numeric',
+                    type: 'string',
                     required: true,
                 },
             ],
@@ -191,7 +188,7 @@ export class DetailRepackingComponent implements OnInit, OnDestroy {
                 })
             )
             .subscribe((result) => {
-                if (result.status_mutasi_lokasi == 'OPEN') {
+                if (result.status_repacking == 'OPEN') {
                     this.DashboardProps = {
                         title: 'Detail Repacking',
                         button_navigation: [
@@ -207,6 +204,10 @@ export class DetailRepackingComponent implements OnInit, OnDestroy {
                         ],
                     };
                 }
+
+                result.total_hpp_avarage_repacking = this._utilityService.FormatNumber(result.total_hpp_avarage_repacking, 'Rp. ');
+                result.total_hpp_avarage_urai = this._utilityService.FormatNumber(result.total_hpp_avarage_urai, 'Rp. ');
+                result.hpp_avarage_repacking = this._utilityService.FormatNumber(result.hpp_avarage_repacking, 'Rp. ');
 
                 this.CustomFormHeader.props.default_value = result;
                 this.CustomFormHeader.handleSetFormDefaultValue();
