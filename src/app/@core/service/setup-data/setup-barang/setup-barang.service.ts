@@ -106,8 +106,8 @@ export class SetupBarangService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/barang_urai`, payload);
     }
 
-    updateBarangUrai(payload: SetupBarangModel.UpdateSetupBarangUrai): Observable<any> {
-        return this._httpRequestService.putRequest(`${environment.endpoint}/barang_urai/${payload.id_barang_urai}`, payload);
+    updateBarangUrai(payload: any): Observable<any> {
+        return this._httpRequestService.putRequest(`${environment.endpoint}/barang_urai/${payload.urai_barang}`, payload);
     }
 
     deleteBarangUrai(id_barang_urai: number): Observable<any> {

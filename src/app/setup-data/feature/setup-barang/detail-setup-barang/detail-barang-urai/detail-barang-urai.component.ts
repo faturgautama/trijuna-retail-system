@@ -57,17 +57,9 @@ export class DetailBarangUraiComponent implements OnInit {
                         id: 'id_barang_urai',
                         label: 'Id Barang Urai',
                         status: 'insert',
-                        type: 'string',
-                        hidden: true,
-                        required: true,
-                    },
-                    {
-                        id: 'id_barang',
-                        label: 'Id Barang',
-                        status: 'insert',
                         type: 'lookup',
                         lookup_props: {
-                            id: 'lookupBarang',
+                            id: 'lookupBarangUrai',
                             title: 'Data Barang',
                             columns: [
                                 { field: 'kode_barang', width: 340, headerName: 'KODE BARANG', sortable: true, resizable: true },
@@ -80,9 +72,8 @@ export class DetailBarangUraiComponent implements OnInit {
                             label: 'Barang Urai',
                             selectedField: 'nama_barang',
                             selectedValue: 'id_barang',
-                            url: `${environment.endpoint}/barang/by_param`
+                            url: `${environment.endpoint}/barang/by_param`,
                         },
-                        lookup_set_value_field: ['id_barang_urai'],
                         required: true,
                     },
                     {
@@ -104,7 +95,8 @@ export class DetailBarangUraiComponent implements OnInit {
     }
 
     getDetailBarangUrai(): void {
-        this._store.dispatch(new SetupBarangAction.GetAllBarangUrai(this.id_barang))
+        this._store
+            .dispatch(new SetupBarangAction.GetAllBarangUrai(this.id_barang))
             .pipe(
                 map((result) => {
                     if (result.setup_barang.entities.success) {
@@ -122,7 +114,7 @@ export class DetailBarangUraiComponent implements OnInit {
 
     handleRowDoubleClicked(args: any): void {
         this.FormDialogProps.form_props.default_value = {
-            id_barang_Urai: args.id_barang_Urai,
+            id_barang_urai: args.id_barang_urai,
             id_barang: args.id_barang,
             qty_urai: args.qty_urai,
         };
@@ -163,7 +155,7 @@ export class DetailBarangUraiComponent implements OnInit {
 
     handleChangeLookupBarangStatus(): void {
         const indexIdBarang = this.FormDialogProps.form_props.fields.findIndex((item) => {
-            return item.id == 'id_barang'
+            return item.id == 'id_barang_urai'
         });
 
         if (this.FormDialogProps.type == 'add') {
@@ -178,41 +170,43 @@ export class DetailBarangUraiComponent implements OnInit {
     handleSubmitForm(args: any): void {
         console.log(args);
 
-        // if (this.FormDialogProps.type == 'add') {
-        //     const payload: SetupBarangModel.SaveSetupBarangUrai = {
-        //         id_barang: this.id_barang,
-        //         qty_urai: args.qty_urai,
-        //     };
+        if (this.FormDialogProps.type == 'add') {
+            const payload: any = {
+                id_barang: this.id_barang,
+                urai_barang: args.id_barang_urai,
+                qty_urai: args.qty_urai,
+            };
 
-        //     this._store.dispatch(new SetupBarangAction.SaveBarangUrai(payload))
-        //         .subscribe((result) => {
-        //             if (result.setup_barang.entities.success) {
-        //                 this._messageService.clear();
-        //                 this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
+            this._store
+                .dispatch(new SetupBarangAction.SaveBarangUrai(payload))
+                .subscribe((result) => {
+                    if (result.setup_barang.entities.success) {
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
 
-        //                 this.FormDialog.onCloseFormDialog();
+                        this.FormDialog.onCloseFormDialog();
 
-        //                 this.getDetailBarangUrai();
-        //             }
-        //         })
-        // } else {
-        //     const payload: SetupBarangModel.UpdateSetupBarangUrai = {
-        //         id_barang_urai: args.id_barang_urai,
-        //         id_barang: this.id_barang,
-        //         qty_urai: args.qty_urai,
-        //     };
+                        this.getDetailBarangUrai();
+                    }
+                })
+        } else {
+            const payload: any = {
+                id_barang: this.id_barang,
+                urai_barang: args.id_barang_urai,
+                qty_urai: args.qty_urai,
+            };
 
-        //     this._store.dispatch(new SetupBarangAction.UpdateBarangUrai(payload))
-        //         .subscribe((result) => {
-        //             if (result.setup_barang.entities.success) {
-        //                 this._messageService.clear();
-        //                 this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Diupdate' });
+            this._store.dispatch(new SetupBarangAction.UpdateBarangUrai(payload))
+                .subscribe((result) => {
+                    if (result.setup_barang.entities.success) {
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Diupdate' });
 
-        //                 this.FormDialog.onCloseFormDialog();
+                        this.FormDialog.onCloseFormDialog();
 
-        //                 this.getDetailBarangUrai();
-        //             }
-        //         })
-        // }
+                        this.getDetailBarangUrai();
+                    }
+                })
+        }
     }
 }

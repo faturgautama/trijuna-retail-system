@@ -75,7 +75,7 @@ export class DetailBarangKomponenComponent implements OnInit {
                         status: 'readonly',
                         type: 'lookup',
                         lookup_props: {
-                            id: 'lookupBarang',
+                            id: 'lookupBarangKomponen',
                             title: 'Data Barang',
                             columns: [
                                 { field: 'kode_barang', width: 340, headerName: 'KODE BARANG', sortable: true, resizable: true },
