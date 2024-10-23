@@ -10,7 +10,7 @@
         </app-grid>
     </div>
 
-    <div class="flex w-full justify-between">
+    <div class="flex w-full justify-between items-start">
         <div class="flex w-4/12">
             <div class="w-4/12">
                 <label for="keterangan">
@@ -18,7 +18,20 @@
                 </label>
             </div>
             <div class="w-8/12">
-                <textarea #Keterangan rows="2" pInputTextarea class="w-full" [autoResize]="false"></textarea>
+                <textarea [(ngModel)]="Keterangan" rows="2" pInputTextarea class="w-full"
+                    [autoResize]="false"></textarea>
+            </div>
+        </div>
+
+        <div class="flex w-5/12 items-center">
+            <div class="w-4/12">
+                <label for="keterangan">
+                    Total Hpp Average Urai
+                </label>
+            </div>
+            <div class="w-8/12">
+                <p-inputNumber [(ngModel)]="TotalHppAverageUrai" styleClass="p-inputtext-sm w-full"
+                    [readonly]="true"></p-inputNumber>
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { RepackingService } from 'src/app/@core/service/inventory/repacking/repacking.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
@@ -23,6 +24,7 @@ export class HistoryRepackingComponent {
         private _store: Store,
         private _router: Router,
         private _utilityService: UtilityService,
+        private _repackingService: RepackingService,
     ) {
         this.DashboardProps = {
             title: 'History repacking',
@@ -34,35 +36,47 @@ export class HistoryRepackingComponent {
         this.OffcanvasFilterProps = {
             filter: [
                 {
-                    id: 'nama_supplier',
+                    id: 'mb.kode_barang',
+                    title: 'Kode Barang',
+                    type: 'string',
+                    value: 'mb.kode_barang',
+                },
+                {
+                    id: 'mb.barcode',
+                    title: 'Barcode',
+                    type: 'string',
+                    value: 'mb.barcode',
+                },
+                {
+                    id: 'mb.nama_barang',
                     title: 'Nama Barang',
                     type: 'string',
-                    value: 'ms.nama_supplier',
+                    value: 'mb.nama_barang',
                 },
                 {
-                    id: 'nomor_pemesanan',
+                    id: 'nomor_repacking',
                     title: 'No. Faktur',
                     type: 'string',
-                    value: 'tp.nomor_pemesanan',
+                    value: 'tr.nomor_repacking',
                 },
                 {
-                    id: 'tanggal_pemesanan',
+                    id: 'tanggal_repacking',
                     title: 'Tgl. Repacking',
                     type: 'date',
-                    value: 'tp.tanggal_pemesanan',
+                    value: 'tr.tanggal_repacking',
                 },
                 {
                     id: ' created_at',
                     title: 'Waktu Input',
                     type: 'date',
-                    value: 'tp.created_at',
+                    value: 'tr.created_at',
                 },
             ],
         }
 
         this.GridProps = {
             column: [
-                { field: 'nomor_pemesanan', headerName: 'NO. FAKTUR', width: 170, sortable: true, resizable: true },
+                { field: 'nomor_repacking', headerName: 'NO. FAKTUR', width: 170, sortable: true, resizable: true },
                 { field: 'status_pemesanan', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
                 { field: 'tanggal_pemesanan', headerName: 'TGL. REPACKING', width: 170, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
                 { field: 'warehouse', headerName: 'WAREHOUSE', width: 150, sortable: true, resizable: true },
@@ -86,16 +100,17 @@ export class HistoryRepackingComponent {
     }
 
     handleSearchOffcanvas(args: any): void {
-        // this._store.dispatch(new PemesananPoAction.GetAll(args))
-        //     .subscribe((result) => {
-        //         if (result.pemesanan_po.entities.success) {
-        //             this.GridProps.dataSource = result.pemesanan_po.entities.data;
-        //         }
-        //     })
+        this._repackingService
+            .getAll(args)
+            .subscribe((result) => {
+                if (result.success) {
+                    this.GridProps.dataSource = result.pemesanan_po.entities.data;
+                }
+            })
     }
 
     handleRowDoubleClicked(args: any): void {
-        this._router.navigate(['inventory/repacking/detail', args.id_pemesanan]);
+        this._router.navigate(['inventory/repacking/detail', args.id_repacking]);
     }
 
     handleToolbarClicked(args: any): void {

@@ -82,6 +82,7 @@ export class DetailBarangUraiComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/barang/by_param`
                         },
+                        lookup_set_value_field: ['id_barang_urai'],
                         required: true,
                     },
                     {
@@ -120,8 +121,6 @@ export class DetailBarangUraiComponent implements OnInit {
     }
 
     handleRowDoubleClicked(args: any): void {
-        console.log(args);
-
         this.FormDialogProps.form_props.default_value = {
             id_barang_Urai: args.id_barang_Urai,
             id_barang: args.id_barang,
