@@ -43,48 +43,12 @@ export class LaporanPajakBkpRekapComponent implements OnInit {
                     type: 'date',
                     value: 'tanggal_pencarian',
                 },
-                {
-                    id: 'mb.kode_barang',
-                    title: 'Kode Barang',
-                    type: 'string',
-                    value: 'mb.kode_barang',
-                },
-                {
-                    id: 'mb.barcode',
-                    title: 'Barcode',
-                    type: 'string',
-                    value: 'mb.barcode',
-                },
-                {
-                    id: 'mb.nama_barang',
-                    title: 'Nama Barang',
-                    type: 'string',
-                    value: 'mb.nama_barang',
-                },
-                {
-                    id: 'md.divisi',
-                    title: 'Divisi',
-                    type: 'string',
-                    value: 'md.divisi',
-                },
-                {
-                    id: 'mg.group',
-                    title: 'Group',
-                    type: 'string',
-                    value: 'mg.group',
-                },
-                {
-                    id: 'mm.merk',
-                    title: 'Merk',
-                    type: 'string',
-                    value: 'mm.merk',
-                },
             ],
         }
 
         this.GridProps = {
             column: [
-                { field: 'tanggal', headerName: 'TANGGAL', flex: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'dd-MM-yyyy') } },
+                { field: 'tanggal_penjualan', headerName: 'TANGGAL', flex: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'DD-MM-yyyy') } },
                 { field: 'subtotal', headerName: 'SUBTOTAL', flex: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
                 { field: 'dpp', headerName: 'DPP', flex: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
                 { field: 'ppn', headerName: 'PPN', flex: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
@@ -135,7 +99,7 @@ export class LaporanPajakBkpRekapComponent implements OnInit {
         if (args == 'export_excel') {
             const dataSource = this.GridProps.dataSource.map((item) => {
                 return {
-                    tanggal: item.tanggal,
+                    tanggal_penjualan: this._utilityService.FormatDate(new Date(item.tanggal_penjualan), 'yyyy-MM-DD'),
                     subtotal: (item.subtotal),
                     dpp: (item.dpp),
                     ppn: (item.ppn),
@@ -147,36 +111,27 @@ export class LaporanPajakBkpRekapComponent implements OnInit {
     }
 
     handleSearchOffcanvas(args: any): void {
-        let queryParams = "";
+        let startDate, endDate;
 
-        const filter = args.filter((item: any) => {
+        args.forEach((item: any) => {
             if (item.column == 'tanggal_pencarian') {
-                queryParams = `?start=${this._utilityService.FormatDate(new Date(item.value), 'yyyy-MM-DD')}&end=${this._utilityService.FormatDate(new Date(item.value2), 'yyyy-MM-DD')}`;
+                startDate = this._utilityService.FormatDate(new Date(item.value), 'yyyy-MM-DD');
+                endDate = this._utilityService.FormatDate(new Date(item.value2), 'yyyy-MM-DD');
             }
-
-            return item.column != "tanggal_pencarian"
         });
 
-        if (queryParams) {
+        if (startDate && endDate) {
             this._laporanPajakService
-                .getLaporanPajakBkpRekap(filter)
+                .getLaporanPajakBkpRekap({ startdate: startDate, enddate: endDate })
                 .subscribe((result) => {
                     if (result.success) {
-                        this.GridProps.dataSource = result.data;
-
-                        let total = 0;
-
-                        for (const item of this.GridProps.dataSource) {
-                            item.subtotal = parseFloat(item.subtotal);
-                            total += item.subtotal;
-                        }
-
-                        this.CustomFormFooter.handleSetFieldValue('total', total);
+                        this.GridProps.dataSource = result.data.detail;
+                        this.CustomFormFooter.CustomForms.patchValue(result.data);
                     }
                 })
         } else {
             this._messageService.clear();
-            this._messageService.add({ severity: 'warning', summary: 'Oops', detail: 'Tanggal Pencarian Tidak Boleh Kosong' })
+            this._messageService.add({ severity: 'warn', summary: 'Oops', detail: 'Tanggal Pencarian Tidak Boleh Kosong' })
         }
     }
 

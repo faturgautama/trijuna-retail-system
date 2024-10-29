@@ -13,15 +13,15 @@ export class LaporanPajakService {
         private _httpRequestService: HttpRequestService,
     ) { }
 
-    getLaporanPajakBkp(filter: FilterModel.IDynamicFilter[]): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/pajak/bkp/get_by_param`, { filter: filter });
+    getLaporanPajakBkp(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/laporan/bkp`, payload);
     }
 
-    getLaporanPajakNonBkp(filter: FilterModel.IDynamicFilter[]): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/pajak/non-bkp/get_by_param`, { filter: filter });
+    getLaporanPajakNonBkp(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/laporan/non_bkp`, payload);
     }
 
-    getLaporanPajakBkpRekap(filter: FilterModel.IDynamicFilter[]): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/pajak/bkp_rekap/get_by_param`, { filter: filter });
+    getLaporanPajakBkpRekap(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/laporan/rekap_bkp`, payload);
     }
 }

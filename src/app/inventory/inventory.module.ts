@@ -60,7 +60,7 @@ import { FormsModule } from "@angular/forms";
         HistoryStokOpnameComponent,
         DetailStokOpnameComponent,
         InputStokOpnameComponent,
-        KalkulasiSettingStokOpnameComponent
+        KalkulasiSettingStokOpnameComponent,
     ],
     imports: [
         FormsModule,
