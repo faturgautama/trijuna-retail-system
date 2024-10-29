@@ -544,6 +544,19 @@ export const menu: MenuItem[] = [
         label: 'Laporan',
         items: [
             {
+                id: 'Inventory',
+                label: 'Inventory',
+                icon: "",
+                items: [
+                    {
+                        id: 'keluar-masuk-barang',
+                        label: 'Keluar Masuk Barang',
+                        icon: "",
+                        routerLink: '/laporan/inventory/keluar-masuk-barang'
+                    },
+                ]
+            },
+            {
                 id: 'Penjualan',
                 label: 'Penjualan',
                 icon: "",

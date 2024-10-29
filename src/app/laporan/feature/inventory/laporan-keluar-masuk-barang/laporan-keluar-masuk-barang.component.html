@@ -1,0 +1,37 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex items-end mb-3 gap-3">
+        <div class="flex flex-col w-3/12 gap-1">
+            <p class="text-sm text-gray-700">
+                Tanggal Mulai
+            </p>
+            <p-calendar styleClass="p-inputtext-sm w-full" [(ngModel)]="StartDate" dateFormat="dd MM yy"
+                (ngModelChange)="StartDate > EndDate ? EndDate = StartDate : null">
+            </p-calendar>
+        </div>
+
+        <div class="flex flex-col w-3/12 gap-1">
+            <p class="text-sm text-gray-700">
+                Tanggal Selesai
+            </p>
+            <p-calendar styleClass="p-inputtext-sm w-full" [(ngModel)]="EndDate" dateFormat="dd MM yy"
+                [minDate]="StartDate">
+            </p-calendar>
+        </div>
+
+        <div class="flex flex-col w-3/12 gap-1">
+            <p class="text-sm text-gray-700">
+                Jenis
+            </p>
+            <p-dropdown [options]="JenisDatasource" optionLabel="name" optionValue="value" [(ngModel)]="Jenis"
+                styleClass="w-full p-inputtext-sm">
+            </p-dropdown>
+        </div>
+
+        <p-button styleClass="p-button-sm p-button-info" label="Cari" [disabled]="!StartDate || !EndDate || !Jenis"
+            (onClick)="handleSearchOffcanvas()">
+        </p-button>
+    </div>
+    <div class="grid">
+        <app-grid [props]="GridProps"></app-grid>
+    </div>
+</app-dashboard>

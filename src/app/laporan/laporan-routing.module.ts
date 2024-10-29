@@ -3,8 +3,15 @@ import { LaporanPajakBkpComponent } from "./feature/pajak/laporan-pajak-bkp/lapo
 import { LaporanPajakNonBkpComponent } from "./feature/pajak/laporan-pajak-non-bkp/laporan-pajak-non-bkp.component";
 import { LaporanPajakBkpRekapComponent } from "./feature/pajak/laporan-pajak-bkp-rekap/laporan-pajak-bkp-rekap.component";
 import { NgModule } from "@angular/core";
+import { LaporanKeluarMasukBarangComponent } from "./feature/inventory/laporan-keluar-masuk-barang/laporan-keluar-masuk-barang.component";
 
 const routes: Routes = [
+    {
+        path: 'inventory',
+        children: [
+            { path: 'keluar-masuk-barang', component: LaporanKeluarMasukBarangComponent },
+        ]
+    },
     {
         path: 'pajak',
         children: [
