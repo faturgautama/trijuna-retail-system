@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -73,9 +73,22 @@ export class InputPemesananPoComponent implements OnInit {
 
     @ViewChild('EditSatuanPembelianComps') EditSatuanPembelianComps!: EditSatuanPembelianComponent;
 
+    @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+        if (event.key == 'Enter') {
+            event.preventDefault();
+            // Logika yang sama seperti sebelumnya
+            const inputs = document.querySelectorAll('input');
+            let currentIndex = Array.from(inputs).findIndex(input => document.activeElement === input);
+            const nextIndex = (currentIndex + 1) % inputs.length;
+            inputs[nextIndex].focus();
+        }
+    }
+
     constructor(
         private _store: Store,
         private _router: Router,
+        private renderer: Renderer2,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
         private _setupBarangService: SetupBarangService,
