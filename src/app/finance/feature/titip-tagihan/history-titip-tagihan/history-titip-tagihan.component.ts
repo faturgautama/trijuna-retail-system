@@ -23,6 +23,10 @@ export class HistoryTitipTagihanComponent implements OnInit {
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
+    TotalTt = 0;
+
+    TotalBayar = 0;
+
     constructor(
         private _router: Router,
         private _utilityService: UtilityService,
@@ -95,7 +99,7 @@ export class HistoryTitipTagihanComponent implements OnInit {
                 { field: 'created_at', headerName: 'WAKTU ENTRY', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "calc(100vh - 14rem)",
+            height: "calc(100vh - 18rem)",
             showPaging: true,
         };
     }
@@ -120,6 +124,16 @@ export class HistoryTitipTagihanComponent implements OnInit {
             .subscribe((result) => {
                 if (result.success) {
                     this.GridProps.dataSource = result.data;
+
+                    this.TotalBayar = 0, this.TotalTt = 0;
+
+                    result.data.forEach((item: any) => {
+                        item.total_bayar = parseFloat(item.total_bayar);
+                        this.TotalBayar += item.total_bayar;
+
+                        item.total_titip_tagihan = parseFloat(item.total_titip_tagihan);
+                        this.TotalTt += item.total_titip_tagihan;
+                    })
                 }
             })
     }

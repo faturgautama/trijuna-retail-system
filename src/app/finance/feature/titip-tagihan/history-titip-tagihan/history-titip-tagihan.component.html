@@ -7,5 +7,37 @@
         <app-grid [props]="GridProps" (rowDoubleClicked)="handleRowDoubleClicked($event)"
             (cellClicked)="handleCellClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
         </app-grid>
+
+        <div class="flex justify-end w-full mt-4">
+            <div class="flex flex-col w-4/12 gap-2">
+                <!-- Jumlah TT -->
+                <div class="flex flex-row items-center gap-2">
+                    <div class="w-6/12">
+                        <p class="text-sm text-gray-700 text-end">
+                            Jumlah TT
+                        </p>
+                    </div>
+                    <div class="w-6/12">
+                        <p class="text-sm text-gray-700 font-semibold">
+                            : {{ TotalTt | currency: 'Rp. ' }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Jumlah TT -->
+                <div class="flex flex-row items-center gap-2">
+                    <div class="w-6/12">
+                        <p class="text-sm text-gray-700 text-end">
+                            Jumlah Bayar
+                        </p>
+                    </div>
+                    <div class="w-6/12">
+                        <p class="text-sm text-gray-700 font-semibold">
+                            : {{ TotalBayar | currency: 'Rp. ' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </app-dashboard>

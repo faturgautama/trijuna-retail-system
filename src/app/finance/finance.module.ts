@@ -21,6 +21,7 @@ import { DetailFakturPajakPembelianComponent } from './feature/faktur-pajak-pemb
 import { PrintTitipTagihanComponent } from './feature/titip-tagihan/print-titip-tagihan/print-titip-tagihan.component';
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { PrintPelunsanTtComponent } from './feature/pelunasan-hutang-supplier/print-pelunsan-tt/print-pelunsan-tt.component';
+import { InputTextModule } from "primeng/inputtext";
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { PrintPelunsanTtComponent } from './feature/pelunasan-hutang-supplier/pr
         FinanceRoutingModule,
         TableModule,
         RadioButtonModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        InputTextModule,
     ],
     providers: [
         MessageService,

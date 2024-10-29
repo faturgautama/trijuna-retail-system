@@ -239,7 +239,7 @@ export class InputRepackingComponent implements OnInit {
                 },
             ],
             custom_class: 'grid-rows-2 grid-cols-3',
-        }
+        };
 
         this.GridProps = {
             column: [
