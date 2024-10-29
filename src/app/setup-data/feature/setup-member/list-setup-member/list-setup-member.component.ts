@@ -97,6 +97,10 @@ export class ListSetupMemberComponent implements OnInit {
         this._router.navigate(['setup-data/setup-member/input']);
     }
 
+    handleRowDoubleClicked(args: any): void {
+        this._router.navigateByUrl(`setup-data/setup-member/detail/${args.id_member}`);
+    }
+
     handleSearchOffcanvas(args: any): void {
         this._store.dispatch(new SetupMemberAction.GetAll(args))
             .subscribe((result) => {

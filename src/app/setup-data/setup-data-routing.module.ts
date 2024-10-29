@@ -27,6 +27,7 @@ const routes: Routes = [
         path: 'setup-member', children: [
             { path: 'list', component: ListSetupMemberComponent },
             { path: 'input', component: InputSetupMemberComponent },
+            { path: 'detail/:id', component: InputSetupMemberComponent },
         ]
     },
     {

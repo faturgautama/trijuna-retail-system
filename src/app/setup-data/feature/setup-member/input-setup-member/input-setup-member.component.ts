@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
+import { SetupMemberService } from 'src/app/@core/service/setup-data/setup-member/setup-member.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
@@ -14,6 +15,8 @@ import { SetupMemberAction } from 'src/app/@shared/state/setup-data/setup-member
 })
 export class InputSetupMemberComponent implements OnInit {
 
+    IsDetailPage = this._router.url.includes('detail');
+
     DashboardProps: DashboardModel.IDashboard;
 
     FormInput: CustomFormModel.IForm;
@@ -23,13 +26,23 @@ export class InputSetupMemberComponent implements OnInit {
     constructor(
         private _store: Store,
         private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _messageService: MessageService,
+        private _setupMemberService: SetupMemberService,
     ) {
         this.FormInput = {
             id: 'input_setup_member',
             type: 'save',
             is_inline: true,
             fields: [
+                {
+                    id: 'id_member',
+                    label: 'Nama Lengkap',
+                    status: 'insert',
+                    type: 'string',
+                    required: true,
+                    hidden: true,
+                },
                 {
                     id: 'nama_member',
                     label: 'Nama Lengkap',
@@ -129,19 +142,53 @@ export class InputSetupMemberComponent implements OnInit {
                     type: 'numeric',
                     required: true,
                 },
+                {
+                    id: 'jumlah_poin',
+                    label: 'Jumlah Poin',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true,
+                },
             ]
         };
 
-        this.DashboardProps = {
-            title: 'Input Setup Member',
-            button_navigation: [
-                { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
-                { id: 'save', caption: 'Save', icon: 'pi pi-save text-xs' },
-            ],
-        };
+        if (this.IsDetailPage) {
+            this.DashboardProps = {
+                title: 'Detail Setup Member',
+                button_navigation: [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                    { id: 'reset_point', caption: 'Reset Point', icon: 'pi pi-sync text-xs' },
+                    { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
+                ],
+            };
+        } else {
+            this.DashboardProps = {
+                title: 'Input Setup Member',
+                button_navigation: [
+                    { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                    { id: 'save', caption: 'Save', icon: 'pi pi-save text-xs' },
+                ],
+            };
+        }
     }
 
     ngOnInit(): void {
+        if (this.IsDetailPage) {
+            const id_member = this._activatedRoute.snapshot.params['id'];
+            this.getDetail(id_member);
+        } else {
+            this.FormInput.fields[14].hidden = true;
+        }
+    }
+
+    private getDetail(id_member: number) {
+        this._store
+            .dispatch(new SetupMemberAction.GetById(id_member))
+            .subscribe((result) => {
+                if (result.setup_member.entities.success) {
+                    this.CustomForm.CustomForms.patchValue(result.setup_member.entities.data);
+                }
+            });
     }
 
     handleClickButtonNav(args: string): void {
@@ -152,6 +199,21 @@ export class InputSetupMemberComponent implements OnInit {
             case 'save':
                 this.handleSubmitForm();
                 break;
+            case 'reset_point':
+                const id_member = this._activatedRoute.snapshot.params['id'];
+                this._setupMemberService
+                    .resetPoinMember(id_member)
+                    .subscribe((result) => {
+                        if (result.success) {
+                            this._messageService.clear();
+                            this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Point Berhasil Direset' });
+                            this.getDetail(id_member);
+                        }
+                    });
+                break;
+            case 'update':
+                this.handleUpdateData();
+                break;
             default:
                 break;
         }
@@ -160,12 +222,28 @@ export class InputSetupMemberComponent implements OnInit {
     handleSubmitForm(): void {
         const data = this.CustomForm.handleSubmitForm();
 
-        this._store.dispatch(new SetupMemberAction.Save(data))
+        this._store
+            .dispatch(new SetupMemberAction.Save(data))
             .subscribe((result) => {
                 if (result.setup_member.entities.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
+                    this.CustomForm.handleResetForm();
+                }
+            });
+    }
 
+    handleUpdateData(): void {
+        let data = this.CustomForm.handleSubmitForm();
+
+        delete data.jumlah_poin;
+
+        this._store
+            .dispatch(new SetupMemberAction.Update(data))
+            .subscribe((result) => {
+                if (result.setup_member.entities.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Diperbarui' });
                     this.CustomForm.handleResetForm();
                 }
             });
