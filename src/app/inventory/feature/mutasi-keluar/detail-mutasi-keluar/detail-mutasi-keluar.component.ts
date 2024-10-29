@@ -103,6 +103,8 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
             column: [
                 { field: 'urut', headerName: 'URUT', width: 120, sortable: true, resizable: true },
                 { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
+                { field: 'kode_barang', headerName: 'KODE BARANG', width: 200, sortable: true, resizable: true },
+                { field: 'barcode', headerName: 'BARCODE', width: 200, sortable: true, resizable: true },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
                 { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
                 { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },

@@ -32,6 +32,8 @@ export class PrintMutasiKeluarComponent implements OnInit {
             id: 'print-out-master-barang',
             column: [
                 { field: 'urut', headerName: 'No.', },
+                { field: 'kode_barang', headerName: 'Kode Barang', },
+                { field: 'barcode', headerName: 'Barcode', },
                 { field: 'nama_barang', headerName: 'Nama Barang', },
                 { field: 'kode_satuan', headerName: 'Satuan', },
                 { field: 'banyak', headerName: 'Banyak', class: 'text-end', format: 'currency' },
