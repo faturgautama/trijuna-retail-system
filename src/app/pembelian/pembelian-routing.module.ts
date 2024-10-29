@@ -38,6 +38,7 @@ const routes: Routes = [
             { path: 'input', component: InputPenerimaanDenganPoComponent },
             { path: 'detail/:id', component: DetailPenerimaanDenganPoComponent },
             { path: 'print/:id', component: PrintPenerimaanDenganPoComponent },
+            { path: 'print_draft', component: PrintPenerimaanDenganPoComponent },
             { path: 'export-pdf/:id', component: PrintPenerimaanDenganPoComponent },
         ]
     },

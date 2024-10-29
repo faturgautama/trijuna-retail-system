@@ -11,6 +11,8 @@ import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-g
 })
 export class PrintPenerimaanDenganPoComponent implements OnInit {
 
+    IsPrintDraft = this._router.url.includes('draft');
+
     Data: any;
 
     GridProps: PrintOutGridModel.IGrid;
@@ -49,26 +51,39 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const id = this._activatedRoute.snapshot.params['id'];
-        const url = this._router.url;
-        const isExportPdf = url.includes('export-pdf');
+        if (this.IsPrintDraft) {
+            let data = JSON.parse(localStorage.getItem('_PRINT_DRAFT_PEMBELIAN_PO_') as any);
 
-        this._pembelianDenganPoService
-            .getById(id)
-            .subscribe((result) => {
-                this.Data = result.data;
-                this.GridProps.dataSource = result.data.detail;
+            data.created_at = data.tanggal_nota;
 
-                if (!isExportPdf) {
-                    setTimeout(() => {
-                        window.print();
-                    }, 1500);
-                } else {
-                    setTimeout(() => {
-                        this._utilityService.exportToPdf('printPenerimaanDenganPo', `Penerimaan Barang Dengan PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
-                    }, 500);
-                }
-            })
+            this.Data = data;
+            this.GridProps.dataSource = data.detail;
+
+            setTimeout(() => {
+                window.print();
+            }, 1500);
+        } else {
+            const id = this._activatedRoute.snapshot.params['id'];
+            const url = this._router.url;
+            const isExportPdf = url.includes('export-pdf');
+
+            this._pembelianDenganPoService
+                .getById(id)
+                .subscribe((result) => {
+                    this.Data = result.data;
+                    this.GridProps.dataSource = result.data.detail;
+
+                    if (!isExportPdf) {
+                        setTimeout(() => {
+                            window.print();
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            this._utilityService.exportToPdf('printPenerimaanDenganPo', `Penerimaan Barang Dengan PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
+                        }, 500);
+                    }
+                })
+        }
     }
 
 }

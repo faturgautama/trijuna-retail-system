@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -23,7 +23,7 @@ import { environment } from 'src/environments/environment';
     templateUrl: './input-penerimaan-dengan-po.component.html',
     styleUrls: ['./input-penerimaan-dengan-po.component.scss']
 })
-export class InputPenerimaanDenganPoComponent implements OnInit {
+export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -52,6 +52,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
             title: 'Input Penerimaan Dengan PO',
             button_navigation: [
                 { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                { id: 'print_draft', caption: 'Print Draft', icon: 'pi pi-print text-xs' },
                 { id: 'save', caption: 'Save', icon: 'pi pi-save text-xs' },
             ],
         };
@@ -316,6 +317,9 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
         this.onGetWarehouse();
     }
 
+    ngOnDestroy(): void {
+    }
+
     onGetLokasi(): void {
         this._store.dispatch(new SetupLokasiAction.GetAll())
             .pipe(
@@ -370,6 +374,17 @@ export class InputPenerimaanDenganPoComponent implements OnInit {
         switch (args) {
             case 'back':
                 this._router.navigate(['pembelian/penerimaan-dengan-po/history']);
+                break;
+            case 'print_draft':
+                const header = this.CustomForm.handleSubmitForm();
+                header.detail = this.GridProps.dataSource;
+                const footer = this.CustomFormFooter.handleSubmitForm();
+                const payload = this._utilityService.JoinTwoObject(header, footer);
+                localStorage.setItem('_PRINT_DRAFT_PEMBELIAN_PO_', JSON.stringify(payload));
+
+                setTimeout(() => {
+                    this._router.navigate(['pembelian/penerimaan-dengan-po/print_draft']);
+                }, 1000);
                 break;
             case 'save':
                 this.handleSubmitForm();
