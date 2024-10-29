@@ -44,6 +44,8 @@ export class ListSetupBarangComponent implements OnInit {
             ],
         };
 
+        this.IsAllBarang = this._router.url.includes('all');
+
         this.OffcanvasFilterProps = {
             filter: [
                 {
@@ -105,6 +107,7 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'ukuran', headerName: 'UKURAN', width: 150, sortable: true, resizable: true, cellClass: 'text-right' },
                 { field: 'warna', headerName: 'WARNA', width: 150, sortable: true, resizable: true, cellClass: 'text-right' },
                 { field: 'berat', headerName: 'BERAT', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
+                { field: 'draft_po', headerName: 'DRAFT PO', width: 150, sortable: true, resizable: true, hide: !this.IsAllBarang },
                 { field: 'harga_order', headerName: 'HARGA ORDER', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'harga_beli_terakhir', headerName: 'HARGA BELI TERAKHIR', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'hpp_average', headerName: 'HPP AVERAGE', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
@@ -183,8 +186,6 @@ export class ListSetupBarangComponent implements OnInit {
     ngOnInit(): void {
         this.getAllDivisi();
         this.getAllGroup();
-
-        this.IsAllBarang = this._router.url.includes('all');
 
         if (this.IsAllBarang) {
             this.GridProps.height = "calc(100vh - 14rem)";
