@@ -35,6 +35,7 @@ import { SetupGroupUserComponent } from './feature/management-user/setup-group-u
 import { SetupUserComponent } from './feature/management-user/setup-user/setup-user.component';
 import { PrintSetupBarangComponent } from './feature/setup-barang/print-setup-barang/print-setup-barang.component';
 import { ListBarangAllComponent } from './feature/list-barang-all/list-barang-all.component';
+import { SettingPointMemberComponent } from './feature/setting-point-member/setting-point-member.component';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import { ListBarangAllComponent } from './feature/list-barang-all/list-barang-al
         SetupUserComponent,
         PrintSetupBarangComponent,
         ListBarangAllComponent,
+        SettingPointMemberComponent,
     ],
     imports: [
         CommonModule,

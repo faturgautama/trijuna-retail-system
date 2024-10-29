@@ -12,6 +12,11 @@ export const menu: MenuItem[] = [
                 routerLink: '/setup-data/setup-member/list'
             },
             {
+                id: 'setting-point-member',
+                label: 'Setting Point Member',
+                routerLink: '/setup-data/setting-point-member'
+            },
+            {
                 id: 'setup-supplier',
                 label: 'Setup Supplier',
                 routerLink: '/setup-data/setup-supplier/list'

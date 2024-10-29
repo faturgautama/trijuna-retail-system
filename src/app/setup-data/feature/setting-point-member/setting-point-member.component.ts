@@ -1,20 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
+import { SettingPointMemberService } from 'src/app/@core/service/setup-data/setting-point-member/setting-point-member.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { SetupDivisiModel } from 'src/app/@shared/models/setup-data/setup-divisi.model';
-import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
+import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
 
 @Component({
-    selector: 'app-setup-divisi',
-    templateUrl: './setup-divisi.component.html',
-    styleUrls: ['./setup-divisi.component.scss']
+    selector: 'app-setting-point-member',
+    templateUrl: './setting-point-member.component.html',
+    styleUrls: ['./setting-point-member.component.scss']
 })
-export class SetupDivisiComponent implements OnInit {
+export class SettingPointMemberComponent implements OnInit {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -27,9 +27,10 @@ export class SetupDivisiComponent implements OnInit {
         private _store: Store,
         private _utilityService: UtilityService,
         private _messageService: MessageService,
+        private _settingPointMemberService: SettingPointMemberService
     ) {
         this.DashboardProps = {
-            title: 'Data Setup Divisi',
+            title: 'Data Setting Point Member',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],
@@ -37,8 +38,8 @@ export class SetupDivisiComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'kode_divisi', headerName: 'KODE DIVISI', flex: 300, sortable: true, resizable: true },
-                { field: 'divisi', headerName: 'DIVISI', flex: 500, sortable: true, resizable: true },
+                { field: 'nominal', headerName: 'NOMINAL', flex: 300, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'Rp. ') } },
+                { field: 'dapat_poin', headerName: 'DAPAT POINT', flex: 300, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'Rp. ') } },
                 { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
                 { field: 'is_active', headerName: 'IS ACTIVE', flex: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
             ],
@@ -48,44 +49,66 @@ export class SetupDivisiComponent implements OnInit {
         };
 
         this.FormDialogProps = {
-            title: 'Setup Divisi',
+            title: 'Setting Point Member',
             type: 'add',
             form_props: {
-                id: 'form_setup_divisi',
+                id: 'form_setting_point_member',
                 is_inline: true,
                 fields: [
                     {
-                        id: 'id_divisi',
-                        label: 'Id Divisi',
+                        id: 'id_setting_point',
+                        label: 'Id ',
                         status: 'insert',
                         type: 'string',
                         required: true,
                         hidden: true,
                     },
                     {
-                        id: 'kode_divisi',
-                        label: 'Kode Divisi',
+                        id: 'nominal',
+                        label: 'Nominal',
                         status: 'insert',
-                        type: 'string',
+                        type: 'numeric',
                         required: true,
                         hidden: false,
                     },
                     {
-                        id: 'divisi',
-                        label: 'Divisi',
+                        id: 'dapat_poin',
+                        label: 'Dapat Point',
                         status: 'insert',
-                        type: 'string',
+                        type: 'numeric',
                         required: true,
-                        validator: 'Divisi Tidak Boleh Kosong',
-                    }
+                        hidden: false,
+                    },
+                    {
+                        id: 'group',
+                        label: 'Group',
+                        status: 'insert',
+                        type: 'multi_select',
+                        select_props: [],
+                        required: true,
+                        hidden: false,
+                    },
                 ],
-                custom_class: 'grid-rows-1'
+                custom_class: 'grid-rows-3'
             },
         }
     }
 
     ngOnInit(): void {
-        this.getAllDivisi();
+        this.getAll();
+
+        // ** Group
+        const indexGroup = this.FormDialogProps.form_props.fields.findIndex((item) => { return item.id == 'group' });
+
+        this._store
+            .dispatch(new SetupGroupAction.GetAll())
+            .subscribe((result) => {
+                if (result.setup_group.entities.success) {
+                    this.FormDialogProps.form_props.fields[indexGroup].select_props = result.setup_group.entities.data.map((item: any) => {
+                        return { name: item.group, value: item.id_group }
+                    });
+                }
+            })
     }
 
     handleClickButtonNav(args: string): void {
@@ -101,9 +124,9 @@ export class SetupDivisiComponent implements OnInit {
 
     onRowDoubleClicked(args: any): void {
         this.FormDialogProps.form_props.default_value = {
-            id_divisi: args.id_divisi,
-            kode_divisi: args.kode_divisi,
-            divisi: args.divisi,
+            id_setting_point: args.id_setting_point,
+            dapat_poin: args.dapat_poin,
+            group: args.group,
         };
 
         this.FormDialogProps.type = 'edit';
@@ -111,50 +134,61 @@ export class SetupDivisiComponent implements OnInit {
         this.FormDialog.onOpenFormDialog();
     }
 
-    getAllDivisi(): void {
-        this._store.dispatch(new SetupDivisiAction.GetAll())
+    getAll(): void {
+        this._settingPointMemberService
+            .getAll()
             .subscribe((result) => {
-                if (result.setup_divisi.entities.success) {
-                    this.GridProps.dataSource = result.setup_divisi.entities.data;
+                if (result.success) {
+                    this.GridProps.dataSource = result.data;
                 }
             })
     }
 
     handleSubmitForm(data: any): void {
         if (this.FormDialogProps.type == 'add') {
-            const payload: SetupDivisiModel.SaveSetupDivisi = {
-                divisi: data.divisi,
+            const payload: any = {
+                nominal: data.nominal,
+                dapat_poin: data.dapat_poin,
+                group: data.group.map((item: any) => {
+                    return {
+                        id_group: item
+                    }
+                }),
             };
 
-            this._store.dispatch(new SetupDivisiAction.Save(payload))
+            this._settingPointMemberService
+                .save(payload)
                 .subscribe((result) => {
-                    if (result.setup_divisi.entities.success) {
+                    if (result.success) {
                         this._messageService.clear();
                         this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
-
                         this.FormDialog.onCloseFormDialog();
-
-                        this.getAllDivisi();
+                        this.getAll();
                     }
                 })
         } else {
-            const payload: SetupDivisiModel.UpdateSetupDivisi = {
-                id_divisi: data.id_divisi,
-                kode_divisi: data.kode_divisi,
-                divisi: data.divisi,
+            const payload = {
+                id_setting_point: data.id_setting_point,
+                nominal: data.nominal,
+                dapat_poin: data.dapat_poin,
+                group: data.group.map((item: any) => {
+                    return {
+                        id_group: item
+                    }
+                }),
             };
 
-            this._store.dispatch(new SetupDivisiAction.Update(payload))
+            this._settingPointMemberService
+                .update(payload)
                 .subscribe((result) => {
-                    if (result.setup_divisi.entities.success) {
+                    if (result.success) {
                         this._messageService.clear();
                         this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Diupdate' });
-
                         this.FormDialog.onCloseFormDialog();
-
-                        this.getAllDivisi();
+                        this.getAll();
                     }
                 })
         }
     }
+
 }
