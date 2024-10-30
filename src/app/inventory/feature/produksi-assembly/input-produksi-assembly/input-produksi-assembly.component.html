@@ -18,7 +18,20 @@
                 </label>
             </div>
             <div class="w-8/12">
-                <textarea #Keterangan rows="2" pInputTextarea class="w-full" [autoResize]="false"></textarea>
+                <textarea [(ngModel)]="Keterangan" rows="2" pInputTextarea class="w-full"
+                    [autoResize]="false"></textarea>
+            </div>
+        </div>
+
+        <div class="flex w-5/12 items-center">
+            <div class="w-5/12">
+                <label for="keterangan">
+                    Total Hpp Average Komponen
+                </label>
+            </div>
+            <div class="w-7/12">
+                <p-inputNumber [(ngModel)]="TotalHppAverageKomponen" styleClass="p-inputtext-sm w-full"
+                    [readonly]="true"></p-inputNumber>
             </div>
         </div>
     </div>
