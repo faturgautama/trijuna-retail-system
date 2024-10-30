@@ -56,7 +56,7 @@ export class SettingPointMemberComponent implements OnInit {
                 is_inline: true,
                 fields: [
                     {
-                        id: 'id_setting_point',
+                        id: 'id_member_poin_setting',
                         label: 'Id ',
                         status: 'insert',
                         type: 'string',
@@ -124,13 +124,12 @@ export class SettingPointMemberComponent implements OnInit {
 
     onRowDoubleClicked(args: any): void {
         this.FormDialogProps.form_props.default_value = {
-            id_setting_point: args.id_setting_point,
+            id_member_poin_setting: args.id_member_poin_setting,
             dapat_poin: args.dapat_poin,
             group: args.group,
         };
 
         this.FormDialogProps.type = 'edit';
-
         this.FormDialog.onOpenFormDialog();
     }
 
@@ -145,50 +144,26 @@ export class SettingPointMemberComponent implements OnInit {
     }
 
     handleSubmitForm(data: any): void {
-        if (this.FormDialogProps.type == 'add') {
-            const payload: any = {
-                nominal: data.nominal,
-                dapat_poin: data.dapat_poin,
-                group: data.group.map((item: any) => {
-                    return {
-                        id_group: item
-                    }
-                }),
-            };
+        const payload: any = {
+            nominal: data.nominal,
+            dapat_poin: data.dapat_poin,
+            group: data.group.map((item: any) => {
+                return {
+                    id_group: item
+                }
+            }),
+        };
 
-            this._settingPointMemberService
-                .save(payload)
-                .subscribe((result) => {
-                    if (result.success) {
-                        this._messageService.clear();
-                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
-                        this.FormDialog.onCloseFormDialog();
-                        this.getAll();
-                    }
-                })
-        } else {
-            const payload = {
-                id_setting_point: data.id_setting_point,
-                nominal: data.nominal,
-                dapat_poin: data.dapat_poin,
-                group: data.group.map((item: any) => {
-                    return {
-                        id_group: item
-                    }
-                }),
-            };
-
-            this._settingPointMemberService
-                .update(payload)
-                .subscribe((result) => {
-                    if (result.success) {
-                        this._messageService.clear();
-                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Diupdate' });
-                        this.FormDialog.onCloseFormDialog();
-                        this.getAll();
-                    }
-                })
-        }
+        this._settingPointMemberService
+            .save(payload)
+            .subscribe((result) => {
+                if (result.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
+                    this.FormDialog.onCloseFormDialog();
+                    this.getAll();
+                }
+            })
     }
 
 }

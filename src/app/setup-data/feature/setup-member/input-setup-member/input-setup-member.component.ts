@@ -157,7 +157,6 @@ export class InputSetupMemberComponent implements OnInit {
                 title: 'Detail Setup Member',
                 button_navigation: [
                     { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
-                    { id: 'reset_point', caption: 'Reset Point', icon: 'pi pi-sync text-xs' },
                     { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
                 ],
             };
@@ -198,18 +197,6 @@ export class InputSetupMemberComponent implements OnInit {
                 break;
             case 'save':
                 this.handleSubmitForm();
-                break;
-            case 'reset_point':
-                const id_member = this._activatedRoute.snapshot.params['id'];
-                this._setupMemberService
-                    .resetPoinMember(id_member)
-                    .subscribe((result) => {
-                        if (result.success) {
-                            this._messageService.clear();
-                            this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Point Berhasil Direset' });
-                            this.getDetail(id_member);
-                        }
-                    });
                 break;
             case 'update':
                 this.handleUpdateData();

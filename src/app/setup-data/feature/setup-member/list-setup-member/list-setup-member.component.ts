@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { MessageService } from 'primeng/api';
+import { SettingPointMemberService } from 'src/app/@core/service/setup-data/setting-point-member/setting-point-member.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
@@ -24,11 +26,14 @@ export class ListSetupMemberComponent implements OnInit {
         private _store: Store,
         private _router: Router,
         private _utilityService: UtilityService,
+        private _messageService: MessageService,
+        private _settingPoinMemberService: SettingPointMemberService,
     ) {
         this.DashboardProps = {
             title: 'Data Setup Member',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'reset_point', caption: 'Reset Point', icon: 'pi pi-sync text-xs' },
             ],
         };
 
@@ -94,7 +99,21 @@ export class ListSetupMemberComponent implements OnInit {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['setup-data/setup-member/input']);
+        if (args == 'add') {
+            this._router.navigate(['setup-data/setup-member/input']);
+        };
+
+        if (args == 'reset_point') {
+            this._settingPoinMemberService
+                .resetPoin()
+                .subscribe((result) => {
+                    if (result.success) {
+                        this._messageService.clear();
+                        this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Point Berhasil Direset' });
+                        this.handleSearchOffcanvas([]);
+                    }
+                });
+        };
     }
 
     handleRowDoubleClicked(args: any): void {

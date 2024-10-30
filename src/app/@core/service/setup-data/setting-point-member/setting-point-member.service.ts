@@ -13,22 +13,14 @@ export class SettingPointMemberService {
     ) { }
 
     getAll(): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/member/point`);
-    }
-
-    getById(id_setting_point: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/member/point/${id_setting_point}`);
+        return this._httpRequestService.getRequest(`${environment.endpoint}/setting_poin/get`);
     }
 
     save(payload: any): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/member/point`, payload);
+        return this._httpRequestService.postRequest(`${environment.endpoint}/setting_poin/simpan`, payload);
     }
 
-    update(payload: any): Observable<any> {
-        return this._httpRequestService.putRequest(`${environment.endpoint}/member/point/${payload.id_setting_point}`, payload);
-    }
-
-    delete(id_setting_point: number): Observable<any> {
-        return this._httpRequestService.deleteRequest(`${environment.endpoint}/member/point/${id_setting_point}`);
+    resetPoin(): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/reset_poin_member`);
     }
 }
