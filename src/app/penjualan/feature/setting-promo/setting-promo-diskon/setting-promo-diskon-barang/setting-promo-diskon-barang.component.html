@@ -1,4 +1,12 @@
 <app-grid [props]="GridProps" (cellClicked)="handleCellClicked($event)" (toolbarClicked)="handleToolbarClicked($event)">
 </app-grid>
 
-<app-form-dialog #FormDialog [props]="FormDialogProps" (onSubmitForm)="handleSubmitForm($event)"></app-form-dialog>
+<app-form-dialog #FormDialog [props]="FormDialogProps" (onSubmitForm)="handleSubmitForm($event)">
+</app-form-dialog>
+
+<app-form-dialog #FormDialogMerk [props]="FormDialogMerkProps" (onSubmitForm)="handleSubmitFormMerk($event)">
+</app-form-dialog>
+
+<app-form-dialog #FormDialogSupplier [props]="FormDialogSupplierProps"
+    (onSubmitForm)="handleSubmitFormSupplier($event)">
+</app-form-dialog>

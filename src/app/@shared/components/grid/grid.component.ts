@@ -65,6 +65,9 @@ export class GridComponent {
 
                 switch (item) {
                     case 'Add':
+                    case 'Add Barang':
+                    case 'Add Supplier':
+                    case 'Add Merk':
                         icon = 'pi pi-plus';
                         break;
                     case 'Edit':
