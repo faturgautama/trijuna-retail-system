@@ -9,6 +9,7 @@ import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangAction } from 'src/app/@shared/state/setup-data/setup-barang';
 import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
 import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
+import { SetupSupplierAction } from 'src/app/@shared/state/setup-data/setup-supplier';
 
 @Component({
     selector: 'app-list-setup-barang',
@@ -82,9 +83,10 @@ export class ListSetupBarangComponent implements OnInit {
                 },
                 {
                     id: 'supplier',
-                    title: 'Nama Supplier',
-                    type: 'string',
-                    value: 'ms.nama_supplier',
+                    title: 'Pilih Supplier',
+                    type: 'dropdown',
+                    value: 'mb.id_supplier',
+                    dropdown_props: []
                 },
                 {
                     id: 'created_at',
@@ -103,6 +105,7 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'kode_barang', headerName: 'KODE BARANG', width: 170, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 300, sortable: true, resizable: true },
+                { field: 'nama_supplier', headerName: 'NAMA SUPPLIER', width: 300, sortable: true, resizable: true },
                 { field: 'persediaan', headerName: 'PERSEDIAAN', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'ukuran', headerName: 'UKURAN', width: 150, sortable: true, resizable: true, cellClass: 'text-right' },
                 { field: 'warna', headerName: 'WARNA', width: 150, sortable: true, resizable: true, cellClass: 'text-right' },
@@ -186,6 +189,7 @@ export class ListSetupBarangComponent implements OnInit {
     ngOnInit(): void {
         this.getAllDivisi();
         this.getAllGroup();
+        this.getAllSupplier();
 
         if (this.IsAllBarang) {
             this.GridProps.height = "calc(100vh - 14rem)";
@@ -217,6 +221,19 @@ export class ListSetupBarangComponent implements OnInit {
                     return {
                         name: item.group,
                         value: item.id_group
+                    }
+                });
+            })
+    }
+
+    private getAllSupplier() {
+        this._store
+            .dispatch(new SetupSupplierAction.GetAll([]))
+            .subscribe((result) => {
+                this.OffcanvasFilterProps.filter[5].dropdown_props = result.setup_supplier.entities.data.map((item: any) => {
+                    return {
+                        name: item.nama_supplier,
+                        value: item.id_supplier
                     }
                 });
             })

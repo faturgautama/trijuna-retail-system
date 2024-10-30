@@ -6,6 +6,7 @@ import { DashboardModel } from 'src/app/@shared/models/components/dashboard.mode
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { PembelianDenganPoAction } from 'src/app/@shared/state/pembelian/pembelian-dengan-po';
+import { SetupSupplierAction } from 'src/app/@shared/state/setup-data/setup-supplier';
 
 @Component({
     selector: 'app-history-penerimaan-dengan-po',
@@ -66,10 +67,11 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
         this.OffcanvasFilterProps = {
             filter: [
                 {
-                    id: 'nama_supplier',
-                    title: 'Nama Supplier',
-                    type: 'string',
-                    value: 'ms.nama_supplier',
+                    id: 'supplier',
+                    title: 'Pilih Supplier',
+                    type: 'dropdown',
+                    value: 'tp.id_supplier',
+                    dropdown_props: []
                 },
                 {
                     id: 'nomor_pemesanan',
@@ -95,6 +97,20 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
 
     ngOnInit(): void {
         this.handleSearchOffcanvas([]);
+        this.getAllSupplier();
+    }
+
+    private getAllSupplier() {
+        this._store
+            .dispatch(new SetupSupplierAction.GetAll([]))
+            .subscribe((result) => {
+                this.OffcanvasFilterProps.filter[0].dropdown_props = result.setup_supplier.entities.data.map((item: any) => {
+                    return {
+                        name: item.nama_supplier,
+                        value: item.id_supplier
+                    }
+                });
+            })
     }
 
     handleClickButtonNav(args: string): void {
