@@ -7,15 +7,20 @@ import * as fs from 'file-saver';
 import domtoimage from 'dom-to-image';
 import jspdf from 'jspdf';
 import { DocumentModel } from 'src/app/@shared/models/shared/document.model';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { CookiesUtils } from 'src/app/@shared/utils/cookies.utils';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UtilityService {
 
+    UserData: any = this._cookieUtils.getCookie('TRSUserData') as any;;
+
     private Workbook = new Excel.Workbook();
 
     constructor(
+        private _cookieUtils: CookiesUtils,
         private _messageService: MessageService,
     ) { }
 
@@ -90,32 +95,76 @@ export class UtilityService {
         }
     }
 
+    // exportToExcel(payload: DocumentModel.ExportExcel) {
+    //     this.Workbook.removeWorksheet('docs');
+
+    //     let worksheets = this.Workbook.addWorksheet('docs');
+
+
+    //     worksheets.getRow(1).values = [payload.worksheetName];
+    //     worksheets.getRow(2).values = [this.UserData.lokasi.nama_lokasi];
+    //     worksheets.getRow(3).values = [this.UserData.lokasi.nama_lokasi];
+
+    //     let column = [];
+
+    //     for (const data of Object.keys(payload.dataSource[0])) {
+    //         column.push({
+    //             header: data.replace(/_/g, " ").toUpperCase(),
+    //             key: data,
+    //             width: 20,
+    //         });
+    //     }
+
+    //     worksheets.headerFooter = {
+    //         firstHeader: 'TEST'
+    //     }
+
+    //     worksheets.columns = [{}, ...column];
+
+    //     for (const item of payload.dataSource) {
+    //         worksheets.addRow(item);
+    //     }
+
+    //     let fileName = `${payload.worksheetName}-${this.FormatDate(new Date(), 'DD-mm-yyyy HH:mm:ss')}`;
+
+    //     this.Workbook.xlsx.writeBuffer().then((data) => {
+    //         let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    //         fs.saveAs(blob, fileName + '.xlsx');
+    //     })
+    // }
+
     exportToExcel(payload: DocumentModel.ExportExcel) {
         this.Workbook.removeWorksheet('docs');
 
         let worksheets = this.Workbook.addWorksheet('docs');
 
-        let column = [];
+        // Set title and location in the first two rows
+        worksheets.getRow(1).values = [payload.worksheetName];
+        worksheets.getRow(1).font = { bold: true, size: 14 };
+        worksheets.getRow(2).values = [this.UserData.lokasi.nama_lokasi];
+        worksheets.getRow(2).font = { bold: true, size: 12 };
+        worksheets.getRow(3).values = []; // Empty row for spacing
 
-        for (const data of Object.keys(payload.dataSource[0])) {
-            column.push({
-                header: data.replace(/_/g, " ").toUpperCase(),
-                key: data,
-                width: 20,
-            });
-        }
+        // Define and set column headers
+        const columnHeaders = Object.keys(payload.dataSource[0]).map(key =>
+            key.replace(/_/g, " ").toUpperCase()
+        );
+        worksheets.getRow(4).values = columnHeaders;
 
-        worksheets.columns = column;
+        // Add data rows
+        payload.dataSource.forEach(item => {
+            const rowData = Object.keys(item).map(key => item[key]); // Extract values based on keys
+            worksheets.addRow(rowData);
+        });
 
-        for (const item of payload.dataSource) {
-            worksheets.addRow(item);
-        }
-
+        // Set the file name
         let fileName = `${payload.worksheetName}-${this.FormatDate(new Date(), 'DD-mm-yyyy HH:mm:ss')}`;
 
+        // Write to buffer and save as an Excel file
         this.Workbook.xlsx.writeBuffer().then((data) => {
             let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
             fs.saveAs(blob, fileName + '.xlsx');
-        })
+        });
     }
+
 }
