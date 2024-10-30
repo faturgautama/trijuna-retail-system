@@ -33,7 +33,7 @@ export class SettingPromoBarangComponent implements OnInit {
         private _settingPromoBonusBarangService: SettingPromoBonusBarangService,
     ) {
         this.DashboardProps = {
-            title: 'Setting Promo Diskon',
+            title: 'Setting Promo Bonus Barang',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],

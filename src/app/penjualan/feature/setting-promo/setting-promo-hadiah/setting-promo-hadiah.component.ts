@@ -38,7 +38,7 @@ export class SettingPromoHadiahComponent implements OnInit {
         private _settingPromoHadiahService: SettingPromoHadiahService,
     ) {
         this.DashboardProps = {
-            title: 'Setting Promo Diskon',
+            title: 'Setting Promo Hadiah',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],
