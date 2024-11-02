@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { hostname } from 'os';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -381,9 +382,13 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                 const footer = this.CustomFormFooter.handleSubmitForm();
                 const payload = this._utilityService.JoinTwoObject(header, footer);
                 localStorage.setItem('_PRINT_DRAFT_PEMBELIAN_PO_', JSON.stringify(payload));
-
                 setTimeout(() => {
-                    this._router.navigate(['pembelian/penerimaan-dengan-po/print_draft']);
+                    const url = this._router.serializeUrl(
+                        this._router.createUrlTree(['pembelian/penerimaan-dengan-po/print_draft'])
+                    );
+
+                    window.open(`/#${url}`, '_blank');
+
                 }, 1000);
                 break;
             case 'save':
@@ -531,6 +536,8 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
 
                     this.CustomForm.handleResetForm();
+
+                    localStorage.removeItem('_PRINT_DRAFT_PEMBELIAN_PO_');
 
                     if (print) {
                         setTimeout(() => {

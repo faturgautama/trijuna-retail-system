@@ -21,7 +21,11 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        window.history.back();
+        if (this.IsPrintDraft) {
+            window.close();
+        } else {
+            window.history.back();
+        }
     }
 
     constructor(
