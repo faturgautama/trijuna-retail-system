@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
+import { GridComponent } from 'src/app/@shared/components/grid/grid.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
@@ -46,6 +47,7 @@ export class InputReturPembelianComponent implements OnInit {
     GridSelectedData: ReturPembelianModel.IReturPembelianDetail = {} as any;
     GridSelectedIndex: number = 0;
     GridDatasource: any[] = [];
+    @ViewChild('GridComps') GridComps!: GridComponent;
 
     constructor(
         private _store: Store,
@@ -360,7 +362,8 @@ export class InputReturPembelianComponent implements OnInit {
                 break;
             case 'delete':
                 const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
-                this.GridProps.dataSource.splice(selectedIndex, 1);
+                this.GridComps.onDeleteClientSide(selectedIndex);
+                this.onCountFormFooter();
                 break;
             default:
                 break;
