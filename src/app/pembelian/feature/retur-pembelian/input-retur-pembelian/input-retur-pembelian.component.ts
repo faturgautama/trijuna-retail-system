@@ -88,6 +88,7 @@ export class InputReturPembelianComponent implements OnInit {
                             filter: [
                                 { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
                                 { id: 'nama_barang', title: 'Nama Barang', type: 'contain', value: 'mb.nama_barang' },
+                                { id: 'barcode', title: 'Barcode', type: 'contain', value: 'mb.barcode' },
                             ],
                             label: 'Barang',
                             selectedField: 'nama_barang',
