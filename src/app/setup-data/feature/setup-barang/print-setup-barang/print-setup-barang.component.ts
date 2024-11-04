@@ -22,7 +22,8 @@ export class PrintSetupBarangComponent implements OnInit, OnDestroy {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        this._router.navigate(['setup-data/setup-inventory/setup-barang/list']);
+        // this._router.navigate(['setup-data/setup-inventory/setup-barang/list']);
+        window.history.back();
     }
 
     constructor(

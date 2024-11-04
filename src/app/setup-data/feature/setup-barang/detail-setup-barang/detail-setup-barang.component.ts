@@ -478,7 +478,8 @@ export class DetailSetupBarangComponent implements OnInit {
     handleClickButtonNav(args: string): void {
         switch (args) {
             case 'back':
-                this._router.navigate(['setup-data/setup-inventory/setup-barang/list']);
+                // this._router.navigate(['setup-data/setup-inventory/setup-barang/list']);
+                window.history.back();
                 break;
             case 'update':
                 this.handleSubmitForm();

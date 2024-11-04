@@ -244,7 +244,7 @@ export class ListSetupBarangComponent implements OnInit {
             this._router.navigate(['setup-data/setup-inventory/setup-barang/input']);
         };
 
-        if (args == 'export_excel') {
+        if (args == 'export_excel' && !this.IsAllBarang) {
             const dataSource = this.GridProps.dataSource.map((item) => {
                 return {
                     kode_barang: item.kode_barang,
@@ -259,6 +259,27 @@ export class ListSetupBarangComponent implements OnInit {
                     stok_gudang: item.stok_gudang,
                 }
             });
+
+            this._utilityService.exportToExcel({ worksheetName: 'Master_Barang', dataSource: dataSource })
+        };
+
+        if (args == 'export_excel' && this.IsAllBarang) {
+            const dataSource = this.GridProps.dataSource.map((item) => {
+                return {
+                    kode_barang: item.kode_barang,
+                    nama_barang: item.nama_barang,
+                    barcode: item.barcode,
+                    satuan: item.nama_satuan,
+                    harga_jual: (item.harga_jual),
+                    tanggal_dibuat: item.created_at,
+                    nama_supplier: item.nama_supplier,
+                    kode_supplier: item.kode_supplier,
+                    stok_toko: item.stok_toko,
+                    stok_gudang: item.stok_gudang,
+                }
+            });
+
+            console.log("datasource =>", dataSource);
 
             this._utilityService.exportToExcel({ worksheetName: 'Master_Barang', dataSource: dataSource })
         };
@@ -280,13 +301,17 @@ export class ListSetupBarangComponent implements OnInit {
     handleSearchOffcanvas(args: any): void {
         localStorage.setItem("_TRS_BRG_SEARCH_", JSON.stringify(args));
 
-        this._store
-            .dispatch(new SetupBarangAction.GetAllBarang(args))
-            .subscribe((result) => {
-                if (result.setup_barang.entities.success) {
-                    this.GridProps.dataSource = result.setup_barang.entities.data;
-                }
-            })
+        if (this.IsAllBarang) {
+            this.handleGetAllBarangNoLimit(args);
+        } else {
+            this._store
+                .dispatch(new SetupBarangAction.GetAllBarang(args))
+                .subscribe((result) => {
+                    if (result.setup_barang.entities.success) {
+                        this.GridProps.dataSource = result.setup_barang.entities.data;
+                    }
+                })
+        }
     }
 
     handleGetAllBarangNoLimit(args: any): void {
