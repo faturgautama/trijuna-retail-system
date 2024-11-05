@@ -37,7 +37,7 @@ export class PrintPemesananPoComponent implements OnInit {
                 { field: 'kode_barang', headerName: 'Kode Barang', },
                 { field: 'barcode', headerName: 'Barcode', },
                 { field: 'nama_barang', headerName: 'Nama Barang', },
-                { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'currency' },
+                { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number' },
                 { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency' },
                 { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
             ],

@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
+import { GridComponent } from 'src/app/@shared/components/grid/grid.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
@@ -44,6 +45,8 @@ export class InputReturKonsinyasiComponent implements OnInit {
     GridSelectedData: ReturPembelianModel.IReturPembelianDetail = {} as any;
     GridSelectedIndex: number = 0;
     GridDatasource: any[] = [];
+    @ViewChild('GridComps') GridComps!: GridComponent;
+
 
     constructor(
         private _store: Store,
@@ -170,6 +173,8 @@ export class InputReturKonsinyasiComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/barang/by_param`,
                             callback: (data) => {
+                                this.HargaOrder = data.harga_beli_terakhir ? parseFloat(data.harga_beli_terakhir) : 0;
+                                this.FormDialog.CustomForm.CustomForms.get('harga_satuan')?.setValue(this.HargaOrder);
                                 this.onGetSatuan(data.satuan);
                             }
                         },
@@ -351,7 +356,8 @@ export class InputReturKonsinyasiComponent implements OnInit {
                 break;
             case 'delete':
                 const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
-                this.GridProps.dataSource.splice(selectedIndex, 1);
+                this.GridComps.onDeleteClientSide(selectedIndex);
+                this.onCountFormFooter();
                 break;
             default:
                 break;
@@ -374,10 +380,9 @@ export class InputReturKonsinyasiComponent implements OnInit {
 
     onChangeSatuan(data: SetupBarangModel.ISetupBarangSatuan): void {
         this.FormDialog.CustomForm.handleSetFieldValue('isi', data.isi);
-
         this.FormDialog.CustomForm.handleSetFieldValue('qty', (this.Banyak * data.isi!));
-
-        this.Qty = (this.Banyak * data.isi!)
+        this.Qty = (this.Banyak * data.isi!);
+        this.FormDialog.CustomForm.handleSetFieldValue('sub_total', (this.Qty * this.HargaOrder));
     }
 
     handleChangeBanyak(value: number): void {
