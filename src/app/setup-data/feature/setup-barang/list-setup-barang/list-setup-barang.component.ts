@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
@@ -29,6 +30,10 @@ export class ListSetupBarangComponent implements OnInit {
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
     IsAllBarang = false;
+
+    KeywordSearch$ = new BehaviorSubject<string>("");
+
+    OriginalGridDatasource: any[] = [];
 
     constructor(
         private _store: Store,
@@ -105,6 +110,8 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'kode_barang', headerName: 'KODE BARANG', width: 170, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 300, sortable: true, resizable: true },
+                { field: 'stok_toko', headerName: 'STOK TOKO', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
+                { field: 'stok_gudang', headerName: 'STOK GUDANG', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'nama_supplier', headerName: 'NAMA SUPPLIER', width: 300, sortable: true, resizable: true },
                 { field: 'persediaan', headerName: 'PERSEDIAAN', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'ukuran', headerName: 'UKURAN', width: 150, sortable: true, resizable: true, cellClass: 'text-right' },
@@ -124,8 +131,6 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'tahun_produksi', headerName: 'TAHUN PRODUKSI', width: 200, sortable: true, resizable: true, },
                 { field: 'stok_min', headerName: 'STOK MIN', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'harga_jual', headerName: 'HARGA JUAL', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
-                { field: 'stok_toko', headerName: 'STOK TOKO', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
-                { field: 'stok_gudang', headerName: 'STOK GUDANG', width: 200, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
                 { field: 'is_active', headerName: 'IS ACTIVE', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
                 { field: 'created_by', headerName: 'CREATED BY', width: 150, sortable: true, resizable: true },
                 { field: 'created_at', headerName: 'WAKTU INPUT', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
@@ -133,7 +138,7 @@ export class ListSetupBarangComponent implements OnInit {
                 { field: 'updated_at', headerName: 'WAKTU UPDATE', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
-            height: "calc(100vh - 18rem)",
+            height: "calc(100vh - 22rem)",
             showPaging: true,
         };
 
@@ -184,6 +189,27 @@ export class ListSetupBarangComponent implements OnInit {
             toolbar: [],
             showPaging: false,
         };
+
+        this.KeywordSearch$
+            .pipe(
+                debounceTime(300),
+                distinctUntilChanged()
+            ).subscribe((result: string | any) => {
+                if (result) {
+                    let data = this.OriginalGridDatasource;
+
+                    const newArr = data.filter((item: any) => {
+                        return item.kode_barang.toLowerCase().includes(result.toLowerCase()) ||
+                            item.barcode.toLowerCase().includes(result.toLowerCase()) ||
+                            item.nama_barang.toLowerCase().includes(result.toLowerCase());
+                    });
+
+                    this.GridProps.dataSource = newArr;
+
+                } else {
+                    this.GridProps.dataSource = this.OriginalGridDatasource;
+                }
+            });
     }
 
     ngOnInit(): void {
@@ -311,8 +337,15 @@ export class ListSetupBarangComponent implements OnInit {
                 .subscribe((result) => {
                     if (result.setup_barang.entities.success) {
                         this.GridProps.dataSource = result.setup_barang.entities.data;
+                        this.OriginalGridDatasource = result.setup_barang.entities.data;
                     }
                 })
+        }
+    }
+
+    handleSearchClientSide(args: string) {
+        if (args) {
+            this.KeywordSearch$.next(args);
         }
     }
 
@@ -324,6 +357,7 @@ export class ListSetupBarangComponent implements OnInit {
             .subscribe((result) => {
                 if (result.setup_barang.entities.success) {
                     this.GridProps.dataSource = result.setup_barang.entities.data;
+                    this.OriginalGridDatasource = result.setup_barang.entities.data;
                 }
             })
     }

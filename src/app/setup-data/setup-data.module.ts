@@ -36,6 +36,7 @@ import { SetupUserComponent } from './feature/management-user/setup-user/setup-u
 import { PrintSetupBarangComponent } from './feature/setup-barang/print-setup-barang/print-setup-barang.component';
 import { ListBarangAllComponent } from './feature/list-barang-all/list-barang-all.component';
 import { SettingPointMemberComponent } from './feature/setting-point-member/setting-point-member.component';
+import { InputTextModule } from "primeng/inputtext";
 
 @NgModule({
     declarations: [
@@ -75,6 +76,7 @@ import { SettingPointMemberComponent } from './feature/setting-point-member/sett
         CalendarModule,
         DropdownModule,
         ButtonModule,
+        InputTextModule
     ],
     providers: [
         MessageService,

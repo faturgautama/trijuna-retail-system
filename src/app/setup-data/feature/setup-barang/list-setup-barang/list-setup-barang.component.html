@@ -4,6 +4,13 @@
         </app-offcanvas-filter>
     </div>
     <div class="grid">
+        <div class="flex flex-row justify-end mb-2">
+            <div class="w-4/12">
+                <input #Keyword type="text" pInputText placeholder="Cari Berdasarkan Kode, Nama atau Barcode"
+                    class="w-full p-inputtext-sm" (keyup)="handleSearchClientSide(Keyword.value)">
+            </div>
+        </div>
+
         <app-grid [props]="GridProps" (cellClicked)="handleCellClicked($event)"
             (rowDoubleClicked)="handleRowDoubleClicked($event)">
         </app-grid>
