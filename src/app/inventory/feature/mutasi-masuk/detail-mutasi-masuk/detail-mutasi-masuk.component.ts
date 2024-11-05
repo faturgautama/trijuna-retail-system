@@ -210,7 +210,7 @@ export class DetailMutasiMasukComponent implements OnInit, OnDestroy {
                 this._mutasiMasukService
                     .validasi({ id_mutasi_lokasi: id })
                     .subscribe((result) => {
-                        if (result.success) {
+                        if (result.status) {
                             this._messageService.clear();
                             this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Divalidasi' });
 
