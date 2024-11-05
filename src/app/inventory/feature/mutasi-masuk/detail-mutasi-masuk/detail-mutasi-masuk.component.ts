@@ -208,7 +208,7 @@ export class DetailMutasiMasukComponent implements OnInit, OnDestroy {
                 const id = this._activatedRoute.snapshot.params.id;
 
                 this._mutasiMasukService
-                    .validasi(id)
+                    .validasi({ id_mutasi_lokasi: id })
                     .subscribe((result) => {
                         if (result.success) {
                             this._messageService.clear();
