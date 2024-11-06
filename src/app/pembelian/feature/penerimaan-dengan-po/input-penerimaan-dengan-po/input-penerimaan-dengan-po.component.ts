@@ -227,9 +227,28 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
                     valueGetter: params => { return params.data.banyak },
                     valueSetter: params => {
-                        const data = JSON.parse(JSON.stringify(params.data));
-                        data.banyak = params.newValue;
-                        params.data = data;
+                        console.log("params =>", params);
+                        console.log("old value =>", parseInt(params.oldValue));
+                        console.log("new value =>", parseInt(params.newValue));
+
+                        if (parseInt(params.newValue) > parseInt(params.data.qty_po)) {
+                            this._messageService.clear();
+                            this._messageService.add({ severity: 'warn', summary: 'Oops', detail: 'Tidak Boleh > Qty PO' });
+
+                            const index = this.GridProps.dataSource.findIndex(item => item.id_pemesanan_detail == params.data.id_pemesanan_detail);
+                            let dataSource = [...this.GridProps.dataSource];
+                            dataSource[index].banyak = params.oldValue;
+
+                            setTimeout(() => {
+                                this.GridProps.dataSource = dataSource;
+                            }, 1000);
+
+                        } else {
+                            const data = JSON.parse(JSON.stringify(params.data));
+                            data.banyak = params.newValue;
+                            params.data = data;
+                        }
+
                         return true;
                     }
                 },
@@ -310,7 +329,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                 ],
                 custom_class: 'grid-rows-2'
             }
-        }
+        };
     }
 
     ngOnInit(): void {
@@ -411,7 +430,12 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                 })
             )
             .subscribe((result) => {
-                this.GridProps.dataSource = result;
+                this.GridProps.dataSource = result.map((item: any) => {
+                    return {
+                        ...item,
+                        qty_po: item.qty
+                    }
+                });
                 this.onCountFormFooter();
             })
     }
@@ -466,7 +490,10 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
         });
 
         this.GridProps.dataSource = args;
-        this.onCountFormFooter();
+
+        setTimeout(() => {
+            this.onCountFormFooter();
+        }, 1500);
     }
 
     handleChangeDiskonFooter(value: number): void {
