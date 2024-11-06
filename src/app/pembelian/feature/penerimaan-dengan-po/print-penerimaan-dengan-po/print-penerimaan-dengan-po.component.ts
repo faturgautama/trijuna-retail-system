@@ -57,19 +57,51 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
     ngOnInit(): void {
         if (this.IsPrintDraft) {
             let data = JSON.parse(localStorage.getItem('_PRINT_DRAFT_PEMBELIAN_PO_') as any);
-
             data.created_at = data.tanggal_nota;
+
+            this.GridProps = {
+                id: 'print-out-master-barang',
+                column: [
+                    { field: 'urut', headerName: 'No.', },
+                    { field: 'kode_barang', headerName: 'Kode Barang', },
+                    { field: 'barcode', headerName: 'Barcode', },
+                    { field: 'nama_barang', headerName: 'Nama Barang', },
+                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number' },
+                ],
+                dataSource: [],
+                height: "100%",
+                showPaging: false,
+            };
 
             this.Data = data;
             this.GridProps.dataSource = data.detail;
 
-            setTimeout(() => {
-                window.print();
-            }, 1500);
+            // setTimeout(() => {
+            //     window.print();
+            // }, 1500);
         } else {
             const id = this._activatedRoute.snapshot.params['id'];
             const url = this._router.url;
             const isExportPdf = url.includes('export-pdf');
+
+            this.GridProps = {
+                id: 'print-out-master-barang',
+                column: [
+                    { field: 'urut', headerName: 'No.', },
+                    { field: 'kode_barang', headerName: 'Kode Barang', },
+                    { field: 'barcode', headerName: 'Barcode', },
+                    { field: 'nama_barang', headerName: 'Nama Barang', },
+                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number' },
+                    { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency' },
+                    { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
+                    { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency' },
+                    { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency' },
+                    { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency' },
+                ],
+                dataSource: [],
+                height: "100%",
+                showPaging: false,
+            };
 
             this._pembelianDenganPoService
                 .getById(id)
