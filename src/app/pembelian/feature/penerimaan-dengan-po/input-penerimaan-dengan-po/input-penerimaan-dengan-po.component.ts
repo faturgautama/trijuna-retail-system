@@ -7,6 +7,7 @@ import { map } from 'rxjs';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
+import { GridComponent } from 'src/app/@shared/components/grid/grid.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
@@ -34,6 +35,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
     FormInputFooter: CustomFormModel.IForm = {} as any;
     @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
 
+    @ViewChild('GridComps') GridComps!: GridComponent;
     GridProps: GridModel.IGrid = {} as any;
     GridSelectedData: PembelianDenganPoModel.IPembelianDenganPoDetail = {} as any;
     GridSelectedIndex: number = 0;
@@ -185,9 +187,12 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                 {
                     id: 'ppn_nominal',
                     label: 'PPn',
-                    status: 'readonly',
+                    status: 'insert',
                     type: 'numeric',
                     required: true,
+                    numeric_callback: (data) => {
+                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + data);
+                    },
                 },
                 {
                     id: 'pembulatan',
@@ -195,6 +200,9 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     status: 'insert',
                     type: 'numeric',
                     required: true,
+                    numeric_callback: (data) => {
+                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal') + data);
+                    },
                 },
                 {
                     id: 'total_transaksi',
@@ -274,7 +282,16 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                 {
                     field: 'qty', headerName: 'QTY', width: 150, sortable: true, resizable: true
                 },
-                { field: 'harga_order', headerName: 'HARGA ORDER', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
+                {
+                    field: 'harga_order', headerName: 'HARGA ORDER', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, editable: true,
+                    valueGetter: params => { return params.data.harga_order },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.harga_order = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
                 { field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
@@ -299,6 +316,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
             dataSource: [],
             height: "250px",
             showPaging: false,
+            toolbar: ['Delete']
         };
 
         this.FormDialogSatuanProps = {
@@ -444,6 +462,18 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
         this.GridSelectedData = args;
     }
 
+    onToolbarClicked(args: any): void {
+        switch (args.id) {
+            case 'delete':
+                const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == this.GridSelectedData.urut });
+                this.GridComps.onDeleteClientSide(selectedIndex);
+                this.onCountFormFooter();
+                break;
+            default:
+                break;
+        }
+    }
+
     handleSubmitFormSatuan(args: any): void {
         const gridDatasource = JSON.parse(JSON.stringify(this.GridProps.dataSource));
 
@@ -518,19 +548,17 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
         });
 
         this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
-
         this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
-
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal'))
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal'));
     }
 
     handleSubmitForm(): void {
         const header = this.CustomForm.handleSubmitForm();
         header.detail = this.GridProps.dataSource;
-
         const footer = this.CustomFormFooter.handleSubmitForm();
-
         const payload = this._utilityService.JoinTwoObject(header, footer);
+
+        console.log("payload =>", payload);
 
         this._confirmationService.confirm({
             target: (<any>event).target as EventTarget,
