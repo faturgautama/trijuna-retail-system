@@ -135,12 +135,12 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                 {
                     id: 'diskon_persen',
                     label: 'Diskon',
-                    status: 'insert',
+                    status: 'readonly',
                     type: 'numeric',
                     required: true,
                     is_form_grouped: true,
                     numeric_callback: (data) => {
-                        this.handleChangeDiskonFooter(data);
+                        // this.handleChangeDiskonFooter(data);
                     },
                     form_grouped_props: {
                         id: 'diskon_nominal',

@@ -1,11 +1,14 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
+import { PemesananPoService } from 'src/app/@core/service/pembelian/pemesanan-po/pemesanan-po.service';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
+import { GridComponent } from 'src/app/@shared/components/grid/grid.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
@@ -26,6 +29,7 @@ export class DetailPemesananPoComponent implements OnInit {
     FormInputHeader: CustomFormModel.IForm;
     @ViewChild('CustomFormHeader') CustomFormHeader!: CustomFormComponent
 
+    @ViewChild('GridComps') GridComps!: GridComponent;
     GridProps: GridModel.IGrid;
 
     @ViewChild('Keterangan') Keterangan!: ElementRef;
@@ -71,8 +75,10 @@ export class DetailPemesananPoComponent implements OnInit {
         private _store: Store,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
+        private _messageService: MessageService,
         private _utilityService: UtilityService,
         private _setupBarangService: SetupBarangService,
+        private _pemesananPoService: PemesananPoService,
     ) {
         this.DashboardProps = {
             title: 'Detail Pemesanan PO',
@@ -406,7 +412,7 @@ export class DetailPemesananPoComponent implements OnInit {
             dataSource: [],
             height: "300px",
             showPaging: false,
-            toolbar: ['Add', 'Edit']
+            toolbar: ['Add', 'Delete']
         };
 
         this.GridStokDanOmsetProps = {
@@ -544,7 +550,18 @@ export class DetailPemesananPoComponent implements OnInit {
                 this.FormDialog.onOpenFormDialog();
                 break;
             case 'delete':
-                console.log(args);
+                const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == args.data.urut });
+                const data = this.GridProps.dataSource.filter((item, index) => {
+                    return index != selectedIndex;
+                });
+
+                const payload = {
+                    id_pemesanan: this.SelectedPemesanan.id_pemesanan,
+                    detail: data
+                };
+
+                this.onEditPo(payload);
+
                 break;
             default:
                 break;
@@ -577,10 +594,12 @@ export class DetailPemesananPoComponent implements OnInit {
             return data;
         });
 
-        console.log("args =>", args);
+        const payload = {
+            id_pemesanan: this.SelectedPemesanan.id_pemesanan,
+            detail: args
+        };
 
-        // this.GridProps.dataSource = args;
-        // this.onCountFormFooter();
+        this.onEditPo(payload);
     }
 
     onGetSatuan(data: SetupBarangModel.ISetupBarangSatuan[]): void {
@@ -659,7 +678,6 @@ export class DetailPemesananPoComponent implements OnInit {
     }
 
     handleSubmitFormDetail(data: any): void {
-        data.id_pemesanan = this.SelectedPemesanan.id_pemesanan;
         data.diskon_nominal_1 = data.diskon_nominal_1 ? data.diskon_nominal_1 : 0;
         data.diskon_nominal_2 = data.diskon_nominal_2 ? data.diskon_nominal_2 : 0;
         data.diskon_nominal_3 = data.diskon_nominal_3 ? data.diskon_nominal_3 : 0;
@@ -668,11 +686,24 @@ export class DetailPemesananPoComponent implements OnInit {
         data.diskon_persen_3 = data.diskon_persen_3 ? data.diskon_persen_3 : 0;
         data.qty_bonus = data.qty_bonus ? data.qty_bonus : 0;
 
-        // this.GridProps.dataSource = [...this.GridProps.dataSource, data];
+        const payload = {
+            id_pemesanan: this.SelectedPemesanan.id_pemesanan,
+            detail: [...this.GridProps.dataSource, data]
+        };
 
-        console.log("payload =>", JSON.stringify(data));
+        this.onEditPo(payload);
+    }
 
-        this.FormDialog.onCloseFormDialog();
+    private onEditPo(payload: any) {
+        this._pemesananPoService
+            .edit(payload)
+            .subscribe((result) => {
+                if (result.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data berhasil diperbarui' });
+                    this.FormDialog.onCloseFormDialog();
+                }
+            });
     }
 
     handleCloseFormDetail(args: any): void {

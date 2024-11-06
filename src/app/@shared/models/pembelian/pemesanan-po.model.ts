@@ -128,6 +128,12 @@ export namespace PemesananPoModel {
         nama_bonus: string
     }
 
+    export interface EditPemesananPo {
+        id_pemesanan: number
+        detail: SavePemesananPoDetail[]
+    }
+
+
     export class GetByIdPemesananPo implements HttpRequestBaseModel {
         success!: boolean
         message!: string

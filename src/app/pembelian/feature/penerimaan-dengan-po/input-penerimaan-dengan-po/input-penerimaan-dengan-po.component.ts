@@ -235,10 +235,6 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
                     valueGetter: params => { return params.data.banyak },
                     valueSetter: params => {
-                        console.log("params =>", params);
-                        console.log("old value =>", parseInt(params.oldValue));
-                        console.log("new value =>", parseInt(params.newValue));
-
                         if (parseInt(params.newValue) > parseInt(params.data.qty_po)) {
                             this._messageService.clear();
                             this._messageService.add({ severity: 'warn', summary: 'Oops', detail: 'Tidak Boleh > Qty PO' });

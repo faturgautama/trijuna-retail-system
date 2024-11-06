@@ -6,7 +6,7 @@
     </div>
 
     <div class="grid mb-3">
-        <app-grid [props]="GridProps" (toolbarClicked)="onToolbarClicked($event)"
+        <app-grid #GridComps [props]="GridProps" (toolbarClicked)="onToolbarClicked($event)"
             (cellFinishEdited)="onCellFinishEditing($event)">
         </app-grid>
     </div>

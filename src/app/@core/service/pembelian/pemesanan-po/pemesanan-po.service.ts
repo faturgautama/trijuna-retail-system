@@ -42,4 +42,8 @@ export class PemesananPoService {
     save(payload: PemesananPoModel.SavePemesananPo): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/pembelian/insert`, payload);
     }
+
+    edit(payload: PemesananPoModel.EditPemesananPo): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/pembelian/edit`, payload);
+    }
 }
