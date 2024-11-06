@@ -63,6 +63,10 @@ export class PembelianDenganPoService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/insert`, payload);
     }
 
+    edit(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/edit`, payload);
+    }
+
     validasi(payload: PembelianDenganPoModel.ValidasiPembelianDenganPo): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/validasi`, payload);
     }

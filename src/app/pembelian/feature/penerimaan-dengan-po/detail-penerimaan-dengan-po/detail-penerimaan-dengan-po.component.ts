@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
+import { PembelianDenganPoService } from 'src/app/@core/service/pembelian/pembelian-dengan-po/pembelian-dengan-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
@@ -33,7 +34,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
     @ViewChild('CustomFormFooter') CustomFormFooter!: CustomFormComponent;
 
     GridProps: GridModel.IGrid = {} as any;
-    GridSelectedData: PembelianDenganPoModel.IPembelianDenganPoDetail = {} as any;
+    GridSelectedData: any = {} as any;
     GridSelectedIndex: number = 0;
     GridDatasource: any[] = [];
 
@@ -43,6 +44,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
         private _messageService: MessageService,
         private _activatedRoute: ActivatedRoute,
         private _utilityService: UtilityService,
+        private _pembelianDenganPoService: PembelianDenganPoService
     ) {
         this.DashboardProps = {
             title: 'Detail Penerimaan Dengan PO',
@@ -197,7 +199,17 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                 { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
-                { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
+                {
+                    field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true, editable: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.banyak },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.banyak = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
                 { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
                 { field: 'isi', headerName: 'ISI', width: 150, sortable: true, resizable: true },
                 { field: 'qty', headerName: 'QTY', width: 150, sortable: true, resizable: true },
@@ -266,6 +278,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
             dataSource: [],
             height: "250px",
             showPaging: false,
+            toolbar: ['Delete']
         };
     }
 
@@ -380,6 +393,27 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
         this.GridSelectedData = args;
     }
 
+    onToolbarClicked(args: any): void {
+        switch (args.id) {
+            case 'delete':
+                const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == args.data.urut });
+                const data = this.GridProps.dataSource.filter((item, index) => {
+                    return index != selectedIndex;
+                });
+
+                const payload = {
+                    id_penerimaan: this.GridSelectedData['id_penerimaan'],
+                    detail: data
+                };
+
+                this.onEditPenerimaanDenganPo(payload);
+
+                break;
+            default:
+                break;
+        }
+    }
+
     onCellFinishEditing(args: any[]): void {
         args = args.filter((data) => {
             let total_after_diskon_1 = 0,
@@ -407,7 +441,19 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
         });
 
         this.GridProps.dataSource = args;
-        this.onCountFormFooter();
+        this.onEditPenerimaanDenganPo(args);
+    }
+
+    private onEditPenerimaanDenganPo(payload: any) {
+        this._pembelianDenganPoService
+            .edit(payload)
+            .subscribe((result) => {
+                if (result.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data berhasil diperbarui' });
+                    this.getPenerimaanDenganPoById();
+                }
+            });
     }
 
     handleChangeDiskonFooter(value: number): void {
