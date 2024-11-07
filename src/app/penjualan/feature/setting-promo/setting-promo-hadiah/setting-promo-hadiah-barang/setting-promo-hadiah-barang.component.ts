@@ -186,16 +186,18 @@ export class SettingPromoHadiahBarangComponent implements OnInit {
     ngOnInit(): void {
         // this.getDetailPromoDiskonBarang();
 
-        // ** Merk
-        const indexMerk = this.FormDialogMerkProps.form_props.fields.findIndex((item) => { return item.id == 'id_merk' });
-
         this._store
             .dispatch(new SetupMerkAction.GetAll())
             .subscribe((result) => {
                 if (result.setup_merk.entities.success) {
+                    // ** Merk
+                    const indexMerk = this.FormDialogMerkProps.form_props.fields.findIndex((item) => { return item.id == 'id_merk' });
+
                     this.FormDialogMerkProps.form_props.fields[indexMerk].select_props = result.setup_merk.entities.data.map((item: any) => {
                         return { name: item.merk, value: item.id_merk }
                     });
+
+                    console.log("datasource =>", this.FormDialogMerkProps.form_props.fields[indexMerk].select_props)
                 }
             })
     }

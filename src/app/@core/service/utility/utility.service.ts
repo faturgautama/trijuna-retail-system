@@ -35,7 +35,7 @@ export class UtilityService {
 
     FormatNumber(number: any, prefix?: string): any {
         if (number) {
-            return prefix ? prefix + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return prefix ? prefix + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.00' : number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         } else {
             return number;
         }

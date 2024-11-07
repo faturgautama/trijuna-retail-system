@@ -109,12 +109,12 @@
 
     <!-- Jumlah -->
     <div class="flex flex-row w-full mb-1">
-        <div class="{{ IsPrintDraft ? 'w-10/12' : 'w-7/12'  }}">
+        <div class="{{ IsPrintDraft ? 'w-9/12' : 'w-6/12'  }}">
             <p class="text-xs text-gray-700 text-end">
                 Jumlah
             </p>
         </div>
-        <div class="w-2/12 {{ IsPrintDraft ? 'pr-0' : 'pr-3'}}">
+        <div class="w-3/12 {{ IsPrintDraft ? 'pr-0' : 'pr-[2.85rem]'}}">
             <p class="text-xs text-gray-700 text-end">
                 {{ _utilityService.FormatNumber(Data.sub_total1, 'Rp. ') }}
             </p>
@@ -123,12 +123,12 @@
 
     <!-- Jumlah -->
     <div class="flex flex-row w-full mb-1">
-        <div class="{{ IsPrintDraft ? 'w-10/12' : 'w-7/12'  }}">
+        <div class="{{ IsPrintDraft ? 'w-9/12' : 'w-6/12'  }}">
             <p class="text-xs text-gray-700 text-end">
                 Disc {{ Data.diskon_persen }}
             </p>
         </div>
-        <div class="w-2/12 {{ IsPrintDraft ? 'pr-0' : 'pr-3'}}">
+        <div class="w-3/12 {{ IsPrintDraft ? 'pr-0' : 'pr-[2.85rem]'}}">
             <p class="text-xs text-gray-700 text-end">
                 {{ _utilityService.FormatNumber(Data.diskon_nominal, 'Rp. ') }}
             </p>
@@ -137,12 +137,12 @@
 
     <!-- Jumlah -->
     <div class="flex flex-row w-full mb-1">
-        <div class="{{ IsPrintDraft ? 'w-10/12' : 'w-7/12'  }}">
+        <div class="{{ IsPrintDraft ? 'w-9/12' : 'w-6/12'  }}">
             <p class="text-xs text-gray-700 text-end">
                 Potongan
             </p>
         </div>
-        <div class="w-2/12 {{ IsPrintDraft ? 'pr-0' : 'pr-3'}}">
+        <div class="w-3/12 {{ IsPrintDraft ? 'pr-0' : 'pr-[2.85rem]'}}">
             <p class="text-xs text-gray-700 text-end">
                 Rp. 0
             </p>
@@ -151,12 +151,12 @@
 
     <!-- Jumlah -->
     <div class="flex flex-row w-full mb-1">
-        <div class="{{ IsPrintDraft ? 'w-10/12' : 'w-7/12'  }}">
+        <div class="{{ IsPrintDraft ? 'w-9/12' : 'w-6/12'  }}">
             <p class="text-xs text-gray-700 text-end">
                 DPP
             </p>
         </div>
-        <div class="w-2/12 {{ IsPrintDraft ? 'pr-0' : 'pr-3'}}">
+        <div class="w-3/12 {{ IsPrintDraft ? 'pr-0' : 'pr-[2.85rem]'}}">
             <p class="text-xs text-gray-700 text-end">
                 {{ _utilityService.FormatNumber(Data.sub_total2, 'Rp. ') }}
             </p>
@@ -165,12 +165,12 @@
 
     <!-- Jumlah -->
     <div class="flex flex-row w-full mb-1">
-        <div class="{{ IsPrintDraft ? 'w-10/12' : 'w-7/12'  }}">
+        <div class="{{ IsPrintDraft ? 'w-9/12' : 'w-6/12'  }}">
             <p class="text-xs text-gray-700 text-end">
                 PPN 11
             </p>
         </div>
-        <div class="w-2/12 {{ IsPrintDraft ? 'pr-0' : 'pr-3'}}">
+        <div class="w-3/12 {{ IsPrintDraft ? 'pr-0' : 'pr-[2.85rem]'}}">
             <p class="text-xs text-gray-700 text-end">
                 {{ _utilityService.FormatNumber(Data.ppn_nominal, 'Rp. ') }}
             </p>
@@ -179,12 +179,12 @@
 
     <!-- Jumlah -->
     <div class="flex flex-row w-full mb-1">
-        <div class="{{ IsPrintDraft ? 'w-10/12' : 'w-7/12'  }}">
+        <div class="{{ IsPrintDraft ? 'w-9/12' : 'w-6/12'  }}">
             <p class="text-xs text-gray-700 text-end">
                 Pembulatan
             </p>
         </div>
-        <div class="w-2/12 {{ IsPrintDraft ? 'pr-0' : 'pr-3'}}">
+        <div class="w-3/12 {{ IsPrintDraft ? 'pr-0' : 'pr-[2.85rem]'}}">
             <p class="text-xs text-gray-700 text-end">
                 {{ _utilityService.FormatNumber(Data.pembulatan, 'Rp. ') }}
             </p>
@@ -193,12 +193,12 @@
 
     <!-- Jumlah -->
     <div class="flex flex-row w-full pb-2 mb-3 border-b border-t-0 border-x-0 border-solid border-gray-700">
-        <div class="{{ IsPrintDraft ? 'w-10/12' : 'w-7/12'  }}">
+        <div class="{{ IsPrintDraft ? 'w-9/12' : 'w-6/12'  }}">
             <p class="text-xs text-gray-700 text-end">
                 Total
             </p>
         </div>
-        <div class="w-2/12 {{ IsPrintDraft ? 'pr-0' : 'pr-3'}}">
+        <div class="w-3/12 {{ IsPrintDraft ? 'pr-0' : 'pr-[2.85rem]'}}">
             <p class="text-xs text-gray-700 text-end">
                 {{ _utilityService.FormatNumber(Data.total_transaksi, 'Rp. ') }}
             </p>

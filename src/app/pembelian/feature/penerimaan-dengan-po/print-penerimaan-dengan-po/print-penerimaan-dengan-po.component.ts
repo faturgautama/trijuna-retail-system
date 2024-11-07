@@ -21,11 +21,11 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        if (this.IsPrintDraft) {
-            window.close();
-        } else {
-            window.history.back();
-        }
+        // if (this.IsPrintDraft) {
+        //     window.close();
+        // } else {
+        //     window.history.back();
+        // }
     }
 
     constructor(
@@ -62,11 +62,11 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
             this.GridProps = {
                 id: 'print-out-master-barang',
                 column: [
-                    { field: 'urut', headerName: 'No.', },
-                    { field: 'kode_barang', headerName: 'Kode Barang', },
-                    { field: 'barcode', headerName: 'Barcode', },
-                    { field: 'nama_barang', headerName: 'Nama Barang', },
-                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number' },
+                    { field: 'urut', headerName: 'No.', width: '5%' },
+                    { field: 'kode_barang', headerName: 'Kode Barang', width: '10%' },
+                    { field: 'barcode', headerName: 'Barcode', width: '10%' },
+                    { field: 'nama_barang', headerName: 'Nama Barang', width: '60%' },
+                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '15%' },
                 ],
                 dataSource: [],
                 height: "100%",
@@ -76,9 +76,9 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
             this.Data = data;
             this.GridProps.dataSource = data.detail;
 
-            // setTimeout(() => {
-            //     window.print();
-            // }, 1500);
+            setTimeout(() => {
+                window.print();
+            }, 1500);
         } else {
             const id = this._activatedRoute.snapshot.params['id'];
             const url = this._router.url;
@@ -87,16 +87,16 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
             this.GridProps = {
                 id: 'print-out-master-barang',
                 column: [
-                    { field: 'urut', headerName: 'No.', },
-                    { field: 'kode_barang', headerName: 'Kode Barang', },
-                    { field: 'barcode', headerName: 'Barcode', },
-                    { field: 'nama_barang', headerName: 'Nama Barang', },
-                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number' },
-                    { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency' },
-                    { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
-                    { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency' },
-                    { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency' },
-                    { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency' },
+                    { field: 'urut', headerName: 'No.', width: '5%' },
+                    { field: 'kode_barang', headerName: 'Kode Barang', width: '9%' },
+                    { field: 'barcode', headerName: 'Barcode', width: '5%' },
+                    { field: 'nama_barang', headerName: 'Nama Barang', width: '25%' },
+                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
+                    { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '8%' },
+                    { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '10%' },
+                    { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
+                    { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '7%' },
+                    { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '10%' },
                 ],
                 dataSource: [],
                 height: "100%",
@@ -110,9 +110,9 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
                     this.GridProps.dataSource = result.data.detail;
 
                     if (!isExportPdf) {
-                        setTimeout(() => {
-                            window.print();
-                        }, 1500);
+                        // setTimeout(() => {
+                        //     window.print();
+                        // }, 1500);
                     } else {
                         setTimeout(() => {
                             this._utilityService.exportToPdf('printPenerimaanDenganPo', `Penerimaan Barang Dengan PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);

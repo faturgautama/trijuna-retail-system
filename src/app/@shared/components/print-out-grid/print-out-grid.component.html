@@ -10,7 +10,8 @@
         </ng-template>
         <ng-template *ngIf="props.dataSource" pTemplate="body" let-rowData let-columns="columns">
             <tr [pSelectableRow]="rowData">
-                <td *ngFor="let col of columns; let i = index" class="text-xs {{ col.class }} p-1">
+                <td *ngFor="let col of columns; let i = index" class="text-xs {{ col.class }} p-1"
+                    [style.width]="col.width">
                     <span *ngIf="col.renderAsCheckbox && !col.renderAsPills">
                         <i class="pi {{ rowData[col.field] ? 'pi-check' : 'pi-times' }}"></i>
                     </span>

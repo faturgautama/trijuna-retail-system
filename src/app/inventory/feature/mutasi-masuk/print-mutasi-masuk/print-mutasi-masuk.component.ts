@@ -1,15 +1,16 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MutasiKeluarService } from 'src/app/@core/service/inventory/mutasi-keluar/mutasi-keluar.service';
+import { MutasiMasukService } from 'src/app/@core/service/inventory/mutasi-masuk/mutasi-masuk.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
 
 @Component({
-    selector: 'app-print-mutasi-keluar',
-    templateUrl: './print-mutasi-keluar.component.html',
-    styleUrls: ['./print-mutasi-keluar.component.scss']
+    selector: 'app-print-mutasi-masuk',
+    templateUrl: './print-mutasi-masuk.component.html',
+    styleUrls: ['./print-mutasi-masuk.component.scss']
 })
-export class PrintMutasiKeluarComponent implements OnInit {
+export class PrintMutasiMasukComponent implements OnInit {
 
     Data: any;
 
@@ -26,7 +27,7 @@ export class PrintMutasiKeluarComponent implements OnInit {
         private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
-        private _mutasiKeluarService: MutasiKeluarService
+        private _mutasiMasukService: MutasiMasukService
     ) {
         this.GridProps = {
             id: 'print-out-master-barang',
@@ -57,7 +58,7 @@ export class PrintMutasiKeluarComponent implements OnInit {
     }
 
     getDetail(id: any, exportPdf: boolean) {
-        this._mutasiKeluarService
+        this._mutasiMasukService
             .getById(id)
             .subscribe((result) => {
                 this.Data = result.data;
@@ -69,7 +70,7 @@ export class PrintMutasiKeluarComponent implements OnInit {
                     }, 1500);
                 } else {
                     setTimeout(() => {
-                        this._utilityService.exportToPdf('printMutasiKeluar', `Mutasi Lokasi Keluar - ${this.Data.nomor_pemesanan} - ${new Date().getTime()}`);
+                        this._utilityService.exportToPdf('printMutasiMasuk', `Mutasi Lokasi Masuk - ${this.Data.nomor_pemesanan} - ${new Date().getTime()}`);
                     }, 500);
                 }
             })

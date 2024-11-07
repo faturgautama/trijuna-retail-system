@@ -131,7 +131,7 @@ export class SettingPromoDiskonBarangComponent implements OnInit {
             title: 'Setting Promo Diskon Merk',
             type: 'add',
             form_props: {
-                id: 'form_setup_barang_satuan',
+                id: 'form_setting_promo_diskon_merk',
                 is_inline: true,
                 fields: [
                     {
@@ -186,13 +186,13 @@ export class SettingPromoDiskonBarangComponent implements OnInit {
     ngOnInit(): void {
         // this.getDetailPromoDiskonBarang();
 
-        // ** Merk
-        const indexMerk = this.FormDialogMerkProps.form_props.fields.findIndex((item) => { return item.id == 'id_merk' });
-
         this._store.dispatch(new SetupMerkAction.GetAll())
             .subscribe((result) => {
                 if (result.setup_merk.entities.success) {
-                    this.FormDialogProps.form_props.fields[indexMerk].select_props = result.setup_merk.entities.data.map((item: any) => {
+                    // ** Merk
+                    const indexMerk = this.FormDialogMerkProps.form_props.fields.findIndex((item) => { return item.id == 'id_merk' });
+
+                    this.FormDialogMerkProps.form_props.fields[indexMerk].select_props = result.setup_merk.entities.data.map((item: any) => {
                         return { name: item.merk, value: item.id_merk }
                     });
                 }

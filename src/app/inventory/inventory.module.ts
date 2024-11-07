@@ -32,6 +32,7 @@ import { DetailStokOpnameComponent } from './feature/stok-opname/input-stok-opna
 import { InputStokOpnameComponent } from './feature/stok-opname/input-stok-opname/input-stok-opname/input-stok-opname.component';
 import { KalkulasiSettingStokOpnameComponent } from './feature/stok-opname/setting-stok-opname/kalkulasi-setting-stok-opname/kalkulasi-setting-stok-opname.component';
 import { FormsModule } from "@angular/forms";
+import { PrintMutasiMasukComponent } from './feature/mutasi-masuk/print-mutasi-masuk/print-mutasi-masuk.component';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { FormsModule } from "@angular/forms";
         DetailStokOpnameComponent,
         InputStokOpnameComponent,
         KalkulasiSettingStokOpnameComponent,
+        PrintMutasiMasukComponent,
     ],
     imports: [
         FormsModule,
