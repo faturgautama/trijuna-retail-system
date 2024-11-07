@@ -420,11 +420,32 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                     required: true,
                 },
                 {
+                    id: 'potongan',
+                    label: 'Potongan',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                    numeric_callback: (data) => {
+                        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
+                            ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
+                            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
+
+                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - data + pembulatan);
+                    },
+                },
+                {
                     id: 'pembulatan',
                     label: 'Pembulatan',
                     status: 'insert',
                     type: 'numeric',
                     required: true,
+                    numeric_callback: (data) => {
+                        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
+                            ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
+                            potongan = this.CustomFormFooter.handleGetFieldValue('potongan');
+
+                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - potongan + data);
+                    },
                 },
                 {
                     id: 'total_transaksi',
@@ -439,6 +460,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
                     status: 'insert',
                     type: 'numeric',
                     required: true,
+                    hidden: true
                 },
             ],
             custom_class: 'grid-rows-8 grid-cols-1',
@@ -679,7 +701,11 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
             this.CustomFormFooter.handleSetFieldValue('ppn_nominal', 0);
         };
 
-        this.onCountFormFooter();
+        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
+            potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
+            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
+
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + args.value - potongan + pembulatan);
     }
 
     onCellFinishEditing(args: any[]): void {
@@ -734,14 +760,21 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
         });
 
         this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
-        // this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal'))
+
+        const ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
+            potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
+            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
+
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + ppn_nominal - potongan + pembulatan);
     }
 
     handleSubmitForm(): void {
         const header = this.CustomForm.handleSubmitForm();
         header.detail = this.GridProps.dataSource;
         header.keterangan = this.Keterangan.nativeElement.value;
+        header.is_ppn = this.is_ppn;
+        header.is_item_include_ppn = this.is_item_include_ppn;
+        header.is_update_harga_order = this.is_update_harga_order;
 
         const footer = this.CustomFormFooter.handleSubmitForm();
 

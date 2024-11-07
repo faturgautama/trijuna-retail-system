@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { hostname } from 'os';
@@ -43,6 +43,13 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
 
     @ViewChild('FormDialogSatuan') FormDialogSatuan!: FormDialogComponent;
     FormDialogSatuanProps: DialogModel.IFormDialog;
+
+    // ** Footer
+    @ViewChild('Keterangan') Keterangan!: ElementRef;
+
+    is_ppn = false;
+    is_item_include_ppn = false;
+    is_update_harga_order = false;
 
     constructor(
         private _store: Store,
@@ -187,11 +194,25 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                 {
                     id: 'ppn_nominal',
                     label: 'PPn',
+                    status: 'readonly',
+                    type: 'numeric',
+                    required: true,
+                    numeric_callback: (data) => {
+                        // this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + data);
+                    },
+                },
+                {
+                    id: 'potongan',
+                    label: 'Potongan',
                     status: 'insert',
                     type: 'numeric',
                     required: true,
                     numeric_callback: (data) => {
-                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + data);
+                        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
+                            ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
+                            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
+
+                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - data + pembulatan);
                     },
                 },
                 {
@@ -201,7 +222,11 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     type: 'numeric',
                     required: true,
                     numeric_callback: (data) => {
-                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal') + data);
+                        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
+                            ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
+                            potongan = this.CustomFormFooter.handleGetFieldValue('potongan');
+
+                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - potongan + data);
                     },
                 },
                 {
@@ -217,6 +242,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     status: 'insert',
                     type: 'numeric',
                     required: true,
+                    hidden: true
                 },
             ],
             custom_class: 'grid-rows-8 grid-cols-1',
@@ -528,6 +554,20 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
         this.onCountFormFooter();
     }
 
+    handleChangeWithPpn(args: any): void {
+        if (args.value) {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
+        } else {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', 0);
+        };
+
+        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
+            potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
+            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
+
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + args.value - potongan + pembulatan);
+    }
+
     onCountFormFooter(): void {
         let qty = 0;
         let subtotal1 = 0;
@@ -544,13 +584,23 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
         });
 
         this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
-        this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal'));
+
+        const ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
+            potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
+            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
+
+
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + ppn_nominal - potongan + pembulatan);
     }
 
     handleSubmitForm(): void {
         const header = this.CustomForm.handleSubmitForm();
         header.detail = this.GridProps.dataSource;
+        header.keterangan = this.Keterangan.nativeElement.value;
+        header.is_ppn = this.is_ppn;
+        header.is_item_include_ppn = this.is_item_include_ppn;
+        header.is_update_harga_order = this.is_update_harga_order;
+
         const footer = this.CustomFormFooter.handleSubmitForm();
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
