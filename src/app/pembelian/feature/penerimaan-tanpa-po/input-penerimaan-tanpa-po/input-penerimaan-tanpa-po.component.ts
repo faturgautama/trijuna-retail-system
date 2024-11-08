@@ -761,6 +761,10 @@ export class InputPenerimaanTanpaPoComponent implements OnInit {
 
         this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
 
+        if (this.is_ppn) {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
+        }
+
         const ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
             potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
             pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
