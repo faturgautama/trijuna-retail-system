@@ -21,6 +21,7 @@ import { SetupUserComponent } from "./feature/management-user/setup-user/setup-u
 import { PrintSetupBarangComponent } from "./feature/setup-barang/print-setup-barang/print-setup-barang.component";
 import { SetupGroupUserComponent } from "./feature/management-user/setup-group-user/setup-group-user.component";
 import { SettingPointMemberComponent } from "./feature/setting-point-member/setting-point-member.component";
+import { CetakLabelHargaBarangComponent } from "./feature/cetak-label-harga-barang/cetak-label-harga-barang.component";
 
 const routes: Routes = [
     {
@@ -70,6 +71,9 @@ const routes: Routes = [
                     { path: 'detail/:id', component: DetailSetupBarangComponent },
                     { path: 'print', component: PrintSetupBarangComponent },
                 ],
+            },
+            {
+                path: 'cetak-label-barang', component: CetakLabelHargaBarangComponent,
             },
         ]
     },

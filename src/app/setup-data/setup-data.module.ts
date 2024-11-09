@@ -37,6 +37,7 @@ import { PrintSetupBarangComponent } from './feature/setup-barang/print-setup-ba
 import { ListBarangAllComponent } from './feature/list-barang-all/list-barang-all.component';
 import { SettingPointMemberComponent } from './feature/setting-point-member/setting-point-member.component';
 import { InputTextModule } from "primeng/inputtext";
+import { CetakLabelHargaBarangComponent } from './feature/cetak-label-harga-barang/cetak-label-harga-barang.component';
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import { InputTextModule } from "primeng/inputtext";
         PrintSetupBarangComponent,
         ListBarangAllComponent,
         SettingPointMemberComponent,
+        CetakLabelHargaBarangComponent,
     ],
     imports: [
         CommonModule,

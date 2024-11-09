@@ -1,4 +1,8 @@
 <app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="grid grid-cols-1 mb-5">
+        <app-custom-form #FormInputComps [props]="FormInput"></app-custom-form>
+    </div>
+
     <div class="grid">
         <app-grid [props]="GridProps" (rowDoubleClicked)="onRowDoubleClicked($event)"></app-grid>
     </div>

@@ -3,7 +3,9 @@ import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { SettingPointMemberService } from 'src/app/@core/service/setup-data/setting-point-member/setting-point-member.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
+import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
+import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
@@ -19,6 +21,9 @@ export class SettingPointMemberComponent implements OnInit {
     DashboardProps: DashboardModel.IDashboard;
 
     GridProps: GridModel.IGrid;
+
+    @ViewChild('FormInputComps') FormInputComps!: CustomFormComponent;
+    FormInput: CustomFormModel.IForm;
 
     @ViewChild('FormDialog') FormDialog!: FormDialogComponent;
     FormDialogProps: DialogModel.IFormDialog;
@@ -36,15 +41,42 @@ export class SettingPointMemberComponent implements OnInit {
             ],
         };
 
+        this.FormInput = {
+            id: 'input_setup_barang',
+            type: 'save',
+            is_inline: true,
+            fields: [
+                {
+                    id: 'nominal',
+                    label: 'Nominal',
+                    status: 'readonly',
+                    type: 'string',
+                    required: false,
+                },
+                {
+                    id: 'dapat_poin',
+                    label: 'Dapat Poin',
+                    status: 'readonly',
+                    type: 'string',
+                    required: false,
+                },
+                {
+                    id: 'created_at',
+                    label: 'Waktu Input',
+                    status: 'readonly',
+                    type: 'string',
+                    required: false,
+                },
+            ],
+            custom_class: 'grid-rows-1 grid-cols-3'
+        };
+
         this.GridProps = {
             column: [
-                { field: 'nominal', headerName: 'NOMINAL', flex: 300, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'Rp. ') } },
-                { field: 'dapat_poin', headerName: 'DAPAT POINT', flex: 300, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'Rp. ') } },
-                { field: 'created_at', headerName: 'CREATED AT', flex: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
-                { field: 'is_active', headerName: 'IS ACTIVE', flex: 200, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
+                { field: 'group', headerName: 'GROUP', flex: 300, sortable: true, resizable: true },
             ],
             dataSource: [],
-            height: "calc(100vh - 11rem)",
+            height: "calc(100vh - 16rem)",
             showPaging: true,
         };
 
@@ -138,7 +170,12 @@ export class SettingPointMemberComponent implements OnInit {
             .getAll()
             .subscribe((result) => {
                 if (result.success) {
-                    this.GridProps.dataSource = result.data;
+                    result.data.nominal = this._utilityService.FormatNumber(result.data.nominal, 'Rp. ');
+                    result.data.created_at = this._utilityService.FormatDate(result.data.created_at, 'DD-MM-yyyy HH:mm:ss');
+
+                    this.FormInputComps.CustomForms.patchValue(result.data);
+
+                    this.GridProps.dataSource = result.data.group;
                 }
             })
     }
