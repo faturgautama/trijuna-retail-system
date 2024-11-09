@@ -24,11 +24,11 @@ export class HttpRequestService {
         return this._httpClient.get<HttpRequestBaseModel>(url)
             .pipe(
                 map((result) => {
-                    this.ToggleLoading.next(false);
-
                     if (result.success || result.status) {
+                        this.ToggleLoading.next(false);
                         return result;
                     } else {
+                        this.ToggleLoading.next(false);
                         this.handlingError200(result.message);
                         return result;
                     }
@@ -74,10 +74,11 @@ export class HttpRequestService {
         return this._httpClient.post<HttpRequestBaseModel>(url, payload)
             .pipe(
                 map((result) => {
-                    this.ToggleLoading.next(false);
                     if (result.success || result.status) {
+                        this.ToggleLoading.next(false);
                         return result;
                     } else {
+                        this.ToggleLoading.next(false);
                         this.handlingError200(result.message);
                         return result;
                     }
@@ -101,10 +102,11 @@ export class HttpRequestService {
         return this._httpClient.put<HttpRequestBaseModel>(url, payload)
             .pipe(
                 map((result) => {
-                    this.ToggleLoading.next(false);
                     if (result.success || result.status) {
+                        this.ToggleLoading.next(false);
                         return result;
                     } else {
+                        this.ToggleLoading.next(false);
                         this.handlingError200(result.message);
                         return result;
                     }
@@ -122,10 +124,11 @@ export class HttpRequestService {
         return this._httpClient.delete<HttpRequestBaseModel>(url)
             .pipe(
                 map((result) => {
-                    this.ToggleLoading.next(false);
                     if (result.success || result.status) {
+                        this.ToggleLoading.next(false);
                         return result;
                     } else {
+                        this.ToggleLoading.next(false);
                         this.handlingError200(result.message);
                         return result;
                     }
