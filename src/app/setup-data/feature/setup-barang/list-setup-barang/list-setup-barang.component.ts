@@ -196,12 +196,12 @@ export class ListSetupBarangComponent implements OnInit {
                 distinctUntilChanged()
             ).subscribe((result: string | any) => {
                 if (result) {
-                    let data = [...this.OriginalGridDatasource];
+                    let data = JSON.parse(JSON.stringify([...this.OriginalGridDatasource]))
 
                     const newArr = data.filter((item: any) => {
-                        return item.kode_barang.toLowerCase().includes(result.toLowerCase()) ||
-                            item.barcode.toLowerCase().includes(result.toLowerCase()) ||
-                            item.nama_barang.toLowerCase().includes(result.toLowerCase());
+                        return item.kode_barang?.toLowerCase().includes(result.toLowerCase()) ||
+                            item.barcode?.toLowerCase().includes(result.toLowerCase()) ||
+                            item.nama_barang?.toLowerCase().includes(result.toLowerCase());
                     });
 
                     this.GridProps.dataSource = newArr;
