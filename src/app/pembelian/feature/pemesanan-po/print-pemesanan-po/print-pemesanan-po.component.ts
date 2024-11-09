@@ -54,8 +54,43 @@ export class PrintPemesananPoComponent implements OnInit {
         const isExportPdf = url.includes('export-pdf');
 
         if (url.includes('penerimaan-tanpa-po')) {
+            this.GridProps = {
+                id: 'print-out-master-barang',
+                column: [
+                    { field: 'urut', headerName: 'No.', width: '5%' },
+                    { field: 'kode_barang', headerName: 'Kode Barang', width: '9%' },
+                    { field: 'barcode', headerName: 'Barcode', width: '5%' },
+                    { field: 'nama_barang', headerName: 'Nama Barang', width: '25%' },
+                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
+                    { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '8%' },
+                    { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '10%' },
+                    { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
+                    { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '7%' },
+                    { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '10%' },
+                ],
+                dataSource: [],
+                height: "100%",
+                showPaging: false,
+            };
             this.getPembelianTanpaPo(id, isExportPdf);
+
         } else {
+            this.GridProps = {
+                id: 'print-out-master-barang',
+                column: [
+                    { field: 'urut', headerName: 'No.', width: '5%' },
+                    { field: 'kode_barang', headerName: 'Kode Barang', width: '7%' },
+                    { field: 'barcode', headerName: 'Barcode', width: '5%' },
+                    { field: 'nama_barang', headerName: 'Nama Barang', width: '58%' },
+                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
+                    { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '10%' },
+                    { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '10%' },
+                ],
+                dataSource: [],
+                height: "100%",
+                showPaging: false,
+            };
+
             this.getPemesananPo(id, isExportPdf);
         }
     }
@@ -86,15 +121,15 @@ export class PrintPemesananPoComponent implements OnInit {
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail;
 
-                if (!exportPdf) {
-                    setTimeout(() => {
-                        window.print();
-                    }, 1500);
-                } else {
-                    setTimeout(() => {
-                        this._utilityService.exportToPdf('printPemesananPo', `Pembelian Tanpa PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
-                    }, 500);
-                }
+                // if (!exportPdf) {
+                //     setTimeout(() => {
+                //         window.print();
+                //     }, 1500);
+                // } else {
+                //     setTimeout(() => {
+                //         this._utilityService.exportToPdf('printPemesananPo', `Pembelian Tanpa PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
+                //     }, 500);
+                // }
             })
     }
 }
