@@ -6,9 +6,18 @@
     </div>
 
     <div *ngIf="JenisStokOpname == 'barang'" class="grid mb-3">
-        <app-grid [props]="GridBarangProps" (cellClicked)="onCellClicked($event)"
-            (toolbarClicked)="onToolbarClicked($event)">
-        </app-grid>
+        <div class="w-full flex justify-end mb-2">
+            <div class="w-4/12">
+                <input id="SearchBarang" type="text" pInputText placeholder="Cari barang by barcode"
+                    class="w-full p-inputtext-sm" (keyup.enter)="getBarangByBarcode($event)">
+            </div>
+        </div>
+
+        <div class="grid w-full">
+            <app-grid [props]="GridBarangProps" (cellClicked)="onCellClicked($event)"
+                (toolbarClicked)="onToolbarClicked($event)">
+            </app-grid>
+        </div>
     </div>
 
     <div *ngIf="JenisStokOpname == 'divisi'" class="grid mb-3">

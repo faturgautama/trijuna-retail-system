@@ -5,6 +5,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { map } from 'rxjs';
 import { MutasiKeluarService } from 'src/app/@core/service/inventory/mutasi-keluar/mutasi-keluar.service';
 import { SettingStokOpnameService } from 'src/app/@core/service/inventory/stok-opname/setting-stok-opname.service';
+import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
@@ -15,6 +16,8 @@ import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
 import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
+import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
+import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
 import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
 import { environment } from 'src/environments/environment';
@@ -61,6 +64,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
         private _router: Router,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
+        private _setupBarangService: SetupBarangService,
         private _confirmationService: ConfirmationService,
         private _settingStokOpnameService: SettingStokOpnameService,
     ) {
@@ -124,8 +128,8 @@ export class InputSettingStokOpnameComponent implements OnInit {
                 { field: 'barcode', headerName: 'BARCODE', flex: 350, sortable: true, resizable: true },
             ],
             dataSource: [],
-            height: "250px",
-            toolbar: ['Add', 'Delete'],
+            height: "calc(100vh - 24rem)",
+            toolbar: ['Delete'],
             showPaging: false,
         };
 
@@ -137,7 +141,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
                 { field: 'divisi', headerName: 'NAMA DIVISI', flex: 350, sortable: true, resizable: true },
             ],
             dataSource: [],
-            height: "250px",
+            height: "calc(100vh - 22rem)",
             toolbar: ['Add', 'Delete'],
             showPaging: false,
         };
@@ -150,7 +154,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
                 { field: 'group', headerName: 'NAMA GROUP', flex: 350, sortable: true, resizable: true },
             ],
             dataSource: [],
-            height: "250px",
+            height: "calc(100vh - 22rem)",
             toolbar: ['Add', 'Delete'],
             showPaging: false,
         };
@@ -164,7 +168,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
                 { field: 'alamat', headerName: 'ALAMAT', flex: 350, sortable: true, resizable: true },
             ],
             dataSource: [],
-            height: "250px",
+            height: "calc(100vh - 22rem)",
             toolbar: ['Add', 'Delete'],
             showPaging: false,
         };
@@ -243,6 +247,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
                         status: 'insert',
                         type: 'select',
                         hidden: false,
+                        select_props: [],
                         required: true,
                         select_callback: (data: any) => {
                             console.log(data);
@@ -270,6 +275,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
                         label: 'Group',
                         status: 'insert',
                         type: 'select',
+                        select_props: [],
                         hidden: false,
                         required: true,
                         select_callback: (data: any) => {
@@ -351,6 +357,8 @@ export class InputSettingStokOpnameComponent implements OnInit {
 
     ngOnInit(): void {
         this.onGetWarehouse();
+        this.getAllDivisi();
+        this.getAllGroup();
     }
 
     onGetWarehouse(): void {
@@ -381,6 +389,62 @@ export class InputSettingStokOpnameComponent implements OnInit {
             })
     }
 
+    private getAllDivisi() {
+        this._store
+            .dispatch(new SetupDivisiAction.GetAll())
+            .pipe(
+                map((result: any) => {
+                    if (result.setup_divisi.entities.success) {
+                        return result.setup_divisi.entities.data;
+                    } else {
+                        return result;
+                    }
+                })
+            )
+            .subscribe((result: any) => {
+                const indexWarehouse = this.FormInputDetail.form_props.fields.findIndex((item) => {
+                    return item.id == 'id_divisi'
+                });
+
+                const data = result.map((item: any) => {
+                    return {
+                        name: item.divisi,
+                        value: item.id_divisi
+                    }
+                });
+
+                this.FormInputDetail.form_props.fields[indexWarehouse].select_props = data;
+            })
+    }
+
+    private getAllGroup() {
+        this._store
+            .dispatch(new SetupGroupAction.GetAll())
+            .pipe(
+                map((result: any) => {
+                    if (result.setup_group.entities.success) {
+                        return result.setup_group.entities.data;
+                    } else {
+                        return result;
+                    }
+                })
+            )
+            .subscribe((result: any) => {
+                const indexWarehouse = this.FormInputDetail.form_props.fields.findIndex((item) => {
+                    return item.id == 'id_group'
+                });
+
+                const data = result.map((item: any) => {
+                    return {
+                        name: item.group,
+                        value: item.id_group
+                    }
+                });
+
+                this.FormInputDetail.form_props.fields[indexWarehouse].select_props = data;
+            })
+    }
+
     onChangeWarehouse(data: any): void {
         const indexIdBarang = this.FormInputDetail.form_props.fields.findIndex((item) => {
             return item.id == 'id_barang';
@@ -400,6 +464,33 @@ export class InputSettingStokOpnameComponent implements OnInit {
             default:
                 break;
         }
+    }
+
+    getBarangByBarcode(args: any) {
+        const filter: any = [
+            {
+                "column": "mb.barcode",
+                "filter": "equal",
+                "value": args.target.value,
+                "value2": ""
+            }
+        ];
+
+        this._setupBarangService
+            .getAllBarang(filter)
+            .subscribe((result) => {
+                if (result.success && result.data.length) {
+                    result.data[0].urut = this.GridBarangProps.dataSource.length + 1;
+                    this.GridBarangProps.dataSource = [...this.GridBarangProps.dataSource, result.data[0]];
+
+                    const el = document.getElementById('SearchBarang') as HTMLInputElement;
+                    el.value = "";
+                    el.focus();
+                } else {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'error', summary: 'Oops', detail: 'Barang tidak ditemukan' });
+                }
+            })
     }
 
     onCellClicked(args: any): void {
@@ -514,7 +605,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
 
     handleSubmitForm(): void {
         const header = this.CustomForm.handleSubmitForm();
-        header.detail_barang = this.JenisStokOpname == 'barang' ? this.GridBarangProps.dataSource : [];
+        header.detail_barang = this.JenisStokOpname == 'barang' ? this.GridBarangProps.dataSource.map((item) => { return item.id_barang }) : [];
         header.detail_divisi = this.JenisStokOpname == 'divisi' ? this.GridDivisiProps.dataSource : [];
         header.detail_group = this.JenisStokOpname == 'group' ? this.GridGroupProps.dataSource : [];
         header.detail_supplier = this.JenisStokOpname == 'supplier' ? this.GridSupplierProps.dataSource : [];
