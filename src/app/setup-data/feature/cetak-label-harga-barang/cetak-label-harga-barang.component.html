@@ -1,5 +1,16 @@
 <app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-1 mb-2">
+        <app-custom-form #FormInputComps [props]="FormInput"></app-custom-form>
+    </div>
 
+    <div class="flex w-full justify-end mb-3">
+        <div class="w-4/12 flex justify-end">
+            <p-button styleClass="p-button-sm p-button-info" label="Add" icon="pi pi-chevron-down"
+                (onClick)="handleClickButtonAdd()"></p-button>
+        </div>
+    </div>
+
+    <div class="grid">
+        <app-grid [props]="GridProps" (toolbarClicked)="onToolbarClicked($event)"></app-grid>
     </div>
 </app-dashboard>

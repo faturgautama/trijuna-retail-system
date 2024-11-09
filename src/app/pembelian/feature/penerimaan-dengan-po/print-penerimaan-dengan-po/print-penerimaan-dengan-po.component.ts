@@ -21,11 +21,11 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        // if (this.IsPrintDraft) {
-        //     window.close();
-        // } else {
-        //     window.history.back();
-        // }
+        if (this.IsPrintDraft) {
+            window.close();
+        } else {
+            window.history.back();
+        }
     }
 
     constructor(
@@ -110,9 +110,9 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
                     this.GridProps.dataSource = result.data.detail;
 
                     if (!isExportPdf) {
-                        // setTimeout(() => {
-                        //     window.print();
-                        // }, 1500);
+                        setTimeout(() => {
+                            window.print();
+                        }, 1500);
                     } else {
                         setTimeout(() => {
                             this._utilityService.exportToPdf('printPenerimaanDenganPo', `Penerimaan Barang Dengan PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);

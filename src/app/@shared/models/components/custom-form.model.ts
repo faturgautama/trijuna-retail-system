@@ -28,6 +28,7 @@ export namespace CustomFormModel {
         status: 'readonly' | 'insert';
         required: boolean;
         validator?: string;
+        text_keyup_enter?: (data: any) => void;
         numeric_max_number?: number;
         numeric_callback?: (data: any) => void;
         numeric_keyup_enter?: (data: any) => void;

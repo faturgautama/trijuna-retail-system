@@ -13,7 +13,8 @@
                 <div class="{{ props.is_inline && item.type != 'lookup'  ? 'w-8/12' : 'w-full' }}">
                     <!-- Input Text -->
                     <input *ngIf="item.type == 'string'" pInputText [id]="item.id" formControlName="{{ item.id }}"
-                        style="width: 100%" class="p-inputtext-sm" [readonly]="item.status == 'readonly'" />
+                        style="width: 100%" class="p-inputtext-sm" [readonly]="item.status == 'readonly'"
+                        (keyup.enter)="handleKeyupEnterText($event, item)" />
 
                     <!-- Datepicker -->
                     <p-calendar *ngIf="item.type == 'date' || item.type == 'datetime'" [id]="item.id"
