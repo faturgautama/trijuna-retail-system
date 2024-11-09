@@ -68,8 +68,6 @@ export class UtilityService {
     exportToPdf(divId: string, fileTitle: string) {
         const node = document.getElementById(divId);
 
-        console.log("node =>", node);
-
         if (node) {
             domtoimage.toPng(node)
                 .then((dataUrl) => {
@@ -138,10 +136,15 @@ export class UtilityService {
 
         let worksheets = this.Workbook.addWorksheet('docs');
 
+        console.log("user data =>", this.UserData);
+        console.log("user lokasi =>", this.UserData.lokasi.nama_lokasi);
+
+        const lokasi = this.UserData.lokasi ? this.UserData.lokasi.nama_lokasi : 'MD MALL';
+
         // Set title and location in the first two rows
         worksheets.getRow(1).values = [payload.worksheetName];
         worksheets.getRow(1).font = { bold: true, size: 14 };
-        worksheets.getRow(2).values = [this.UserData.lokasi.nama_lokasi];
+        worksheets.getRow(2).values = [lokasi];
         worksheets.getRow(2).font = { bold: true, size: 12 };
         worksheets.getRow(3).values = []; // Empty row for spacing
 

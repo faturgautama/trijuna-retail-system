@@ -192,11 +192,11 @@ export class ListSetupBarangComponent implements OnInit {
 
         this.KeywordSearch$
             .pipe(
-                debounceTime(300),
+                debounceTime(500),
                 distinctUntilChanged()
             ).subscribe((result: string | any) => {
                 if (result) {
-                    let data = this.OriginalGridDatasource;
+                    let data = [...this.OriginalGridDatasource];
 
                     const newArr = data.filter((item: any) => {
                         return item.kode_barang.toLowerCase().includes(result.toLowerCase()) ||
@@ -306,8 +306,6 @@ export class ListSetupBarangComponent implements OnInit {
                     stok_gudang: item.stok_gudang,
                 }
             });
-
-            console.log("datasource =>", dataSource);
 
             this._utilityService.exportToExcel({ worksheetName: 'Master_Barang', dataSource: dataSource })
         };
