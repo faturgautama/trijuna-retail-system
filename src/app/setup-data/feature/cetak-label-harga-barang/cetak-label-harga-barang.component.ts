@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-cetak-label-harga-barang',
@@ -26,6 +28,7 @@ export class CetakLabelHargaBarangComponent implements OnInit, OnDestroy {
     constructor(
         private _router: Router,
         private _utilityService: UtilityService,
+        private _messageService: MessageService,
         private _setupBarangService: SetupBarangService,
     ) {
         this.DashboardProps = {
@@ -44,11 +47,36 @@ export class CetakLabelHargaBarangComponent implements OnInit, OnDestroy {
                     id: 'barcode',
                     label: 'Barcode',
                     status: 'insert',
-                    type: 'string',
+                    type: 'lookup',
+                    lookup_props: {
+                        id: 'lookupBarang',
+                        title: 'Data Barang',
+                        columns: [
+                            { field: 'kode_barang', width: 150, headerName: 'KODE BARANG', sortable: true, resizable: true },
+                            { field: 'nama_barang', width: 250, headerName: 'NAMA BARANG', sortable: true, resizable: true },
+                            { field: 'barcode', width: 200, headerName: 'BARCODE', sortable: true, resizable: true },
+                            {
+                                field: 'harga_jual', width: 250, headerName: 'HARGA JUAL', sortable: true, resizable: true,
+                                cellClass: 'text-end',
+                                cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }
+                            },
+                        ],
+                        filter: [
+                            { id: 'kode_barang', title: 'Kode Barang', type: 'contain', value: 'mb.kode_barang' },
+                            { id: 'nama_barang', title: 'Nama Barang', type: 'contain', value: 'mb.nama_barang' },
+                            { id: 'barcode', title: 'Barcode', type: 'contain', value: 'mb.barcode' },
+                        ],
+                        label: 'Cari Barang',
+                        selectedField: 'barcode',
+                        selectedValue: 'barcode',
+                        url: `${environment.endpoint}/barang/by_param`,
+                        callback: (data) => {
+                            this.getBarangById(data.id_barang);
+                        },
+                        width: '70vw',
+                    },
+                    lookup_set_value_field: ['kode_barang', 'barcode', 'nama_barang'],
                     required: true,
-                    text_keyup_enter: (value: string) => {
-                        this.getBarangByBarcode(value);
-                    }
                 },
                 {
                     id: 'kode_barang',
@@ -65,15 +93,22 @@ export class CetakLabelHargaBarangComponent implements OnInit, OnDestroy {
                     required: false,
                 },
                 {
-                    id: 'nama_label',
-                    label: 'Nama Label',
+                    id: 'harga_jual',
+                    label: 'Harga Jual',
                     status: 'readonly',
                     type: 'string',
                     required: false,
                 },
                 {
-                    id: 'harga_jual',
-                    label: 'Harga Jual',
+                    id: 'harga_grosir1',
+                    label: 'Harga Grosir 1',
+                    status: 'readonly',
+                    type: 'string',
+                    required: false,
+                },
+                {
+                    id: 'harga_grosir2',
+                    label: 'Harga Grosir 2',
                     status: 'readonly',
                     type: 'string',
                     required: false,
@@ -84,6 +119,23 @@ export class CetakLabelHargaBarangComponent implements OnInit, OnDestroy {
                     status: 'insert',
                     type: 'numeric',
                     required: true,
+                    hidden: true,
+                },
+                {
+                    id: 'qty_grosir1',
+                    label: 'Qty Grosir 1',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                    hidden: true,
+                },
+                {
+                    id: 'qty_grosir2',
+                    label: 'Qty Grosir 2',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                    hidden: true,
                 },
             ],
             custom_class: 'grid-rows-2 grid-cols-3'
@@ -101,8 +153,8 @@ export class CetakLabelHargaBarangComponent implements OnInit, OnDestroy {
             ],
             dataSource: [],
             toolbar: ['Delete'],
-            height: "calc(100vh - 16rem)",
-            showPaging: true,
+            height: "calc(100vh - 23.5rem)",
+            showPaging: false,
         };
     }
 
@@ -130,12 +182,46 @@ export class CetakLabelHargaBarangComponent implements OnInit, OnDestroy {
             })
     }
 
-    handleClickButtonAdd() {
+    private getBarangById(id_barang: number) {
+        this._setupBarangService
+            .getByIdBarang(id_barang)
+            .subscribe((result) => {
+                if (result.success) {
+                    const harga_grosir1 = parseFloat(result.data.harga_grosir1) ? this._utilityService.FormatNumber(parseFloat(result.data.harga_grosir1), 'Rp. ') : '-',
+                        harga_grosir2 = parseFloat(result.data.harga_grosir2) ? this._utilityService.FormatNumber(parseFloat(result.data.harga_grosir2), 'Rp. ') : '-',
+                        harga_jual = parseFloat(result.data.harga_jual) ? this._utilityService.FormatNumber(parseFloat(result.data.harga_jual), 'Rp. ') : '-',
+                        qty_grosir1 = parseFloat(result.data.qty_grosir1) ? parseFloat(result.data.qty_grosir1) : 0,
+                        qty_grosir2 = parseFloat(result.data.qty_grosir2) ? parseFloat(result.data.qty_grosir2) : 0;
+
+                    this.FormInputComps.CustomForms.get('harga_jual')?.setValue(harga_jual);
+                    this.FormInputComps.CustomForms.get('qty_grosir1')?.setValue(qty_grosir1);
+                    this.FormInputComps.CustomForms.get('harga_grosir1')?.setValue(harga_grosir1);
+                    this.FormInputComps.CustomForms.get('qty_grosir2')?.setValue(qty_grosir2);
+                    this.FormInputComps.CustomForms.get('harga_grosir2')?.setValue(harga_grosir2);
+                }
+            })
+    }
+
+    handleClickButtonAdd(jumlah_print: any) {
         let value = this.FormInputComps.CustomForms.value;
-        value.urut = this.GridProps.dataSource.length + 1;
-        this.GridProps.dataSource = [value, ...this.GridProps.dataSource].sort((a, b) => a.urut - b.urut);
-        this.FormInputComps.CustomForms.reset();
-        this.onAddToPrintDatasource(value);
+
+        if (parseInt(jumlah_print) > 0) {
+            value.urut = this.GridProps.dataSource.length + 1;
+            value.jumlah_print = parseInt(jumlah_print);
+            this.GridProps.dataSource = [value, ...this.GridProps.dataSource].sort((a, b) => a.urut - b.urut);
+
+            const lookupBarangInputResult = document.getElementById('lookupBarangInputResult') as HTMLInputElement;
+            lookupBarangInputResult.value = "";
+
+            const jumlah_print_el = document.getElementById('jumlah_print') as HTMLInputElement;
+            jumlah_print_el.value = "";
+
+            this.FormInputComps.CustomForms.reset();
+            this.onAddToPrintDatasource(value);
+        } else {
+            this._messageService.clear();
+            this._messageService.add({ severity: 'warn', summary: 'Oops', detail: 'Jumlah Print Tidak Boleh 0' })
+        }
     }
 
     onToolbarClicked(args: any) {
@@ -163,7 +249,6 @@ export class CetakLabelHargaBarangComponent implements OnInit, OnDestroy {
                 );
 
                 window.open(`/#${url}`, '_blank');
-
             }, 1000);
         }
     }

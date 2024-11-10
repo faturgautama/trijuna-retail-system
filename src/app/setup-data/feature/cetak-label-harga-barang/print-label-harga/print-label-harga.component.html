@@ -1,15 +1,27 @@
 <div class="grid grid-cols-4 p-5 gap-5">
     <div *ngFor="let item of Datasource" class="flex flex-col gap-0 border border-solid border-gray-700 p-2 rounded-sm">
-        <p class="text-xl text-gray-800 font-extrabold">
-            {{ item.harga_jual }}
+        <p class="text-xs text-gray-800 font-medium">
+            {{ item.kode_barang }}/{{ item.barcode }}
         </p>
         <p class="text-sm text-gray-800 font-medium">
-            {{ item.kode_barang }} . {{ item.barcode }}
-        </p>
-        <p class="text-sm text-gray-800 font-medium mb-2">
             {{ item.nama_barang }}
         </p>
-        <div class="flex w-full justify-end">
+        <p class="text-base text-gray-800 font-extrabold">
+            <span class="text-sm font-medium">
+                Harga :
+            </span> {{ item.harga_jual }}
+        </p>
+        <p *ngIf="item.qty_grosir1" class="text-xs text-gray-800 font-semibold">
+            <span class="text-xs font-medium">
+                >= {{ item.qty_grosir1 }} &#64;
+            </span> {{ item.harga_grosir1 }}
+        </p>
+        <p *ngIf="item.qty_grosir2" class="text-xs text-gray-800 font-semibold">
+            <span class="text-xs font-medium">
+                >= {{ item.qty_grosir2 }} &#64;
+            </span> {{ item.harga_grosir2 }}
+        </p>
+        <div class="flex w-full justify-end mt-2">
             <p class="text-gray-600" style="font-size: 9px;">
                 {{ _utilityService.FormatDate(TanggalCetak, 'yyyy-MM-DD HH:mm:ss') }}
             </p>

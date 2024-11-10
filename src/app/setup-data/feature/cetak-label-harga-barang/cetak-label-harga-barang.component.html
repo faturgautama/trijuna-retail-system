@@ -1,13 +1,17 @@
 <app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
-    <div class="grid grid-cols-1 mb-2">
+    <div class="grid grid-cols-1 mb-3">
         <app-custom-form #FormInputComps [props]="FormInput"></app-custom-form>
     </div>
 
-    <div class="flex w-full justify-end mb-3">
-        <div class="w-4/12 flex justify-end">
-            <p-button styleClass="p-button-sm p-button-info" label="Add" icon="pi pi-chevron-down"
-                (onClick)="handleClickButtonAdd()"></p-button>
+    <div class="flex w-full items-center justify-end mb-3 gap-2">
+        <div class="w-2/12" style="padding-left: calc(100vw - 84rem)">
+            <input #JumlahPrint id="jumlah_print" type="number" placeholder="Input jumlah print" pInputText
+                class="p-inputtext-sm w-full">
         </div>
+
+        <p-button styleClass="p-button-sm p-button-info" label="Add" icon="pi pi-chevron-down"
+            (onClick)="handleClickButtonAdd(JumlahPrint.value)">
+        </p-button>
     </div>
 
     <div class="grid">

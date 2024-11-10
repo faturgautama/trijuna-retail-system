@@ -14,7 +14,7 @@ export class PrintLabelHargaComponent implements OnInit {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        window.close();
+        // window.close();
     }
 
     constructor(
@@ -25,10 +25,12 @@ export class PrintLabelHargaComponent implements OnInit {
         const data = JSON.parse(localStorage.getItem('_TRS_PRINT_LABEL_') as any);
         this.Datasource = data ? data : [];
 
+        console.log("data =>", data);
+
         if (data) {
-            setTimeout(() => {
-                window.print();
-            }, 1500);
+            // setTimeout(() => {
+            //     window.print();
+            // }, 1500);
         }
     }
 }
