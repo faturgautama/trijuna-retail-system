@@ -12,6 +12,8 @@ import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-g
 })
 export class PrintPemesananPoComponent implements OnInit {
 
+    IsPembelianTanpaPo = false;
+
     Data: any;
 
     GridProps: PrintOutGridModel.IGrid;
@@ -54,6 +56,8 @@ export class PrintPemesananPoComponent implements OnInit {
         const isExportPdf = url.includes('export-pdf');
 
         if (url.includes('penerimaan-tanpa-po')) {
+            this.IsPembelianTanpaPo = true;
+
             this.GridProps = {
                 id: 'print-out-master-barang',
                 column: [
@@ -75,6 +79,8 @@ export class PrintPemesananPoComponent implements OnInit {
             this.getPembelianTanpaPo(id, isExportPdf);
 
         } else {
+            this.IsPembelianTanpaPo = false;
+
             this.GridProps = {
                 id: 'print-out-master-barang',
                 column: [
@@ -121,15 +127,15 @@ export class PrintPemesananPoComponent implements OnInit {
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail;
 
-                // if (!exportPdf) {
-                //     setTimeout(() => {
-                //         window.print();
-                //     }, 1500);
-                // } else {
-                //     setTimeout(() => {
-                //         this._utilityService.exportToPdf('printPemesananPo', `Pembelian Tanpa PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
-                //     }, 500);
-                // }
+                if (!exportPdf) {
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        this._utilityService.exportToPdf('printPemesananPo', `Pembelian Tanpa PO - ${this.Data.nomor_penerimaan} - ${new Date().getTime()}`);
+                    }, 500);
+                }
             })
     }
 }
