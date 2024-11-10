@@ -170,12 +170,27 @@ export class SettingPointMemberComponent implements OnInit {
             .getAll()
             .subscribe((result) => {
                 if (result.success) {
-                    result.data.nominal = this._utilityService.FormatNumber(result.data.nominal, 'Rp. ');
-                    result.data.created_at = this._utilityService.FormatDate(result.data.created_at, 'DD-MM-yyyy HH:mm:ss');
+                    if (result.data) {
+                        this.DashboardProps = {
+                            title: 'Data Setting Point Member',
+                            button_navigation: [
+                                { id: 'add', caption: 'Edit', icon: 'pi pi-plus text-xs' }
+                            ],
+                        };
 
-                    this.FormInputComps.CustomForms.patchValue(result.data);
+                        result.data.nominal = this._utilityService.FormatNumber(result.data.nominal, 'Rp. ');
+                        result.data.created_at = this._utilityService.FormatDate(result.data.created_at, 'DD-MM-yyyy HH:mm:ss');
+                        this.FormInputComps.CustomForms.patchValue(result.data);
+                        this.GridProps.dataSource = result.data.group;
 
-                    this.GridProps.dataSource = result.data.group;
+                    } else {
+                        this.DashboardProps = {
+                            title: 'Data Setting Point Member',
+                            button_navigation: [
+                                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                            ],
+                        };
+                    }
                 }
             })
     }
@@ -186,7 +201,7 @@ export class SettingPointMemberComponent implements OnInit {
             dapat_poin: data.dapat_poin,
             group: data.group.map((item: any) => {
                 return {
-                    id_group: item
+                    id_group: item.value
                 }
             }),
         };
