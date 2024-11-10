@@ -76,12 +76,22 @@ export class HistoryCroscekTutupKasirComponent implements OnInit {
                     cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
                 },
                 {
-                    field: 'pendapatan_versi_system', headerName: 'PENDAPATAN VERSI KOMPUTER', width: 250, sortable: true, resizable: true,
+                    field: 'pendapatan_versi_system', headerName: 'PENDAPATAN VERSI KOMPUTER', width: 300, sortable: true, resizable: true,
                     cellClass: 'text-end',
                     cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
                 },
                 {
-                    field: 'selisih', headerName: 'SELISIH', width: 150, sortable: true, resizable: true,
+                    field: 'selisih', headerName: 'SELISIH', width: 250, sortable: true, resizable: true,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
+                },
+                {
+                    field: 'refund', headerName: 'REFUND', width: 250, sortable: true, resizable: true,
+                    cellClass: 'text-end',
+                    cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
+                },
+                {
+                    field: 'setor_bank', headerName: 'SETOR BANK', width: 250, sortable: true, resizable: true,
                     cellClass: 'text-end',
                     cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }
                 },

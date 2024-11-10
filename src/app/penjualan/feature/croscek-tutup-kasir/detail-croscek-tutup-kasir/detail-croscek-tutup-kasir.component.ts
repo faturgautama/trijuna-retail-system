@@ -58,8 +58,8 @@ export class DetailCroscekTutupKasirComponent implements OnInit {
                 },
             ],
             dataSource: [],
-            height: "calc(100vh - 21rem)",
-            showPaging: true,
+            height: "calc(100vh - 24rem)",
+            showPaging: false,
         };
 
         this.FormInputHeader = {
@@ -117,6 +117,20 @@ export class DetailCroscekTutupKasirComponent implements OnInit {
                     required: false,
                 },
                 {
+                    id: 'refund',
+                    label: 'Refund',
+                    status: 'readonly',
+                    type: 'string',
+                    required: false,
+                },
+                {
+                    id: 'setor_bank',
+                    label: 'Setor Bank',
+                    status: 'readonly',
+                    type: 'string',
+                    required: false,
+                },
+                {
                     id: 'keterangan_tutup_kasir',
                     label: 'Ket Tutup Kasir',
                     status: 'readonly',
@@ -130,8 +144,15 @@ export class DetailCroscekTutupKasirComponent implements OnInit {
                     type: 'string',
                     required: false,
                 },
+                {
+                    id: 'created_at',
+                    label: 'Waktu Input',
+                    status: 'readonly',
+                    type: 'string',
+                    required: false,
+                },
             ],
-            custom_class: 'grid-rows-3 grid-cols-3',
+            custom_class: 'grid-rows-4 grid-cols-3',
         }
     }
 
@@ -148,6 +169,9 @@ export class DetailCroscekTutupKasirComponent implements OnInit {
                 result.data.pendapatan_versi_user = this._utilityService.FormatNumber(result.data.pendapatan_versi_user, 'Rp. ');
                 result.data.pendapatan_versi_system = this._utilityService.FormatNumber(result.data.pendapatan_versi_system, 'Rp. ');
                 result.data.selisih = this._utilityService.FormatNumber(result.data.selisih, 'Rp. ');
+                result.data.refund = this._utilityService.FormatNumber(result.data.refund ? result.data.refund : 0, 'Rp. ');
+                result.data.setor_bank = this._utilityService.FormatNumber(result.data.setor_bank ? result.data.setor_bank : 0, 'Rp. ');
+                result.data.created_at = result.data.created_at;
 
                 this.CustomForm.CustomForms.patchValue(result.data);
                 this.GridDetailProps.dataSource = result.data.detail_pendapatan;
