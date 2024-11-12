@@ -1,9 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { hostname } from 'os';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { map } from 'rxjs';
+import { map, takeUntil } from 'rxjs';
+import { PembelianDenganPoService } from 'src/app/@core/service/pembelian/pembelian-dengan-po/pembelian-dengan-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
@@ -25,7 +26,7 @@ import { environment } from 'src/environments/environment';
     templateUrl: './input-penerimaan-dengan-po.component.html',
     styleUrls: ['./input-penerimaan-dengan-po.component.scss']
 })
-export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
+export class InputPenerimaanDenganPoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -54,9 +55,11 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store,
         private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
         private _confirmationService: ConfirmationService,
+        private _pembelianDenganPoService: PembelianDenganPoService,
     ) {
         this.DashboardProps = {
             title: 'Input Penerimaan Dengan PO',
@@ -448,6 +451,33 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.onGetLokasi();
         this.onGetWarehouse();
+    }
+
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            const id = this._activatedRoute.snapshot.params.id;
+
+            if (id) {
+                this._pembelianDenganPoService
+                    .getById(id)
+                    .subscribe((result) => {
+                        console.log(result);
+
+                        if (result.success) {
+
+                            result.data.tanggal_nota = new Date(result.data.tanggal_nota);
+
+                            const lookupFakturPoInputResult = document.getElementById('lookupFakturPoInputResult') as HTMLInputElement;
+                            lookupFakturPoInputResult.value = result.data.nomor_pemesanan;
+
+                            this.CustomForm.CustomForms.patchValue(result.data);
+                            this.CustomFormFooter.CustomForms.patchValue(result.data);
+                            this.GridProps.dataSource = result.data.detail;
+                        }
+                    })
+            }
+
+        }, 1000);
     }
 
     ngOnDestroy(): void {

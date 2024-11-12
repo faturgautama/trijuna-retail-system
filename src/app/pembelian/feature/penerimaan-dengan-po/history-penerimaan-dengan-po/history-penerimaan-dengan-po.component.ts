@@ -125,6 +125,10 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
         if (args == 'export_pdf') {
             this._router.navigate([`pembelian/penerimaan-dengan-po/export-pdf/${this.SelectedData.id_penerimaan}`]);
         };
+
+        if (args == 'input_ulang') {
+            this._router.navigate([`pembelian/penerimaan-dengan-po/input-ulang/${this.SelectedData.id_penerimaan}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -138,6 +142,27 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
 
     handleCellClicked(args: any): void {
         this.SelectedData = args;
+
+        if (args.status_penerimaan == 'CANCEL') {
+            this.DashboardProps = {
+                title: 'History Penerimaan Dengan PO',
+                button_navigation: [
+                    { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                    { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                    { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
+                    { id: 'input_ulang', caption: 'Input Ulang', icon: 'pi pi-pencil text-xs' },
+                ],
+            };
+        } else {
+            this.DashboardProps = {
+                title: 'History Penerimaan Dengan PO',
+                button_navigation: [
+                    { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                    { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                    { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
+                ],
+            };
+        }
     }
 
     handleRowDoubleClicked(args: any): void {

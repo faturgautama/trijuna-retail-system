@@ -36,6 +36,7 @@ const routes: Routes = [
         path: 'penerimaan-dengan-po', children: [
             { path: 'history', component: HistoryPenerimaanDenganPoComponent },
             { path: 'input', component: InputPenerimaanDenganPoComponent },
+            { path: 'input-ulang/:id', component: InputPenerimaanDenganPoComponent },
             { path: 'detail/:id', component: DetailPenerimaanDenganPoComponent },
             { path: 'print/:id', component: PrintPenerimaanDenganPoComponent },
             { path: 'print_draft', component: PrintPenerimaanDenganPoComponent },
