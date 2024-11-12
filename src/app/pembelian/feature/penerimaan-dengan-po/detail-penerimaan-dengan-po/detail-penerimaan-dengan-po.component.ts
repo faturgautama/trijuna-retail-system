@@ -369,9 +369,26 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                 this.CustomFormFooter.handleSetFormDefaultValue();
 
                 if (result.status_penerimaan == 'OPEN') {
-                    this.DashboardProps.button_navigation.push({
-                        id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs'
-                    })
+                    this.DashboardProps = {
+                        title: 'Detail Penerimaan Dengan PO',
+                        button_navigation: [
+                            {
+                                id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs'
+                            },
+                            {
+                                id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs'
+                            }
+                        ],
+                    };
+                } else {
+                    this.DashboardProps = {
+                        title: 'Detail Penerimaan Dengan PO',
+                        button_navigation: [
+                            {
+                                id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs'
+                            }
+                        ],
+                    };
                 }
             })
     }

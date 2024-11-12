@@ -109,12 +109,16 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
 
     handleChangeNumeric(props: CustomFormModel.IFields, args: any): void {
         const parser = `${args.target.value}`.replace(/\$\s?|(,*)/g, '');
-        props.numeric_callback?.(parseInt(parser));
+        console.log("parser =>", parser);
+
+        props.numeric_callback?.(parseFloat(parser));
     }
 
     handleEnterNumeric(props: CustomFormModel.IFields, args: any) {
         const parser = `${args.target.value}`.replace(/\$\s?|(,*)/g, '');
-        props.numeric_keyup_enter?.(parseInt(parser));
+        console.log("parser =>", parser);
+
+        props.numeric_keyup_enter?.(parseFloat(parser));
     }
 
     handleChangeDropdown(props: CustomFormModel.IFields, args: any): void {

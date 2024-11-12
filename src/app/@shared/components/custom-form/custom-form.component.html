@@ -53,8 +53,16 @@
                                 {{ item.prefix }}
                             </span>
 
-                            <p-inputNumber formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm"
-                                (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'"
+                            <p-inputNumber *ngIf="item.numeric_mode == 'decimal'" formControlName="{{ item.id }}"
+                                styleClass="w-full p-inputtext-sm" (onBlur)="handleChangeNumeric(item, $event)"
+                                [mode]="'decimal'" [disabled]="item.status == 'readonly'" [minFractionDigits]="0"
+                                [maxFractionDigits]="3" [min]="0.00" [max]="100.00"
+                                [readonly]="item.status == 'readonly'">
+                            </p-inputNumber>
+
+                            <p-inputNumber *ngIf="item.numeric_mode != 'decimal'" formControlName="{{ item.id }}"
+                                styleClass="w-full p-inputtext-sm" (onBlur)="handleChangeNumeric(item, $event)"
+                                [disabled]="item.status == 'readonly'" [max]="item.numeric_max_number!"
                                 [readonly]="item.status == 'readonly'">
                             </p-inputNumber>
                         </div>
@@ -72,8 +80,6 @@
                                 (onBlur)="handleChangeNumeric(item.form_grouped_props!, $event)">
                             </p-inputNumber>
                         </div>
-
-
                     </div>
 
                     <!-- Checkbox -->

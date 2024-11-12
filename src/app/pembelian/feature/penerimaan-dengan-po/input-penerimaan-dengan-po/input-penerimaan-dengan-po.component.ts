@@ -171,7 +171,11 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
+                    numeric_max_number: 100,
+                    numeric_step_number: 0.1,
+                    numeric_mode: 'decimal',
                     numeric_callback: (data) => {
+                        console.log("data =>", data);
                         this.handleChangeDiskonFooter(data);
                     },
                     form_grouped_props: {
@@ -305,7 +309,9 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     field: 'qty', headerName: 'QTY', width: 150, sortable: true, resizable: true
                 },
                 {
-                    field: 'harga_order', headerName: 'HARGA ORDER', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, editable: true,
+                    field: 'harga_order', headerName: 'HARGA ORDER', width: 180, sortable: true, resizable: true, editable: true,
+                    hide: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
                     valueGetter: params => { return params.data.harga_order },
                     valueSetter: params => {
                         const data = JSON.parse(JSON.stringify(params.data));
@@ -314,17 +320,77 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                         return true;
                     }
                 },
-                { field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_2', headerName: 'DISKON 2 (Rp)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'diskon_persen_3', headerName: 'DISKON 3 (%)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'qty_bonus', headerName: 'QTY BONUS', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 180, sortable: true, resizable: true },
                 {
-                    field: 'biaya_barcode', headerName: 'BIAYA BARCODE', width: 180, sortable: true, resizable: true, editable: true,
+                    field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 180, sortable: true, resizable: true, editable: true, hide: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.diskon_persen_1 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_persen_1 = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
+                {
+                    field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 180, sortable: true, resizable: true, editable: true, hide: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                    valueGetter: params => { return params.data.diskon_nominal_1 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_nominal_1 = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
+                {
+                    field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 180, sortable: true, resizable: true, editable: true, hide: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.diskon_persen_2 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_persen_2 = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
+                {
+                    field: 'diskon_nominal_2', headerName: 'DISKON 2 (Rp)', width: 180, sortable: true, resizable: true, editable: true, hide: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                    valueGetter: params => { return params.data.diskon_nominal_2 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_nominal_2 = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
+                {
+                    field: 'diskon_persen_3', headerName: 'DISKON 3 (%)', width: 180, sortable: true, resizable: true, editable: true, hide: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.diskon_persen_3 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_persen_3 = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
+                {
+                    field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 180, sortable: true, resizable: true, editable: true, hide: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                    valueGetter: params => { return params.data.diskon_nominal_3 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_nominal_3 = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
+                { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, hide: true, },
+                { field: 'qty_bonus', headerName: 'QTY BONUS', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 180, sortable: true, resizable: true, hide: true, },
+                {
+                    field: 'biaya_barcode', headerName: 'BIAYA BARCODE', width: 180, sortable: true, resizable: true, editable: true, hide: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
                     valueGetter: params => { return params.data.biaya_barcode },
                     valueSetter: params => {
@@ -524,9 +590,14 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
             data.qty = parseFloat(data.banyak) * parseFloat(data.isi);
             data.harga_order = parseFloat(data.harga_order);
 
+            let total = data.qty * data.harga_order;
+
             data.diskon_persen_1 = parseFloat(data.diskon_persen_1);
-            data.diskon_nominal_1 = (parseFloat(data.qty) * data.harga_order) * (data.diskon_persen_1 / 100);
-            total_after_diskon_1 = (parseFloat(data.qty) * data.harga_order) - data.diskon_nominal_1;
+            data.diskon_nominal_1 = parseFloat(total * (data.diskon_persen_1 / 100) as any);
+
+            console.log("diskon nominal 1 =>", data.diskon_nominal_1);
+
+            total_after_diskon_1 = parseFloat((total - data.diskon_nominal_1) as any);
 
             data.diskon_persen_2 = parseFloat(data.diskon_persen_2);
             data.diskon_nominal_2 = total_after_diskon_1 * (data.diskon_persen_2 / 100);

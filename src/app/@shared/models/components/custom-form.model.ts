@@ -30,6 +30,8 @@ export namespace CustomFormModel {
         validator?: string;
         text_keyup_enter?: (data: any) => void;
         numeric_max_number?: number;
+        numeric_step_number?: number;
+        numeric_mode?: 'currency' | 'decimal';
         numeric_callback?: (data: any) => void;
         numeric_keyup_enter?: (data: any) => void;
         select_props?: IFormSelectProps[] | any[];

@@ -373,9 +373,11 @@ export class DetailPemesananPoComponent implements OnInit {
             column: [
                 { field: 'urut', headerName: 'URUT', width: 120, sortable: true, resizable: true },
                 { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
+                { field: 'kode_barang', headerName: 'KODE BARANG', width: 150, sortable: true, resizable: true },
+                { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
                 {
-                    field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true, editable: true,
+                    field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true, editable: true, cellClass: 'text-end',
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
                     valueGetter: params => { return params.data.banyak },
                     valueSetter: params => {
@@ -386,10 +388,11 @@ export class DetailPemesananPoComponent implements OnInit {
                     }
                 },
                 { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
-                { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'isi', headerName: 'ISI', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }, cellClass: 'text-end' },
+                { field: 'qty', headerName: 'QTY', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }, cellClass: 'text-end' },
                 {
-                    field: 'harga_order', headerName: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
+                    field: 'harga_order', headerName: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, cellClass: 'text-end',
+                    hide: true,
                     editable: true,
                     valueGetter: params => { return params.data.harga_order },
                     valueSetter: params => {
@@ -399,14 +402,14 @@ export class DetailPemesananPoComponent implements OnInit {
                         return true;
                     }
                 },
-                { field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_2', headerName: 'DISKON 2 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'diskon_persen_3', headerName: 'DISKON 3 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
-                { field: 'qty_bonus', headerName: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }, cellClass: 'text-end', hide: true, },
+                { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, cellClass: 'text-end', hide: true, },
+                { field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }, cellClass: 'text-end', hide: true, },
+                { field: 'diskon_nominal_2', headerName: 'DISKON 2 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, cellClass: 'text-end', hide: true, },
+                { field: 'diskon_persen_3', headerName: 'DISKON 3 (%)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }, cellClass: 'text-end', hide: true, },
+                { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, cellClass: 'text-end', hide: true, },
+                { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e }, cellClass: 'text-end', hide: true, },
+                { field: 'qty_bonus', headerName: 'QTY BONUS', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e }, cellClass: 'text-end' },
                 { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 200, sortable: true, resizable: true }
             ],
             dataSource: [],
@@ -454,6 +457,7 @@ export class DetailPemesananPoComponent implements OnInit {
                     status: 'readonly',
                     type: 'numeric',
                     required: true,
+                    hidden: true,
                 },
                 {
                     id: 'diskon_persen',
@@ -471,7 +475,8 @@ export class DetailPemesananPoComponent implements OnInit {
                         status: 'readonly',
                         type: 'numeric',
                         required: true,
-                    }
+                    },
+                    hidden: true,
                 },
                 {
                     id: 'sub_total2',
@@ -479,6 +484,7 @@ export class DetailPemesananPoComponent implements OnInit {
                     status: 'readonly',
                     type: 'numeric',
                     required: true,
+                    hidden: true,
                 },
                 {
                     id: 'ppn_nominal',
@@ -486,6 +492,7 @@ export class DetailPemesananPoComponent implements OnInit {
                     status: 'readonly',
                     type: 'numeric',
                     required: true,
+                    hidden: true,
                 },
                 {
                     id: 'total_transaksi',
@@ -495,7 +502,7 @@ export class DetailPemesananPoComponent implements OnInit {
                     required: true,
                 },
             ],
-            custom_class: 'grid-rows-6 grid-cols-1',
+            custom_class: 'grid-rows-2 grid-cols-1',
         };
     }
 
