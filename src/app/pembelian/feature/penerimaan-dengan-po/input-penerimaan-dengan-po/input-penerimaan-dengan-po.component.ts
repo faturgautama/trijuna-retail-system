@@ -156,6 +156,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, AfterViewInit, 
                     label: 'Jumlah Item',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
@@ -247,6 +248,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, AfterViewInit, 
                     label: 'Grand Total',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
@@ -470,9 +472,26 @@ export class InputPenerimaanDenganPoComponent implements OnInit, AfterViewInit, 
                             const lookupFakturPoInputResult = document.getElementById('lookupFakturPoInputResult') as HTMLInputElement;
                             lookupFakturPoInputResult.value = result.data.nomor_pemesanan;
 
+                            result.data.diskon_nominal = parseFloat(result.data.diskon_nominal);
+                            result.data.diskon_persen = parseFloat(result.data.diskon_persen);
+                            result.data.pembulatan = parseFloat(result.data.pembulatan);
+                            result.data.potongan = parseFloat(result.data.potongan ? result.data.potongan : 0);
+                            result.data.ppn_nominal = parseFloat(result.data.ppn_nominal);
+                            result.data.qty = parseFloat(result.data.qty);
+                            result.data.sub_total1 = parseFloat(result.data.sub_total1);
+                            result.data.sub_total2 = parseFloat(result.data.sub_total2);
+                            result.data.total_transaksi = parseFloat(result.data.total_transaksi);
+
                             this.CustomForm.CustomForms.patchValue(result.data);
                             this.CustomFormFooter.CustomForms.patchValue(result.data);
-                            this.GridProps.dataSource = result.data.detail;
+                            this.GridProps.dataSource = result.data.detail.map((item: any) => {
+                                delete item.id_penerimaan;
+                                delete item.id_penerimaan_detail;
+
+                                item.id_pemesanan = result.data.id_pemesanan;
+
+                                return item;
+                            });
                         }
                     })
             }
@@ -691,18 +710,17 @@ export class InputPenerimaanDenganPoComponent implements OnInit, AfterViewInit, 
             this.CustomFormFooter.handleSetFieldValue('total_biaya_barcode', biaya_barcode);
         });
 
-        this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
+        this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - parseFloat(this.CustomFormFooter.handleGetFieldValue('diskon_nominal')));
 
         if (this.is_ppn) {
-            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')) * (11 / 100));
         }
 
         const ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
             potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
             pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
 
-
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + ppn_nominal - potongan + pembulatan);
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')) + ppn_nominal - potongan + pembulatan);
     }
 
     handleSubmitForm(): void {
