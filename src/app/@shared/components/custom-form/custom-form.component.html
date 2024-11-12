@@ -37,7 +37,18 @@
                     </p-dropdown>
 
                     <!-- Numeric -->
-                    <p-inputNumber *ngIf="item.type == 'numeric' && !item.is_form_grouped"
+                    <p-inputNumber
+                        *ngIf="item.type == 'numeric' && item.numeric_mode == 'decimal' && !item.is_form_grouped"
+                        formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm text-end"
+                        (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'"
+                        [readonly]="item.status == 'readonly'" [max]="item.numeric_max_number!" [mode]="'decimal'"
+                        [minFractionDigits]="0" [maxFractionDigits]="2"
+                        (keyup.enter)="handleEnterNumeric(item, $event)">
+                    </p-inputNumber>
+
+                    <!-- Numeric -->
+                    <p-inputNumber
+                        *ngIf="item.type == 'numeric' && item.numeric_mode != 'decimal' && !item.is_form_grouped"
                         formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm text-end"
                         (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'"
                         [readonly]="item.status == 'readonly'" [max]="item.numeric_max_number!"
@@ -56,8 +67,7 @@
                             <p-inputNumber *ngIf="item.numeric_mode == 'decimal'" formControlName="{{ item.id }}"
                                 styleClass="w-full p-inputtext-sm" (onBlur)="handleChangeNumeric(item, $event)"
                                 [mode]="'decimal'" [disabled]="item.status == 'readonly'" [minFractionDigits]="0"
-                                [maxFractionDigits]="3" [min]="0.00" [max]="100.00"
-                                [readonly]="item.status == 'readonly'">
+                                [maxFractionDigits]="2" [min]="0" [max]="100" [readonly]="item.status == 'readonly'">
                             </p-inputNumber>
 
                             <p-inputNumber *ngIf="item.numeric_mode != 'decimal'" formControlName="{{ item.id }}"

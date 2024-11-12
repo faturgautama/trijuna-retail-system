@@ -12,15 +12,45 @@
     </div>
 
     <div class="flex w-full justify-between mt-5 mb-5">
-        <div class="flex w-4/12">
-            <div class="w-4/12">
-                <label for="keterangan">
-                    Keterangan
-                </label>
+        <div class="flex flex-col w-4/12">
+            <!-- Dengan PPn -->
+            <div class="flex w-full mb-3">
+                <div class="w-4/12">
+                    <label>
+                        Dengan PPn?
+                    </label>
+                </div>
+                <div class="w-8/12 flex flex-row gap-3">
+                    <div class="flex items-center">
+                        <p-radioButton name="is_ppn" [value]="true" [(ngModel)]="is_ppn" inputId="is_ppn_true"
+                            (onClick)="onCountFormFooter()" />
+                        <label for="is_ppn_true" class="ml-2">
+                            Iya
+                        </label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <p-radioButton name="is_ppn" [value]="false" [(ngModel)]="is_ppn" inputId="is_ppn_false"
+                            (onClick)="onCountFormFooter()" />
+                        <label for="is_ppn_false" class="ml-2">
+                            Tidak
+                        </label>
+                    </div>
+                </div>
             </div>
-            <div class="w-8/12">
-                <textarea #Keterangan rows="5" pInputTextarea class="w-full" [autoResize]="false"></textarea>
+
+            <!-- Keterangan -->
+            <div class="flex w-full">
+                <div class="w-4/12">
+                    <label for="keterangan">
+                        Keterangan
+                    </label>
+                </div>
+                <div class="w-8/12">
+                    <textarea #Keterangan rows="5" pInputTextarea class="w-full" [autoResize]="false"></textarea>
+                </div>
             </div>
+
         </div>
 
         <div class="flex w-4/12">

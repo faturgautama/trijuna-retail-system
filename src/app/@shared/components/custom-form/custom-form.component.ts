@@ -108,15 +108,19 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
     }
 
     handleChangeNumeric(props: CustomFormModel.IFields, args: any): void {
+        // console.log(props.id, " value =>", args.target.value);
+
         const parser = `${args.target.value}`.replace(/\$\s?|(,*)/g, '');
-        console.log("parser =>", parser);
+        // console.log(props.id, " parser =>", parser);
 
         props.numeric_callback?.(parseFloat(parser));
     }
 
     handleEnterNumeric(props: CustomFormModel.IFields, args: any) {
+        // console.log(props.id, " value =>", args.target.value);
+
         const parser = `${args.target.value}`.replace(/\$\s?|(,*)/g, '');
-        console.log("parser =>", parser);
+        // console.log(props.id, " parser =>", parser);
 
         props.numeric_keyup_enter?.(parseFloat(parser));
     }
