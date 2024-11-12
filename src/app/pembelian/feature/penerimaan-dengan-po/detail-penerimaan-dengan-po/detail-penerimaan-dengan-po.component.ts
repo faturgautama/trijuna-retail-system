@@ -134,6 +134,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     id: 'qty',
                     label: 'Jumlah Item',
                     status: 'readonly',
+                    numeric_max_number: 100,
                     type: 'numeric',
                     required: true,
                 },
@@ -141,6 +142,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     id: 'sub_total1',
                     label: 'Subtotal 1',
                     status: 'readonly',
+                    numeric_max_number: 100,
                     type: 'numeric',
                     required: true,
                 },
@@ -184,6 +186,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     label: 'PPn',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
@@ -192,6 +195,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     status: 'insert',
                     type: 'numeric',
                     required: true,
+                    numeric_mode: 'decimal',
                     numeric_callback: (data) => {
                         this.onCountFormFooter();
                     },
@@ -212,6 +216,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     label: 'Grand Total',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {

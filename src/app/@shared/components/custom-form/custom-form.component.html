@@ -42,7 +42,7 @@
                         formControlName="{{ item.id }}" styleClass="w-full p-inputtext-sm text-end"
                         (onBlur)="handleChangeNumeric(item, $event)" [disabled]="item.status == 'readonly'"
                         [readonly]="item.status == 'readonly'" [max]="item.numeric_max_number!" [mode]="'decimal'"
-                        [minFractionDigits]="0" [maxFractionDigits]="2"
+                        [minFractionDigits]="2" [maxFractionDigits]="2"
                         (keyup.enter)="handleEnterNumeric(item, $event)">
                     </p-inputNumber>
 
@@ -66,7 +66,7 @@
 
                             <p-inputNumber *ngIf="item.numeric_mode == 'decimal'" formControlName="{{ item.id }}"
                                 styleClass="w-full p-inputtext-sm" (onBlur)="handleChangeNumeric(item, $event)"
-                                [mode]="'decimal'" [disabled]="item.status == 'readonly'" [minFractionDigits]="0"
+                                [mode]="'decimal'" [disabled]="item.status == 'readonly'" [minFractionDigits]="2"
                                 [maxFractionDigits]="2" [min]="0" [max]="100" [readonly]="item.status == 'readonly'">
                             </p-inputNumber>
 
