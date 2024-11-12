@@ -70,4 +70,8 @@ export class PembelianDenganPoService {
     validasi(payload: PembelianDenganPoModel.ValidasiPembelianDenganPo): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/validasi`, payload);
     }
+
+    cancel(id_penerimaan: number): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_dengan_po/cancel`, { id_penerimaan: id_penerimaan });
+    }
 }

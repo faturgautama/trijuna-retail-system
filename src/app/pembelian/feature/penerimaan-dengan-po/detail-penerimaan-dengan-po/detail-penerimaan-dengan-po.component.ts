@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { PembelianDenganPoService } from 'src/app/@core/service/pembelian/pembelian-dengan-po/pembelian-dengan-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -46,6 +46,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
         private _messageService: MessageService,
         private _activatedRoute: ActivatedRoute,
         private _utilityService: UtilityService,
+        private _confirmationService: ConfirmationService,
         private _pembelianDenganPoService: PembelianDenganPoService
     ) {
         this.DashboardProps = {
@@ -423,16 +424,32 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                             }
                         ],
                     };
-                } else {
+                }
+
+                if (result.status_penerimaan == 'VALIDATED') {
                     this.DashboardProps = {
                         title: 'Detail Penerimaan Dengan PO',
                         button_navigation: [
                             {
                                 id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs'
-                            }
+                            },
+                            {
+                                id: 'cancel', caption: 'Cancel', icon: 'pi pi-ban text-xs'
+                            },
                         ],
                     };
-                }
+                };
+
+                if (result.status_penerimaan == 'CANCEL') {
+                    this.DashboardProps = {
+                        title: 'Detail Penerimaan Dengan PO',
+                        button_navigation: [
+                            {
+                                id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs'
+                            },
+                        ],
+                    };
+                };
 
                 this.onCountFormFooter();
             })
@@ -448,6 +465,34 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                 break;
             case 'validasi':
                 this.handleSubmitForm();
+                break;
+            case 'cancel':
+                this._confirmationService.confirm({
+                    target: (<any>event).target as EventTarget,
+                    message: 'Apakah Anda Yakin? ',
+                    header: 'Data Akan Dibatalkan',
+                    icon: 'pi pi-question-circle',
+                    acceptButtonStyleClass: "p-button-info p-button-sm",
+                    rejectButtonStyleClass: "p-button-secondary p-button-sm",
+                    acceptIcon: "none",
+                    acceptLabel: 'Iya, Saya Yakin',
+                    rejectIcon: "none",
+                    rejectLabel: 'Tidak',
+                    accept: () => {
+                        this._pembelianDenganPoService
+                            .cancel(this._activatedRoute.snapshot.params.id)
+                            .subscribe((result) => {
+                                if (result.success) {
+                                    this._messageService.clear();
+                                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dibatalkan' });
+
+                                    setTimeout(() => {
+                                        this._router.navigateByUrl('pembelian/penerimaan-dengan-po/history');
+                                    }, 2000);
+                                }
+                            })
+                    },
+                });
                 break;
             default:
                 break;
