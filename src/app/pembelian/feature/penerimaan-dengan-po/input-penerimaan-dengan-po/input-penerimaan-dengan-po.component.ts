@@ -161,6 +161,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     status: 'readonly',
                     type: 'numeric',
                     required: true,
+                    hidden: true,
                 },
                 {
                     id: 'diskon_persen',
@@ -186,7 +187,8 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                         prefix: 'Rp. ',
                         prefix_position: 'left',
                         required: true,
-                    }
+                    },
+                    hidden: true,
                 },
                 {
                     id: 'sub_total2',
@@ -194,6 +196,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     status: 'readonly',
                     type: 'numeric',
                     required: true,
+                    hidden: true,
                 },
                 {
                     id: 'ppn_nominal',
@@ -204,6 +207,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     numeric_callback: (data) => {
                         // this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + data);
                     },
+                    hidden: true,
                 },
                 {
                     id: 'potongan',
@@ -218,6 +222,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
 
                         this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - data + pembulatan);
                     },
+                    hidden: true,
                 },
                 {
                     id: 'pembulatan',
@@ -232,6 +237,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
 
                         this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - potongan + data);
                     },
+                    hidden: true,
                 },
                 {
                     id: 'total_transaksi',
@@ -249,7 +255,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                     hidden: true
                 },
             ],
-            custom_class: 'grid-rows-8 grid-cols-1',
+            custom_class: 'grid-rows-2 grid-cols-1',
         }
 
         this.GridProps = {
@@ -258,6 +264,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, OnDestroy {
                 { field: 'id_pemesanan', headerName: 'ID PEMESANAN', width: 350, sortable: true, resizable: true, hide: true, },
                 { field: 'id_pemesanan_detail', headerName: 'ID PEMESANAN DETAIL', width: 350, sortable: true, resizable: true, hide: true, },
                 { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
+                { field: 'kode_barang', headerName: 'KODE BARANG', width: 150, sortable: true, resizable: true },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 {

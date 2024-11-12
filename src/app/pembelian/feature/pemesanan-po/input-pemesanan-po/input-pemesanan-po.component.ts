@@ -156,7 +156,15 @@ export class InputPemesananPoComponent implements OnInit {
                             },
                             width: '70vw',
                         },
-                        lookup_set_value_field: ['barcode', 'nama_barang'],
+                        lookup_set_value_field: ['kode_barang', 'barcode', 'nama_barang'],
+                        required: true,
+                    },
+                    {
+                        id: 'kode_barang',
+                        label: 'Kode Barang',
+                        status: 'insert',
+                        type: 'string',
+                        hidden: true,
                         required: true,
                     },
                     {
@@ -476,7 +484,9 @@ export class InputPemesananPoComponent implements OnInit {
             column: [
                 { field: 'urut', headerName: 'URUT', width: 120, sortable: true, resizable: true },
                 { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
+                { field: 'kode_barang', headerName: 'KODE BARANG', width: 150, sortable: true, resizable: true },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
+                { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 {
                     field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true, editable: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
