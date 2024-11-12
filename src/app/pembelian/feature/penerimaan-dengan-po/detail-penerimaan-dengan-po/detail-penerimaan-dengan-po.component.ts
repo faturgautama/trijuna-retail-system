@@ -409,6 +409,8 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                 this.CustomFormFooter.props.default_value = result;
                 this.CustomFormFooter.handleSetFormDefaultValue();
 
+                this.is_ppn = result.is_ppn;
+
                 if (result.status_penerimaan == 'OPEN') {
                     this.DashboardProps = {
                         title: 'Detail Penerimaan Dengan PO',
