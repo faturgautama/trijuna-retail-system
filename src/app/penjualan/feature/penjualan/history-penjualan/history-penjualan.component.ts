@@ -85,7 +85,7 @@ export class HistoryPenjualanComponent implements OnInit {
                 { field: 'biaya_bank', headerName: 'BIAYA BANK', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'is_using_voucher', headerName: 'PAKAI VOUCHER', width: 150, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return e.value ? 'IYA' : 'TIDAK' } },
                 { field: 'nama_kasir', headerName: 'NAMA KASIR', width: 150, sortable: true, resizable: true },
-                { field: 'created_at', headerName: 'WAKTU ENTRY', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'created_at', headerName: 'WAKTU ENTRY', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'DD-MM-yyyy HH:mm:ss') } },
             ],
             dataSource: [],
             height: "calc(100vh - 14rem)",
