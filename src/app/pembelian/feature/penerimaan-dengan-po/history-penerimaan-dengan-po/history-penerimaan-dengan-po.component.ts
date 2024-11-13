@@ -119,7 +119,7 @@ export class HistoryPenerimaanDenganPoComponent implements OnInit {
         };
 
         if (args == 'print') {
-            this._router.navigate([`pembelian/penerimaan-dengan-po/print/${this.SelectedData.id_penerimaan}`]);
+            this._router.navigate([`pembelian/penerimaan-dengan-po/print-history/${this.SelectedData.id_penerimaan}`]);
         };
 
         if (args == 'export_pdf') {

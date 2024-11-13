@@ -463,10 +463,7 @@ export class InputPenerimaanDenganPoComponent implements OnInit, AfterViewInit, 
                 this._pembelianDenganPoService
                     .getById(id)
                     .subscribe((result) => {
-                        console.log(result);
-
                         if (result.success) {
-
                             result.data.tanggal_nota = new Date(result.data.tanggal_nota);
 
                             const lookupFakturPoInputResult = document.getElementById('lookupFakturPoInputResult') as HTMLInputElement;

@@ -13,6 +13,8 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
 
     IsPrintDraft = this._router.url.includes('draft');
 
+    IsPrintHistory = this._router.url.includes('print-history');
+
     Data: any;
 
     GridProps: PrintOutGridModel.IGrid;
@@ -84,24 +86,47 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
             const url = this._router.url;
             const isExportPdf = url.includes('export-pdf');
 
-            this.GridProps = {
-                id: 'print-out-master-barang',
-                column: [
-                    { field: 'urut', headerName: 'No.', width: '5%' },
-                    { field: 'kode_barang', headerName: 'Kode Barang', width: '10%' },
-                    { field: 'barcode', headerName: 'Barcode', width: '10%' },
-                    { field: 'nama_barang', headerName: 'Nama Barang', width: '60%' },
-                    { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '15%' },
-                    // { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '8%' },
-                    // { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '10%' },
-                    // { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
-                    // { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '7%' },
-                    // { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '10%' },
-                ],
-                dataSource: [],
-                height: "100%",
-                showPaging: false,
-            };
+            if (this.IsPrintHistory && !isExportPdf) {
+                this.GridProps = {
+                    id: 'print-out-master-barang',
+                    column: [
+                        { field: 'urut', headerName: 'No.', width: '5%' },
+                        { field: 'kode_barang', headerName: 'Kode Barang', width: '7%' },
+                        { field: 'barcode', headerName: 'Barcode', width: '7%' },
+                        { field: 'nama_barang', headerName: 'Nama Barang', width: '28%' },
+                        { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
+                        { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '10%' },
+                        { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '8%' },
+                        { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
+                        { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '8%' },
+                        { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '7%' },
+                    ],
+                    dataSource: [],
+                    height: "100%",
+                    showPaging: false,
+                };
+
+            } else {
+                this.GridProps = {
+                    id: 'print-out-master-barang',
+                    column: [
+                        { field: 'urut', headerName: 'No.', width: '5%' },
+                        { field: 'kode_barang', headerName: 'Kode Barang', width: '10%' },
+                        { field: 'barcode', headerName: 'Barcode', width: '10%' },
+                        { field: 'nama_barang', headerName: 'Nama Barang', width: '60%' },
+                        { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '15%' },
+                        // { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '8%' },
+                        // { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '10%' },
+                        // { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
+                        // { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '7%' },
+                        // { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '10%' },
+                    ],
+                    dataSource: [],
+                    height: "100%",
+                    showPaging: false,
+                };
+            }
+
 
             this._pembelianDenganPoService
                 .getById(id)
