@@ -82,6 +82,7 @@ export class SettingPromoBarangComponent implements OnInit {
                             { id: 'is_nominal_false', name: 'Tidak', value: false },
                         ],
                         required: true,
+                        value: false,
                         validator: 'Is Nominal Tidak Boleh Kosong',
                     },
                     {
@@ -197,6 +198,7 @@ export class SettingPromoBarangComponent implements OnInit {
                             { id: 'is_active_false', name: 'Tidak', value: false },
                         ],
                         required: true,
+                        value: false,
                         validator: 'Is Active Tidak Boleh Kosong',
                     },
                 ],
@@ -236,7 +238,7 @@ export class SettingPromoBarangComponent implements OnInit {
             nama_promo_bonus: args.nama_promo_bonus,
             id_barang: args.id_barang,
             keterangan: args.keterangan,
-            kuota: args.diskon,
+            kuota: args.kuota,
             tanggal_mulai: new Date(args.tanggal_mulai),
             tanggal_berakhir: new Date(args.tanggal_berakhir),
             gambar: args.gambar,
@@ -260,16 +262,16 @@ export class SettingPromoBarangComponent implements OnInit {
     handleSubmitForm(data: any): void {
         if (this.FormDialogProps.type == 'add') {
             const payload: any = {
-                is_nominal: data.is_nominal,
+                is_nominal: data.is_nominal ? data.is_nominal : false,
                 kode_promo_bonus: data.kode_promo_bonus,
                 nama_promo_bonus: data.nama_promo_bonus,
                 id_barang: data.id_barang,
                 keterangan: data.keterangan,
-                kuota: data.diskon,
+                kuota: data.kuota,
                 tanggal_mulai: new Date(data.tanggal_mulai),
                 tanggal_berakhir: new Date(data.tanggal_berakhir),
                 gambar: data.gambar,
-                is_active: data.is_active,
+                is_active: data.is_active ? data.is_active : false,
             };
 
             this._settingPromoBonusBarangService

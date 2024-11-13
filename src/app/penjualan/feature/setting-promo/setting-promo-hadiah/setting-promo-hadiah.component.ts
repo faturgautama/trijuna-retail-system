@@ -46,7 +46,7 @@ export class SettingPromoHadiahComponent implements OnInit {
 
         this.GridProps = {
             column: [
-                { field: 'is_kelipatan', headerName: 'IS NOMINAL', width: 150, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
+                { field: 'is_kelipatan', headerName: 'IS KELIPATAN', width: 150, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
                 { field: 'kode_promo_hadiah', headerName: 'KODE PROMO', width: 200, sortable: true, resizable: true },
                 { field: 'nama_promo_hadiah', headerName: 'NAMA PROMO', width: 350, sortable: true, resizable: true },
                 { field: 'nilai_promo_hadiah', headerName: 'NILAI PROMO', width: 250, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value) } },
@@ -88,6 +88,7 @@ export class SettingPromoHadiahComponent implements OnInit {
                             { id: 'is_kelipatan_false', name: 'Tidak', value: false },
                         ],
                         required: true,
+                        value: false,
                         validator: 'Is Kelipatan Tidak Boleh Kosong',
                     },
                     {
@@ -179,6 +180,7 @@ export class SettingPromoHadiahComponent implements OnInit {
                             { id: 'is_active_false', name: 'Tidak', value: false },
                         ],
                         required: true,
+                        value: false,
                         validator: 'Is Active Tidak Boleh Kosong',
                     },
                 ],
@@ -224,7 +226,7 @@ export class SettingPromoHadiahComponent implements OnInit {
             nama_promo_hadiah: args.nama_promo_hadiah,
             nilai_promo_hadiah: args.nilai_promo_hadiah,
             jumlah: args.jumlah,
-            hadiah: args.jumlah,
+            hadiah: args.hadiah,
             tanggal_mulai: new Date(args.tanggal_mulai),
             tanggal_berakhir: new Date(args.tanggal_berakhir),
             gambar: args.gambar,
@@ -249,17 +251,17 @@ export class SettingPromoHadiahComponent implements OnInit {
     handleSubmitForm(data: any): void {
         if (this.FormDialogProps.type == 'add') {
             const payload: any = {
-                is_kelipatan: data.is_kelipatan,
+                is_kelipatan: data.is_kelipatan ? data.is_kelipatan : false,
                 kode_promo_hadiah: data.kode_promo_hadiah,
                 nama_promo_hadiah: data.nama_promo_hadiah,
                 nilai_promo_hadiah: data.nilai_promo_hadiah,
                 jumlah: data.jumlah,
-                hadiah: data.jumlah,
+                hadiah: data.hadiah,
                 tanggal_mulai: new Date(data.tanggal_mulai),
                 tanggal_berakhir: new Date(data.tanggal_berakhir),
                 gambar: data.gambar,
                 keterangan: data.keterangan,
-                is_active: data.is_active,
+                is_active: data.is_active ? data.is_active : false,
             };
 
             this._settingPromoHadiahService

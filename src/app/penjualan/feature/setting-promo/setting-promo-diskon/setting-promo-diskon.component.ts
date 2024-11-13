@@ -85,7 +85,9 @@ export class SettingPromoDiskonComponent implements OnInit {
                         radio_props: [
                             { id: 'is_nominal_true', name: 'Ya', value: true },
                             { id: 'is_nominal_false', name: 'Tidak', value: false },
-                        ], required: true,
+                        ],
+                        required: true,
+                        value: false,
                         validator: 'Is Nominal Tidak Boleh Kosong',
                     },
                     {
@@ -169,6 +171,7 @@ export class SettingPromoDiskonComponent implements OnInit {
                             { id: 'is_active_false', name: 'Tidak', value: false },
                         ],
                         required: true,
+                        value: false,
                         validator: 'Is Active Tidak Boleh Kosong',
                     },
                 ],
@@ -214,7 +217,7 @@ export class SettingPromoDiskonComponent implements OnInit {
             nama_promo_diskon: args.nama_promo_diskon,
             minimal_qty: args.minimal_qty,
             diskon: args.diskon,
-            kuota: args.diskon,
+            kuota: args.kuota,
             tanggal_mulai: new Date(args.tanggal_mulai),
             tanggal_berakhir: new Date(args.tanggal_berakhir),
             gambar: args.gambar,
@@ -238,16 +241,16 @@ export class SettingPromoDiskonComponent implements OnInit {
     handleSubmitForm(data: any): void {
         if (this.FormDialogProps.type == 'add') {
             const payload: any = {
-                is_nominal: data.is_nominal,
+                is_nominal: data.is_nominal ? data.is_nominal : false,
                 kode_promo_diskon: data.kode_promo_diskon,
                 nama_promo_diskon: data.nama_promo_diskon,
                 minimal_qty: data.minimal_qty,
                 diskon: data.diskon,
-                kuota: data.diskon,
+                kuota: data.kuota,
                 tanggal_mulai: new Date(data.tanggal_mulai),
                 tanggal_berakhir: new Date(data.tanggal_berakhir),
                 gambar: data.gambar,
-                is_active: data.is_active,
+                is_active: data.is_active ? data.is_active : false,
             };
 
             this._settingPromoDiskonService

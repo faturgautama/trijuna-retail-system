@@ -470,7 +470,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
         const filter: any = [
             {
                 "column": "mb.barcode",
-                "filter": "equal",
+                "filter": "contain",
                 "value": args.target.value,
                 "value2": ""
             }
