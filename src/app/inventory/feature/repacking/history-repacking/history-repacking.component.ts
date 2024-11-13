@@ -20,6 +20,8 @@ export class HistoryRepackingComponent {
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
+    SelectedData: any;
+
     constructor(
         private _store: Store,
         private _router: Router,
@@ -29,7 +31,9 @@ export class HistoryRepackingComponent {
         this.DashboardProps = {
             title: 'History repacking',
             button_navigation: [
-                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
+                { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
             ],
         };
 
@@ -101,7 +105,17 @@ export class HistoryRepackingComponent {
     }
 
     handleClickButtonNav(args: string): void {
-        this._router.navigate(['inventory/repacking/input']);
+        if (args == 'add') {
+            this._router.navigate(['inventory/repacking/input']);
+        };
+
+        if (args == 'print') {
+            this._router.navigate([`inventory/repacking/print/${this.SelectedData.id_repacking}`]);
+        };
+
+        if (args == 'export_pdf') {
+            this._router.navigate([`inventory/repacking/export-pdf/${this.SelectedData.id_repacking}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -112,6 +126,10 @@ export class HistoryRepackingComponent {
                     this.GridProps.dataSource = result.data;
                 }
             })
+    }
+
+    handleCellClicked(args: any): void {
+        this.SelectedData = args;
     }
 
     handleRowDoubleClicked(args: any): void {

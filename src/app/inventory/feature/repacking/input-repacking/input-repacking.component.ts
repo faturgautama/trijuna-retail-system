@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { RepackingService } from 'src/app/@core/service/inventory/repacking/repacking.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -43,7 +43,7 @@ export class InputRepackingComponent implements OnInit {
         private _utilityService: UtilityService,
         private _messageService: MessageService,
         private _repackingService: RepackingService,
-
+        private _confirmationService: ConfirmationService,
     ) {
         this.DashboardProps = {
             title: 'Input Repacking',
@@ -343,8 +343,31 @@ export class InputRepackingComponent implements OnInit {
         header.keterangan = this.Keterangan;
         header.total_hpp_avarage_urai = this.TotalHppAverageUrai;
 
+        this._confirmationService.confirm({
+            target: (<any>event).target as EventTarget,
+            message: 'Apakah Anda Ingin Mencetak Juga? ',
+            header: 'Data Akan Disimpan',
+            icon: 'pi pi-question-circle',
+            acceptButtonStyleClass: "p-button-info p-button-sm",
+            rejectButtonStyleClass: "p-button-secondary p-button-sm",
+            acceptIcon: "none",
+            acceptLabel: 'Iya, Cetak Juga',
+            rejectIcon: "none",
+            rejectLabel: 'Tidak, Simpan Saja',
+            accept: () => {
+                this.onSaveWithConditionPrint(true, header)
+            },
+            reject: (args: any) => {
+                if (args == 1) {
+                    this.onSaveWithConditionPrint(false, header)
+                }
+            },
+        });
+    }
+
+    private onSaveWithConditionPrint(print: boolean, payload: any) {
         this._repackingService
-            .save(header)
+            .save(payload)
             .subscribe((result) => {
                 if (result.success) {
                     this._messageService.clear();
@@ -352,9 +375,15 @@ export class InputRepackingComponent implements OnInit {
 
                     this.CustomForm.handleResetForm();
 
-                    setTimeout(() => {
-                        this._router.navigate(['inventory/repacking/history']);
-                    }, 1500);
+                    if (print) {
+                        setTimeout(() => {
+                            this._router.navigate([`inventory/repacking/print/${result.data}`]);
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            this._router.navigate([`inventory/repacking/history`]);
+                        }, 1500);
+                    }
                 }
             });
     }
