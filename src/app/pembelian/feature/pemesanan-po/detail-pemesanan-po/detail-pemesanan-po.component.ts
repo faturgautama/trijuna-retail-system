@@ -685,6 +685,7 @@ export class DetailPemesananPoComponent implements OnInit {
     }
 
     handleSubmitFormDetail(data: any): void {
+        data.urut = this.GridProps.dataSource.length + 1;
         data.diskon_nominal_1 = data.diskon_nominal_1 ? data.diskon_nominal_1 : 0;
         data.diskon_nominal_2 = data.diskon_nominal_2 ? data.diskon_nominal_2 : 0;
         data.diskon_nominal_3 = data.diskon_nominal_3 ? data.diskon_nominal_3 : 0;
@@ -709,6 +710,7 @@ export class DetailPemesananPoComponent implements OnInit {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data berhasil diperbarui' });
                     this.FormDialog.onCloseFormDialog();
+                    this.getPemesananPoById();
                 }
             });
     }
