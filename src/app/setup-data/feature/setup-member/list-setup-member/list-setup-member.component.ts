@@ -34,6 +34,7 @@ export class ListSetupMemberComponent implements OnInit {
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
                 { id: 'reset_point', caption: 'Reset Point', icon: 'pi pi-sync text-xs' },
+                { id: 'export_excel', caption: 'Excel', icon: 'pi pi-file-excel text-xs' },
             ],
         };
 
@@ -113,6 +114,30 @@ export class ListSetupMemberComponent implements OnInit {
                         this.handleSearchOffcanvas([]);
                     }
                 });
+        };
+
+        if (args == 'export_excel') {
+            const dataSource = this.GridProps.dataSource.map((item) => {
+                return {
+                    kode_member: item.kode_member,
+                    nama_member: item.nama_member,
+                    alamat: item.alamat,
+                    kota: item.kota,
+                    kecamatan: (item.kecamatan),
+                    kelurahan: item.kelurahan,
+                    email: item.email,
+                    jenis_kelamin: item.jenis_kelamin,
+                    pekerjaan: item.pekerjaan,
+                    no_handphone: item.no_handphone,
+                    jenis_identitas: item.jenis_identitas,
+                    nomor_identitas: item.nomor_identitas,
+                    tanggal_daftar: item.tanggal_daftar,
+                    sisa_piutang: item.sisa_piutang,
+                    jumlah_poin: item.jumlah_poin,
+                }
+            });
+
+            this._utilityService.exportToExcel({ worksheetName: 'Master Member', dataSource: dataSource })
         };
     }
 

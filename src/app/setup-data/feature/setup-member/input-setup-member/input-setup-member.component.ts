@@ -157,6 +157,7 @@ export class InputSetupMemberComponent implements OnInit {
                 title: 'Detail Setup Member',
                 button_navigation: [
                     { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
+                    { id: 'ubah_status', caption: 'Ubah Status', icon: 'pi pi-refresh text-xs' },
                     { id: 'update', caption: 'Update', icon: 'pi pi-save text-xs' },
                 ],
             };
@@ -200,6 +201,20 @@ export class InputSetupMemberComponent implements OnInit {
                 break;
             case 'update':
                 this.handleUpdateData();
+                break;
+            case 'ubah_status':
+                this._setupMemberService
+                    .updateStatus(this._activatedRoute.snapshot.params['id'])
+                    .subscribe((result) => {
+                        if (result.success) {
+                            this._messageService.clear();
+                            this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Status Berhasil Diperbarui' });
+
+                            setTimeout(() => {
+                                this._router.navigate(['setup-data/setup-member/list']);
+                            }, 1000);
+                        }
+                    })
                 break;
             default:
                 break;

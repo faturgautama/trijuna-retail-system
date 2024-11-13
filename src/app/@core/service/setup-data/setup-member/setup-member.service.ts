@@ -39,4 +39,8 @@ export class SetupMemberService {
     resetPoinMember(id_member: number): Observable<any> {
         return this._httpRequestService.putRequest(`${environment.endpoint}/member/reset_point/${id_member}`, null);
     }
+
+    updateStatus(id_member: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/memberUpdateStatus/${id_member}`);
+    }
 }
