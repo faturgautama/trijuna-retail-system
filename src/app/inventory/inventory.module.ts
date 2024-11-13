@@ -33,6 +33,8 @@ import { InputStokOpnameComponent } from './feature/stok-opname/input-stok-opnam
 import { KalkulasiSettingStokOpnameComponent } from './feature/stok-opname/setting-stok-opname/kalkulasi-setting-stok-opname/kalkulasi-setting-stok-opname.component';
 import { FormsModule } from "@angular/forms";
 import { PrintMutasiMasukComponent } from './feature/mutasi-masuk/print-mutasi-masuk/print-mutasi-masuk.component';
+import { PrintMutasiWarehouseComponent } from './feature/mutasi-warehouse/print-mutasi-warehouse/print-mutasi-warehouse.component';
+import { PrintRepackingComponent } from './feature/repacking/print-repacking/print-repacking.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +65,8 @@ import { PrintMutasiMasukComponent } from './feature/mutasi-masuk/print-mutasi-m
         InputStokOpnameComponent,
         KalkulasiSettingStokOpnameComponent,
         PrintMutasiMasukComponent,
+        PrintMutasiWarehouseComponent,
+        PrintRepackingComponent,
     ],
     imports: [
         FormsModule,

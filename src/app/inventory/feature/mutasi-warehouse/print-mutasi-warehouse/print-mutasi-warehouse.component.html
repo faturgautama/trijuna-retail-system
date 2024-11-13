@@ -1,0 +1,133 @@
+<div *ngIf="Data" id="printMutasiMasuk" class="grid p-5 gap-0">
+    <div class="flex flex-col gap-0 mb-3">
+        <p class="text-lg font-semibold text-center">
+            Mutasi Warehouse
+        </p>
+
+        <!-- Faktur PO -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    No. Faktur
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nomor_mutasi }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal PO -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Tanggal Mutasi
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.tanggal_mutasi_warehouse }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal Kirim -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Warehouse Asal
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nama_warehouse_asal }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Kepada Yth -->
+        <div class="flex w-full gap-2 mb-3">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Warehouse Tujuan
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nama_warehouse_tujuan }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid mb-1">
+        <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+
+    <!-- Total -->
+    <div class="flex flex-row justify-end w-full px-3 pb-2 mb-1">
+        <div class="w-3/12">
+            <p class="text-xs text-gray-700 text-end">
+                Jumlah Item
+            </p>
+        </div>
+        <div class="w-2/12">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.qty, '') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Total -->
+    <div
+        class="flex flex-row justify-end w-full px-3 pb-2 mb-2 border-b border-t-0 border-x-0 border-solid border-gray-700">
+        <div class="w-3/12">
+            <p class="text-xs text-gray-700 text-end">
+                Total Harga
+            </p>
+        </div>
+        <div class="w-2/12">
+            <p class="text-xs text-gray-700 text-end">
+                {{ _utilityService.FormatNumber(Data.total_harga, 'Rp. ') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-row justify-center w-full px-3">
+        <div class="w-8/12 flex flex-col justify-center items-center pr-3">
+            <div class="flex flex-row gap-10">
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dibukukan
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Dikeluarkan Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-20">
+                    <p class="text-xs text-gray-700">
+                        Diketahui Oleh
+                    </p>
+
+                    <p class="text-xs text-gray-700">
+                        (_________________)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

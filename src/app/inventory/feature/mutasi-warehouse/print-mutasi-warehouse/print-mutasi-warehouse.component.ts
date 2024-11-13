@@ -1,15 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MutasiMasukService } from 'src/app/@core/service/inventory/mutasi-masuk/mutasi-masuk.service';
+import { MutasiWarehouseService } from 'src/app/@core/service/inventory/mutasi-warehouse/mutasi-warehouse.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
 
 @Component({
-    selector: 'app-print-mutasi-masuk',
-    templateUrl: './print-mutasi-masuk.component.html',
-    styleUrls: ['./print-mutasi-masuk.component.scss']
+    selector: 'app-print-mutasi-warehouse',
+    templateUrl: './print-mutasi-warehouse.component.html',
+    styleUrls: ['./print-mutasi-warehouse.component.scss']
 })
-export class PrintMutasiMasukComponent implements OnInit {
+export class PrintMutasiWarehouseComponent implements OnInit {
 
     Data: any;
 
@@ -26,7 +26,7 @@ export class PrintMutasiMasukComponent implements OnInit {
         private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
-        private _mutasiMasukService: MutasiMasukService
+        private _mutasiWarehouseService: MutasiWarehouseService
     ) {
         this.GridProps = {
             id: 'print-out-master-barang',
@@ -57,11 +57,11 @@ export class PrintMutasiMasukComponent implements OnInit {
     }
 
     getDetail(id: any, exportPdf: boolean) {
-        this._mutasiMasukService
+        this._mutasiWarehouseService
             .getById(id)
             .subscribe((result) => {
                 this.Data = result.data;
-                this.GridProps.dataSource = result.data.detail;
+                this.GridProps.dataSource = result.data.detail_warehouse;
 
                 if (!exportPdf) {
                     setTimeout(() => {
@@ -69,7 +69,7 @@ export class PrintMutasiMasukComponent implements OnInit {
                     }, 1500);
                 } else {
                     setTimeout(() => {
-                        this._utilityService.exportToPdf('printMutasiMasuk', `Mutasi Lokasi Masuk - ${this.Data.nomor_mutasi} - ${new Date().getTime()}`);
+                        this._utilityService.exportToPdf('printMutasiMasuk', `Mutasi Warehouse - ${this.Data.nomor_mutasi} - ${new Date().getTime()}`);
                     }, 500);
                 }
             })

@@ -27,6 +27,7 @@ import { InputStokOpnameComponent } from "./feature/stok-opname/input-stok-opnam
 import { DetailStokOpnameComponent } from "./feature/stok-opname/input-stok-opname/detail-stok-opname/detail-stok-opname.component";
 import { KalkulasiSettingStokOpnameComponent } from "./feature/stok-opname/setting-stok-opname/kalkulasi-setting-stok-opname/kalkulasi-setting-stok-opname.component";
 import { PrintMutasiMasukComponent } from "./feature/mutasi-masuk/print-mutasi-masuk/print-mutasi-masuk.component";
+import { PrintMutasiWarehouseComponent } from "./feature/mutasi-warehouse/print-mutasi-warehouse/print-mutasi-warehouse.component";
 
 const routes: Routes = [
     {
@@ -39,7 +40,13 @@ const routes: Routes = [
             },
             {
                 path: 'detail/:id', component: DetailMutasiWarehouseComponent,
-            }
+            },
+            {
+                path: 'print/:id', component: PrintMutasiWarehouseComponent,
+            },
+            {
+                path: 'export-pdf/:id', component: PrintMutasiWarehouseComponent,
+            },
         ]
     },
     {
