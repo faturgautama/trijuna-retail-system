@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { map } from 'rxjs';
-import { MutasiKeluarService } from 'src/app/@core/service/inventory/mutasi-keluar/mutasi-keluar.service';
 import { SettingStokOpnameService } from 'src/app/@core/service/inventory/stok-opname/setting-stok-opname.service';
 import { SetupBarangService } from 'src/app/@core/service/setup-data/setup-barang/setup-barang.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -13,12 +12,9 @@ import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.m
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { DialogModel } from 'src/app/@shared/models/components/dialog.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { SetupBarangModel } from 'src/app/@shared/models/setup-data/setup-barang.model';
-import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
-import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
-import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
-import { SetupLokasiAction } from 'src/app/@shared/state/setup-data/setup-lokasi';
+import { SetupDivisiAction, SetupDivisiState } from 'src/app/@shared/state/setup-data/setup-divisi';
+import { SetupGroupAction, SetupGroupState } from 'src/app/@shared/state/setup-data/setup-group';
 import { SetupWarehouseAction } from 'src/app/@shared/state/setup-data/setup-warehouse';
 import { environment } from 'src/environments/environment';
 
@@ -129,7 +125,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
             ],
             dataSource: [],
             height: "calc(100vh - 24rem)",
-            toolbar: ['Delete'],
+            toolbar: ['Add', 'Delete'],
             showPaging: false,
         };
 
@@ -221,12 +217,20 @@ export class InputSettingStokOpnameComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/mutasi_warehouse/lookup_barang`,
                         },
-                        lookup_set_value_field: ['barcode', 'nama_barang'],
+                        lookup_set_value_field: ['barcode', 'kode_barang', 'nama_barang'],
                         required: true,
                     },
                     {
                         id: 'barcode',
                         label: 'Barcode',
+                        status: 'insert',
+                        type: 'string',
+                        hidden: true,
+                        required: true,
+                    },
+                    {
+                        id: 'kode_barang',
+                        label: 'Kode Barang',
                         status: 'insert',
                         type: 'string',
                         hidden: true,
@@ -250,7 +254,14 @@ export class InputSettingStokOpnameComponent implements OnInit {
                         select_props: [],
                         required: true,
                         select_callback: (data: any) => {
-                            console.log(data);
+                            this._store
+                                .select(SetupDivisiState.allSetupDivisi)
+                                .subscribe((result: any) => {
+                                    console.log(result);
+                                    const divisi = result.data.find((item: any) => item.id_divisi == data.value);
+                                    this.FormDialog.CustomForm.CustomForms.get('kode_divisi')?.setValue(divisi.kode_divisi);
+                                    this.FormDialog.CustomForm.CustomForms.get('divisi')?.setValue(divisi.divisi);
+                                })
                         }
                     },
                     {
@@ -279,7 +290,13 @@ export class InputSettingStokOpnameComponent implements OnInit {
                         hidden: false,
                         required: true,
                         select_callback: (data: any) => {
-                            console.log(data);
+                            this._store
+                                .select(SetupGroupState.allSetupGroup)
+                                .subscribe((result: any) => {
+                                    const group = result.data.find((item: any) => item.id_group == data.value);
+                                    this.FormDialog.CustomForm.CustomForms.get('kode_group')?.setValue(group.kode_group);
+                                    this.FormDialog.CustomForm.CustomForms.get('group')?.setValue(group.group);
+                                })
                         }
                     },
                     {
@@ -291,7 +308,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
                         required: true,
                     },
                     {
-                        id: 'Group',
+                        id: 'group',
                         label: 'Nama Group',
                         status: 'insert',
                         type: 'string',
@@ -470,7 +487,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
         const filter: any = [
             {
                 "column": "mb.barcode",
-                "filter": "contain",
+                "filter": "equal",
                 "value": args.target.value,
                 "value2": ""
             }
@@ -518,29 +535,30 @@ export class InputSettingStokOpnameComponent implements OnInit {
 
                 this.FormDialog.FormProps.fields[0].hidden = this.JenisStokOpname == 'barang' ? false : true;
                 this.FormDialog.FormProps.fields[1].hidden = this.JenisStokOpname == 'barang' ? false : true;
-                this.FormDialog.FormProps.fields[2].hidden = this.JenisStokOpname == 'barang' ? false : true;
+                this.FormDialog.FormProps.fields[2].hidden = this.JenisStokOpname == 'barang' ? true : true;
+                this.FormDialog.FormProps.fields[3].hidden = this.JenisStokOpname == 'barang' ? false : true;
 
-                this.FormDialog.FormProps.fields[3].hidden = this.JenisStokOpname == 'divisi' ? false : true;
                 this.FormDialog.FormProps.fields[4].hidden = this.JenisStokOpname == 'divisi' ? false : true;
-                this.FormDialog.FormProps.fields[5].hidden = this.JenisStokOpname == 'divisi' ? false : true;
+                this.FormDialog.FormProps.fields[5].hidden = this.JenisStokOpname == 'divisi' ? true : true;
+                this.FormDialog.FormProps.fields[6].hidden = this.JenisStokOpname == 'divisi' ? true : true;
 
-                this.FormDialog.FormProps.fields[6].hidden = this.JenisStokOpname == 'group' ? false : true;
                 this.FormDialog.FormProps.fields[7].hidden = this.JenisStokOpname == 'group' ? false : true;
-                this.FormDialog.FormProps.fields[8].hidden = this.JenisStokOpname == 'group' ? false : true;
+                this.FormDialog.FormProps.fields[8].hidden = this.JenisStokOpname == 'group' ? true : true;
+                this.FormDialog.FormProps.fields[9].hidden = this.JenisStokOpname == 'group' ? true : true;
 
-                this.FormDialog.FormProps.fields[9].hidden = this.JenisStokOpname == 'supplier' ? false : true;
                 this.FormDialog.FormProps.fields[10].hidden = this.JenisStokOpname == 'supplier' ? false : true;
-                this.FormDialog.FormProps.fields[11].hidden = this.JenisStokOpname == 'supplier' ? false : true;
-                this.FormDialog.FormProps.fields[12].hidden = this.JenisStokOpname == 'supplier' ? false : true;
+                this.FormDialog.FormProps.fields[11].hidden = this.JenisStokOpname == 'supplier' ? true : true;
+                this.FormDialog.FormProps.fields[12].hidden = this.JenisStokOpname == 'supplier' ? true : true;
+                this.FormDialog.FormProps.fields[13].hidden = this.JenisStokOpname == 'supplier' ? true : true;
 
-                if (this.JenisStokOpname == 'barang' || this.JenisStokOpname == 'group' || this.JenisStokOpname == 'divisi') {
+                if (this.JenisStokOpname == 'barang') {
                     this.FormDialog.FormProps.custom_class = 'grid-rows-3 grid-cols-1';
                     this.FormDialog.CustomForm.handleSetFormClass('grid-rows-3 grid-cols-1')
                 }
 
-                if (this.JenisStokOpname == 'supplier') {
-                    this.FormDialog.FormProps.custom_class = 'grid-rows-4 grid-cols-1';
-                    this.FormDialog.CustomForm.handleSetFormClass('grid-rows-4 grid-cols-1')
+                if (this.JenisStokOpname == 'supplier' || this.JenisStokOpname == 'group' || this.JenisStokOpname == 'divisi') {
+                    this.FormDialog.FormProps.custom_class = 'grid-rows-1 grid-cols-1';
+                    this.FormDialog.CustomForm.handleSetFormClass('grid-rows-1 grid-cols-1')
                 }
 
                 this.FormDialog.onOpenFormDialog();
@@ -605,35 +623,15 @@ export class InputSettingStokOpnameComponent implements OnInit {
 
     handleSubmitForm(): void {
         const header = this.CustomForm.handleSubmitForm();
-        header.detail_barang = this.JenisStokOpname == 'barang' ? this.GridBarangProps.dataSource.map((item) => { return item.id_barang }) : [];
-        header.detail_divisi = this.JenisStokOpname == 'divisi' ? this.GridDivisiProps.dataSource : [];
-        header.detail_group = this.JenisStokOpname == 'group' ? this.GridGroupProps.dataSource : [];
-        header.detail_supplier = this.JenisStokOpname == 'supplier' ? this.GridSupplierProps.dataSource : [];
+        header.detail_barang = this.JenisStokOpname == 'barang' ? this.GridBarangProps.dataSource.map((item) => { return { id_barang: item.id_barang } }) : [];
+        header.detail_divisi = this.JenisStokOpname == 'divisi' ? this.GridDivisiProps.dataSource.map((item) => { return { id_divisi: item.id_divisi } }) : [];
+        header.detail_group = this.JenisStokOpname == 'group' ? this.GridGroupProps.dataSource.map((item) => { return { id_group: item.id_group } }) : [];
+        header.detail_supplier = this.JenisStokOpname == 'supplier' ? this.GridSupplierProps.dataSource.map((item) => { return { id_supplier: item.id_supplier } }) : [];
 
         const footer = this.CustomFormFooter.handleSubmitForm();
-
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
-        // this._confirmationService.confirm({
-        //     target: (<any>event).target as EventTarget,
-        //     message: 'Apakah Anda Ingin Mencetak Juga? ',
-        //     header: 'Data Akan Disimpan',
-        //     icon: 'pi pi-question-circle',
-        //     acceptButtonStyleClass: "p-button-info p-button-sm",
-        //     rejectButtonStyleClass: "p-button-secondary p-button-sm",
-        //     acceptIcon: "none",
-        //     acceptLabel: 'Iya, Cetak Juga',
-        //     rejectIcon: "none",
-        //     rejectLabel: 'Tidak, Simpan Saja',
-        //     accept: () => {
-        //         this.onSaveWithConditionPrint(true, payload)
-        //     },
-        //     reject: (args: any) => {
-        //         if (args == 1) {
         this.onSaveWithConditionPrint(false, payload)
-        //         }
-        //     },
-        // });
     }
 
     private onSaveWithConditionPrint(print: boolean, payload: any) {

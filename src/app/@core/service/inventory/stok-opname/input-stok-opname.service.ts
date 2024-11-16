@@ -25,11 +25,15 @@ export class InputStokOpnameService {
         return this._httpRequestService.getRequest(`${environment.endpoint}/input_stok_opname/get_barang_by_setting_so/${id_setting_stok_opname}`);
     }
 
-    getById(id_setting_stok_opname: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/input_stok_opname/by_id/${id_setting_stok_opname}`);
+    getById(id_input_stok_opname: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/input_stok_opname/get_by_id/${id_input_stok_opname}`);
     }
 
     save(payload: any): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/input_stok_opname/insert`, payload);
+    }
+
+    update(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/input_stok_opname/edit`, payload);
     }
 }

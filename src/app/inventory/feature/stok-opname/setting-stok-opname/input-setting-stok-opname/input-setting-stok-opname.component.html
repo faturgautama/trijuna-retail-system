@@ -6,7 +6,7 @@
     </div>
 
     <div *ngIf="JenisStokOpname == 'barang'" class="grid mb-3">
-        <div class="w-full flex justify-end mb-2">
+        <div class="w-full flex justify-end items-center mb-2 gap-2">
             <div class="w-4/12">
                 <input id="SearchBarang" type="text" pInputText placeholder="Cari barang by barcode"
                     class="w-full p-inputtext-sm" (keyup.enter)="getBarangByBarcode($event)">

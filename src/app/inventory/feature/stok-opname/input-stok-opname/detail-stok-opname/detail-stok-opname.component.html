@@ -1,1 +1,37 @@
-<p>detail-stok-opname works!</p>
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="grid">
+        <div class="grid w-full mb-5">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+
+        <app-grid [props]="GriDaftarBarangProps" (cellFinishEdited)="handleCellFinishEditing($event)">
+        </app-grid>
+
+        <!-- Keterangan -->
+        <div class="flex w-full items-start justify-between mt-3">
+            <div class="flex w-4/12">
+                <div class="w-4/12">
+                    <label for="keterangan">
+                        Keterangan
+                    </label>
+                </div>
+                <div class="w-8/12">
+                    <textarea rows="3" pInputTextarea class="w-full" [autoResize]="false"
+                        [(ngModel)]="Keterangan"></textarea>
+                </div>
+            </div>
+
+            <div class="flex w-4/12 items-center">
+                <div class="w-4/12">
+                    <label for="keterangan">
+                        Total Qty Fisik
+                    </label>
+                </div>
+                <div class="w-8/12">
+                    <input id="total_qty_fisik" type="text" readonly pInputText class="p-inputtext-sm w-full"
+                        [(ngModel)]="TotalQtyFisik">
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dashboard>
