@@ -79,8 +79,8 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     required: true,
                 },
                 {
-                    id: 'nomor_pemesanan',
-                    label: 'Faktur Pemesanan',
+                    id: 'nomor_penerimaan',
+                    label: 'Faktur Penerimaan',
                     status: 'readonly',
                     type: 'string',
                     required: true,
@@ -135,13 +135,13 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                 {
                     id: 'diskon_persen',
                     label: 'Diskon',
-                    status: 'insert',
+                    status: 'readonly',
                     type: 'numeric',
                     required: true,
                     is_form_grouped: true,
-                    numeric_callback: (data) => {
-                        this.handleChangeDiskonFooter(data);
-                    },
+                    // numeric_callback: (data) => {
+                    //     this.handleChangeDiskonFooter(data);
+                    // },
                     form_grouped_props: {
                         id: 'diskon_nominal',
                         label: 'Diskon',
@@ -167,7 +167,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                 {
                     id: 'pembulatan',
                     label: 'Pembulatan',
-                    status: 'insert',
+                    status: 'readonly',
                     type: 'numeric',
                     required: true,
                 },
@@ -181,7 +181,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                 {
                     id: 'total_biaya_barcode',
                     label: 'Total Biaya Barcode',
-                    status: 'insert',
+                    status: 'readonly',
                     type: 'numeric',
                     required: true,
                 },
@@ -298,7 +298,8 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
     getPenerimaanTanpaPoById(): void {
         const id = this._activatedRoute.snapshot.params.id;
 
-        this._store.dispatch(new PembelianTanpaPoAction.GetById(id))
+        this._store
+            .dispatch(new PembelianTanpaPoAction.GetById(id))
             .pipe(
                 map((result: any) => {
                     if (result.pembelian_tanpa_po.entities.success) {
@@ -308,7 +309,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     }
                 })
             )
-            .subscribe((result) => {
+            .subscribe((result: any) => {
                 this.CustomForm.props.default_value = result;
                 this.CustomForm.handleSetFormDefaultValue();
 

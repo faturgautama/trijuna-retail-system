@@ -49,6 +49,17 @@ export class PembelianTanpaPoState {
                 tap((result) => {
                     const state = ctx.getState();
 
+                    result.data.diskon_nominal = parseInt(result.data.diskon_nominal);
+                    result.data.diskon_persen = parseInt(result.data.diskon_persen);
+                    result.data.pembulatan = parseInt(result.data.pembulatan);
+                    result.data.potongan = parseInt(result.data.potongan);
+                    result.data.ppn_nominal = parseInt(result.data.ppn_nominal);
+                    result.data.qty = parseInt(result.data.qty);
+                    result.data.sub_total1 = parseFloat(result.data.sub_total1);
+                    result.data.sub_total2 = parseFloat(result.data.sub_total2);
+                    result.data.total_biaya_barcode = parseFloat(result.data.total_biaya_barcode);
+                    result.data.total_transaksi = parseFloat(result.data.total_transaksi);
+
                     return ctx.setState({
                         ...state,
                         entities: result

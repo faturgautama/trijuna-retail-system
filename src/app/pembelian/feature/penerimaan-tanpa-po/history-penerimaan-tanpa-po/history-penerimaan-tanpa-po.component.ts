@@ -33,12 +33,13 @@ export class HistoryPenerimaanTanpaPoComponent implements OnInit {
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
                 { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
             ],
         };
 
         this.GridProps = {
             column: [
-                { field: 'nomor_pemesanan', headerName: 'NO. PEMESANAN', width: 170, sortable: true, resizable: true },
+                // { field: 'nomor_pemesanan', headerName: 'NO. PEMESANAN', width: 170, sortable: true, resizable: true },
                 { field: 'nomor_penerimaan', headerName: 'NO. PENERIMAAN', width: 170, sortable: true, resizable: true },
                 { field: 'status_penerimaan', headerName: 'STATUS', width: 150, sortable: true, resizable: true },
                 { field: 'no_nota', headerName: 'NO. NOTA', width: 170, sortable: true, resizable: true },
@@ -120,7 +121,11 @@ export class HistoryPenerimaanTanpaPoComponent implements OnInit {
 
         if (args == 'print') {
             this._router.navigate([`pembelian/penerimaan-tanpa-po/print/${this.SelectedData.id_penerimaan}`]);
-        }
+        };
+
+        if (args == 'export_pdf') {
+            this._router.navigate([`pembelian/penerimaan-tanpa-po/export-pdf/${this.SelectedData.id_penerimaan}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {
