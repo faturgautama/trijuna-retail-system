@@ -43,7 +43,15 @@ export class PembelianTanpaPoService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_tanpa_po/insert`, payload);
     }
 
+    edit(payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_tanpa_po/edit`, payload);
+    }
+
     validasi(id_penerimaan: number): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_tanpa_po/validasi`, { id_penerimaan: id_penerimaan });
+    }
+
+    cancel(id_penerimaan: number): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/penerimaan_tanpa_po/cancel`, { id_penerimaan: id_penerimaan });
     }
 }

@@ -6,7 +6,8 @@
     </div>
 
     <div class="grid mb-3">
-        <app-grid [props]="GridProps" (cellClicked)="onCellClicked($event)">
+        <app-grid [props]="GridProps" (cellClicked)="onCellClicked($event)"
+            (cellFinishEdited)="onCellFinishEditing($event)" (toolbarClicked)="onToolbarClicked($event)">
         </app-grid>
     </div>
 
@@ -28,4 +29,6 @@
             </div>
         </div>
     </div>
+
+    <p-confirmDialog></p-confirmDialog>
 </app-dashboard>

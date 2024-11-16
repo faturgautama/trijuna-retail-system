@@ -133,6 +133,8 @@ export class GridComponent {
     }
 
     onPaginationChanged(args: any): void {
-        this.paginationChanged.emit(this.gridApi.paginationGetCurrentPage());
+        if (this.props.showPaging) {
+            this.paginationChanged.emit(this.gridApi.paginationGetCurrentPage());
+        }
     }
 }

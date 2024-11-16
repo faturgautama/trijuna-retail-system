@@ -331,7 +331,6 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
     ngAfterViewInit(): void {
         setTimeout(() => {
             this.getPenerimaanDenganPoById();
-
         }, 100);
     }
 

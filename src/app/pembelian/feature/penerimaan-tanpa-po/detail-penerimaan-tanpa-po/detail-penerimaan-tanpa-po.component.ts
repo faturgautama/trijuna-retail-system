@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
+import { PembelianTanpaPoService } from 'src/app/@core/service/pembelian/pembelian-tanpa-po/pembelian-tanpa-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
@@ -37,12 +38,16 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
     GridSelectedIndex: number = 0;
     GridDatasource: any[] = [];
 
+    is_ppn = false;
+
     constructor(
         private _store: Store,
         private _router: Router,
         private _messageService: MessageService,
         private _activatedRoute: ActivatedRoute,
         private _utilityService: UtilityService,
+        private _confirmationService: ConfirmationService,
+        private _pembelianTanpaPoService: PembelianTanpaPoService
     ) {
         this.DashboardProps = {
             title: 'Detail Penerimaan Dengan PO',
@@ -123,6 +128,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Jumlah Item',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
@@ -130,6 +136,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Subtotal 1',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
@@ -137,17 +144,27 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Diskon',
                     status: 'readonly',
                     type: 'numeric',
+                    prefix: '%',
+                    prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
-                    // numeric_callback: (data) => {
-                    //     this.handleChangeDiskonFooter(data);
-                    // },
+                    numeric_max_number: 100,
+                    numeric_step_number: 0.5,
+                    numeric_mode: 'decimal',
+                    numeric_callback: (data) => {
+                        this.handleChangeDiskonFooter(data);
+                    },
                     form_grouped_props: {
                         id: 'diskon_nominal',
                         label: 'Diskon',
                         status: 'readonly',
                         type: 'numeric',
+                        prefix: 'Rp.',
+                        prefix_position: 'left',
                         required: true,
+                        numeric_callback: (data) => {
+                            this.handleChangeDiskonNominalFooter(data);
+                        }
                     }
                 },
                 {
@@ -155,6 +172,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Subtotal 2',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
@@ -162,14 +180,30 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'PPn',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
+                },
+                {
+                    id: 'potongan',
+                    label: 'Potongan',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                    numeric_mode: 'decimal',
+                    numeric_callback: (data) => {
+                        this.onCountFormFooter();
+                    },
                 },
                 {
                     id: 'pembulatan',
                     label: 'Pembulatan',
-                    status: 'readonly',
+                    status: 'insert',
                     type: 'numeric',
                     required: true,
+                    numeric_mode: 'decimal',
+                    numeric_callback: (data) => {
+                        this.onCountFormFooter();
+                    },
                 },
                 {
                     id: 'total_transaksi',
@@ -177,13 +211,18 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     status: 'readonly',
                     type: 'numeric',
                     required: true,
+                    numeric_mode: 'decimal',
+                    numeric_callback: (data) => {
+                        this.onCountFormFooter();
+                    },
                 },
                 {
                     id: 'total_biaya_barcode',
                     label: 'Total Biaya Barcode',
-                    status: 'readonly',
+                    status: 'insert',
                     type: 'numeric',
                     required: true,
+                    hidden: true,
                 },
             ],
             custom_class: 'grid-rows-8 grid-cols-1',
@@ -197,40 +236,86 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                 { field: 'id_barang', headerName: 'ID BARANG', width: 350, sortable: true, resizable: true, hide: true, },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
-                { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
+                {
+                    field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true, editable: true,
+                    cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.banyak },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.banyak = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
+                },
                 { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
                 { field: 'isi', headerName: 'ISI', width: 150, sortable: true, resizable: true },
                 { field: 'qty', headerName: 'QTY', width: 150, sortable: true, resizable: true },
                 {
-                    field: 'harga_order', headerName: 'HARGA ORDER', width: 180, sortable: true, resizable: true,
+                    field: 'harga_order', headerName: 'HARGA ORDER', width: 180, sortable: true, resizable: true, editable: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.harga_order },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.harga_order = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
                 },
                 {
-                    field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 180, sortable: true, resizable: true,
+                    field: 'diskon_persen_1', headerName: 'DISKON 1 (%)', width: 180, sortable: true, resizable: true, editable: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.diskon_persen_1 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_persen_1 = params.newValue <= 100 ? params.newValue : 100;
+                        params.data = data;
+                        return true;
+                    }
                 },
                 { field: 'diskon_nominal_1', headerName: 'DISKON 1 (Rp)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 {
-                    field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 180, sortable: true, resizable: true,
+                    field: 'diskon_persen_2', headerName: 'DISKON 2 (%)', width: 180, sortable: true, resizable: true, editable: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.diskon_persen_2 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_persen_2 = params.newValue <= 100 ? params.newValue : 100;
+                        params.data = data;
+                        return true;
+                    }
                 },
                 { field: 'diskon_nominal_2', headerName: 'DISKON 2 (Rp)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 {
-                    field: 'diskon_persen_3', headerName: 'DISKON 3 (%)', width: 180, sortable: true, resizable: true,
+                    field: 'diskon_persen_3', headerName: 'DISKON 3 (%)', width: 180, sortable: true, resizable: true, editable: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.diskon_persen_3 },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.diskon_persen_3 = params.newValue <= 100 ? params.newValue : 100;
+                        params.data = data;
+                        return true;
+                    }
                 },
                 { field: 'diskon_nominal_3', headerName: 'DISKON 3 (Rp)', width: 180, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'sub_total', headerName: 'SUBTOTAL', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'qty_bonus', headerName: 'QTY BONUS', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 { field: 'nama_bonus', headerName: 'NAMA BONUS', width: 180, sortable: true, resizable: true },
                 {
-                    field: 'biaya_barcode', headerName: 'BIAYA BARCODE', width: 180, sortable: true, resizable: true,
+                    field: 'biaya_barcode', headerName: 'BIAYA BARCODE', width: 180, sortable: true, resizable: true, editable: true,
                     cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    valueGetter: params => { return params.data.biaya_barcode },
+                    valueSetter: params => {
+                        const data = JSON.parse(JSON.stringify(params.data));
+                        data.biaya_barcode = params.newValue;
+                        params.data = data;
+                        return true;
+                    }
                 },
             ],
             dataSource: [],
             height: "250px",
             showPaging: false,
+            toolbar: ['Delete']
         };
     }
 
@@ -320,11 +405,51 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                 this.CustomFormFooter.props.default_value = result;
                 this.CustomFormFooter.handleSetFormDefaultValue();
 
+                this.is_ppn = result.is_ppn;
+
                 if (result.status_penerimaan == 'OPEN') {
-                    this.DashboardProps.button_navigation.push({
-                        id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs'
-                    })
+                    this.DashboardProps = {
+                        title: 'Detail Penerimaan Dengan PO',
+                        button_navigation: [
+                            {
+                                id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs'
+                            },
+                            {
+                                id: 'update', caption: 'Update', icon: 'pi pi-pencil text-xs'
+                            },
+                            {
+                                id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs'
+                            }
+                        ],
+                    };
                 }
+
+                if (result.status_penerimaan == 'VALIDATED') {
+                    this.DashboardProps = {
+                        title: 'Detail Penerimaan Dengan PO',
+                        button_navigation: [
+                            {
+                                id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs'
+                            },
+                            {
+                                id: 'cancel', caption: 'Cancel', icon: 'pi pi-ban text-xs'
+                            },
+                        ],
+                    };
+                };
+
+                if (result.status_penerimaan == 'CANCEL') {
+                    this.DashboardProps = {
+                        title: 'Detail Penerimaan Dengan PO',
+                        button_navigation: [
+                            {
+                                id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs'
+                            },
+                        ],
+                    };
+                };
+
+                this.onCountFormFooter();
             })
     }
 
@@ -333,8 +458,39 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
             case 'back':
                 this._router.navigate(['pembelian/penerimaan-tanpa-po/history']);
                 break;
+            case 'update':
+                this.onEditPenerimaanTanpaPo(this.GridProps.dataSource);
+                break;
             case 'validasi':
                 this.handleSubmitForm();
+                break;
+            case 'cancel':
+                this._confirmationService.confirm({
+                    target: (<any>event).target as EventTarget,
+                    message: 'Apakah Anda Yakin? ',
+                    header: 'Data Akan Dibatalkan',
+                    icon: 'pi pi-question-circle',
+                    acceptButtonStyleClass: "p-button-info p-button-sm",
+                    rejectButtonStyleClass: "p-button-secondary p-button-sm",
+                    acceptIcon: "none",
+                    acceptLabel: 'Iya, Saya Yakin',
+                    rejectIcon: "none",
+                    rejectLabel: 'Tidak',
+                    accept: () => {
+                        this._pembelianTanpaPoService
+                            .cancel(this._activatedRoute.snapshot.params.id)
+                            .subscribe((result) => {
+                                if (result.success) {
+                                    this._messageService.clear();
+                                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dibatalkan' });
+
+                                    setTimeout(() => {
+                                        this._router.navigateByUrl('pembelian/penerimaan-tanpa-po/history');
+                                    }, 2000);
+                                }
+                            })
+                    },
+                });
                 break;
             default:
                 break;
@@ -345,32 +501,99 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
         this.GridSelectedData = args;
     }
 
+    onToolbarClicked(args: any): void {
+        switch (args.id) {
+            case 'delete':
+                const selectedIndex = this.GridProps.dataSource.findIndex((item) => { return item.urut == args.data.urut });
+                const data = this.GridProps.dataSource.filter((item, index) => {
+                    return index != selectedIndex;
+                });
+                this.onEditPenerimaanTanpaPo(data);
+                break;
+            case 'update':
+                this.onEditPenerimaanTanpaPo(this.GridProps.dataSource);
+                break;
+            default:
+                break;
+        }
+    }
+
+    onCellFinishEditing(args: any[]): void {
+        args = args.filter((data) => {
+            let total_after_diskon_1 = 0,
+                total_after_diskon_2 = 0,
+                total_after_diskon_3 = 0;
+
+            data.qty = parseFloat(data.banyak) * parseFloat(data.isi);
+            data.harga_order = parseFloat(data.harga_order);
+
+            data.diskon_persen_1 = parseFloat(data.diskon_persen_1);
+            data.diskon_nominal_1 = (parseFloat(data.qty) * data.harga_order) * (data.diskon_persen_1 / 100);
+            total_after_diskon_1 = (parseFloat(data.qty) * data.harga_order) - data.diskon_nominal_1;
+
+            data.diskon_persen_2 = parseFloat(data.diskon_persen_2);
+            data.diskon_nominal_2 = total_after_diskon_1 * (data.diskon_persen_2 / 100);
+            total_after_diskon_2 = total_after_diskon_1 - data.diskon_nominal_2;
+
+            data.diskon_persen_3 = parseFloat(data.diskon_persen_3);
+            data.diskon_nominal_3 = total_after_diskon_2 * (data.diskon_persen_3 / 100);
+            total_after_diskon_3 = total_after_diskon_2 - data.diskon_nominal_3;
+
+            data.sub_total = total_after_diskon_3;
+
+            return data;
+        });
+
+        this.GridProps.dataSource = args;
+        this.onEditPenerimaanTanpaPo(args);
+    }
+
+    private onEditPenerimaanTanpaPo(detail: any) {
+        const header = this.CustomForm.handleSubmitForm();
+        header.detail = detail;
+        header.keterangan = this.Keterangan.nativeElement.value;
+
+        const footer = this.CustomFormFooter.handleSubmitForm();
+        const payload = this._utilityService.JoinTwoObject(header, footer);
+
+        this._pembelianTanpaPoService
+            .edit(payload)
+            .subscribe((result) => {
+                if (result.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data berhasil diperbarui' });
+                    this.getPenerimaanTanpaPoById();
+                }
+            });
+    }
+
     handleChangeDiskonFooter(value: number): void {
         const diskonNominalFooter = this.CustomFormFooter.handleGetFieldValue('sub_total1') * (value / 100);
         this.CustomFormFooter.handleSetFieldValue('diskon_nominal', diskonNominalFooter);
         this.onCountFormFooter();
     }
 
+    handleChangeDiskonNominalFooter(value: number): void {
+        const diskonPersenFooter = (value / parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1'))) * 100;
+        this.CustomFormFooter.handleSetFieldValue('diskon_persen', diskonPersenFooter);
+        this.onCountFormFooter();
+    }
+
     onCountFormFooter(): void {
-        let qty = 0;
-        let subtotal1 = 0;
-        let biaya_barcode = 0;
+        this.CustomFormFooter.handleSetFieldValue('sub_total2', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) - parseFloat(this.CustomFormFooter.handleGetFieldValue('diskon_nominal')));
 
-        this.GridProps.dataSource.forEach((item) => {
-            qty += parseFloat(item.qty);
-            subtotal1 += parseFloat(item.sub_total);
-            biaya_barcode += parseFloat(item.biaya_barcode);
+        if (this.is_ppn) {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')) * (11 / 100));
+        } else {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', 0);
+        }
 
-            this.CustomFormFooter.handleSetFieldValue('qty', qty);
-            this.CustomFormFooter.handleSetFieldValue('sub_total1', subtotal1);
-            this.CustomFormFooter.handleSetFieldValue('total_biaya_barcode', biaya_barcode);
-        });
+        const sub_total2 = parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')),
+            ppn_nominal = parseFloat(this.CustomFormFooter.handleGetFieldValue('ppn_nominal')),
+            potongan = parseFloat(this.CustomFormFooter.handleGetFieldValue('potongan')),
+            pembulatan = parseFloat(this.CustomFormFooter.handleGetFieldValue('pembulatan'));
 
-        this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
-
-        this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
-
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + this.CustomFormFooter.handleGetFieldValue('ppn_nominal'))
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', parseFloat((sub_total2 + ppn_nominal - potongan + pembulatan) as any));
     }
 
     handleSubmitForm(): void {
