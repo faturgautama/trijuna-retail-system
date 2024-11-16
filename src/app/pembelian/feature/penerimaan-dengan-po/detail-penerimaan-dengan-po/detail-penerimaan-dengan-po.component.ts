@@ -9,7 +9,6 @@ import { CustomFormComponent } from 'src/app/@shared/components/custom-form/cust
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
-import { PembelianDenganPoModel } from 'src/app/@shared/models/pembelian/pembelian-dengan-po.model';
 import { SetupLokasiModel } from 'src/app/@shared/models/setup-data/setup-lokasi.model';
 import { SetupWarehouseModel } from 'src/app/@shared/models/setup-data/setup-warehouse.model';
 import { PembelianDenganPoAction } from 'src/app/@shared/state/pembelian/pembelian-dengan-po';
@@ -135,7 +134,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     id: 'qty',
                     label: 'Jumlah Item',
                     status: 'readonly',
-                    numeric_max_number: 100,
+                    numeric_mode: 'decimal',
                     type: 'numeric',
                     required: true,
                 },
@@ -143,7 +142,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     id: 'sub_total1',
                     label: 'Subtotal 1',
                     status: 'readonly',
-                    numeric_max_number: 100,
+                    numeric_mode: 'decimal',
                     type: 'numeric',
                     required: true,
                 },
@@ -180,6 +179,7 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     label: 'Subtotal 2',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
