@@ -81,7 +81,7 @@ export class InputSettingStokOpnameComponent implements OnInit {
                     id: 'tanggal_setting_stok_opname',
                     label: 'Tgl. Setting',
                     status: 'insert',
-                    type: 'date',
+                    type: 'datetime',
                     required: true,
                 },
                 {
