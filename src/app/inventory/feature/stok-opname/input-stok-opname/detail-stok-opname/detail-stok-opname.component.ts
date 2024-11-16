@@ -57,30 +57,30 @@ export class DetailStokOpnameComponent implements OnInit, OnDestroy {
             is_inline: true,
             fields: [
                 {
-                    id: 'id_setting_stok_opname',
-                    label: 'Id Setting Stok Opname',
+                    id: 'id_input_stok_opname',
+                    label: 'Id Stok Opname',
                     status: 'insert',
                     type: 'string',
                     required: false,
                     hidden: true,
                 },
                 {
-                    id: 'nomor_stok_opname',
-                    label: 'No. Stok Opname',
+                    id: 'created_at',
+                    label: 'Waktu Entry',
                     status: 'readonly',
                     type: 'string',
                     required: false,
                 },
                 {
-                    id: 'tanggal_setting_stok_opname',
-                    label: 'Tgl. Setting SO',
+                    id: 'nama',
+                    label: 'User Entry',
                     status: 'readonly',
                     type: 'string',
                     required: false,
                 },
                 {
-                    id: 'jenis_stok_opname',
-                    label: 'Jenis Stok Opname',
+                    id: 'keterangan',
+                    label: 'Keterangan',
                     status: 'readonly',
                     type: 'string',
                     required: false,
@@ -108,7 +108,7 @@ export class DetailStokOpnameComponent implements OnInit, OnDestroy {
                 },
             ],
             dataSource: [],
-            height: "calc(100vh - 21rem)",
+            height: "calc(100vh - 18rem)",
             showPaging: false,
         };
     }
@@ -133,8 +133,9 @@ export class DetailStokOpnameComponent implements OnInit, OnDestroy {
             .subscribe((result) => {
                 if (result.success) {
                     console.log(result.data);
-                    this.CustomForm.CustomForms.patchValue(result);
-                    this.GriDaftarBarangProps.dataSource = result.detail;
+                    this.CustomForm.CustomForms.patchValue(result.data);
+                    this.GriDaftarBarangProps.dataSource = result.data.detail_barang;
+                    this.handleCellFinishEditing(this.GriDaftarBarangProps.dataSource);
                 }
             })
     }
