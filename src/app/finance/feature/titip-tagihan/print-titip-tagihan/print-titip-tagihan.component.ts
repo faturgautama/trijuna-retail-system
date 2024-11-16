@@ -41,7 +41,7 @@ export class PrintTitipTagihanComponent implements OnInit {
                 { field: 'nomor_penerimaan', headerName: 'No. Penerimaan', },
                 { field: 'tanggal_nota', headerName: 'Tgl. Nota', format: 'date' },
                 { field: 'created_at', headerName: 'Waktu Input', format: 'date' },
-                { field: 'total_transaksi', headerName: 'Total Transaksi', class: 'text-end', format: 'currency' },
+                { field: 'total_transaksi', headerName: 'Total Transaksi', class: 'text-end', format: 'number' },
             ],
             dataSource: [],
             height: "100%",
@@ -53,8 +53,8 @@ export class PrintTitipTagihanComponent implements OnInit {
             column: [
                 { field: 'nomor_retur_pembelian', headerName: 'No. Retur', },
                 { field: 'tanggal_retur_pembelian', headerName: 'Tgl. Retur', format: 'date' },
-                { field: 'total_harga', headerName: 'Total Harga', class: 'text-end', format: 'currency' },
-                { field: 'qty', headerName: 'Qty', class: 'text-end', format: 'currency' },
+                { field: 'total_harga', headerName: 'Total Harga', class: 'text-end', format: 'number' },
+                { field: 'qty', headerName: 'Qty', class: 'text-end', format: 'number' },
                 { field: 'created_at', headerName: 'Waktu Input', class: 'text-end', format: 'date' },
             ],
             dataSource: [],
@@ -66,7 +66,7 @@ export class PrintTitipTagihanComponent implements OnInit {
             id: 'print-out-potongan-pembelian',
             column: [
                 { field: 'potongan_pembelian', headerName: 'Potongan Pembelian', },
-                { field: 'total_potongan', headerName: 'Total Potongan', class: 'text-end', format: 'currency' }
+                { field: 'total_potongan', headerName: 'Total Potongan', class: 'text-end', format: 'number' }
             ],
             dataSource: [],
             height: "100%",

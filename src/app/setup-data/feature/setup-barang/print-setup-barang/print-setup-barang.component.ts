@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
-import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
 import { SetupBarangAction } from 'src/app/@shared/state/setup-data/setup-barang';
 
@@ -39,7 +38,7 @@ export class PrintSetupBarangComponent implements OnInit, OnDestroy {
                 { field: 'nama_barang', headerName: 'NAMA BARANG', },
                 { field: 'barcode', headerName: 'BARCODE', },
                 { field: 'nama_satuan', headerName: 'SATUAN', },
-                { field: 'harga_jual', headerName: 'HARGA JUAL', class: 'text-end', format: 'currency' },
+                { field: 'harga_jual', headerName: 'HARGA JUAL', class: 'text-end', format: 'number' },
                 { field: 'created_at', headerName: 'TANGGAL DIBUAT', format: 'date' },
                 { field: 'kode_supplier', headerName: 'KODE SUPPLIER', },
                 { field: 'nama_supplier', headerName: 'NAMA SUPPLIER', },

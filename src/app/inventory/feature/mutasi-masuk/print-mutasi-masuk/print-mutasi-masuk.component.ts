@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { MutasiMasukService } from 'src/app/@core/service/inventory/mutasi-masuk/mutasi-masuk.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
@@ -10,6 +11,8 @@ import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-g
     styleUrls: ['./print-mutasi-masuk.component.scss']
 })
 export class PrintMutasiMasukComponent implements OnInit {
+
+    UserData: any = this._authenticationService.userData;
 
     Data: any;
 
@@ -26,7 +29,8 @@ export class PrintMutasiMasukComponent implements OnInit {
         private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
-        private _mutasiMasukService: MutasiMasukService
+        private _mutasiMasukService: MutasiMasukService,
+        private _authenticationService: AuthenticationService,
     ) {
         this.GridProps = {
             id: 'print-out-master-barang',
@@ -39,8 +43,8 @@ export class PrintMutasiMasukComponent implements OnInit {
                 { field: 'banyak', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
                 { field: 'isi', headerName: 'Isi', class: 'text-end', format: 'number', width: '5%' },
                 { field: 'qty', headerName: 'Total Qty', class: 'text-end', format: 'number', width: '5%' },
-                { field: 'harga_satuan', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '10%' },
-                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '10%' },
+                { field: 'harga_satuan', headerName: 'Harga Satuan', class: 'text-end', format: 'number', width: '10%' },
+                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'number', width: '10%' },
             ],
             dataSource: [],
             height: "100%",

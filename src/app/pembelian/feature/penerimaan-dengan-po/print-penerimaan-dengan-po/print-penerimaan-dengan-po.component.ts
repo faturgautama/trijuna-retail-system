@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { PembelianDenganPoService } from 'src/app/@core/service/pembelian/pembelian-dengan-po/pembelian-dengan-po.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
@@ -10,6 +11,8 @@ import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-g
     styleUrls: ['./print-penerimaan-dengan-po.component.scss']
 })
 export class PrintPenerimaanDenganPoComponent implements OnInit {
+
+    UserData: any = this._authenticationService.userData;
 
     IsPrintDraft = this._router.url.includes('draft');
 
@@ -34,6 +37,7 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
         private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
+        private _authenticationService: AuthenticationService,
         private _pembelianDenganPoService: PembelianDenganPoService,
     ) {
         this.GridProps = {
@@ -44,11 +48,11 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
                 { field: 'barcode', headerName: 'Barcode', width: '7%' },
                 { field: 'nama_barang', headerName: 'Nama Barang', width: '28%' },
                 { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
-                { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '10%' },
-                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '8%' },
-                { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
-                { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '8%' },
-                { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '7%' },
+                { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'number', width: '10%' },
+                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'number', width: '8%' },
+                { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'number', width: '10%' },
+                { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'number', width: '8%' },
+                { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'number', width: '7%' },
             ],
             dataSource: [],
             height: "100%",
@@ -95,11 +99,11 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
                         { field: 'barcode', headerName: 'Barcode', width: '7%' },
                         { field: 'nama_barang', headerName: 'Nama Barang', width: '28%' },
                         { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
-                        { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '10%' },
-                        { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '8%' },
-                        { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
-                        { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '8%' },
-                        { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '7%' },
+                        { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'number', width: '10%' },
+                        { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'number', width: '8%' },
+                        { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'number', width: '10%' },
+                        { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'number', width: '8%' },
+                        { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'number', width: '7%' },
                     ],
                     dataSource: [],
                     height: "100%",
@@ -115,11 +119,11 @@ export class PrintPenerimaanDenganPoComponent implements OnInit {
                         { field: 'barcode', headerName: 'Barcode', width: '10%' },
                         { field: 'nama_barang', headerName: 'Nama Barang', width: '60%' },
                         { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '15%' },
-                        // { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'currency', width: '8%' },
-                        // { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'currency', width: '10%' },
-                        // { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'currency', width: '10%' },
-                        // { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'currency', width: '7%' },
-                        // { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'currency', width: '10%' },
+                        // { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'number', width: '8%' },
+                        // { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'number', width: '10%' },
+                        // { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'number', width: '10%' },
+                        // { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'number', width: '7%' },
+                        // { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'number', width: '10%' },
                     ],
                     dataSource: [],
                     height: "100%",

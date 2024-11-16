@@ -37,9 +37,9 @@ export class PrintCroscekTutupKasirComponent implements OnInit {
             id: 'print-out-croscek-tutup-kasir',
             column: [
                 { field: 'nama_payment_method', headerName: 'Metode Bayar', },
-                { field: 'nominal', headerName: 'Jumlah Diterima', format: 'currency' },
-                { field: 'nominal_sistem', headerName: 'Jumlah Diterima Versi Sistem', format: 'currency' },
-                { field: 'selisih', headerName: 'Selisih', format: 'currency' },
+                { field: 'nominal', headerName: 'Jumlah Diterima', format: 'number' },
+                { field: 'nominal_sistem', headerName: 'Jumlah Diterima Versi Sistem', format: 'number' },
+                { field: 'selisih', headerName: 'Selisih', format: 'number' },
             ],
             dataSource: [],
             height: "100%",
