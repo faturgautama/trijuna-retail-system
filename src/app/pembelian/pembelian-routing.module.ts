@@ -48,6 +48,7 @@ const routes: Routes = [
         path: 'penerimaan-tanpa-po', children: [
             { path: 'history', component: HistoryPenerimaanTanpaPoComponent },
             { path: 'input', component: InputPenerimaanTanpaPoComponent },
+            { path: 'input-ulang/:id', component: InputPenerimaanTanpaPoComponent },
             { path: 'detail/:id', component: DetailPenerimaanTanpaPoComponent },
             { path: 'print/:id', component: PrintPemesananPoComponent },
             { path: 'export-pdf/:id', component: PrintPemesananPoComponent },
