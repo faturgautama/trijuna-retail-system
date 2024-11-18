@@ -208,8 +208,8 @@ export class InputProduksiAssemblyComponent implements OnInit {
                         selectedValue: 'id_barang',
                         url: `${environment.endpoint}/barang/by_param`,
                         callback: (args: any) => {
-                            this.CustomForm.CustomForms.get('hpp_avarage_repacking')?.setValue(args.hpp_average ? parseFloat(args.hpp_average) : 0);
-                            this.FormInputDetail.form_props.fields[0].lookup_props!.url = `${environment.endpoint}/repacking/lookup_barang/${args.id_barang}`;
+                            this.CustomForm.CustomForms.get('hpp_avarage_produksi')?.setValue(args.hpp_average ? parseFloat(args.hpp_average) : 0);
+                            this.FormInputDetail.form_props.fields[0].lookup_props!.url = `${environment.endpoint}/produksi/lookup_barang/${args.id_barang}`;
                         }
                     },
                     required: true,
