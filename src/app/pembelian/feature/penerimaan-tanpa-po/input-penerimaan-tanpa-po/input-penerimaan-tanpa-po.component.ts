@@ -383,12 +383,14 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Jumlah Item',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
                     id: 'sub_total1',
                     label: 'Subtotal 1',
                     status: 'readonly',
+                    numeric_mode: 'decimal',
                     type: 'numeric',
                     required: true,
                 },
@@ -401,6 +403,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     prefix_position: 'right',
                     required: true,
                     is_form_grouped: true,
+                    numeric_mode: 'decimal',
                     numeric_callback: (data) => {
                         this.handleChangeDiskonFooter(data);
                     },
@@ -411,6 +414,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                         type: 'numeric',
                         prefix: 'Rp. ',
                         prefix_position: 'left',
+                        numeric_mode: 'decimal',
                         required: true,
                     }
                 },
@@ -419,6 +423,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Subtotal 2',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {
@@ -433,6 +438,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Potongan',
                     status: 'insert',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                     numeric_callback: (data) => {
                         const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
@@ -447,6 +453,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Pembulatan',
                     status: 'insert',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                     numeric_callback: (data) => {
                         const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
@@ -461,6 +468,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     label: 'Grand Total',
                     status: 'readonly',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                 },
                 {

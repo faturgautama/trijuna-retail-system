@@ -15,7 +15,7 @@ import { CookiesUtils } from 'src/app/@shared/utils/cookies.utils';
 })
 export class UtilityService {
 
-    UserData: any = this._cookieUtils.getCookie('TRSUserData') as any;;
+    UserData: any = this._cookieUtils.getCookie('TRSUserData') as any;
 
     private Workbook = new Excel.Workbook();
 
@@ -50,8 +50,6 @@ export class UtilityService {
     }
 
     GetSomeValueFromArray(arr: any[], valueKey: any): string {
-        console.log(arr);
-
         let result = "";
 
         arr.forEach((item) => {
@@ -141,6 +139,8 @@ export class UtilityService {
 
         const lokasi = this.UserData.lokasi ? this.UserData.lokasi.nama_lokasi : 'MD MALL';
 
+        console.log("lokasi =>", lokasi);
+
         // Set title and location in the first two rows
         worksheets.getRow(1).values = [payload.worksheetName];
         worksheets.getRow(1).font = { bold: true, size: 14 };
@@ -150,26 +150,30 @@ export class UtilityService {
 
         // Define and set column headers
 
+        if (payload.dataSource.length) {
+            const columnHeaders = Object.keys(payload.dataSource[0]).map(key =>
+                key.replace(/_/g, " ").toUpperCase()
+            );
+            worksheets.getRow(4).values = columnHeaders;
 
-        const columnHeaders = Object.keys(payload.dataSource[0]).map(key =>
-            key.replace(/_/g, " ").toUpperCase()
-        );
-        worksheets.getRow(4).values = columnHeaders;
+            // Add data rows
+            payload.dataSource.forEach(item => {
+                const rowData = Object.keys(item).map(key => item[key]); // Extract values based on keys
+                worksheets.addRow(rowData);
+            });
 
-        // Add data rows
-        payload.dataSource.forEach(item => {
-            const rowData = Object.keys(item).map(key => item[key]); // Extract values based on keys
-            worksheets.addRow(rowData);
-        });
+            // Set the file name
+            let fileName = `${payload.worksheetName}-${this.FormatDate(new Date(), 'DD-mm-yyyy HH:mm:ss')}`;
 
-        // Set the file name
-        let fileName = `${payload.worksheetName}-${this.FormatDate(new Date(), 'DD-mm-yyyy HH:mm:ss')}`;
-
-        // Write to buffer and save as an Excel file
-        this.Workbook.xlsx.writeBuffer().then((data) => {
-            let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            fs.saveAs(blob, fileName + '.xlsx');
-        });
+            // Write to buffer and save as an Excel file
+            this.Workbook.xlsx.writeBuffer().then((data) => {
+                let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                fs.saveAs(blob, fileName + '.xlsx');
+            });
+        } else {
+            this._messageService.clear();
+            this._messageService.add({ severity: 'error', summary: 'Oops', detail: 'Data tidak boleh kosong' });
+        }
     }
 
 }
