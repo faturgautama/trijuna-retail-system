@@ -50,7 +50,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
         private _pembelianTanpaPoService: PembelianTanpaPoService
     ) {
         this.DashboardProps = {
-            title: 'Detail Penerimaan Dengan PO',
+            title: 'Detail Penerimaan Tanpa PO',
             button_navigation: [
                 { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
             ],
@@ -142,7 +142,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                 {
                     id: 'diskon_persen',
                     label: 'Diskon',
-                    status: 'readonly',
+                    status: 'insert',
                     type: 'numeric',
                     prefix: '%',
                     prefix_position: 'right',
@@ -157,7 +157,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     form_grouped_props: {
                         id: 'diskon_nominal',
                         label: 'Diskon',
-                        status: 'readonly',
+                        status: 'insert',
                         type: 'numeric',
                         prefix: 'Rp.',
                         prefix_position: 'left',
@@ -422,7 +422,7 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                             }
                         ],
                     };
-                }
+                };
 
                 if (result.status_penerimaan == 'VALIDATED') {
                     this.DashboardProps = {
