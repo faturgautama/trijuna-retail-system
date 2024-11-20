@@ -10,6 +10,7 @@ import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 import { SetupDivisiAction } from 'src/app/@shared/state/setup-data/setup-divisi';
 import { SetupGroupAction } from 'src/app/@shared/state/setup-data/setup-group';
+import { SetupSupplierAction } from 'src/app/@shared/state/setup-data/setup-supplier';
 
 @Component({
     selector: 'app-sell-out',
@@ -79,6 +80,13 @@ export class SellOutComponent implements OnInit {
                     value: ' mb.id_group',
                     dropdown_props: []
                 },
+                {
+                    id: 'supplier',
+                    title: 'Pilih Supplier',
+                    type: 'dropdown',
+                    value: ' ms.id_supplier',
+                    dropdown_props: []
+                },
             ],
         }
 
@@ -87,6 +95,7 @@ export class SellOutComponent implements OnInit {
                 { field: 'kode_barang', headerName: 'KODE BARANG', width: 150, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 200, sortable: true, resizable: true },
+                { field: 'nama_supplier', headerName: 'NAMA SUPPLIER', width: 200, sortable: true, resizable: true },
                 { field: 'divisi', headerName: 'DIVISI', width: 150, sortable: true, resizable: true },
                 { field: 'group', headerName: 'GROUP', width: 150, sortable: true, resizable: true },
                 { field: 'kode_satuan', headerName: 'SATUAN', width: 150, sortable: true, resizable: true },
@@ -121,6 +130,7 @@ export class SellOutComponent implements OnInit {
     ngOnInit(): void {
         this.getAllDivisi();
         this.getAllGroup();
+        this.getAllSupplier();
         // this.handleSearchOffcanvas([]);
     }
 
@@ -166,6 +176,19 @@ export class SellOutComponent implements OnInit {
                     return {
                         name: item.group,
                         value: item.id_group
+                    }
+                });
+            })
+    }
+
+    private getAllSupplier() {
+        this._store
+            .dispatch(new SetupSupplierAction.GetAll([]))
+            .subscribe((result) => {
+                this.OffcanvasFilterProps.filter[6].dropdown_props = result.setup_supplier.entities.data.map((item: any) => {
+                    return {
+                        name: item.nama_supplier,
+                        value: item.id_supplier
                     }
                 });
             })
