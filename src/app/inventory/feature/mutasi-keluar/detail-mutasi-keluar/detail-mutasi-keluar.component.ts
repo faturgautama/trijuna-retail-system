@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, map } from 'rxjs';
 import { MutasiKeluarService } from 'src/app/@core/service/inventory/mutasi-keluar/mutasi-keluar.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
@@ -38,6 +38,7 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _utilityService: UtilityService,
         private _messageService: MessageService,
+        private _confirmationService: ConfirmationService,
         private _mutasiKeluarService: MutasiKeluarService,
     ) {
         this.DashboardProps = {
@@ -181,6 +182,7 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
                             { id: 'unduh', caption: 'Download File', icon: 'pi pi-download text-xs' },
                             { id: 'validasi', caption: 'Validasi Offline', icon: 'pi pi-check text-xs' },
                             { id: 'validasi_online', caption: 'Validasi Online', icon: 'pi pi-check text-xs' },
+                            { id: 'cancel', caption: 'Cancel', icon: 'pi pi-ban text-xs' },
                         ],
                     };
                 } else {
@@ -246,6 +248,34 @@ export class DetailMutasiKeluarComponent implements OnInit, OnDestroy {
                             }, 1500);
                         }
                     });
+                break;
+            case 'cancel':
+                this._confirmationService.confirm({
+                    target: (<any>event).target as EventTarget,
+                    message: 'Apakah Anda Yakin? ',
+                    header: 'Data Akan Dibatalkan',
+                    icon: 'pi pi-question-circle',
+                    acceptButtonStyleClass: "p-button-info p-button-sm",
+                    rejectButtonStyleClass: "p-button-secondary p-button-sm",
+                    acceptIcon: "none",
+                    acceptLabel: 'Iya, Saya Yakin',
+                    rejectIcon: "none",
+                    rejectLabel: 'Tidak',
+                    accept: () => {
+                        this._mutasiKeluarService
+                            .cancel(this._activatedRoute.snapshot.params.id)
+                            .subscribe((result) => {
+                                if (result.status) {
+                                    this._messageService.clear();
+                                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dibatalkan' });
+
+                                    setTimeout(() => {
+                                        this._router.navigate(['inventory/mutasi-keluar/history']);
+                                    }, 2000);
+                                }
+                            })
+                    },
+                });
                 break;
             default:
                 break;
