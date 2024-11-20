@@ -579,6 +579,20 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
         this.onCountFormFooter();
     }
 
+    handleChangeWithPpn(args: any): void {
+        if (args.value) {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
+        } else {
+            this.CustomFormFooter.handleSetFieldValue('ppn_nominal', 0);
+        };
+
+        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
+            potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
+            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
+
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + args.value - potongan + pembulatan);
+    }
+
     onCountFormFooter(): void {
         this.CustomFormFooter.handleSetFieldValue('sub_total2', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) - parseFloat(this.CustomFormFooter.handleGetFieldValue('diskon_nominal')));
 
