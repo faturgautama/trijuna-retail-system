@@ -286,6 +286,10 @@ export class DetailSettingStokOpnameComponent implements OnInit {
                 this._messageService.clear();
                 this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Finalisasi Berhasil' });
                 this.ShowDialogFinalisasi = false;
+
+                setTimeout(() => {
+                    this._router.navigateByUrl(`inventory/setting-stok-opname/print-finalisasi/${this._activatedRoute.snapshot.params.id}`);
+                }, 1000);
             })
     }
 }

@@ -147,6 +147,9 @@ const routes: Routes = [
             },
             {
                 path: 'kalkulasi/:id', component: KalkulasiSettingStokOpnameComponent,
+            },
+            {
+                path: 'print-finalisasi/:id', component: KalkulasiSettingStokOpnameComponent,
             }
         ]
     },

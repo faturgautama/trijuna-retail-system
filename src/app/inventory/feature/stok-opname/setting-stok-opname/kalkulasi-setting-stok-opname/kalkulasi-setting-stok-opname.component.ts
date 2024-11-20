@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { SettingStokOpnameService } from 'src/app/@core/service/inventory/stok-opname/setting-stok-opname.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
@@ -10,6 +11,10 @@ import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-g
     styleUrls: ['./kalkulasi-setting-stok-opname.component.scss']
 })
 export class KalkulasiSettingStokOpnameComponent implements OnInit {
+
+    UserData: any = this._authenticationService.userData;
+
+    IsFinalisasi = false;
 
     Data: any;
 
@@ -26,6 +31,7 @@ export class KalkulasiSettingStokOpnameComponent implements OnInit {
         private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
+        private _authenticationService: AuthenticationService,
         private _settingStokOpnameService: SettingStokOpnameService
     ) {
         this.GridProps = {
@@ -56,8 +62,14 @@ export class KalkulasiSettingStokOpnameComponent implements OnInit {
         const id = this._activatedRoute.snapshot.params['id'];
         const url = this._router.url;
         const isExportPdf = url.includes('export-pdf');
+        this.IsFinalisasi = url.includes('print-finalisasi');
 
-        this.getDetail(id, isExportPdf);
+        if (this.IsFinalisasi) {
+            this.getFinalisasi(id, isExportPdf);
+        } else {
+            this.getDetail(id, isExportPdf);
+        }
+
     }
 
     getDetail(id: any, exportPdf: boolean) {
@@ -82,6 +94,25 @@ export class KalkulasiSettingStokOpnameComponent implements OnInit {
                 } else {
                     setTimeout(() => {
                         this._utilityService.exportToPdf('printKalkulasiStokOpname', `Kalkulasi Stok Opname - ${this.Data.nomor_stok_opname} - ${new Date().getTime()}`);
+                    }, 500);
+                }
+            })
+    }
+
+    getFinalisasi(id: any, exportPdf: boolean) {
+        this._settingStokOpnameService
+            .print_finalisasi(id)
+            .subscribe((result) => {
+                this.Data = result.data;
+                this.GridProps.dataSource = result.data.detail;
+
+                if (!exportPdf) {
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        this._utilityService.exportToPdf('printKalkulasiStokOpname', `Finalisasi Stok Opname - ${this.Data.nomor_stok_opname} - ${new Date().getTime()}`);
                     }, 500);
                 }
             })
