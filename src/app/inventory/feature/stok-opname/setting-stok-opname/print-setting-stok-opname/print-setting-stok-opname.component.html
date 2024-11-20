@@ -1,0 +1,52 @@
+<div *ngIf="Data" id="printKalkulasiStokOpname" class="grid p-5 gap-0">
+    <div class="flex flex-col gap-0 mb-3">
+        <p class="text-lg font-semibold text-center">
+            Setting Stok Opname
+        </p>
+
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Lokasi
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ UserData.lokasi.nama_lokasi }} - {{ Data.warehouse }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Faktur PO -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    No. Faktur
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.nomor_stok_opname }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tanggal PO -->
+        <div class="flex w-full gap-2">
+            <div class="w-3/12">
+                <p class="text-xs text-gray-700">
+                    Tgl. Setting Stok Opname
+                </p>
+            </div>
+            <div class="w-9/12">
+                <p class="text-xs text-gray-700">
+                    : {{ Data.tanggal_setting_stok_opname }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid mb-1">
+        <app-print-out-grid [props]="GridProps"></app-print-out-grid>
+    </div>
+</div>

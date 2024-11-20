@@ -35,6 +35,7 @@ import { FormsModule } from "@angular/forms";
 import { PrintMutasiMasukComponent } from './feature/mutasi-masuk/print-mutasi-masuk/print-mutasi-masuk.component';
 import { PrintMutasiWarehouseComponent } from './feature/mutasi-warehouse/print-mutasi-warehouse/print-mutasi-warehouse.component';
 import { PrintRepackingComponent } from './feature/repacking/print-repacking/print-repacking.component';
+import { PrintSettingStokOpnameComponent } from './feature/stok-opname/setting-stok-opname/print-setting-stok-opname/print-setting-stok-opname.component';
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import { PrintRepackingComponent } from './feature/repacking/print-repacking/pri
         PrintMutasiMasukComponent,
         PrintMutasiWarehouseComponent,
         PrintRepackingComponent,
+        PrintSettingStokOpnameComponent,
     ],
     imports: [
         FormsModule,

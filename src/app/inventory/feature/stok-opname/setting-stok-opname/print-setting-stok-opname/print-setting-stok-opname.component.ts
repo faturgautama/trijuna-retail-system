@@ -1,15 +1,18 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
 import { SettingStokOpnameService } from 'src/app/@core/service/inventory/stok-opname/setting-stok-opname.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { PrintOutGridModel } from 'src/app/@shared/models/components/print-out-grid.model';
 
 @Component({
-    selector: 'app-kalkulasi-setting-stok-opname',
-    templateUrl: './kalkulasi-setting-stok-opname.component.html',
-    styleUrls: ['./kalkulasi-setting-stok-opname.component.scss']
+    selector: 'app-print-setting-stok-opname',
+    templateUrl: './print-setting-stok-opname.component.html',
+    styleUrls: ['./print-setting-stok-opname.component.scss']
 })
-export class KalkulasiSettingStokOpnameComponent implements OnInit {
+export class PrintSettingStokOpnameComponent implements OnInit {
+
+    UserData: any = this._authenticationService.userData;
 
     Data: any;
 
@@ -26,6 +29,7 @@ export class KalkulasiSettingStokOpnameComponent implements OnInit {
         private _router: Router,
         public _utilityService: UtilityService,
         private _activatedRoute: ActivatedRoute,
+        private _authenticationService: AuthenticationService,
         private _settingStokOpnameService: SettingStokOpnameService
     ) {
         this.GridProps = {
@@ -34,17 +38,8 @@ export class KalkulasiSettingStokOpnameComponent implements OnInit {
                 { field: 'kode_barang', headerName: 'Kode Barang', },
                 { field: 'barcode', headerName: 'Barcode', },
                 { field: 'nama_barang', headerName: 'Nama Barang', },
+                { field: 'kode_satuan', headerName: 'Satuan', },
                 { field: 'qty_fisik', headerName: 'Qty Fisik', class: 'text-end', format: 'number' },
-                { field: 'qty_capture', headerName: 'Qty Capture', class: 'text-end', format: 'number' },
-                { field: 'qty_selisih', headerName: 'Qty Selisih', class: 'text-end', format: 'number' },
-                { field: 'hpp_average', headerName: 'HPP Average', class: 'text-end', format: 'number' },
-                { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'number' },
-                { field: 'sub_total_fisik_harga_jual', headerName: 'Total Fisik Harga Jual', class: 'text-end', format: 'number' },
-                { field: 'sub_total_capture_harga_jual', headerName: 'Total Capture Harga Jual', class: 'text-end', format: 'number' },
-                { field: 'sub_total_selisih_harga_jual', headerName: 'Total Selisih Harga Jual', class: 'text-end', format: 'number' },
-                { field: 'sub_total_fisik_hpp_average', headerName: 'Total Fisik HPP', class: 'text-end', format: 'number' },
-                { field: 'sub_total_capture_hpp_average', headerName: 'Total Capture HPP', class: 'text-end', format: 'number' },
-                { field: 'sub_total_selisih_hpp_average', headerName: 'Total Selisih HPP', class: 'text-end', format: 'number' },
             ],
             dataSource: [],
             height: "100%",
@@ -81,11 +76,10 @@ export class KalkulasiSettingStokOpnameComponent implements OnInit {
                     }, 1500);
                 } else {
                     setTimeout(() => {
-                        this._utilityService.exportToPdf('printKalkulasiStokOpname', `Kalkulasi Stok Opname - ${this.Data.nomor_stok_opname} - ${new Date().getTime()}`);
+                        this._utilityService.exportToPdf('printKalkulasiStokOpname', `Setting Stok Opname - ${this.Data.nomor_stok_opname} - ${new Date().getTime()}`);
                     }, 500);
                 }
             })
     }
-
 
 }

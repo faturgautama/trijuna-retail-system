@@ -35,7 +35,7 @@ export class HistorySettingStokOpnameComponent implements OnInit, OnDestroy {
             title: 'History Setting Stok Opname',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
-                // { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
                 // { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
             ],
         };

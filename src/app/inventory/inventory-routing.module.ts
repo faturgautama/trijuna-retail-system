@@ -29,6 +29,7 @@ import { KalkulasiSettingStokOpnameComponent } from "./feature/stok-opname/setti
 import { PrintMutasiMasukComponent } from "./feature/mutasi-masuk/print-mutasi-masuk/print-mutasi-masuk.component";
 import { PrintMutasiWarehouseComponent } from "./feature/mutasi-warehouse/print-mutasi-warehouse/print-mutasi-warehouse.component";
 import { PrintRepackingComponent } from "./feature/repacking/print-repacking/print-repacking.component";
+import { PrintSettingStokOpnameComponent } from "./feature/stok-opname/setting-stok-opname/print-setting-stok-opname/print-setting-stok-opname.component";
 
 const routes: Routes = [
     {
@@ -140,6 +141,9 @@ const routes: Routes = [
             },
             {
                 path: 'detail/:id', component: DetailSettingStokOpnameComponent,
+            },
+            {
+                path: 'print/:id', component: PrintSettingStokOpnameComponent,
             },
             {
                 path: 'kalkulasi/:id', component: KalkulasiSettingStokOpnameComponent,

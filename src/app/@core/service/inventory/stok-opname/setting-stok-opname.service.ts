@@ -32,4 +32,8 @@ export class SettingStokOpnameService {
     finalisasi(payload: any): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/setting_stok_opname/finalisasi`, payload);
     }
+
+    print_finalisasi(id_setting_stok_opname: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/setting_stok_opname/cetak_finalisasi/${id_setting_stok_opname}`);
+    }
 }
