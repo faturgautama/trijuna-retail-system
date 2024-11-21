@@ -87,14 +87,14 @@ export class InputProduksiAssemblyComponent implements OnInit {
                             selectedValue: 'id_barang',
                             url: `${environment.endpoint}/produksi/lookup_barang`,
                             callback: (args: any) => {
-                                const qyt_urai = args.qty_urai ? parseFloat(args.qty_urai) : 0,
+                                const qty_komponen = args.qty_komponen ? parseFloat(args.qty_komponen) : 0,
                                     hpp_average = args.hpp_average ? parseFloat(args.hpp_average) : 0;
 
                                 const qty_produksi = this.CustomForm.CustomForms.get('qty_produksi')?.value;
 
-                                this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(qyt_urai * qty_produksi);
+                                this.FormDialog.CustomForm.CustomForms.get('qty')?.setValue(qty_komponen * qty_produksi);
                                 this.FormDialog.CustomForm.CustomForms.get('hpp_average')?.setValue(hpp_average);
-                                this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue((qyt_urai * qty_produksi) * hpp_average);
+                                this.FormDialog.CustomForm.CustomForms.get('sub_total')?.setValue((qty_komponen * qty_produksi) * hpp_average);
                             }
                         },
                         lookup_set_value_field: ['kode_barang', 'barcode', 'nama_barang', 'kode_satuan'],
