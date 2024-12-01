@@ -55,12 +55,13 @@ export class SettingPromoHadiahComponent implements OnInit {
                 { field: 'keterangan', headerName: 'KETERANGAN', width: 250, sortable: true, resizable: true, },
                 { field: 'tanggal_mulai', headerName: 'TGL. MULAI', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
                 { field: 'tanggal_berakhir', headerName: 'TGL. BERAKHIR', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
+                { field: 'is_tampil_pos', headerName: 'IS TAMPIL POS', width: 150, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
                 { field: 'is_active', headerName: 'IS ACTIVE', width: 150, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.IconBoolean(e.value) } },
                 { field: 'created_at', headerName: 'WAKTU INPUT', width: 250, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value) } },
             ],
             dataSource: [],
             height: "calc(100vh - 22rem)",
-            showPaging: false,
+            showPaging: true,
         };
 
         this.FormDialogProps = {
@@ -171,6 +172,20 @@ export class SettingPromoHadiahComponent implements OnInit {
                         required: false,
                     },
                     {
+                        id: 'is_tampil_pos',
+                        label: 'Is Tampil POS',
+                        status: 'insert',
+                        type: 'radio',
+                        radio_props: [
+                            { id: 'is_tampil_pos_true', name: 'Ya', value: true },
+                            { id: 'is_tampil_pos_false', name: 'Tidak', value: false },
+                        ],
+                        required: false,
+                        value: true,
+                        radio_initial_value: true,
+                        validator: 'Is Tampil POS Tidak Boleh Kosong',
+                    },
+                    {
                         id: 'is_active',
                         label: 'Is Active',
                         status: 'insert',
@@ -184,7 +199,7 @@ export class SettingPromoHadiahComponent implements OnInit {
                         validator: 'Is Active Tidak Boleh Kosong',
                     },
                 ],
-                custom_class: 'grid-rows-5 grid-cols-2'
+                custom_class: 'grid-rows-6 grid-cols-2'
             },
             width: '75vw'
         }
@@ -199,6 +214,10 @@ export class SettingPromoHadiahComponent implements OnInit {
             case 'add':
                 this.FormDialogProps.type = 'add';
                 this.FormDialog.onOpenFormDialog();
+
+                setTimeout(() => {
+                    this.FormDialog.CustomForm.CustomForms.get('is_tampil_pos')?.setValue(true);
+                }, 500);
                 break;
             default:
                 break;
