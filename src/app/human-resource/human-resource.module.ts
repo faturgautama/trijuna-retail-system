@@ -8,12 +8,14 @@ import { HumanResourceRoutingModule } from "./human-resource-routing.module";
 import { SetupKaryawanComponent } from './feature/setup-karyawan/setup-karyawan.component';
 import { SetupDepartemenComponent } from './feature/setup-departemen/setup-departemen.component';
 import { AbsensiComponent } from './feature/absensi/absensi.component';
+import { PrintAbsensiComponent } from './feature/print-absensi/print-absensi.component';
 
 @NgModule({
     declarations: [
         SetupKaryawanComponent,
         SetupDepartemenComponent,
-        AbsensiComponent
+        AbsensiComponent,
+        PrintAbsensiComponent
     ],
     imports: [
         CommonModule,

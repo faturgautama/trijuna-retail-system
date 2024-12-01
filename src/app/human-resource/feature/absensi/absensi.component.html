@@ -16,7 +16,16 @@
             </p-calendar>
         </div>
 
-        <p-button styleClass="p-button-sm p-button-info" (onClick)="getAll(StartDate, EndDate)">Cari</p-button>
+        <div class="w-2/12">
+            <p-dropdown [options]="KaryawanDatasource" optionLabel="name" optionValue="value" [showClear]="true"
+                styleClass="p-inputtext-sm w-full" [filter]="true" appendTo="body" placeholder="Pilih Karyawan"
+                [(ngModel)]="Karyawan">
+            </p-dropdown>
+        </div>
+
+        <p-button styleClass="p-button-sm p-button-info" (onClick)="getAll(StartDate, EndDate, Karyawan)">
+            Cari
+        </p-button>
     </div>
 
     <div class="grid">

@@ -12,8 +12,15 @@ export class AbsensiService {
         private _httpRequestService: HttpRequestService,
     ) { }
 
-    getAll(start: string, end: string): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/absen/${start}/${end}`);
+    getAll(start: string, end: string, id_karyawan?: string): Observable<any> {
+        const withKaryawan = this._httpRequestService.getRequest(`${environment.endpoint}/absen/${start}/${end}/${id_karyawan}`);
+        const withoutKaryawan = this._httpRequestService.getRequest(`${environment.endpoint}/absen/${start}/${end}`);
+
+        if (id_karyawan) {
+            return withKaryawan;
+        } else {
+            return withoutKaryawan;
+        }
     }
 
     save(payload: any): Observable<any> {

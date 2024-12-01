@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { AbsensiService } from 'src/app/@core/service/human-resource/absensi/absensi.service';
@@ -27,8 +28,13 @@ export class AbsensiComponent implements OnInit {
 
     EndDate: any = new Date();
 
+    KaryawanDatasource: any[] = [];
+
+    Karyawan: any = null;
+
     constructor(
         private _store: Store,
+        private _router: Router,
         private _utilityService: UtilityService,
         private _messageService: MessageService,
         private _absensiService: AbsensiService,
@@ -39,6 +45,7 @@ export class AbsensiComponent implements OnInit {
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
                 { id: 'export_excel', caption: 'Excel', icon: 'pi pi-file-excel text-xs' },
+                { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
             ],
         };
 
@@ -95,19 +102,25 @@ export class AbsensiComponent implements OnInit {
                     this.FormDialogProps.form_props.fields[indexGroup].select_props = result.data.map((item: any) => {
                         return { name: item.nama_karyawan, value: item.kode_karyawan }
                     });
+
+                    this.KaryawanDatasource = result.data.map((item: any) => {
+                        return { name: item.nama_karyawan, value: item.id_karyawan }
+                    });
                 }
             })
     }
 
     handleClickButtonNav(args: string): void {
+        const startDate = this._utilityService.FormatDate(new Date(this.StartDate), 'yyyy-MM-DD'),
+            endDate = this._utilityService.FormatDate(new Date(this.EndDate), 'yyyy-MM-DD');
+
         switch (args) {
             case 'add':
                 this.FormDialogProps.type = 'add';
                 this.FormDialog.onOpenFormDialog();
                 break;
             case 'export_excel':
-                const startDate = this._utilityService.FormatDate(new Date(this.StartDate), 'yyyy-MM-DD'),
-                    endDate = this._utilityService.FormatDate(new Date(this.EndDate), 'yyyy-MM-DD');
+
 
                 const dataSource = this.GridProps.dataSource.map((item) => {
                     return {
@@ -122,18 +135,21 @@ export class AbsensiComponent implements OnInit {
 
                 this._utilityService.exportToExcel({ worksheetName: `Absensi Karyawan ${startDate} s.d ${endDate}`, dataSource: dataSource })
                 break;
+            case 'export_pdf':
+                this._router.navigate([`human-resource/absensi/export-pdf/${startDate}/${endDate}/${this.Karyawan}`]);
+                break;
             default:
                 break;
         }
     }
 
-    getAll(start: any, end: any): void {
+    getAll(start: any, end: any, karyawan?: any): void {
         const startDate = this._utilityService.FormatDate(new Date(start), 'yyyy-MM-DD'),
             endDate = this._utilityService.FormatDate(new Date(end), 'yyyy-MM-DD');
 
 
         this._absensiService
-            .getAll(startDate, endDate)
+            .getAll(startDate, endDate, karyawan)
             .subscribe((result) => {
                 if (result.success) {
                     this.GridProps.dataSource = result.data.data;
@@ -153,7 +169,7 @@ export class AbsensiComponent implements OnInit {
                     const startDate = this._utilityService.FormatDate(new Date(this.StartDate), 'yyyy-MM-DD'),
                         endDate = this._utilityService.FormatDate(new Date(this.EndDate), 'yyyy-MM-DD');
 
-                    this.getAll(startDate, endDate);
+                    this.getAll(startDate, endDate, this.Karyawan);
                 }
             })
     }
