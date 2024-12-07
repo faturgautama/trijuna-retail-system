@@ -240,7 +240,8 @@ export class InputFakturPajakPembelianComponent implements OnInit {
                 "no_seri": formValue.no_seri,
                 "tanggal_faktur_pajak": this._utilityService.FormatDate(formValue.tanggal_faktur_pajak, 'yyyy-MM-DD HH:mm:ss'),
                 "nama_ttd_faktur": formValue.nama_ttd_faktur,
-                "keterangan": formValue.keterangan
+                "keterangan": formValue.keterangan,
+                "is_retur": false
             };
 
             this._fakturPajakPembelianService

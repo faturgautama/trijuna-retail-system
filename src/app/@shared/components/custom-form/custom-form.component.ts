@@ -32,7 +32,8 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         if (this.props.custom_class) {
-            this.FormsLayoutClass = `${this.props.custom_class} grid-flow-col`
+            const if_form_faktur_pajak_retur = this.props.id == 'form_faktur_pajak_retur';
+            this.FormsLayoutClass = `${this.props.custom_class} ${if_form_faktur_pajak_retur ? '' : 'grid-flow-col'}`
         } else {
             this.FormsLayoutClass = `grid-rows-${Math.floor(this.props.fields.length / 2) < 7 ? 7 : Math.floor(this.props.fields.length / 2)} grid-flow-col`
         }
