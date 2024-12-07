@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FakturPajakPembelianService } from 'src/app/@core/service/finance/faktur-pajak-pembelian/faktur-pajak-pembelian.service';
-import { PelunasanHutangSupplierService } from 'src/app/@core/service/finance/pelunasan-hutang-supplier/pelunasan-hutang-supplier.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
 import { FilterModel } from 'src/app/@shared/models/components/filter.model';
@@ -96,6 +95,7 @@ export class HistoryFakturPajakPembelianComponent implements OnInit {
 
         this.GridProps = {
             column: [
+                { field: 'is_retur', headerName: 'IS RETUR', width: 150, sortable: true, resizable: true, cellClass: 'text-center', cellRenderer: (e: any) => { return e.value ? '<i class="pi pi-check text-green-500"></i>' : '<i class="pi pi-times text-red-500"></i>' } },
                 { field: 'nomor_penerimaan', headerName: 'NO. PENERIMAAN', width: 170, sortable: true, resizable: true },
                 { field: 'tanggal_nota', headerName: 'TGL. NOTA', width: 150, sortable: true, resizable: true },
                 { field: 'kode_supplier', headerName: 'KODE SUPPLIER', width: 150, sortable: true, resizable: true },
