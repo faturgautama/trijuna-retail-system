@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/@core/service/authentication/authentication.service';
@@ -38,7 +39,7 @@ export class PrintAbsensiComponent implements OnInit {
         private _authenticationService: AuthenticationService,
     ) {
         this.GridProps = {
-            id: 'print-out-master-barang',
+            id: 'print-out-absensi',
             column: [
                 { field: 'nama_karyawan', headerName: 'Nama Pegawai', width: '25%' },
                 { field: 'tanggal', headerName: 'Tanggal', width: '15%' },
@@ -71,20 +72,25 @@ export class PrintAbsensiComponent implements OnInit {
             .getAll(start, end, id_karyawan)
             .subscribe((result) => {
                 this.Data = result.data.data.length ? result.data.data[0] : null;
+                this.GridProps.dataSource = result.data.data.map((item: any) => {
+                    return {
+                        ...item,
+                        masuk1: item.masuk1 ? item.masuk1.split(" ")[1] : '-',
+                        masuk2: item.masuk2 ? item.masuk2.split(" ")[1] : '-',
+                        keluar1: item.keluar1 ? item.keluar1.split(" ")[1] : '-',
+                        keluar2: item.keluar2 ? item.keluar2.split(" ")[1] : '-',
+                    }
+                });
 
-                console.log("data =>", this.Data);
-
-                this.GridProps.dataSource = result.data.data;
-
-                if (!exportPdf) {
-                    setTimeout(() => {
-                        window.print();
-                    }, 1500);
-                } else {
-                    setTimeout(() => {
-                        this._utilityService.exportToPdf('printMutasiKeluar', `Absensi - ${this.Data.nama_karyawan} - ${this.StartDate} s/d ${this.EndDate}`);
-                    }, 500);
-                }
+                // if (!exportPdf) {
+                //     setTimeout(() => {
+                //         window.print();
+                //     }, 1500);
+                // } else {
+                //     setTimeout(() => {
+                //         this._utilityService.exportToPdf('printMutasiKeluar', `Absensi - ${this.Data.nama_karyawan} - ${this.StartDate} s/d ${this.EndDate}`);
+                //     }, 500);
+                // }
             })
     }
 
