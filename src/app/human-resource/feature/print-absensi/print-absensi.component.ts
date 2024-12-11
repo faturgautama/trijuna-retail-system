@@ -41,12 +41,13 @@ export class PrintAbsensiComponent implements OnInit {
         this.GridProps = {
             id: 'print-out-absensi',
             column: [
+                { field: 'no_urut', headerName: 'No.', width: '5%' },
                 { field: 'nama_karyawan', headerName: 'Nama Pegawai', width: '25%' },
-                { field: 'tanggal', headerName: 'Tanggal', width: '15%' },
-                { field: 'masuk1', headerName: 'Jam Masuk 1', width: '15%' },
-                { field: 'keluar1', headerName: 'Jam Keluar 1', width: '15%' },
-                { field: 'masuk2', headerName: 'Jam Masuk 2', width: '15%' },
-                { field: 'keluar2', headerName: 'Jam Keluar 2', width: '15%' },
+                { field: 'tanggal', headerName: 'Tanggal', width: '14%' },
+                { field: 'masuk1', headerName: 'Jam Masuk 1', width: '14%' },
+                { field: 'keluar1', headerName: 'Jam Keluar 1', width: '14%' },
+                { field: 'masuk2', headerName: 'Jam Masuk 2', width: '14%' },
+                { field: 'keluar2', headerName: 'Jam Keluar 2', width: '14%' },
             ],
             dataSource: [],
             height: "100%",
@@ -72,9 +73,10 @@ export class PrintAbsensiComponent implements OnInit {
             .getAll(start, end, id_karyawan)
             .subscribe((result) => {
                 this.Data = result.data.data.length ? result.data.data[0] : null;
-                this.GridProps.dataSource = result.data.data.map((item: any) => {
+                this.GridProps.dataSource = result.data.data.map((item: any, index: number) => {
                     return {
                         ...item,
+                        no_urut: index + 1,
                         masuk1: item.masuk1 ? item.masuk1.split(" ")[1] : '-',
                         masuk2: item.masuk2 ? item.masuk2.split(" ")[1] : '-',
                         keluar1: item.keluar1 ? item.keluar1.split(" ")[1] : '-',
@@ -82,15 +84,15 @@ export class PrintAbsensiComponent implements OnInit {
                     }
                 });
 
-                // if (!exportPdf) {
-                //     setTimeout(() => {
-                //         window.print();
-                //     }, 1500);
-                // } else {
-                //     setTimeout(() => {
-                //         this._utilityService.exportToPdf('printMutasiKeluar', `Absensi - ${this.Data.nama_karyawan} - ${this.StartDate} s/d ${this.EndDate}`);
-                //     }, 500);
-                // }
+                if (!exportPdf) {
+                    setTimeout(() => {
+                        window.print();
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        this._utilityService.exportToPdf('printMutasiKeluar', `Absensi - ${this.Data.nama_karyawan} - ${this.StartDate} s/d ${this.EndDate}`);
+                    }, 500);
+                }
             })
     }
 

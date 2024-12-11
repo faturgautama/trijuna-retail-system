@@ -72,12 +72,11 @@ export class AbsensiComponent implements OnInit {
                 fields: [
                     {
                         id: 'kode_karyawan',
-                        label: 'Karyawan',
+                        label: 'Kode Karyawan',
                         status: 'insert',
-                        type: 'select',
+                        type: 'string',
                         required: true,
                         validator: 'Karyawan Tidak Boleh Kosong',
-                        select_props: []
                     },
                 ],
                 custom_class: 'grid-rows-1'
@@ -120,8 +119,6 @@ export class AbsensiComponent implements OnInit {
                 this.FormDialog.onOpenFormDialog();
                 break;
             case 'export_excel':
-
-
                 const dataSource = this.GridProps.dataSource.map((item) => {
                     return {
                         tanggal: item.tanggal,

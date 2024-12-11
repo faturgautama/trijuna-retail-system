@@ -182,6 +182,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                         label: 'Qty',
                         status: 'insert',
                         type: 'numeric',
+                        numeric_mode: 'decimal',
                         required: true,
                         numeric_callback: (data) => {
                             this.handleChangeQty(data);

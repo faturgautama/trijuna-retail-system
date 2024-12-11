@@ -4,7 +4,7 @@
         <ng-template pTemplate="header" let-columns>
             <tr class="bg-gray-100">
                 <th *ngFor="let col of columns"
-                    class="{{ props.id == 'print-out-absensi' ? 'text-sm' : 'text-xs'}} text-center">
+                    class="{{ props.id == 'print-out-absensi' ? 'text-base' : 'text-xs'}} text-center">
                     {{ col.headerName }}
                 </th>
             </tr>
@@ -12,7 +12,7 @@
         <ng-template *ngIf="props.dataSource" pTemplate="body" let-rowData let-columns="columns">
             <tr [pSelectableRow]="rowData">
                 <td *ngFor="let col of columns; let i = index"
-                    class="{{ props.id == 'print-out-absensi' ? 'text-sm' : 'text-xs'}} {{ col.class }} p-1"
+                    class="{{ props.id == 'print-out-absensi' ? 'text-base' : 'text-xs'}} {{ col.class }} p-1"
                     [style.width]="col.width">
                     <span *ngIf="col.renderAsCheckbox && !col.renderAsPills">
                         <i class="pi {{ rowData[col.field] ? 'pi-check' : 'pi-times' }}"></i>
