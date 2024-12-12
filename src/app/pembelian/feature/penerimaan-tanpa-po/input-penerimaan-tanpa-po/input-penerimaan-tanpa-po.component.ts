@@ -154,6 +154,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                         label: 'Banyak',
                         status: 'insert',
                         type: 'numeric',
+                        numeric_mode: 'decimal',
                         required: true,
                         numeric_callback: (data) => {
                             this.handleChangeBanyak(data);
@@ -180,7 +181,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     {
                         id: 'qty',
                         label: 'Qty',
-                        status: 'insert',
+                        status: 'readonly',
                         type: 'numeric',
                         numeric_mode: 'decimal',
                         required: true,
@@ -493,7 +494,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                 { field: 'nama_barang', headerName: 'NAMA BARANG', width: 350, sortable: true, resizable: true },
                 { field: 'barcode', headerName: 'BARCODE', width: 150, sortable: true, resizable: true },
                 {
-                    field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true,
                     editable: true,
                     valueGetter: params => { return params.data.banyak },
                     valueSetter: params => {
