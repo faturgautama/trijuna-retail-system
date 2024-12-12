@@ -188,6 +188,7 @@ export class InputPemesananPoComponent implements OnInit {
                         label: 'Banyak',
                         status: 'insert',
                         type: 'numeric',
+                        numeric_mode: 'decimal',
                         required: true,
                         numeric_callback: (data) => {
                             this.handleChangeBanyak(data);
@@ -222,7 +223,7 @@ export class InputPemesananPoComponent implements OnInit {
                     {
                         id: 'qty',
                         label: 'Qty',
-                        status: 'insert',
+                        status: 'readonly',
                         type: 'numeric',
                         numeric_mode: 'decimal',
                         required: true,
@@ -417,6 +418,7 @@ export class InputPemesananPoComponent implements OnInit {
                     id: 'qty',
                     label: 'Jumlah Item',
                     status: 'readonly',
+                    numeric_mode: 'decimal',
                     type: 'numeric',
                     required: true,
                 },
@@ -474,6 +476,7 @@ export class InputPemesananPoComponent implements OnInit {
                     id: 'total_transaksi',
                     label: 'Grand Total',
                     status: 'readonly',
+                    numeric_mode: 'decimal',
                     type: 'numeric',
                     required: true,
                 },
@@ -507,7 +510,7 @@ export class InputPemesananPoComponent implements OnInit {
                 },
                 { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 {
-                    field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e },
+                    field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true
                 },
                 {
                     field: 'harga_order', headerName: 'HARGA ORDER', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e },
