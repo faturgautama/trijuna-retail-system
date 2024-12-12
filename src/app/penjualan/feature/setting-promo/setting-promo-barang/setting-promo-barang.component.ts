@@ -35,6 +35,7 @@ export class SettingPromoBarangComponent implements OnInit {
         this.DashboardProps = {
             title: 'Setting Promo Bonus Barang',
             button_navigation: [
+                { id: 'delete', caption: 'Delete', icon: 'pi pi-trash text-xs' },
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' }
             ],
         };
@@ -235,6 +236,19 @@ export class SettingPromoBarangComponent implements OnInit {
                 setTimeout(() => {
                     this.FormDialog.CustomForm.CustomForms.get('is_tampil_pos')?.setValue(true);
                 }, 500);
+                break;
+            case 'delete':
+                this._settingPromoBonusBarangService
+                    .delete(this.SelectedData.id_promo_bonus)
+                    .subscribe((result) => {
+                        if (result.success) {
+                            this._messageService.clear();
+                            this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dihapus' });
+                            this.SettingBarangComps.GridProps.dataSource = [];
+                            this.SelectedData = null as any;
+                            this.getAll();
+                        }
+                    });
                 break;
             default:
                 break;

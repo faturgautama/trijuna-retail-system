@@ -21,6 +21,6 @@ export class SettingPromoDiskonBarangService {
     }
 
     delete(id_promo_diskon_setting_barang: number): Observable<any> {
-        return this._httpRequestService.deleteRequest(`${environment.endpoint}/ms_promo_diskon_setting_barang_by_id_promo_diskon/${id_promo_diskon_setting_barang}`);
+        return this._httpRequestService.deleteRequest(`${environment.endpoint}/ms_promo_diskon_setting_barang/${id_promo_diskon_setting_barang}`);
     }
 }
