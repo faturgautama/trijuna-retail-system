@@ -161,7 +161,10 @@ export class AbsensiComponent implements OnInit {
                 if (result.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
-                    this.FormDialog.onCloseFormDialog();
+
+                    this.FormDialog.CustomForm.CustomForms.get('kode_karyawan')?.setValue(null);
+
+                    // this.FormDialog.onCloseFormDialog();
 
                     const startDate = this._utilityService.FormatDate(new Date(this.StartDate), 'yyyy-MM-DD'),
                         endDate = this._utilityService.FormatDate(new Date(this.EndDate), 'yyyy-MM-DD');
