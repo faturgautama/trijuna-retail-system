@@ -22,6 +22,7 @@ import { PrintTitipTagihanComponent } from './feature/titip-tagihan/print-titip-
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { PrintPelunsanTtComponent } from './feature/pelunasan-hutang-supplier/print-pelunsan-tt/print-pelunsan-tt.component';
 import { InputTextModule } from "primeng/inputtext";
+import { PrintFakturPajakPembelianComponent } from './feature/faktur-pajak-pembelian/print-faktur-pajak-pembelian/print-faktur-pajak-pembelian.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { InputTextModule } from "primeng/inputtext";
         DetailFakturPajakPembelianComponent,
         PrintTitipTagihanComponent,
         PrintPelunsanTtComponent,
+        PrintFakturPajakPembelianComponent,
     ],
     imports: [
         CommonModule,

@@ -30,7 +30,7 @@ export class HistoryFakturPajakPembelianComponent implements OnInit {
             title: 'History Faktur Pajak Pembelian',
             button_navigation: [
                 { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
-                // { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 

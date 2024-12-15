@@ -14,6 +14,7 @@ import { InputFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembe
 import { DetailFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/detail-faktur-pajak-pembelian/detail-faktur-pajak-pembelian.component";
 import { PrintTitipTagihanComponent } from "./feature/titip-tagihan/print-titip-tagihan/print-titip-tagihan.component";
 import { PrintPelunsanTtComponent } from "./feature/pelunasan-hutang-supplier/print-pelunsan-tt/print-pelunsan-tt.component";
+import { PrintFakturPajakPembelianComponent } from "./feature/faktur-pajak-pembelian/print-faktur-pajak-pembelian/print-faktur-pajak-pembelian.component";
 
 const routes: Routes = [
     {
@@ -72,6 +73,9 @@ const routes: Routes = [
             {
                 path: 'detail/:id', component: DetailFakturPajakPembelianComponent,
             },
+            {
+                path: 'print/:id', component: PrintFakturPajakPembelianComponent,
+            }
         ]
     },
 ];
