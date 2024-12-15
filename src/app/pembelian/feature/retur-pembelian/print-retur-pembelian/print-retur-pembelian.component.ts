@@ -62,16 +62,6 @@ export class PrintReturPembelianComponent implements OnInit {
             .subscribe((result) => {
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail;
-
-                let total_harga_satuan = 0;
-
-                result.data.detail.forEach((item: any) => {
-                    item.harga_satuan = parseInt(item.harga_satuan);
-                    total_harga_satuan += item.harga_satuan;
-                });
-
-                this.Data.total_harga_satuan = total_harga_satuan;
-
                 this.getDetailSupplier(this.Data.id_supplier);
             })
     }

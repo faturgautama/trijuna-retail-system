@@ -85,19 +85,19 @@
 
     <!-- Total -->
     <div class="flex flex-row w-full px-3 pb-2 mb-2 border-b border-t-0 border-x-0 border-solid border-gray-700">
-        <div class="w-5/12">
+        <div class="w-7/12">
             <p class="text-xs text-gray-700 text-end">
                 Total
             </p>
         </div>
         <div class="w-2/12">
-            <p class="text-xs text-gray-700 text-end mr-[-6px]">
+            <p class="text-xs text-gray-700 text-end mr-[8px]">
                 {{ _utilityService.FormatNumber(Data.qty, '') }}
             </p>
         </div>
         <div class="w-3/12">
-            <p class="text-xs text-gray-700 text-end pr-8">
-                {{ _utilityService.FormatNumber(Data.total_harga_satuan, 'Rp. ') }}
+            <p class="text-xs text-gray-700 text-end mr-[-10px]">
+                {{ _utilityService.FormatNumber(Data.total_harga, 'Rp. ') }}
             </p>
         </div>
     </div>
