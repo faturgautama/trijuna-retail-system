@@ -17,8 +17,8 @@ export class AssemblyService {
         return this._httpRequestService.postRequest(`${environment.endpoint}/produksi/get_by_param`, { filter: filter });
     }
 
-    getById(id_repacking: number): Observable<any> {
-        return this._httpRequestService.getRequest(`${environment.endpoint}/produksi/get_by_id/${id_repacking}`);
+    getById(id_produksi: number): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/produksi/get_by_id/${id_produksi}`);
     }
 
     getKomponenBarang(id_barang: number): Observable<any> {
@@ -30,6 +30,6 @@ export class AssemblyService {
     }
 
     validasi(payload: any): Observable<any> {
-        return this._httpRequestService.postRequest(`${environment.endpoint}/produksi/validasi`, { id_repacking: payload });
+        return this._httpRequestService.postRequest(`${environment.endpoint}/produksi/validasi`, { id_produksi: payload });
     }
 }
