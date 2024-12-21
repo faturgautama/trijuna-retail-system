@@ -8,23 +8,28 @@ export class CookiesUtils {
     ) { }
 
     setCookie(key: string, data: any): void {
-        this._cookieService.set(key, JSON.stringify(data));
+        // this._cookieService.set(key, JSON.stringify(data));
+        localStorage.setItem(key, JSON.stringify(data));
     }
 
     getCookie(key: string): void {
-        const check = this._cookieService.check(key);
+        // const check = this._cookieService.check(key);
+
+        const check = localStorage.getItem(key);
 
         if (check) {
-            const data = this._cookieService.get(key);
-            return JSON.parse(data);
+            // const data = this._cookieService.get(key);
+            return JSON.parse(localStorage.getItem(key) as any);
         }
     }
 
     deleteCookie(key: string): void {
-        this._cookieService.delete(key);
+        // this._cookieService.delete(key);
+        localStorage.removeItem(key);
     }
 
     deleteAllCookie(): void {
-        this._cookieService.deleteAll();
+        // this._cookieService.deleteAll();
+        localStorage.clear();
     }
 }
