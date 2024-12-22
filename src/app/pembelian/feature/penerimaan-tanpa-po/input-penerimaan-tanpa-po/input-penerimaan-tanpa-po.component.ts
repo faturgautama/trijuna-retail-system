@@ -397,6 +397,17 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     required: true,
                 },
                 {
+                    id: 'potongan',
+                    label: 'Potongan',
+                    status: 'insert',
+                    type: 'numeric',
+                    numeric_mode: 'decimal',
+                    required: true,
+                    numeric_callback: (data) => {
+                        this.onCountFormFooter();
+                    },
+                },
+                {
                     id: 'diskon_persen',
                     label: 'Diskon',
                     status: 'insert',
@@ -435,21 +446,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     type: 'numeric',
                     required: true,
                 },
-                {
-                    id: 'potongan',
-                    label: 'Potongan',
-                    status: 'insert',
-                    type: 'numeric',
-                    numeric_mode: 'decimal',
-                    required: true,
-                    numeric_callback: (data) => {
-                        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
-                            ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
-                            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
 
-                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - data + pembulatan);
-                    },
-                },
                 {
                     id: 'pembulatan',
                     label: 'Pembulatan',
@@ -458,11 +455,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
                     numeric_mode: 'decimal',
                     required: true,
                     numeric_callback: (data) => {
-                        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
-                            ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
-                            potongan = this.CustomFormFooter.handleGetFieldValue('potongan');
-
-                        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + ppn_nominal - potongan + data);
+                        this.onCountFormFooter();
                     },
                 },
                 {
@@ -761,11 +754,7 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
             this.CustomFormFooter.handleSetFieldValue('ppn_nominal', 0);
         };
 
-        const subtotal2 = this.CustomFormFooter.handleGetFieldValue('sub_total2'),
-            potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
-            pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
-
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', subtotal2 + args.value - potongan + pembulatan);
+        this.onCountFormFooter();
     }
 
     onCellFinishEditing(args: any[]): void {
@@ -799,7 +788,8 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
     }
 
     handleChangeDiskonFooter(value: number): void {
-        const diskonNominalFooter = this.CustomFormFooter.handleGetFieldValue('sub_total1') * (value / 100);
+        const potongan = this.CustomFormFooter.handleGetFieldValue('potongan');
+        const diskonNominalFooter = (this.CustomFormFooter.handleGetFieldValue('sub_total1') - potongan) * (value / 100);
         this.CustomFormFooter.handleSetFieldValue('diskon_nominal', diskonNominalFooter);
         this.onCountFormFooter();
     }
@@ -819,17 +809,19 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
             this.CustomFormFooter.handleSetFieldValue('total_biaya_barcode', biaya_barcode);
         });
 
-        this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
+        const potongan = this.CustomFormFooter.handleGetFieldValue('potongan');
+        this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - potongan - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
 
         if (this.is_ppn) {
             this.CustomFormFooter.handleSetFieldValue('ppn_nominal', this.CustomFormFooter.handleGetFieldValue('sub_total2') * (11 / 100));
         }
 
-        const ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal'),
-            potongan = this.CustomFormFooter.handleGetFieldValue('potongan'),
+        const ppn_nominal = this.CustomFormFooter.handleGetFieldValue('ppn_nominal') ? this.CustomFormFooter.handleGetFieldValue('ppn_nominal') : 0,
             pembulatan = this.CustomFormFooter.handleGetFieldValue('pembulatan');
 
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + ppn_nominal - potongan + pembulatan);
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', this.CustomFormFooter.handleGetFieldValue('sub_total2') + ppn_nominal + pembulatan);
+
+        console.log("Footer =>", this.CustomFormFooter.CustomForms.value);
     }
 
     handleSubmitForm(): void {

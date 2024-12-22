@@ -147,6 +147,17 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     required: true,
                 },
                 {
+                    id: 'potongan',
+                    label: 'Potongan',
+                    status: 'insert',
+                    type: 'numeric',
+                    required: true,
+                    numeric_mode: 'decimal',
+                    numeric_callback: (data) => {
+                        this.onCountFormFooter();
+                    },
+                },
+                {
                     id: 'diskon_persen',
                     label: 'Diskon',
                     status: 'insert',
@@ -189,17 +200,6 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
                     type: 'numeric',
                     numeric_mode: 'decimal',
                     required: true,
-                },
-                {
-                    id: 'potongan',
-                    label: 'Potongan',
-                    status: 'insert',
-                    type: 'numeric',
-                    required: true,
-                    numeric_mode: 'decimal',
-                    numeric_callback: (data) => {
-                        this.onCountFormFooter();
-                    },
                 },
                 {
                     id: 'pembulatan',
@@ -574,19 +574,21 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
     }
 
     handleChangeDiskonFooter(value: number): void {
-        const diskonNominalFooter = parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) * (value / 100);
+        const potongan = this.CustomFormFooter.handleGetFieldValue('potongan');
+        const diskonNominalFooter = (this.CustomFormFooter.handleGetFieldValue('sub_total1') - potongan) * (value / 100);
         this.CustomFormFooter.handleSetFieldValue('diskon_nominal', diskonNominalFooter);
         this.onCountFormFooter();
     }
 
     handleChangeDiskonNominalFooter(value: number): void {
-        const diskonPersenFooter = (value / parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1'))) * 100;
+        const potongan: any = this.CustomFormFooter.handleGetFieldValue('potongan');
+        const diskonPersenFooter = (value / (parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) - potongan)) * 100;
         this.CustomFormFooter.handleSetFieldValue('diskon_persen', diskonPersenFooter);
         this.onCountFormFooter();
     }
 
     onCountFormFooter(): void {
-        this.CustomFormFooter.handleSetFieldValue('sub_total2', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) - parseFloat(this.CustomFormFooter.handleGetFieldValue('diskon_nominal')));
+        this.CustomFormFooter.handleSetFieldValue('sub_total2', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) - parseFloat(this.CustomFormFooter.handleGetFieldValue('potongan')) - parseFloat(this.CustomFormFooter.handleGetFieldValue('diskon_nominal')));
 
         if (this.is_ppn) {
             this.CustomFormFooter.handleSetFieldValue('ppn_nominal', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')) * (11 / 100));
@@ -595,10 +597,9 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
         }
 
         const ppn_nominal = parseFloat(this.CustomFormFooter.handleGetFieldValue('ppn_nominal')),
-            potongan = parseFloat(this.CustomFormFooter.handleGetFieldValue('potongan')),
             pembulatan = parseFloat(this.CustomFormFooter.handleGetFieldValue('pembulatan'));
 
-        this.CustomFormFooter.handleSetFieldValue('total_transaksi', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')) + ppn_nominal - potongan + pembulatan);
+        this.CustomFormFooter.handleSetFieldValue('total_transaksi', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')) + ppn_nominal + pembulatan);
     }
 
     handleSubmitForm(): void {

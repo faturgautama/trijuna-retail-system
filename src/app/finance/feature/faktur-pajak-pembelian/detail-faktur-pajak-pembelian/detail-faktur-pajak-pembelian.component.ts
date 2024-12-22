@@ -29,7 +29,7 @@ export class DetailFakturPajakPembelianComponent implements OnInit {
             title: 'Detail Faktur Pajak Pembelian',
             button_navigation: [
                 { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
-                // { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
             ],
         };
 
@@ -163,5 +163,9 @@ export class DetailFakturPajakPembelianComponent implements OnInit {
         if (args == 'back') {
             this._router.navigate(['finance/faktur-pajak-pembelian/history']);
         };
+
+        if (args == 'print') {
+            this._router.navigate(['finance/faktur-pajak-pembelian/print/', this._activatedRoute.snapshot.params.id]);
+        }
     }
 }
