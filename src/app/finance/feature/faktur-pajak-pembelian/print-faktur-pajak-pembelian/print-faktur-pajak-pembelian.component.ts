@@ -27,11 +27,11 @@ export class PrintFakturPajakPembelianComponent implements OnInit {
 
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event: Event) {
-        // if (this.IsPrintDraft) {
-        //     window.close();
-        // } else {
-        //     window.history.back();
-        // }
+        if (this.IsPrintDraft) {
+            window.close();
+        } else {
+            window.history.back();
+        }
     }
 
     constructor(
@@ -62,9 +62,6 @@ export class PrintFakturPajakPembelianComponent implements OnInit {
         this._fakturPajakPembelianService
             .getById(id)
             .subscribe((result) => {
-                console.log(result);
-                console.log(this.UserData);
-
                 let total_transaksi = 0;
 
                 result.data.detail.forEach((item: any, index: number) => {
@@ -76,6 +73,10 @@ export class PrintFakturPajakPembelianComponent implements OnInit {
                 result.data.total_transaksi = this._utilityService.FormatNumber(total_transaksi, '');
                 this.Data = result.data;
                 this.GridProps.dataSource = result.data.detail;
+
+                setTimeout(() => {
+                    window.print();
+                }, 2000);
             })
     }
 

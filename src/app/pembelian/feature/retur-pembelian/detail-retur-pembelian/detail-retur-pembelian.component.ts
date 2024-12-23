@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
+import { ReturPembelianService } from 'src/app/@core/service/pembelian/retur-pembelian/retur-pembelian.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
@@ -39,6 +40,7 @@ export class DetailReturPembelianComponent implements OnInit, AfterViewInit {
         private _messageService: MessageService,
         private _activatedRoute: ActivatedRoute,
         private _utilityService: UtilityService,
+        private _returPembelianService: ReturPembelianService,
     ) {
         this.DashboardProps = {
             title: 'Detail Retur Pembelian',
@@ -209,9 +211,10 @@ export class DetailReturPembelianComponent implements OnInit, AfterViewInit {
                 this.CustomFormFooter.handleSetFormDefaultValue();
 
                 if (result.status_retur == 'OPEN') {
-                    this.DashboardProps.button_navigation.push({
-                        id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs'
-                    })
+                    this.DashboardProps.button_navigation.push(
+                        { id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs' },
+                        { id: 'cancel', caption: 'Cancel', icon: 'pi pi-times text-xs' },
+                    )
                 }
             })
     }
@@ -223,6 +226,9 @@ export class DetailReturPembelianComponent implements OnInit, AfterViewInit {
                 break;
             case 'validasi':
                 this.handleSubmitForm();
+                break;
+            case 'cancel':
+                this.cancel();
                 break;
             default:
                 break;
@@ -254,6 +260,25 @@ export class DetailReturPembelianComponent implements OnInit, AfterViewInit {
                 if (result.retur_pembelian.entities.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Divalidasi' });
+
+                    this.CustomForm.handleResetForm();
+
+                    setTimeout(() => {
+                        this._router.navigate(['pembelian/retur-pembelian/history']);
+                    }, 1500);
+                }
+            });
+    }
+
+    private cancel(): void {
+        const id_retur_pembelian = this.CustomForm.handleGetFieldValue('id_retur_pembelian');
+
+        this._returPembelianService
+            .cancel(id_retur_pembelian)
+            .subscribe((result: any) => {
+                if (result.success) {
+                    this._messageService.clear();
+                    this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dibatalkan' });
 
                     this.CustomForm.handleResetForm();
 

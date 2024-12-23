@@ -29,4 +29,8 @@ export class ReturPembelianService {
     validasi(id_retur_pembelian: number): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/retur_pembelian/validasi`, { id_retur_pembelian: id_retur_pembelian });
     }
+
+    cancel(id_retur_pembelian: number): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/retur_pembelian/cancel`, { id_retur_pembelian: id_retur_pembelian });
+    }
 }
