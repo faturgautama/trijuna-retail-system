@@ -8,7 +8,9 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 })
 export class MenuService {
 
-    MENU = menu;
+    UserData = JSON.parse(localStorage.getItem("TRSUserData") as any);
+
+    MENU = this.UserData.menu;
 
     NavbarMenu = new BehaviorSubject<MenuItem[]>([]);
 

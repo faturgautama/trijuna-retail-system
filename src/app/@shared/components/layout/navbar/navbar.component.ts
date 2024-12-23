@@ -40,7 +40,8 @@ export class NavbarComponent implements OnInit {
             }
         ];
 
-        this._store.select(state => state.menus)
+        this._store
+            .select(state => state.menus)
             .subscribe((result) => {
                 if (result?.entities && result?.entities.type == 'SET MENU NAVBAR') {
                     this.items = result.entities.payload.data;

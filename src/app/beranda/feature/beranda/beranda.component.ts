@@ -43,7 +43,8 @@ export class BerandaComponent implements OnInit {
     }
 
     getMainMenu(): void {
-        this._store.dispatch(new MenuAction.GetMainMenu())
+        this._store
+            .dispatch(new MenuAction.GetMainMenu())
             .subscribe((result) => {
                 this.MainMenu = result.menus.entities;
             })
