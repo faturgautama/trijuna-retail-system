@@ -1,8 +1,21 @@
 <div id="printPenerimaanDenganPo" class="grid p-5 gap-0">
-    <div class="flex flex-col gap-0 mb-3">
-        <p class="text-lg font-semibold">
-            Faktur Pajak
+    <div class="flex flex-col w-full p-3 border border-solid border-gray-500 gap-0 mb-0">
+        <p class="text-lg font-semibold text-center">
+            NOTA RETUR
         </p>
+        <p class="text-base text-center">
+            Nomor {{ Data.nomor_penerimaan }}
+        </p>
+
+        <div class="flex w-full justify-between">
+            <p class="text-sm text-center">
+                Atas Faktur Pajak Nomor : {{ Data.no_seri }}
+            </p>
+
+            <p class="text-sm text-center">
+                Tanggal : {{ Data.tanggal_faktur_pajak }}
+            </p>
+        </div>
     </div>
 
     <!-- Supplier -->
@@ -34,7 +47,7 @@
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.alamat_supplier }}
+                    : {{ Data.alamat }}
                 </p>
             </div>
         </div>
@@ -48,7 +61,7 @@
             </div>
             <div class="w-9/12">
                 <p class="text-xs text-gray-700">
-                    : {{ Data.npwp_supplier }}
+                    : {{ Data.npwp }}
                 </p>
             </div>
         </div>
@@ -108,7 +121,7 @@
     </div>
 
     <!-- Supplier -->
-    <div class="flex  flex-col p-3 border border-solid border-gray-500 gap-3 mb-3">
+    <div class="flex flex-col p-3 border border-solid border-gray-500 gap-1">
         <!-- NAMA SUPPLIER -->
         <div class="flex w-full gap-2">
             <div class="w-9/12">
@@ -117,8 +130,8 @@
                 </p>
             </div>
             <div class="w-3/12">
-                <p class="text-xs text-gray-700">
-                    : {{ Data.total_transaksi }}
+                <p class="text-xs text-gray-700 text-end">
+                    {{ Data.total_transaksi }}
                 </p>
             </div>
         </div>
@@ -145,8 +158,8 @@
                 </p>
             </div>
             <div class="w-3/12">
-                <p class="text-xs text-gray-700">
-                    : {{ Data.dasar_pengenaan_pajak }}
+                <p class="text-xs text-gray-700 text-end">
+                    {{ Data.dasar_pengenaan_pajak }}
                 </p>
             </div>
         </div>
@@ -159,8 +172,8 @@
                 </p>
             </div>
             <div class="w-3/12">
-                <p class="text-xs text-gray-700">
-                    : {{ Data.ppn }}
+                <p class="text-xs text-gray-700 text-end">
+                    {{ Data.ppn }}
                 </p>
             </div>
         </div>
@@ -173,47 +186,35 @@
                 </p>
             </div>
             <div class="w-3/12">
-                <p class="text-xs text-gray-700">
-                    : {{ Data.dasar_pengenaan_pajak + Data.ppn }}
+                <p class="text-xs text-gray-700 text-end">
+                    {{ Data.dasar_pengenaan_pajak + Data.ppn }}
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="flex flex-row justify-center w-full px-3">
-        <div class="w-8/12 flex flex-col justify-center items-center pr-3">
-            <div class="flex flex-row gap-10">
-                <div class="flex flex-col items-center justify-center gap-20">
-                    <p class="text-xs text-gray-700">
-                        Dibukukan
-                    </p>
+    <div class="flex w-full justify-end p-3 border border-solid border-gray-500">
+        <div class="flex flex-col w-3/12 items-center">
+            <p class="text-xs text-gray-700">
+                Blora, {{ Data.tanggal_nota }}
+            </p>
+            <p class="text-xs text-gray-700 mt-20">
+                ( {{ UserData.lokasi.nama_lokasi }} )
+            </p>
+            <p class="text-xs text-gray-700">
+                ( PIMPINAN )
+            </p>
+        </div>
+    </div>
 
-                    <p class="text-xs text-gray-700">
-                        (_________________)
-                    </p>
-                </div>
-
-                <div class="flex flex-col items-center justify-center gap-20">
-                    <p class="text-xs text-gray-700">
-                        Dikeluarkan Oleh
-                    </p>
-
-                    <p class="text-xs text-gray-700">
-                        (_________________)
-                    </p>
-                </div>
-
-                <div class="flex flex-col items-center justify-center gap-20">
-                    <p class="text-xs text-gray-700">
-                        Diketahui Oleh
-                    </p>
-
-                    <p class="text-xs text-gray-700">
-                        (_________________)
-                    </p>
-                </div>
-            </div>
+    <div class="flex w-full p-3 border border-solid border-gray-500">
+        <div class="flex flex-col w-full">
+            <p class="text-xs text-gray-700">
+                Lembar Ke-1 : Untuk Pengusaha Kena Pajak
+            </p>
+            <p class="text-xs text-gray-700">
+                Lembar Ke-2 : Untuk Pembeli
+            </p>
         </div>
     </div>
 </div>

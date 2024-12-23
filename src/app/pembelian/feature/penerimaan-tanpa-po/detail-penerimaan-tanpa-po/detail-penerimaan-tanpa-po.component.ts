@@ -552,6 +552,9 @@ export class DetailPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
         const header = this.CustomForm.handleSubmitForm();
         header.detail = detail;
         header.keterangan = this.Keterangan.nativeElement.value;
+        header.is_ppn = this.is_ppn;
+        header.is_item_include_ppn = false;
+        header.is_update_harga_order = false;
 
         const footer = this.CustomFormFooter.handleSubmitForm();
         const payload = this._utilityService.JoinTwoObject(header, footer);

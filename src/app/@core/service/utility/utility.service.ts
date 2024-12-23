@@ -33,9 +33,13 @@ export class UtilityService {
         }
     }
 
-    FormatNumber(number: any, prefix?: string): any {
+    FormatNumber(number: any, prefix?: string, isUsingDot?: boolean): any {
         if (number) {
-            return prefix ? prefix + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.00' : number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            if (isUsingDot) {
+                return prefix ? prefix + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '.00' : number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            } else {
+                return prefix ? prefix + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.00' : number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
         } else {
             return number;
         }

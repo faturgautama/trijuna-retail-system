@@ -809,7 +809,10 @@ export class InputPenerimaanTanpaPoComponent implements OnInit, AfterViewInit {
             this.CustomFormFooter.handleSetFieldValue('total_biaya_barcode', biaya_barcode);
         });
 
-        const potongan = this.CustomFormFooter.handleGetFieldValue('potongan');
+        const potongan = (this.CustomFormFooter.handleGetFieldValue('potongan'));
+
+        console.log("potongan =>", potongan);
+
         this.CustomFormFooter.handleSetFieldValue('sub_total2', subtotal1 - potongan - this.CustomFormFooter.handleGetFieldValue('diskon_nominal'));
 
         if (this.is_ppn) {

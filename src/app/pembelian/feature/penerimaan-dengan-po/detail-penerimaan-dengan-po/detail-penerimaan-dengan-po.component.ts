@@ -562,6 +562,8 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
         const footer = this.CustomFormFooter.handleSubmitForm();
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
+        console.log("payload =>", payload);
+
         this._pembelianDenganPoService
             .edit(payload)
             .subscribe((result) => {
@@ -588,7 +590,11 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
     }
 
     onCountFormFooter(): void {
-        this.CustomFormFooter.handleSetFieldValue('sub_total2', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) - parseFloat(this.CustomFormFooter.handleGetFieldValue('potongan')) - parseFloat(this.CustomFormFooter.handleGetFieldValue('diskon_nominal')));
+        const sub_total = this.CustomFormFooter.handleGetFieldValue('sub_total1') ? parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total1')) : 0,
+            potongan = this.CustomFormFooter.handleGetFieldValue('potongan') ? parseFloat(this.CustomFormFooter.handleGetFieldValue('potongan')) : 0,
+            diskon_nominal = this.CustomFormFooter.handleGetFieldValue('diskon_nominal') ? parseFloat(this.CustomFormFooter.handleGetFieldValue('diskon_nominal')) : 0;
+
+        this.CustomFormFooter.handleSetFieldValue('sub_total2', sub_total - potongan - diskon_nominal);
 
         if (this.is_ppn) {
             this.CustomFormFooter.handleSetFieldValue('ppn_nominal', parseFloat(this.CustomFormFooter.handleGetFieldValue('sub_total2')) * (11 / 100));
@@ -610,7 +616,8 @@ export class DetailPenerimaanDenganPoComponent implements OnInit, AfterViewInit 
 
         const payload = this._utilityService.JoinTwoObject(header, footer);
 
-        this._store.dispatch(new PembelianDenganPoAction.Validasi(payload))
+        this._store
+            .dispatch(new PembelianDenganPoAction.Validasi(payload))
             .subscribe((result) => {
                 if (result.pembelian_dengan_po.entities.success) {
                     this._messageService.clear();

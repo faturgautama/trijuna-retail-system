@@ -45,15 +45,10 @@ export class PrintFakturPajakPembelianComponent implements OnInit {
             id: 'print-out-master-barang',
             column: [
                 { field: 'urut', headerName: 'No.', width: '5%' },
-                { field: 'kode_barang', headerName: 'Kode Barang', width: '7%' },
-                { field: 'barcode', headerName: 'Barcode', width: '7%' },
-                { field: 'nama_barang', headerName: 'Nama Barang', width: '28%' },
-                { field: 'qty', headerName: 'Banyak', class: 'text-end', format: 'number', width: '5%' },
-                { field: 'harga_order', headerName: 'Harga Satuan', class: 'text-end', format: 'number', width: '10%' },
-                { field: 'sub_total', headerName: 'Total Harga', class: 'text-end', format: 'number', width: '8%' },
-                { field: 'harga_beli_netto', headerName: 'Hg Beli Netto', class: 'text-end', format: 'number', width: '10%' },
-                { field: 'selisih', headerName: 'Selisih', class: 'text-end', format: 'number', width: '8%' },
-                { field: 'harga_jual', headerName: 'Harga Jual', class: 'text-end', format: 'number', width: '7%' },
+                { field: 'nama_barang', headerName: 'Macam Dan Jenis Barang Kena Pajak', width: '30%' },
+                { field: 'qty', headerName: 'Quantity', class: 'text-end', format: 'number', width: '15%' },
+                { field: 'harga_satuan', headerName: 'Harga Satuan menurut FP (Rp)', class: 'text-end', format: 'number', width: '25%' },
+                { field: 'sub_total', headerName: 'Harga BPK yang dikembalikan', class: 'text-end', format: 'number', width: '25%' },
             ],
             dataSource: [],
             height: "100%",
@@ -69,6 +64,18 @@ export class PrintFakturPajakPembelianComponent implements OnInit {
             .subscribe((result) => {
                 console.log(result);
                 console.log(this.UserData);
+
+                let total_transaksi = 0;
+
+                result.data.detail.forEach((item: any, index: number) => {
+                    item.urut = index + 1;
+                    item.sub_total = parseFloat(item.sub_total);
+                    total_transaksi += item.sub_total;
+                });
+
+                result.data.total_transaksi = this._utilityService.FormatNumber(total_transaksi, '');
+                this.Data = result.data;
+                this.GridProps.dataSource = result.data.detail;
             })
     }
 
