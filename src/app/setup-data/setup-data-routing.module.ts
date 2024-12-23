@@ -23,6 +23,7 @@ import { SetupGroupUserComponent } from "./feature/management-user/setup-group-u
 import { SettingPointMemberComponent } from "./feature/setting-point-member/setting-point-member.component";
 import { CetakLabelHargaBarangComponent } from "./feature/cetak-label-harga-barang/cetak-label-harga-barang.component";
 import { PrintLabelHargaComponent } from "./feature/cetak-label-harga-barang/print-label-harga/print-label-harga.component";
+import { SettingMenuGroupUserComponent } from "./feature/management-user/setting-menu-group-user/setting-menu-group-user.component";
 
 const routes: Routes = [
     {
@@ -97,6 +98,10 @@ const routes: Routes = [
             {
                 path: 'setup-user',
                 component: SetupUserComponent
+            },
+            {
+                path: 'setting-menu',
+                component: SettingMenuGroupUserComponent
             },
         ],
     }

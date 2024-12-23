@@ -97,6 +97,11 @@ export const menu: MenuItem[] = [
                         label: 'Setup User',
                         routerLink: '/setup-data/management-user/setup-user'
                     },
+                    {
+                        id: 'setting-menu',
+                        label: 'Setting Menu',
+                        routerLink: '/setup-data/management-user/setting-menu'
+                    },
                 ]
             },
         ]

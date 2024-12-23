@@ -39,6 +39,8 @@ import { SettingPointMemberComponent } from './feature/setting-point-member/sett
 import { InputTextModule } from "primeng/inputtext";
 import { CetakLabelHargaBarangComponent } from './feature/cetak-label-harga-barang/cetak-label-harga-barang.component';
 import { PrintLabelHargaComponent } from './feature/cetak-label-harga-barang/print-label-harga/print-label-harga.component';
+import { SettingMenuGroupUserComponent } from './feature/management-user/setting-menu-group-user/setting-menu-group-user.component';
+import { OverlayPanelModule } from "primeng/overlaypanel";
 
 @NgModule({
     declarations: [
@@ -71,6 +73,7 @@ import { PrintLabelHargaComponent } from './feature/cetak-label-harga-barang/pri
         SettingPointMemberComponent,
         CetakLabelHargaBarangComponent,
         PrintLabelHargaComponent,
+        SettingMenuGroupUserComponent,
     ],
     imports: [
         CommonModule,
@@ -80,7 +83,8 @@ import { PrintLabelHargaComponent } from './feature/cetak-label-harga-barang/pri
         CalendarModule,
         DropdownModule,
         ButtonModule,
-        InputTextModule
+        InputTextModule,
+        OverlayPanelModule,
     ],
     providers: [
         MessageService,

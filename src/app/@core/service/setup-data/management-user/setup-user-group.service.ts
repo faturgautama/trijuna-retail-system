@@ -31,4 +31,12 @@ export class SetupUserGroupService {
     delete(id_user_group: number): Observable<any> {
         return this._httpRequestService.deleteRequest(`${environment.endpoint}/user_group/${id_user_group}`);
     }
+
+    getMenuByUserGroup(id_user_group: any): Observable<any> {
+        return this._httpRequestService.getRequest(`${environment.endpoint}/user_group_menu/get_menu_by_id_user_group/${id_user_group}`);
+    }
+
+    editAssign(id_group: any, id_menu: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/user_group_menu/assign/`, { id_group, id_menu });
+    }
 }
