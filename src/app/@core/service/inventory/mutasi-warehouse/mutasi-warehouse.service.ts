@@ -47,4 +47,8 @@ export class MutasiWarehouseService {
     validasi(payload: MutasiWarehouseModel.ValidasiMutasiWarehouse): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/mutasi_warehouse/validasi`, payload);
     }
+
+    cancel(id_mutasi_warehouse: number): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/mutasi_warehouse/cancel`, { id_mutasi_warehouse: id_mutasi_warehouse });
+    }
 }

@@ -122,6 +122,10 @@ export class HistoryMutasiWarehouseComponent implements OnInit, OnDestroy {
         if (args == 'export_pdf') {
             this._router.navigate([`inventory/mutasi-warehouse/export-pdf/${this.SelectedData.id_mutasi_warehouse}`]);
         };
+
+        if (args == 'input_ulang') {
+            this._router.navigate([`inventory/mutasi-warehouse/input-ulang/${this.SelectedData.id_mutasi_warehouse}`]);
+        };
     }
 
     handleSearchOffcanvas(args: any): void {
@@ -137,6 +141,28 @@ export class HistoryMutasiWarehouseComponent implements OnInit, OnDestroy {
 
     handleCellClicked(args: any): void {
         this.SelectedData = args;
+
+        if (args.status_mutasi_warehouse == 'CANCEL') {
+            this.DashboardProps = {
+                title: 'History Mutasi Warehouse',
+                button_navigation: [
+                    { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                    { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                    { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
+                    { id: 'input_ulang', caption: 'Input Ulang', icon: 'pi pi-pencil text-xs' },
+                ],
+            };
+        } else {
+            this.DashboardProps = {
+                title: 'History Mutasi Warehouse',
+                button_navigation: [
+                    { id: 'add', caption: 'Add', icon: 'pi pi-plus text-xs' },
+                    { id: 'print', caption: 'Print', icon: 'pi pi-print text-xs' },
+                    { id: 'export_pdf', caption: 'Export PDF', icon: 'pi pi-file-pdf text-xs' },
+
+                ],
+            };
+        }
     }
 
     handleRowDoubleClicked(args: any): void {

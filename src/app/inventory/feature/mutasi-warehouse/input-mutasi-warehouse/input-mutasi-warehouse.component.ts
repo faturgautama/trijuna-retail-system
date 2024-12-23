@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs';
+import { MutasiWarehouseService } from 'src/app/@core/service/inventory/mutasi-warehouse/mutasi-warehouse.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { FormDialogComponent } from 'src/app/@shared/components/dialog/form-dialog/form-dialog.component';
@@ -21,7 +22,7 @@ import { environment } from 'src/environments/environment';
     templateUrl: './input-mutasi-warehouse.component.html',
     styleUrls: ['./input-mutasi-warehouse.component.scss']
 })
-export class InputMutasiWarehouseComponent implements OnInit {
+export class InputMutasiWarehouseComponent implements OnInit, AfterViewInit {
     DashboardProps: DashboardModel.IDashboard;
 
     FormInputHeader: CustomFormModel.IForm;
@@ -44,9 +45,11 @@ export class InputMutasiWarehouseComponent implements OnInit {
     constructor(
         private _store: Store,
         private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _messageService: MessageService,
         private _utilityService: UtilityService,
         private _confirmationService: ConfirmationService,
+        private _mutasiWarehouseService: MutasiWarehouseService,
     ) {
         this.DashboardProps = {
             title: 'Input Mutasi Warehouse',
@@ -280,6 +283,35 @@ export class InputMutasiWarehouseComponent implements OnInit {
         this.onGetWarehouse();
     }
 
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            const id = this._activatedRoute.snapshot.params.id;
+
+            if (id) {
+                this._mutasiWarehouseService
+                    .getById(id)
+                    .subscribe((result) => {
+                        if (result.success) {
+                            result.data.tanggal_mutasi_warehouse = new Date(result.data.tanggal_mutasi_warehouse);
+                            result.data.warehouse_asal = result.data.warehouse_asal;
+                            result.data.warehouse_tujuan = result.data.warehouse_tujuan;
+                            result.data.qty = parseFloat(result.data.qty);
+                            result.data.total_harga = parseFloat(result.data.total_harga);
+
+                            this.CustomForm.CustomForms.patchValue(result.data);
+                            this.CustomFormFooter.CustomForms.patchValue(result.data);
+                            this.GridProps.dataSource = result.data.detail.map((item: any) => {
+                                delete item.id_mutasi_warehouse_detail;
+                                item.id_pemesanan = result.data.id_pemesanan;
+                                return item;
+                            });
+                        }
+                    })
+            }
+
+        }, 1000);
+    }
+
     onGetWarehouse(): void {
         this._store.dispatch(new SetupWarehouseAction.GetAll())
             .pipe(
@@ -457,7 +489,7 @@ export class InputMutasiWarehouseComponent implements OnInit {
         this._store
             .dispatch(new MutasiWarehouseAction.Save(payload))
             .subscribe((result) => {
-                if (result.success) {
+                if (result.mutasi_warehouse.entities.success) {
                     this._messageService.clear();
                     this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Disimpan' });
 

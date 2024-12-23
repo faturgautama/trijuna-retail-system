@@ -38,6 +38,9 @@ const routes: Routes = [
                 path: 'history', component: HistoryMutasiWarehouseComponent
             },
             {
+                path: 'input-ulang/:id', component: InputMutasiWarehouseComponent
+            },
+            {
                 path: 'input', component: InputMutasiWarehouseComponent
             },
             {

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
 import { map, Subject } from 'rxjs';
+import { MutasiWarehouseService } from 'src/app/@core/service/inventory/mutasi-warehouse/mutasi-warehouse.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
 import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
 import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
@@ -37,6 +38,7 @@ export class DetailMutasiWarehouseComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _utilityService: UtilityService,
         private _messageService: MessageService,
+        private _mutasiWarehouseService: MutasiWarehouseService,
     ) {
         this.DashboardProps = {
             title: 'Detail Mutasi Warehouse',
@@ -166,6 +168,7 @@ export class DetailMutasiWarehouseComponent implements OnInit, OnDestroy {
                         button_navigation: [
                             { id: 'back', caption: 'Back', icon: 'pi pi-chevron-left text-xs' },
                             { id: 'validasi', caption: 'Validasi', icon: 'pi pi-check text-xs' },
+                            { id: 'cancel', caption: 'Cancel', icon: 'pi pi-times text-xs' },
                         ],
                     };
                 } else {
@@ -188,20 +191,36 @@ export class DetailMutasiWarehouseComponent implements OnInit, OnDestroy {
     }
 
     handleClickButtonNav(args: string): void {
+        const id = this._activatedRoute.snapshot.params.id;
+
         switch (args) {
             case 'back':
                 this._router.navigate(['inventory/mutasi-warehouse/history']);
                 break;
             case 'validasi':
-                // this._router.navigate(['inventory/mutasi-warehouse/history']);
-                const id = this._activatedRoute.snapshot.params.id;
-
                 this._store
                     .dispatch(new MutasiWarehouseAction.Validasi(id))
                     .subscribe((result) => {
                         if (result.mutasi_warehouse.entities.success) {
                             this._messageService.clear();
                             this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Divalidasi' });
+
+                            this.CustomFormHeader.handleResetForm();
+                            this.CustomFormFooter.handleResetForm();
+
+                            setTimeout(() => {
+                                this._router.navigate(['inventory/mutasi-warehouse/history']);
+                            }, 1500);
+                        }
+                    });
+                break;
+            case 'cancel':
+                this._mutasiWarehouseService
+                    .cancel(id)
+                    .subscribe((result) => {
+                        if (result.success) {
+                            this._messageService.clear();
+                            this._messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Berhasil Dibatalkan' });
 
                             this.CustomFormHeader.handleResetForm();
                             this.CustomFormFooter.handleResetForm();
