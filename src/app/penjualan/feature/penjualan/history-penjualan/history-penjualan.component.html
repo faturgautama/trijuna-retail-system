@@ -3,9 +3,40 @@
         <app-offcanvas-filter [props]="OffcanvasFilterProps" (onSearch)="handleSearchOffcanvas($event)">
         </app-offcanvas-filter>
     </div>
-    <div class="grid">
+    <div class="grid mb-5">
         <app-grid [props]="GridProps" (rowDoubleClicked)="handleRowDoubleClicked($event)"
             (toolbarClicked)="handleToolbarClicked($event)">
         </app-grid>
+    </div>
+    <div class="flex flex-col gap-3 w-full items-end">
+        <!-- Jumlah Omzet -->
+        <div class="flex flex-row items-center w-4/12 gap-2">
+            <div class="w-4/12">
+                <p class="text-sm text-gray-700">
+                    Jumlah Item
+                </p>
+            </div>
+
+            <div class="w-8/12">
+                <p-inputNumber styleClass="w-full p-inputtext-sm text-end" [mode]="'decimal'" [minFractionDigits]="2"
+                    [maxFractionDigits]="2" [readonly]="true" [(ngModel)]="jumlah_item">
+                </p-inputNumber>
+            </div>
+        </div>
+
+        <!-- Jumlah Omzet -->
+        <div class="flex flex-row items-center w-4/12 gap-2">
+            <div class="w-4/12">
+                <p class="text-sm text-gray-700">
+                    Omzet Penjualan
+                </p>
+            </div>
+
+            <div class="w-8/12">
+                <p-inputNumber styleClass="w-full p-inputtext-sm text-end" [mode]="'decimal'" [minFractionDigits]="2"
+                    [maxFractionDigits]="2" [readonly]="true" [(ngModel)]="omzet_penjualan">
+                </p-inputNumber>
+            </div>
+        </div>
     </div>
 </app-dashboard>

@@ -20,6 +20,9 @@ export class HistoryPenjualanComponent implements OnInit {
 
     OffcanvasFilterProps: FilterModel.IOffcanvasFilter;
 
+    jumlah_item: number = 0;
+    omzet_penjualan: number = 0;
+
     constructor(
         private _store: Store,
         private _router: Router,
@@ -88,7 +91,7 @@ export class HistoryPenjualanComponent implements OnInit {
                 { field: 'created_at', headerName: 'WAKTU ENTRY', width: 150, sortable: true, resizable: true, cellRenderer: (e: any) => { return this._utilityService.FormatDate(e.value, 'DD-MM-yyyy HH:mm:ss') } },
             ],
             dataSource: [],
-            height: "calc(100vh - 14rem)",
+            height: "calc(100vh - 22rem)",
             showPaging: true,
         };
     }
@@ -102,7 +105,9 @@ export class HistoryPenjualanComponent implements OnInit {
             .getAll(args)
             .subscribe((result) => {
                 if (result.success) {
-                    this.GridProps.dataSource = result.data;
+                    this.GridProps.dataSource = result.data.detail;
+                    this.omzet_penjualan = result.data.omzet_penjualan;
+                    this.jumlah_item = result.data.jumlah_item;
                 }
             })
     }
