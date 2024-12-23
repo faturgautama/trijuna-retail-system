@@ -107,7 +107,7 @@ export class DetailPenjualanComponent implements OnInit, OnDestroy {
                 // { field: 'banyak', headerName: 'BANYAK', width: 150, sortable: true, resizable: true },
                 { field: 'kode_satuan', headerName: 'SATUAN', flex: 150, sortable: true, resizable: true },
                 // { field: 'isi', headerName: 'ISI', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
-                // { field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
+                { field: 'qty', headerName: 'QTY', width: 200, sortable: true, resizable: true, cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value) : e } },
                 { field: 'harga_jual', headerName: 'HARGA JUAL', flex: 200, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
                 { field: 'sub_total', headerName: 'SUBTOTAL', flex: 200, sortable: true, resizable: true, cellClass: 'text-end', cellRenderer: (e: any) => { return e ? this._utilityService.FormatNumber(e.value, 'Rp. ') : e } },
             ],
