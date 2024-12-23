@@ -102,6 +102,7 @@ export class SellOutComponent implements OnInit {
                 { field: 'merk', headerName: 'MERK', width: 150, sortable: true, resizable: true },
                 { field: 'qty_jual', headerName: 'QTY JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, '') } },
                 { field: 'harga_jual', headerName: 'HARGA JUAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
+                { field: 'harga_beli', headerName: 'HARGA BELI', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') } },
                 { field: 'subtotal', headerName: 'SUBTOTAL', width: 150, sortable: true, resizable: true, cellClass: 'text-right', cellRenderer: (e: any) => { return this._utilityService.FormatNumber(e.value, 'Rp. ') }, },
             ],
             dataSource: [],
