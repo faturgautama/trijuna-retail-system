@@ -10,7 +10,7 @@ export class MenuService {
 
     UserData = JSON.parse(localStorage.getItem("TRSUserData") as any);
 
-    MENU = this.UserData.menu;
+    MENU = this.UserData ? this.UserData.menu : [];
 
     NavbarMenu = new BehaviorSubject<MenuItem[]>([]);
 
