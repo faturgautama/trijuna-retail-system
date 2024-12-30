@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class BerandaComponent implements OnInit {
 
-    UserData: LoginModel.ILoginResponse;
+    UserData: any;
 
     DashboardProps: DashboardModel.IDashboard;
 
@@ -43,11 +43,7 @@ export class BerandaComponent implements OnInit {
     }
 
     getMainMenu(): void {
-        this._store
-            .dispatch(new MenuAction.GetMainMenu())
-            .subscribe((result) => {
-                this.MainMenu = result.menus.entities;
-            })
+        this.MainMenu = this.UserData.menu;
     }
 
     handleClickMainMenu(data: MenuItem): void {
