@@ -1,12 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { LaporanInventoryService } from 'src/app/@core/service/laporan/laporan-inventory.service';
-import { LaporanPajakService } from 'src/app/@core/service/laporan/laporan-pajak.service';
 import { UtilityService } from 'src/app/@core/service/utility/utility.service';
-import { CustomFormComponent } from 'src/app/@shared/components/custom-form/custom-form.component';
-import { CustomFormModel } from 'src/app/@shared/models/components/custom-form.model';
 import { DashboardModel } from 'src/app/@shared/models/components/dashboard.model';
-import { FilterModel } from 'src/app/@shared/models/components/filter.model';
 import { GridModel } from 'src/app/@shared/models/components/grid.model';
 
 @Component({

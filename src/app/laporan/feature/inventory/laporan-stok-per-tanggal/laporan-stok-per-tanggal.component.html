@@ -1,0 +1,14 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex items-end mb-3 gap-3">
+        <div class="grid w-10/12">
+            <app-custom-form #CustomForm [props]="FormInputHeader"></app-custom-form>
+        </div>
+
+        <p-button styleClass="p-button-sm p-button-info" label="Cari" (onClick)="handleSearchOffcanvas()">
+        </p-button>
+    </div>
+
+    <div class="grid">
+        <app-grid [props]="GridProps"></app-grid>
+    </div>
+</app-dashboard>

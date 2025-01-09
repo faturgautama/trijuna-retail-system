@@ -1,0 +1,59 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex items-end mb-3 gap-3">
+        <div class="flex flex-col w-3/12 gap-1">
+            <p class="text-sm text-gray-700">
+                Tahun
+            </p>
+            <p-calendar styleClass="p-inputtext-sm w-full" [(ngModel)]="StartDate" view="year" dateFormat="yy">
+            </p-calendar>
+        </div>
+
+        <p-button styleClass="p-button-sm p-button-info" label="Cari" [disabled]="!StartDate"
+            (onClick)="handleSearchOffcanvas()">
+        </p-button>
+    </div>
+
+    <div class="grid mb-3">
+        <app-grid [props]="GridProps"></app-grid>
+    </div>
+
+    <div class="flex justify-end">
+        <div class="flex w-4/12 flex-col gap-3">
+            <div class="flex items-center gap-2">
+                <div class="w-4/12">
+                    <p class="text-sm text-gray-700">
+                        Total Omset
+                    </p>
+                </div>
+                <div class="flex w-8/12">
+                    <p-inputNumber styleClass="p-inputtext-sm w-full" [readonly]="true" [(ngModel)]="TotalOmset">
+                    </p-inputNumber>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <div class="w-4/12">
+                    <p class="text-sm text-gray-700">
+                        Total Kumulatif
+                    </p>
+                </div>
+                <div class="flex w-8/12">
+                    <p-inputNumber styleClass="p-inputtext-sm w-full" [readonly]="true" [(ngModel)]="TotalKumulatif">
+                    </p-inputNumber>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <div class="w-4/12">
+                    <p class="text-sm text-gray-700">
+                        Total Rata Rata
+                    </p>
+                </div>
+                <div class="flex w-8/12">
+                    <p-inputNumber styleClass="p-inputtext-sm w-full" [readonly]="true" [(ngModel)]="TotalRataRata">
+                    </p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dashboard>

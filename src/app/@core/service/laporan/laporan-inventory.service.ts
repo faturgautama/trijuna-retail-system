@@ -15,4 +15,8 @@ export class LaporanInventoryService {
     getLaporanKeluarMasukBarang(payload: any): Observable<any> {
         return this._httpRequestService.postRequest(`${environment.endpoint}/barang/keluar_masuk`, payload);
     }
+
+    getLaporanStokPerTanggal(tanggal: string, payload: any): Observable<any> {
+        return this._httpRequestService.postRequest(`${environment.endpoint}/laporan_stok/capture/${tanggal}`, payload);
+    }
 }

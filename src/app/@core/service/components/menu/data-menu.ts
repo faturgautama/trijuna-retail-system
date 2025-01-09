@@ -569,6 +569,31 @@ export const menu: MenuItem[] = [
                         icon: "",
                         routerLink: '/laporan/inventory/keluar-masuk-barang'
                     },
+                    {
+                        id: 'stok-per-tanggal',
+                        label: 'Stok Per Tanggal',
+                        icon: "",
+                        routerLink: '/laporan/inventory/stok-per-tanggal'
+                    },
+                ]
+            },
+            {
+                id: 'Pembelian',
+                label: 'Pembelian',
+                icon: "",
+                items: [
+                    {
+                        id: 'ppn',
+                        label: 'PPn',
+                        icon: "",
+                        routerLink: '/laporan/pembelian/ppn'
+                    },
+                    {
+                        id: 'rokok',
+                        label: 'Rokok',
+                        icon: "",
+                        routerLink: '/laporan/pembelian/rokok'
+                    },
                 ]
             },
             {
@@ -581,6 +606,61 @@ export const menu: MenuItem[] = [
                         label: 'Sell Out Item',
                         icon: "",
                         routerLink: '/penjualan/transaksi-penjualan/sell-out-item'
+                    },
+                    {
+                        id: 'grosir',
+                        label: 'Grosir',
+                        icon: "",
+                        routerLink: '/laporan/penjualan/grosir'
+                    },
+                    {
+                        id: 'eceran',
+                        label: 'Eceran',
+                        icon: "",
+                        routerLink: '/laporan/penjualan/eceran'
+                    },
+                    {
+                        id: 'rokok',
+                        label: 'Rokok',
+                        icon: "",
+                        routerLink: '/laporan/penjualan/rokok'
+                    },
+                    {
+                        id: 'sembako',
+                        label: 'Sembako',
+                        icon: "",
+                        routerLink: '/laporan/penjualan/sembako'
+                    },
+                ]
+            },
+            {
+                id: 'Omset',
+                label: 'Omset',
+                icon: "",
+                items: [
+                    {
+                        id: 'breakdown-monthly',
+                        label: 'Breakdown Monthly',
+                        icon: "",
+                        routerLink: '/laporan/omset/breakdown-monthly'
+                    },
+                    {
+                        id: 'breakdown-daily',
+                        label: 'Breakdown Daily',
+                        icon: "",
+                        routerLink: '/laporan/omset/breakdown-daily'
+                    },
+                    {
+                        id: 'breakdown-monthly-hpp-profit',
+                        label: 'Breakdown Monthly With HPP & Profit',
+                        icon: "",
+                        routerLink: '/laporan/omset/breakdown-monthly-hpp-profit'
+                    },
+                    {
+                        id: 'breakdown-daily-hpp',
+                        label: 'Breakdown Daily With HPP & Profit',
+                        icon: "",
+                        routerLink: '/laporan/omset/breakdown-daily-hpp'
                     },
                 ]
             },

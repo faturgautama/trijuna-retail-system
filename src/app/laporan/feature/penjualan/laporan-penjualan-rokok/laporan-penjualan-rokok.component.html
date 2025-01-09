@@ -1,0 +1,57 @@
+<app-dashboard [props]="DashboardProps" (onClickButtonNav)="handleClickButtonNav($event)">
+    <div class="flex items-end mb-3 gap-3">
+        <div class="flex flex-col w-3/12 gap-1">
+            <p class="text-sm text-gray-700">
+                Tanggal Mulai
+            </p>
+            <p-calendar styleClass="p-inputtext-sm w-full" [(ngModel)]="StartDate" view="month" dateFormat="mm/yy"
+                (ngModelChange)="StartDate > EndDate ? EndDate = StartDate : null">
+            </p-calendar>
+        </div>
+
+        <div class="flex flex-col w-3/12 gap-1">
+            <p class="text-sm text-gray-700">
+                Tanggal Selesai
+            </p>
+            <p-calendar styleClass="p-inputtext-sm w-full" [(ngModel)]="EndDate" view="month" dateFormat="mm/yy"
+                [minDate]="StartDate">
+            </p-calendar>
+        </div>
+
+        <p-button styleClass="p-button-sm p-button-info" label="Cari" [disabled]="!StartDate && !EndDate"
+            (onClick)="handleSearchOffcanvas()">
+        </p-button>
+    </div>
+
+    <div class="grid mb-3">
+        <app-grid [props]="GridProps"></app-grid>
+    </div>
+
+    <div class="flex justify-end">
+        <div class="flex w-4/12 flex-col gap-3">
+            <div class="flex items-center gap-2">
+                <div class="w-4/12">
+                    <p class="text-sm text-gray-700">
+                        Total Qty
+                    </p>
+                </div>
+                <div class="flex w-8/12">
+                    <p-inputNumber styleClass="p-inputtext-sm w-full" [readonly]="true" [(ngModel)]="TotalQty">
+                    </p-inputNumber>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <div class="w-4/12">
+                    <p class="text-sm text-gray-700">
+                        Total Nilai
+                    </p>
+                </div>
+                <div class="flex w-8/12">
+                    <p-inputNumber styleClass="p-inputtext-sm w-full" [readonly]="true" [(ngModel)]="TotalNilai">
+                    </p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dashboard>
