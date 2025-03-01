@@ -136,6 +136,7 @@ export class InputProduksiAssemblyComponent implements OnInit {
                         label: 'Qty',
                         status: 'insert',
                         type: 'numeric',
+                        numeric_mode: 'decimal',
                         required: true,
                         numeric_callback: (args: any) => {
                             const hpp_average = this.FormDialog.CustomForm.CustomForms.get('hpp_average')?.value;
@@ -226,6 +227,7 @@ export class InputProduksiAssemblyComponent implements OnInit {
                     label: 'Qty Assembly',
                     status: 'insert',
                     type: 'numeric',
+                    numeric_mode: 'decimal',
                     required: true,
                     numeric_callback: (args: any) => {
                         const hpp_avarage_produksi: number = this.CustomForm.CustomForms.get('hpp_avarage_produksi')?.value!;
